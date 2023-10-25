@@ -116,4 +116,5 @@ public class Veiculo {
             double consumoRota = (rota.getQuilometragem() / CONSUMO);
             tanqueAtual -= consumoRota;
     }
+
 }
