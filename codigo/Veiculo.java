@@ -117,4 +117,16 @@ public class Veiculo {
             tanqueAtual -= consumoRota;
     }
 
+    // Método para retornar a placa do Veículo
+    public String getPlaca()
+    {
+        return this.placa;
+    }
+
+    // Método toString do Veículo, formatado para retornar apenas sua placa, seguido de sua kmTotal
+    @Override public String toString()
+    {
+        return ("Veículo: " + this.placa + "/nTotal de Quilômetros Percorridos: " + kmTotal());
+    }
+
 }
