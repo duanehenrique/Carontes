@@ -1,3 +1,4 @@
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class App {
@@ -8,8 +9,20 @@ public class App {
         System.out.println("Bem-vindo ao sistema de gerenciamento de frotas!");
         
         // Criação da frota
-        System.out.print("Digite o número de veículos da frota: ");
-        int tamanhoFrota = teclado.nextInt();
+        int tamanhoFrota = 0;
+        boolean entradaValida = false;
+        while (!entradaValida) {
+            try {
+                System.out.print("Digite o número de veículos da frota: ");
+                tamanhoFrota = teclado.nextInt();
+                entradaValida = true;
+              // Tratamento de erros  
+            } catch (InputMismatchException e) {
+                System.out.println("Por favor, digite um número válido.");
+                teclado.next();  // Limpar buffer
+            }
+        }
+
         Frota frota = new Frota(tamanhoFrota);
 
         // Adicionando veículos fictícios para teste
@@ -31,7 +44,17 @@ public class App {
             System.out.println("4. Veículo com maior média de quilometragem");
             System.out.println("5. Sair");
 
-            int opcao = teclado.nextInt();
+            int opcao = 0;
+            entradaValida = false;
+            while (!entradaValida) {
+                try {
+                    opcao = teclado.nextInt();
+                    entradaValida = true;
+                } catch (InputMismatchException e) {
+                    System.out.println("Por favor, escolha uma opção válida.");
+                    teclado.next(); 
+                }
+            }
 
             switch (opcao) {
                 case 1:
@@ -61,3 +84,4 @@ public class App {
         teclado.close();
     }
 }
+
