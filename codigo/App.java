@@ -77,6 +77,18 @@ public class App {
                 default:
                     System.out.println("Opção inválida! Tente novamente! :)");
                     break;
+                case 6: 
+            
+                    Veiculo veiculo = frota.buscarVeiculo(placa);
+                    if (veiculo != null) {
+                        System.out.println("Lista de rotas do veículo " + placa + ":");
+                        for (Rota rota : veiculo.getRotas()) {
+                           System.out.println(rota.emitirRelatorioRota());
+                        }
+                    } else {
+                        System.out.println("Veículo não encontrado.");
+                    }
+                    break;
             }
         }
 
