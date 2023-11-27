@@ -35,7 +35,7 @@ public class Veiculo {
     //Retorna true se a adição foi bem-sucedida, false se não foi possível adicionar rota
     public boolean addRota(Rota rota)
     {
-        if ((quantRotas < MAX_ROTAS) && (rota.getQuilometragem <= autonomiaAtual()) && (rota.getQuilometragem <= autonomiaMaxima()))
+        if ((quantRotas < MAX_ROTAS) && (rota.getQuilometragem() <= autonomiaAtual()) && (rota.getQuilometragem() <= autonomiaMaxima()))
         {
             rotas[quantRotas] = rota;
             quantRotas++;
@@ -117,6 +117,11 @@ public class Veiculo {
             tanqueAtual -= consumoRota;
     }
 
+     // Verifica se o veículo tem autonomia suficiente para realizar a rota
+    public boolean podeRealizarRota(Rota rota) {
+        return autonomiaAtual() >= rota.getQuilometragem();
+    }
+
     // Método para retornar a placa do Veículo
     public String getPlaca()
     {
@@ -127,6 +132,16 @@ public class Veiculo {
     @Override public String toString()
     {
         return ("Veículo: " + this.placa + "/nTotal de Quilômetros Percorridos: " + kmTotal());
+    }
+
+    // Método para retornar as rotas do Veículo
+    public Rota[] getRotas()
+    {
+        return this.rotas;
+    }
+
+    public double getQuntRotas() {
+        return quantRotas;
     }
 
 }
