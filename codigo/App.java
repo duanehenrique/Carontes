@@ -36,11 +36,11 @@ public class App {
         boolean continuar = true;
         while (continuar) {
             System.out.println("\nSelecione uma opção:");
-            System.out.println("1. Relatório da Frota");
-            System.out.println("2. Quilometragem total da frota");
-            System.out.println("3. Veículo com maior quilometragem");
-            System.out.println("4. Veículo com maior média de quilometragem");
-            System.out.println("5. Sair");
+            System.out.println("1. Exibir relatório completo da frota (inclui reabastecimento e quilometragem)");
+            System.out.println("2. Verificar quilometragem total percorrida pela frota");
+            System.out.println("3. Identificar o veículo com mais quilômetros rodados");
+            System.out.println("4. Identificar o veículo com a maior média de quilômetros por rota");
+            System.out.println("5. Encerrar o programa");
 
             int opcao = 0;
             entradaValida = false;
@@ -82,19 +82,7 @@ public class App {
                     break;
                 default:
                     System.out.println("Opção inválida! Tente novamente! :)");
-                    break;
-                case 6: 
-            
-                    Veiculo veiculo = frota.buscarVeiculo(placa);
-                    if (veiculo != null) {
-                        System.out.println("Lista de rotas do veículo " + placa + ":");
-                        for (Rota rota : veiculo.getRotas()) {
-                           System.out.println(rota.emitirRelatorioRota());
-                        }
-                    } else {
-                        System.out.println("Veículo não encontrado.");
-                    }
-                    break;
+                    break;                     
             }
         }
 
