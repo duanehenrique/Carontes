@@ -29,7 +29,7 @@ public class App {
         for (int i = 0; i < tamanhoFrota; i++) {
             Veiculo veiculo = new Veiculo("Placa-" + (i + 1), 60);
             frota.adicionarVeiculo(veiculo);
-            // Aqui você deveria também adicionar rotas ao veículo ou abastecer, para que tenha dados para relatórios
+            // Irei adicionar em breve rotas ao veículo ou abastecer, para que tenha dados para relatórios
         }
 
         // Menu de opções
