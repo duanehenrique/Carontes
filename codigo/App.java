@@ -27,11 +27,9 @@ public class App {
 
         // Adicionando veículos fictícios para teste
         for (int i = 0; i < tamanhoFrota; i++) {
-            Veiculo veiculo = new Veiculo(
-                    "Placa-" + (i + 1),
-                    new Tanque(30, 60)
-            );
+            Veiculo veiculo = new Veiculo("Placa-" + (i + 1), 60);
             frota.adicionarVeiculo(veiculo);
+            // Aqui você deveria também adicionar rotas ao veículo ou abastecer, para que tenha dados para relatórios
         }
 
         // Menu de opções
@@ -65,11 +63,19 @@ public class App {
                     break;
                 case 3:
                     Veiculo maiorKm = frota.maiorKmTotal();
-                    System.out.println("Veículo com maior quilometragem: " + maiorKm.getPlaca());
+                    if (maiorKm != null) {
+                        System.out.println("Veículo com maior quilometragem: " + maiorKm.getPlaca());
+                    } else {
+                        System.out.println("Não há veículos ou quilometragem registrada.");
+                    }
                     break;
                 case 4:
                     Veiculo maiorKmMedia = frota.maiorKmMedia();
-                    System.out.println("Veículo com maior média de quilometragem: " + maiorKmMedia.getPlaca());
+                    if (maiorKmMedia != null) {
+                        System.out.println("Veículo com maior média de quilometragem: " + maiorKmMedia.getPlaca());
+                    } else {
+                        System.out.println("Não há veículos ou quilometragem registrada.");
+                    }
                     break;
                 case 5:
                     continuar = false;
