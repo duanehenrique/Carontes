@@ -10,6 +10,7 @@ public class Veiculo {
     private double tanqueAtual;
     private final double tanqueMax; // Após definida a capacidade do tanque do veículo, não é possível alterar
     private double totalReabastecido;
+    private Motorista motorista;
 
     static {
         // Inicialização do atributo estático MAX_ROTAS com o valor 30
@@ -18,7 +19,8 @@ public class Veiculo {
     }
 
     // Construtor
-    public Veiculo(String placa, double tanqueMax) {
+    public Veiculo(Motorista motorista, String placa, double tanqueMax) {
+        this.motorista = motorista;
         this.placa = placa;
         this.tanqueAtual = 0; // Inicialmente, o tanque está vazio
         this.tanqueMax = tanqueMax;
@@ -142,6 +144,13 @@ public class Veiculo {
 
     public double getQuntRotas() {
         return quantRotas;
+    }
+
+    public void receberMulta(Multa multa) {
+        motorista.adicionarPontos(multa.getPontos());
+    }
+    public Motorista getMotorista() {
+        return motorista;
     }
 
 }
