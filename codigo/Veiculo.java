@@ -2,15 +2,19 @@ import java.time.*;
 
 public abstract class Veiculo {
     // Atributos de Classe
-    private static final int MAX_ROTAS; // Constante com valor 30 para qualquer veículo 
-    private static final double CONSUMO; // Constante com valor 8,2 km/litro para qualquer veículo 
-    private String placa;
-    private Rota[] rotas;
-    private int quantRotas;
-    private double tanqueAtual;
-    private final double tanqueMax; // Após definida a capacidade do tanque do veículo, não é possível alterar
-    private double totalReabastecido;
-    private Motorista motorista;
+    protected static final int MAX_ROTAS; // Constante com valor 30 para qualquer veículo 
+    protected static final double CONSUMO; // Constante com valor 8,2 km/litro para qualquer veículo 
+    protected String placa;
+    protected Rota[] rotas;
+    protected int quantRotas;
+    protected double tanqueAtual;
+    protected final double tanqueMax; // Após definida a capacidade do tanque do veículo, não é possível alterar
+    protected final double kmManutencaoPecas;
+    protected final double kmManutencaoPeriodica;
+    protected double kmDesdeUltimaManutencao;
+    protected double totalReabastecido;
+    protected Motorista motorista;
+    protected boolean manutencaoEmDia;
 
     static {
         // Inicialização do atributo estático MAX_ROTAS com o valor 30
@@ -37,7 +41,7 @@ public abstract class Veiculo {
     //Retorna true se a adição foi bem-sucedida, false se não foi possível adicionar rota
     public boolean addRota(Rota rota)
     {
-        if ((quantRotas < MAX_ROTAS) && (rota.getQuilometragem() <= autonomiaAtual()) && (rota.getQuilometragem() <= autonomiaMaxima()))
+        if ((quantRotas < MAX_ROTAS) && (rota.getQuilometragem() <= autonomiaAtual()) && (rota.getQuilometragem() <= autonomiaMaxima()) && manutencaoEmDia)
         {
             rotas[quantRotas] = rota;
             quantRotas++;
@@ -118,6 +122,9 @@ public abstract class Veiculo {
     {
             double consumoRota = (rota.getQuilometragem() / CONSUMO);
             tanqueAtual -= consumoRota;
+            kmDesdeUltimaManutencao(rota);
+            aposRotaManutencaoPeriodicaEmDia(rota);
+            aposRotaManutencaoPecasEmDia(rota);
     }
 
      // Verifica se o veículo tem autonomia suficiente para realizar a rota
@@ -152,6 +159,27 @@ public abstract class Veiculo {
     }
     public Motorista getMotorista() {
         return motorista;
+    }
+
+    protected void kmDesdeUltimaManutencao(Rota rota){
+        if(this.manutencaoEmDia = true)
+        {
+           kmDesdeUltimaManutencao += rota.getQuilometragem();
+        }
+    }
+    protected void aposRotaManutencaoPeriodicaEmDia(Rota rota){
+    if((rota.getQuilometragem() + kmDesdeUltimaManutencao)-this.kmManutencaoPeriodica <= 0 ){
+        manutencaoEmDia = false;
+    }
+    }
+    protected void aposRotaManutencaoPecasEmDia(Rota rota){
+    if((rota.getQuilometragem() + kmDesdeUltimaManutencao)-this.kmManutencaoPecas <= 0){
+        manutencaoEmDia = false;
+    }
+    }
+    protected void fazerManutencao(){
+        manutencaoEmDia = true;
+        kmDesdeUltimaManutencao = 0;
     }
 
 }
