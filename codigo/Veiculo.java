@@ -1,6 +1,6 @@
 import java.time.*;
 
-public class Veiculo {
+public abstract class Veiculo {
     // Atributos de Classe
     private static final int MAX_ROTAS; // Constante com valor 30 para qualquer veículo 
     private static final double CONSUMO; // Constante com valor 8,2 km/litro para qualquer veículo 
@@ -71,17 +71,18 @@ public class Veiculo {
             if(tanqueAtual+litros > tanqueMax)
             {
                 double reabastecidoAgora = (litros-((tanqueAtual+litros)-tanqueMax));
-                totalReabastecido += reabastecidoAgora;
+                totalReabastecido = reabastecidoAgora;
                 tanqueAtual = tanqueMax;
-                return reabastecidoAgora;
+                return totalReabastecido;
             }
             else
             {
                 tanqueAtual += litros;
-                totalReabastecido += litros;
-                return litros;
+                totalReabastecido = litros;
+                return totalReabastecido;
             }
         }
+        return litros;
     }
 
     // Calcula o total de quilômetros percorridos no mês atual com base nas rotas e suas distâncias e datas
@@ -92,7 +93,7 @@ public class Veiculo {
         double kmNoMes = 0;
         for (int i = 0; i < quantRotas; i++)
         {
-            LocalDate dataRota = rotas[i].getData;
+            LocalDate dataRota = rotas[i].getData();
             if(dataAtual.getMonthValue() == dataRota.getMonthValue())
             {
                 kmNoMes += rotas[i].getQuilometragem();
