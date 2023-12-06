@@ -5,12 +5,12 @@ Este projeto é o resultado de um trabalho prático da disciplina de POO, do seg
 
 ## Alunos integrantes da equipe
 
-Diego Alan
-Duane Henrique
-João Gabriel
-João Vitor Santana
-Marcos Rocha
-Vitor Hugo
+Diego Alan/n
+Duane Henrique/n
+João Gabriel/n
+João Vitor Santana/n
+Marcos Rocha/n
+Vitor Hugo/n
 
 ## Professores responsáveis
 
