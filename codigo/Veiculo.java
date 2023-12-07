@@ -15,22 +15,25 @@ public abstract class Veiculo {
     protected double totalReabastecido;
     protected Motorista motorista;
     protected boolean manutencaoEmDia;
+    protected Tanque tanque;
 
     static {
         // Inicialização do atributo estático MAX_ROTAS com o valor 30
         MAX_ROTAS = 30;
-        CONSUMO = 8.2; 
+        CONSUMO = this.tanque.getCONSUMO();
     }
 
     // Construtor
-    public Veiculo(Motorista motorista, String placa, double tanqueMax) {
+    public Veiculo(Motorista motorista, String placa,Tanque tanque) {
         this.motorista = motorista;
         this.placa = placa;
+        this.tanque = tanque;
         this.tanqueAtual = 0; // Inicialmente, o tanque está vazio
-        this.tanqueMax = tanqueMax;
         this.quantRotas = 0;
         this.rotas = new Rota[MAX_ROTAS];
+         this.manutencaoEmDia = true; //O veículo inicia com a manutenção em dia
         this.totalReabastecido = 0; // Inicialmente, o tanque está vazio
+        this.kmDesdeUltimaManutencao = 0; // Inicialmente, o veículo não percorreu nenhum km
     }
 
     // Métodos da Classe
