@@ -55,4 +55,8 @@ public class Tanque {
     public double autonomiaAtual(){
         return CapacidadeAtual * CONSUMO;
     }
+
+    public double getCONSUMO(){
+        return CONSUMO;
+    }
 }
