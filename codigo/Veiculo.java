@@ -16,6 +16,7 @@ public abstract class Veiculo {
     protected Motorista motorista;
     protected boolean manutencaoEmDia;
     protected Tanque tanque;
+    protected double despesaTotal;
 
     static {
         // Inicialização do atributo estático MAX_ROTAS com o valor 30
@@ -34,6 +35,7 @@ public abstract class Veiculo {
          this.manutencaoEmDia = true; //O veículo inicia com a manutenção em dia
         this.totalReabastecido = 0; // Inicialmente, o tanque está vazio
         this.kmDesdeUltimaManutencao = 0; // Inicialmente, o veículo não percorreu nenhum km
+        this.despesaTotal = 0; // Inicialmente, o veículo não teve despesa
     }
 
     // Métodos da Classe
@@ -128,6 +130,7 @@ public abstract class Veiculo {
             kmDesdeUltimaManutencao(rota);
             aposRotaManutencaoPeriodicaEmDia(rota);
             aposRotaManutencaoPecasEmDia(rota);
+            despesaCombustível(Rota rota);
     }
 
      // Verifica se o veículo tem autonomia suficiente para realizar a rota
@@ -183,6 +186,10 @@ public abstract class Veiculo {
     protected void fazerManutencao(){
         manutencaoEmDia = true;
         kmDesdeUltimaManutencao = 0;
+    }
+
+    protected double despesaCombustível(Rota rota){
+       this.despesaTotal += this.tanque.getPreco * (rota.getQuilometragem() / CONSUMO);
     }
 
 }
