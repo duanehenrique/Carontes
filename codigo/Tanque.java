@@ -1,8 +1,5 @@
-/**
- * Representa um tanque de combustível de um veículo.
- */
 public class Tanque {
-
+    // Atributos da classe
     // Constante que define o consumo médio do veículo em km/l.
     private static final double CONSUMO = 8.2;
 
@@ -12,15 +9,20 @@ public class Tanque {
     // Quantidade atual de combustível no tanque em litros.
     private double CapacidadeAtual;
 
+    private TipoCombustivel tipoCombustivel;
+
+
+
     /**
      * Construtor da classe Tanque.
      *
      * @param CapacidadeAtual Quantidade inicial de combustível no tanque.
      * @param CapacidadeMaxima Capacidade máxima do tanque.
      */
-    Tanque(double CapacidadeAtual, double CapacidadeMaxima){
+    Tanque(double CapacidadeAtual, double CapacidadeMaxima, TipoCombustivel tipoCombustivel){
         this.CapacidadeAtual = CapacidadeAtual;
         this.CapacidadeMaxima = CapacidadeMaxima;
+        this.tipoCombustivel = tipoCombustivel;
     }
 
     /**
@@ -58,5 +60,12 @@ public class Tanque {
 
     public double getCONSUMO(){
         return CONSUMO;
+    }
+
+    /***
+     * @return Retorna o preço do combustível.
+     */
+    public double getPreco(){
+        return tipoCombustivel.getPreco();
     }
 }
