@@ -62,13 +62,13 @@ public abstract class Veiculo {
     // Calcula a autonomia máxima, considerando o tanque cheio, com base no consumo
     private double autonomiaMaxima()
     {
-        return tanqueMax * CONSUMO;
+        return tanque.autonomiaMaxima();
     }
 
     // Calcula a autonomia atual, considerando o tanque atual, com base no consumo
     private double autonomiaAtual()
     {
-        return tanqueAtual * CONSUMO;
+        return tanque.autonomiaAtual();
     }
 
     // Abastece o tanque do veículo com uma quantidade específica de litros para reabastecimento e retorna o total abastecido
