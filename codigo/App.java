@@ -1,3 +1,4 @@
+import java.time.LocalDate;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -5,89 +6,174 @@ public class App {
 
     public static void main(String[] args) {
         Scanner teclado = new Scanner(System.in);
-        
         System.out.println("Bem-vindo ao sistema de gerenciamento de frotas!");
-        
+
         // Criação da frota
-        int tamanhoFrota = 0;
-        boolean entradaValida = false;
-        while (!entradaValida) {
-            try {
-                System.out.print("Digite o número de veículos da frota: ");
-                tamanhoFrota = teclado.nextInt();
-                entradaValida = true;
-              // Tratamento de erros  
-            } catch (InputMismatchException e) {
-                System.out.println("Por favor, digite um número válido.");
-                teclado.next();  // Limpar buffer
-            }
-        }
-
+        System.out.print("Digite o número de veículos da frota: ");
+        int tamanhoFrota = teclado.nextInt();
+        teclado.nextLine();
         Frota frota = new Frota(tamanhoFrota);
-
-        // Adicionando veículos fictícios para teste
-        for (int i = 0; i < tamanhoFrota; i++) {
-            Veiculo veiculo = new Veiculo("Placa-" + (i + 1), 60);
-            frota.adicionarVeiculo(veiculo);
-            // Irei adicionar em breve rotas ao veículo ou abastecer, para que tenha dados para relatórios
-        }
 
         // Menu de opções
         boolean continuar = true;
         while (continuar) {
             System.out.println("\nSelecione uma opção:");
-            System.out.println("1. Exibir relatório completo da frota (inclui reabastecimento e quilometragem)");
-            System.out.println("2. Verificar quilometragem total percorrida pela frota");
-            System.out.println("3. Identificar o veículo com mais quilômetros rodados");
-            System.out.println("4. Identificar o veículo com a maior média de quilômetros por rota");
-            System.out.println("5. Encerrar o programa");
+            System.out.println("1. Cadastrar novo veículo na frota");
+            System.out.println("2. Exibir relatório completo da frota (inclui reabastecimento e quilometragem)");
+            System.out.println("3. Registrar rota para veículo");
+            System.out.println("4. Abastecer veículo");
+            System.out.println("5. Registrar multa para motorista");
+            System.out.println("6. Verificar necessidade de manutenção dos veículos");
+            System.out.println("7. Calcular despesas totais de um veículo");
+            System.out.println("8. Encerrar o programa");
 
-            int opcao = 0;
-            entradaValida = false;
-            while (!entradaValida) {
-                try {
-                    opcao = teclado.nextInt();
-                    entradaValida = true;
-                } catch (InputMismatchException e) {
-                    System.out.println("Por favor, escolha uma opção válida.");
-                    teclado.next(); 
-                }
-            }
+            int opcao = teclado.nextInt();
+            teclado.nextLine();
 
             switch (opcao) {
                 case 1:
-                    System.out.println(frota.relatorioFrota());
+                    // Cadastrar novo veículo
+                    System.out.print("Digite a placa do veículo: ");
+                    String placa = teclado.nextLine();
+                    System.out.print("Digite o tipo do veículo (Carro, Van, Furgao, Caminhao): ");
+                    String tipoVeiculo = teclado.nextLine();
+                    System.out.print("Digite o nome do motorista: ");
+                    String nomeMotorista = teclado.nextLine();
+                    System.out.print("Digite o CPF do motorista: ");
+                    String cpfMotorista = teclado.nextLine();
+                    Motorista motorista = new Motorista(nomeMotorista, cpfMotorista);
+
+                    // Com base no tipo do veículo
+                    Veiculo veiculo = null;
+                    switch (tipoVeiculo.toUpperCase()) {
+                        case "CARRO":
+                            veiculo = new Carro(motorista, placa);
+                            break;
+                        case "VAN":
+                            veiculo = new Van(motorista, placa);
+                            break;
+                        case "FURGAO":
+                            veiculo = new Furgao(motorista, placa);
+                            break;
+                        case "CAMINHAO":
+                            veiculo = new Caminhao(motorista, placa);
+                            break;
+                        default:
+                            System.out.println("Tipo de veículo não reconhecido.");
+                            break;
+                    }
+                    if (veiculo != null) {
+                        frota.adicionarVeiculo(veiculo);
+                        System.out.println("Veículo cadastrado com sucesso!");
+                    }
                     break;
                 case 2:
-                    System.out.println("Quilometragem total da frota: " + frota.quilometragemTotal() + " km");
+                    System.out.println(frota.relatorioFrota());
                     break;
                 case 3:
-                    Veiculo maiorKm = frota.maiorKmTotal();
-                    if (maiorKm != null) {
-                        System.out.println("Veículo com maior quilometragem: " + maiorKm.getPlaca());
-                    } else {
-                        System.out.println("Não há veículos ou quilometragem registrada.");
+                    // Registrar rota
+                    try {
+                        System.out.print("Digite a placa do veículo para a rota: ");
+                        String placaRota = teclado.nextLine();
+                        Veiculo veiculoRota = frota.localizarVeiculo(placaRota);
+                        if (veiculoRota != null) {
+                            System.out.print("Digite a quilometragem da rota: ");
+                            double kmRota = teclado.nextDouble();
+                            teclado.nextLine();
+                            Rota rota = new Rota(LocalDate.now(), kmRota);
+                            boolean sucesso = veiculoRota.addRota(rota);
+                            if (sucesso) {
+                                System.out.println("Rota adicionada com sucesso!");
+                            } else {
+                                System.out.println("Não foi possível adicionar a rota.");
+                            }
+                        } else {
+                            System.out.println("Veículo não encontrado.");
+                        }
+                    } catch (InputMismatchException e) {
+                        System.out
+                                .println("Entrada inválida. Por favor, digite um número válido para a quilometragem.");
+                        teclado.nextLine();
                     }
                     break;
                 case 4:
-                    Veiculo maiorKmMedia = frota.maiorKmMedia();
-                    if (maiorKmMedia != null) {
-                        System.out.println("Veículo com maior média de quilometragem: " + maiorKmMedia.getPlaca());
-                    } else {
-                        System.out.println("Não há veículos ou quilometragem registrada.");
+                    // Abastecer veículo
+                    try {
+                        System.out.print("Digite a placa do veículo para abastecer: ");
+                        String placaAbastecer = teclado.nextLine();
+                        Veiculo veiculoAbastecer = frota.localizarVeiculo(placaAbastecer);
+                        if (veiculoAbastecer != null) {
+                            System.out.print("Digite a quantidade de combustível para abastecer (em litros): ");
+                            double litros = teclado.nextDouble();
+                            teclado.nextLine();
+                            veiculoAbastecer.getTanque().abastecer(litros);
+                            System.out.println("Veículo abastecido com sucesso!");
+                        } else {
+                            System.out.println("Veículo não encontrado.");
+                        }
+                    } catch (InputMismatchException e) {
+                        System.out.println("Entrada inválida. Por favor, digite um número válido para os litros.");
+                        teclado.nextLine();
                     }
                     break;
                 case 5:
+                    // Registrar multa
+                    System.out.print("Digite a placa do veículo que recebeu a multa: ");
+                    placa = teclado.nextLine();
+                    veiculo = frota.localizarVeiculo(placa);
+                    if (veiculo != null) {
+                        System.out.print("Digite o tipo de multa: ");
+                        String tipoMulta = teclado.nextLine();
+                        System.out.print("Digite o valor da multa: ");
+                        double valorMulta = teclado.nextDouble();
+                        System.out.print("Digite os pontos da multa: ");
+                        int pontosMulta = teclado.nextInt();
+                        Multa multa = new Multa(tipoMulta, pontosMulta, valorMulta);
+                        veiculo.receberMulta(multa);
+                        System.out.println("Multa registrada com sucesso!");
+                    } else {
+                        System.out.println("Veículo não encontrado.");
+                    }
+                    break;
+                case 6:
+                    // Verificar manutenção dos veículos (depende da classe Manutenção)
+                    break;
+                case 7:
+                    try {
+                        System.out.print("Digite a placa do veículo para calcular as despesas: ");
+                        String placaDespesas = teclado.nextLine();
+                        Veiculo veiculoDespesas = frota.localizarVeiculo(placaDespesas);
+                        if (veiculoDespesas != null) {
+                            // Calcula a despesa total de combustível
+                            double despesaTotalCombustivel = 0;
+                            for (Rota rota : veiculoDespesas.getRotas()) {
+                                if (rota != null) {
+                                    despesaTotalCombustivel += veiculoDespesas.despesaCombustível(rota);
+                                }
+                            }
+                            // A despesa total poderia incluir manutenção e multas, mas como não tem esses
+                            // métodos ainda,
+                            // vou apenas imprimir a despesa de combustível por enquanto.
+                            System.out.println("Despesa total de combustível para o veículo com placa " + placaDespesas
+                                    + ": R$ " + despesaTotalCombustivel);
+                        } else {
+                            System.out.println("Veículo não encontrado.");
+                        }
+                    } catch (Exception e) {
+                        System.out.println("Ocorreu um erro ao calcular as despesas: " + e.getMessage());
+                        e.printStackTrace(); // Para ajudar na depuração, imprime a pilha de exceção.
+                    }
+                    break;
+                case 8:
                     continuar = false;
+                    System.out.println("Até logo ;)");
                     break;
                 default:
                     System.out.println("Opção inválida! Tente novamente! :)");
-                    break;                     
+                    break;
             }
         }
 
-        System.out.println("Até logo ;)");
         teclado.close();
     }
 }
-
