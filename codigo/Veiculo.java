@@ -3,12 +3,10 @@ import java.time.*;
 public abstract class Veiculo {
     // Atributos de Classe
     protected static final int MAX_ROTAS; // Constante com valor 30 para qualquer veículo 
-    protected static final double CONSUMO; // Constante com valor 8,2 km/litro para qualquer veículo 
     protected String placa;
     protected Rota[] rotas;
     protected int quantRotas;
     protected double tanqueAtual;
-    protected final double tanqueMax; // Após definida a capacidade do tanque do veículo, não é possível alterar
     protected final double kmManutencaoPecas;
     protected final double kmManutencaoPeriodica;
     protected double kmDesdeUltimaManutencao;
@@ -21,20 +19,19 @@ public abstract class Veiculo {
     static {
         // Inicialização do atributo estático MAX_ROTAS com o valor 30
         MAX_ROTAS = 30;
-        CONSUMO = this.tanque.getCONSUMO();
     }
 
     // Construtor
-    public Veiculo(Motorista motorista, String placa,Tanque tanque) {
+    public Veiculo(Motorista motorista, String placa) {
         this.motorista = motorista;
         this.placa = placa;
-        this.tanque = tanque;
-        this.tanqueAtual = 0; // Inicialmente, o tanque está vazio
         this.quantRotas = 0;
         this.rotas = new Rota[MAX_ROTAS];
          this.manutencaoEmDia = true; //O veículo inicia com a manutenção em dia
         this.totalReabastecido = 0; // Inicialmente, o tanque está vazio
         this.kmDesdeUltimaManutencao = 0; // Inicialmente, o veículo não percorreu nenhum km
+        this.kmManutencaoPecas = 0;
+        this.kmManutencaoPeriodica = 0;
         this.despesaTotal = 0; // Inicialmente, o veículo não teve despesa
     }
 
@@ -62,13 +59,13 @@ public abstract class Veiculo {
     // Calcula a autonomia máxima, considerando o tanque cheio, com base no consumo
     private double autonomiaMaxima()
     {
-        return tanque.autonomiaMaxima();
+        return tanque.getCapacidadeMaxima() * tanque.getCONSUMO();
     }
 
     // Calcula a autonomia atual, considerando o tanque atual, com base no consumo
     private double autonomiaAtual()
     {
-        return tanque.autonomiaAtual();
+        return tanqueAtual * tanque.getCONSUMO();
     }
 
     // Abastece o tanque do veículo com uma quantidade específica de litros para reabastecimento e retorna o total abastecido
@@ -77,11 +74,11 @@ public abstract class Veiculo {
     {
         if (litros > 0)
         {
-            if(tanqueAtual+litros > tanqueMax)
+            if(tanqueAtual+litros > tanque.getCapacidadeMaxima())
             {
-                double reabastecidoAgora = (litros-((tanqueAtual+litros)-tanqueMax));
+                double reabastecidoAgora = (litros-((tanqueAtual+litros)-tanque.getCapacidadeMaxima()));
                 totalReabastecido = reabastecidoAgora;
-                tanqueAtual = tanqueMax;
+                tanqueAtual = tanque.getCapacidadeMaxima();
                 return totalReabastecido;
             }
             else
@@ -125,12 +122,12 @@ public abstract class Veiculo {
     // Registra a rota percorrida, atualizando o combustível disponível no tanque
     private void percorrerRota(Rota rota)
     {
-            double consumoRota = (rota.getQuilometragem() / CONSUMO);
+            double consumoRota = (rota.getQuilometragem() / tanque.getCONSUMO());
             tanqueAtual -= consumoRota;
             kmDesdeUltimaManutencao(rota);
             aposRotaManutencaoPeriodicaEmDia(rota);
             aposRotaManutencaoPecasEmDia(rota);
-            despesaCombustível(Rota rota);
+            despesaCombustível(rota);
     }
 
      // Verifica se o veículo tem autonomia suficiente para realizar a rota
@@ -188,8 +185,8 @@ public abstract class Veiculo {
         kmDesdeUltimaManutencao = 0;
     }
 
-    protected double despesaCombustível(Rota rota){
-       this.despesaTotal += this.tanque.getPreco * (rota.getQuilometragem() / CONSUMO);
+    protected void despesaCombustível(Rota rota){
+       this.despesaTotal += tanque.getPreco() * (rota.getQuilometragem() / tanque.getCONSUMO());
     }
 
 }
