@@ -185,8 +185,15 @@ public abstract class Veiculo {
         kmDesdeUltimaManutencao = 0;
     }
 
-    protected void despesaCombustível(Rota rota){
-       this.despesaTotal += tanque.getPreco() * (rota.getQuilometragem() / tanque.getCONSUMO());
+    protected double despesaCombustível(Rota rota){
+        double custo = this.tanque.getPreco() * (rota.getQuilometragem() / tanque.getCONSUMO());
+        this.despesaTotal += custo; // Atualiza a despesa total com o custo da rota
+        return custo; // Retorna o custo da rota
     }
+
+    public double getDespesaTotal() {
+        return this.despesaTotal;
+    }
+    
 
 }

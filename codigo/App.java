@@ -34,29 +34,31 @@ public class App {
                 case 1:
                     // Cadastrar novo veículo
                     System.out.print("Digite a placa do veículo: ");
-                    String placa = teclado.nextLine();
+                    String placa = teclado.next();
                     System.out.print("Digite o tipo do veículo (Carro, Van, Furgao, Caminhao): ");
-                    String tipoVeiculo = teclado.nextLine();
+                    String tipoVeiculo = teclado.next();
+                    System.out.print("Digite o tipo de combustível (Alcool, Gasolina, Diesel): ");
+                    String tipoCombustivelStr = teclado.next().toUpperCase();
                     System.out.print("Digite o nome do motorista: ");
-                    String nomeMotorista = teclado.nextLine();
+                    String nomeMotorista = teclado.next();
                     System.out.print("Digite o CPF do motorista: ");
-                    String cpfMotorista = teclado.nextLine();
+                    String cpfMotorista = teclado.next();
                     Motorista motorista = new Motorista(nomeMotorista, cpfMotorista);
 
-                    // Com base no tipo do veículo
+                    // Com base no tipo do veículo, cria-se a instância apropriada
                     Veiculo veiculo = null;
                     switch (tipoVeiculo.toUpperCase()) {
                         case "CARRO":
-                            veiculo = new Carro(motorista, placa);
+                            veiculo = new Carro(motorista, placa, tipoCombustivelStr);
                             break;
                         case "VAN":
-                            veiculo = new Van(motorista, placa);
+                            veiculo = new Van(motorista, placa, tipoCombustivelStr);
                             break;
                         case "FURGAO":
-                            veiculo = new Furgao(motorista, placa);
+                            veiculo = new Furgao(motorista, placa, tipoCombustivelStr);
                             break;
                         case "CAMINHAO":
-                            veiculo = new Caminhao(motorista, placa);
+                            veiculo = new Caminhao(motorista, placa, tipoCombustivelStr);
                             break;
                         default:
                             System.out.println("Tipo de veículo não reconhecido.");
@@ -106,7 +108,7 @@ public class App {
                             System.out.print("Digite a quantidade de combustível para abastecer (em litros): ");
                             double litros = teclado.nextDouble();
                             teclado.nextLine();
-                            veiculoAbastecer.getTanque().abastecer(litros);
+                            veiculoAbastecer.abastecer(litros);
                             System.out.println("Veículo abastecido com sucesso!");
                         } else {
                             System.out.println("Veículo não encontrado.");
@@ -144,18 +146,10 @@ public class App {
                         String placaDespesas = teclado.nextLine();
                         Veiculo veiculoDespesas = frota.localizarVeiculo(placaDespesas);
                         if (veiculoDespesas != null) {
-                            // Calcula a despesa total de combustível
-                            double despesaTotalCombustivel = 0;
-                            for (Rota rota : veiculoDespesas.getRotas()) {
-                                if (rota != null) {
-                                    despesaTotalCombustivel += veiculoDespesas.despesaCombustível(rota);
-                                }
-                            }
-                            // A despesa total poderia incluir manutenção e multas, mas como não tem esses
-                            // métodos ainda,
-                            // vou apenas imprimir a despesa de combustível por enquanto.
+                            double despesaTotal = veiculoDespesas.getDespesaTotal(); // Usa o novo método
+                                                                                     // getDespesaTotal()
                             System.out.println("Despesa total de combustível para o veículo com placa " + placaDespesas
-                                    + ": R$ " + despesaTotalCombustivel);
+                                    + ": R$ " + despesaTotal);
                         } else {
                             System.out.println("Veículo não encontrado.");
                         }
