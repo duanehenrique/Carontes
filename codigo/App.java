@@ -8,7 +8,7 @@ public class App {
         Scanner teclado = new Scanner(System.in);
         System.out.println("Bem-vindo ao sistema de gerenciamento de frotas!");
 
-        // Criação da frota
+        // Solicita ao usuário para definir o tamanho da frota e cria a frota
         System.out.print("Digite o número de veículos da frota: ");
         int tamanhoFrota = teclado.nextInt();
         teclado.nextLine();
@@ -45,7 +45,7 @@ public class App {
                     String cpfMotorista = teclado.next();
                     Motorista motorista = new Motorista(nomeMotorista, cpfMotorista);
 
-                    // Com base no tipo do veículo, cria-se a instância apropriada
+                    // Com base no tipo do veículo, cria-se a instância correta para cada um
                     Veiculo veiculo = null;
                     switch (tipoVeiculo.toUpperCase()) {
                         case "CARRO":
@@ -70,6 +70,7 @@ public class App {
                     }
                     break;
                 case 2:
+                    // Exibir o relatório da frota
                     System.out.println(frota.relatorioFrota());
                     break;
                 case 3:
@@ -141,13 +142,13 @@ public class App {
                     // Verificar manutenção dos veículos (depende da classe Manutenção)
                     break;
                 case 7:
+                    // Calcular despesas totais de um veículo
                     try {
                         System.out.print("Digite a placa do veículo para calcular as despesas: ");
                         String placaDespesas = teclado.nextLine();
                         Veiculo veiculoDespesas = frota.localizarVeiculo(placaDespesas);
                         if (veiculoDespesas != null) {
-                            double despesaTotal = veiculoDespesas.getDespesaTotal(); // Usa o novo método
-                                                                                     // getDespesaTotal()
+                            double despesaTotal = veiculoDespesas.getDespesaTotal();
                             System.out.println("Despesa total de combustível para o veículo com placa " + placaDespesas
                                     + ": R$ " + despesaTotal);
                         } else {
