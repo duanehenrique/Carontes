@@ -1,3 +1,5 @@
+import java.text.Normalizer;
+
 public class Tanque {
     // Atributos da classe
     // Capacidade máxima do tanque em litros.
@@ -19,7 +21,8 @@ public class Tanque {
     Tanque(double capacidadeAtual, double capacidadeMaxima, String tipo){
         this.capacidadeAtual = capacidadeAtual;
         this.capacidadeMaxima = capacidadeMaxima;
-        switch (tipo.toUpperCase()) {
+        switch (Normalizer.normalize(tipo.toUpperCase(), Normalizer.Form.NFD)
+    .replaceAll("\\p{InCombiningDiacriticalMarks}+", "")) {
             case "ALCOOL":
                 tipoCombustivel = TipoCombustivel.ALCOOL;
                 break;

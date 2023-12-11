@@ -1,3 +1,5 @@
+import java.text.Normalizer;
+
 public class Manutencao{
     private boolean manutencaoPeriodicaEmDia;
     private boolean manutencaoPecasEmDia;
@@ -8,7 +10,8 @@ public Manutencao(String tipoVeiculo){
     this.manutencaoPeriodicaEmDia = true;
     this.manutencaoPecasEmDia = true;
     this.kmDesdeUltimaManutencao = 0;
-    switch (tipoVeiculo.toUpperCase()) {
+    switch (Normalizer.normalize(tipoVeiculo.toUpperCase(), Normalizer.Form.NFD)
+    .replaceAll("\\p{InCombiningDiacriticalMarks}+", "")) {
         case "CARRO":
         km = KmManutencao.CARRO;
             break;

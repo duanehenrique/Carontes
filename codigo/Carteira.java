@@ -1,3 +1,4 @@
+import java.text.Normalizer;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +12,8 @@ public class Carteira {
 
     public void adicionarMulta(String gravidade) {
         Multa novaMulta;
-        switch (gravidade.toUpperCase()) {
+        switch (Normalizer.normalize(gravidade.toUpperCase(), Normalizer.Form.NFD)
+    .replaceAll("\\p{InCombiningDiacriticalMarks}+", "")) {
             case "LEVE":
             novaMulta = Multa.LEVE;               
             break;
