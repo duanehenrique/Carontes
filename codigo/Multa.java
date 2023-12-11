@@ -1,36 +1,29 @@
-public class Multa {
+import java.time.LocalDate;
 
-    private String tipo;
+public enum Multa {
+    LEVE(3, 88.38),
+    MEDIA(4, 130.16),
+    GRAVE(5, 195.23),
+    GRAVISSIMA(7, 293.47);
+
     private int pontos;
     private double valor;
+    LocalDate dataDeEmissao;
 
-    public Multa(String tipo, int pontos, double valor) {
-        this.tipo = tipo;
+    Multa(int pontos, double valor) {
         this.pontos = pontos;
         this.valor = valor;
-    }
-
-    public String getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
+        this.dataDeEmissao = LocalDate.now();
     }
 
     public int getPontos() {
         return pontos;
     }
 
-    public void setPontos(int pontos) {
-        this.pontos = pontos;
-    }
-
     public double getValor() {
         return valor;
     }
-
-    public void setValor(double valor) {
-        this.valor = valor;
+    public LocalDate getDataDeEmissao(){
+        return dataDeEmissao;
     }
-} 
+}

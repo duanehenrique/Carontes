@@ -146,12 +146,8 @@ public abstract class Veiculo {
         return this.rotas;
     }
 
-    public double getQuntRotas() {
+    public double getQuantRotas() {
         return quantRotas;
-    }
-
-    public void receberMulta(Multa multa) {
-        motorista.adicionarPontos(multa.getPontos());
     }
     public Motorista getMotorista() {
         return motorista;

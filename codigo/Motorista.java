@@ -2,12 +2,13 @@ public class Motorista {
 
     private String nome;
     private String cpf;
-    private int pontos;
+    private Carteira carteira;
+
 
     public Motorista(String nome, String cpf) {
         this.nome = nome;
         this.cpf = cpf;
-        this.pontos = 0;
+        this.carteira = new Carteira();
     }
 
     public String getNome() {
@@ -27,14 +28,13 @@ public class Motorista {
     }
 
     public int getPontos() {
-        return pontos;
+        return carteira.calcularTotalPontos();
     }
 
-    public void adicionarPontos(int pontos) {
-        this.pontos += pontos;
+    public void adicionarPontos(String gravidade) {
+        this.carteira.adicionarMulta(gravidade);
     }
-
-    public void removerPontos(int pontos) {
-        this.pontos -= pontos;
-    }
+public boolean getCarteiraValida(){
+    return this.carteira.carteiraValida();
+}
 }
