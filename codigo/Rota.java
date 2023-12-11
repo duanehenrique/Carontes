@@ -33,7 +33,7 @@ public class Rota {
     relatorio.append("Relatório da Rota:\n");
     relatorio.append("   Data: " + data + "\n");
     relatorio.append("   Quilometragem: " + quilometragem + "\n");
-    relatorio.append("   Veículo: " + Veiculo.getPlaca()  + "\n");
+    relatorio.append("   Veículo: " + veiculo.getPlaca()  + "\n");
     relatorio.append("\n");
     return relatorio.toString();
 }

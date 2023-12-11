@@ -6,7 +6,7 @@ public class Tanque {
     // Quantidade atual de combustível no tanque em litros.
     private double capacidadeAtual;
 
-    private static TipoCombustivel tipoCombustivel;
+    private final TipoCombustivel tipoCombustivel;
 
 
 

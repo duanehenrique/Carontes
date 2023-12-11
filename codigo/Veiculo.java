@@ -7,14 +7,11 @@ public abstract class Veiculo {
     protected Rota[] rotas;
     protected int quantRotas;
     protected double tanqueAtual;
-    protected final double kmManutencaoPecas;
-    protected final double kmManutencaoPeriodica;
-    protected double kmDesdeUltimaManutencao;
     protected double totalReabastecido;
     protected Motorista motorista;
-    protected boolean manutencaoEmDia;
     protected Tanque tanque;
     protected double despesaTotal;
+    protected Manutencao manutencao;
 
     static {
         // Inicialização do atributo estático MAX_ROTAS com o valor 30
@@ -27,11 +24,7 @@ public abstract class Veiculo {
         this.placa = placa;
         this.quantRotas = 0;
         this.rotas = new Rota[MAX_ROTAS];
-         this.manutencaoEmDia = true; //O veículo inicia com a manutenção em dia
         this.totalReabastecido = 0; // Inicialmente, o tanque está vazio
-        this.kmDesdeUltimaManutencao = 0; // Inicialmente, o veículo não percorreu nenhum km
-        this.kmManutencaoPecas = 0;
-        this.kmManutencaoPeriodica = 0;
         this.despesaTotal = 0; // Inicialmente, o veículo não teve despesa
     }
 
@@ -40,10 +33,12 @@ public abstract class Veiculo {
     // Adiciona a rota recebida como parâmetro ao vetor de rotas do veículo
     // Verifica se o vetor de rotas do veículo tem espaço para adicionar a rota
     // Verifica se o veículo tem autonomia para realizar a rota
+    // Verifica se o veículo está com sua manutenção em dia
+    // Verifica se o motorista tem menos pontos na carteira que o limite
     //Retorna true se a adição foi bem-sucedida, false se não foi possível adicionar rota
     public boolean addRota(Rota rota)
     {
-        if ((quantRotas < MAX_ROTAS) && (rota.getQuilometragem() <= autonomiaAtual()) && (rota.getQuilometragem() <= autonomiaMaxima()) && manutencaoEmDia)
+        if ((quantRotas < MAX_ROTAS) && (rota.getQuilometragem() <= autonomiaAtual()) && (rota.getQuilometragem() <= autonomiaMaxima()) && manutencao.getManutencaoEmDia() && (motorista.getCarteiraValida()))
         {
             rotas[quantRotas] = rota;
             quantRotas++;
@@ -57,13 +52,13 @@ public abstract class Veiculo {
     }
 
     // Calcula a autonomia máxima, considerando o tanque cheio, com base no consumo
-    private double autonomiaMaxima()
+    public double autonomiaMaxima()
     {
         return tanque.getCapacidadeMaxima() * tanque.getCONSUMO();
     }
 
     // Calcula a autonomia atual, considerando o tanque atual, com base no consumo
-    private double autonomiaAtual()
+    public double autonomiaAtual()
     {
         return tanqueAtual * tanque.getCONSUMO();
     }
@@ -120,13 +115,11 @@ public abstract class Veiculo {
     }
 
     // Registra a rota percorrida, atualizando o combustível disponível no tanque
-    private void percorrerRota(Rota rota)
+    public void percorrerRota(Rota rota)
     {
             double consumoRota = (rota.getQuilometragem() / tanque.getCONSUMO());
             tanqueAtual -= consumoRota;
             kmDesdeUltimaManutencao(rota);
-            aposRotaManutencaoPeriodicaEmDia(rota);
-            aposRotaManutencaoPecasEmDia(rota);
             despesaCombustível(rota);
     }
 
@@ -163,37 +156,33 @@ public abstract class Veiculo {
     public Motorista getMotorista() {
         return motorista;
     }
+    public double getTotalReabastecido(){
+        return totalReabastecido;
+    }
 
     protected void kmDesdeUltimaManutencao(Rota rota){
-        if(this.manutencaoEmDia = true)
+        if(this.manutencao.getManutencaoEmDia() == true)
         {
-           kmDesdeUltimaManutencao += rota.getQuilometragem();
+           this.manutencao.addKmParaManutencao(rota.getQuilometragem());
         }
     }
-    protected void aposRotaManutencaoPeriodicaEmDia(Rota rota){
-    if((rota.getQuilometragem() + kmDesdeUltimaManutencao)-this.kmManutencaoPeriodica <= 0 ){
-        manutencaoEmDia = false;
-    }
-    }
-    protected void aposRotaManutencaoPecasEmDia(Rota rota){
-    if((rota.getQuilometragem() + kmDesdeUltimaManutencao)-this.kmManutencaoPecas <= 0){
-        manutencaoEmDia = false;
-    }
-    }
-    protected void fazerManutencao(){
-        manutencaoEmDia = true;
-        kmDesdeUltimaManutencao = 0;
-    }
+    public void fazerManutencao(){
+       if(this.manutencao.getManutencaoPecasEmDia())
+       {
+        this.manutencao.realizarManutencaoPecas();
+        System.out.println("Manutenção de trocas de peças realizada com sucesso.");
+        }
+       else if(this.manutencao.getManutencaoPeriodicaEmDia()){
+        this.manutencao.realizarManutencaoPeriodica();
+        System.out.println("Manutenção periódica realizada com sucesso.");
+       }
+       else{
+            System.out.println("Veículo não necessita de manutenção! Apenas " + this.manutencao.getKmDesdeUltimaManutencao() + "km foram rodados.");
+        }
+       }
 
-    protected double despesaCombustível(Rota rota){
-        double custo = this.tanque.getPreco() * (rota.getQuilometragem() / tanque.getCONSUMO());
-        this.despesaTotal += custo; // Atualiza a despesa total com o custo da rota
-        return custo; // Retorna o custo da rota
-    }
 
-    public double getDespesaTotal() {
-        return this.despesaTotal;
+    protected void despesaCombustível(Rota rota){
+       this.despesaTotal += tanque.getPreco() * (rota.getQuilometragem() / tanque.getCONSUMO());
     }
-    
-
 }
