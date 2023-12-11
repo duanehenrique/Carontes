@@ -72,7 +72,7 @@ public class Frota {
         double maiorKmMedia = 0.0;
         for (int i = 0; i < tamanhoFrota; i++) {
             if (veiculos[i] != null) {
-                double kmMedia = veiculos[i].kmTotal() / veiculos[i].getQuntRotas();
+                double kmMedia = veiculos[i].kmTotal() / veiculos[i].getQuantRotas();
                 if (kmMedia > maiorKmMedia) {
                     veiculoComMaiorKmMedia = veiculos[i];
                     maiorKmMedia = kmMedia;

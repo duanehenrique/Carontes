@@ -156,6 +156,10 @@ public abstract class Veiculo {
         return totalReabastecido;
     }
 
+    public double getDespesaTotal(){
+    return despesaTotal;
+    }
+
     protected void kmDesdeUltimaManutencao(Rota rota){
         if(this.manutencao.getManutencaoEmDia() == true)
         {

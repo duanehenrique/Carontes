@@ -127,12 +127,7 @@ public class App {
                     if (veiculo != null) {
                         System.out.print("Digite o tipo de multa: ");
                         String tipoMulta = teclado.nextLine();
-                        System.out.print("Digite o valor da multa: ");
-                        double valorMulta = teclado.nextDouble();
-                        System.out.print("Digite os pontos da multa: ");
-                        int pontosMulta = teclado.nextInt();
-                        Multa multa = new Multa(tipoMulta, pontosMulta, valorMulta);
-                        veiculo.receberMulta(multa);
+                        veiculo.motorista.adicionarPontos(tipoMulta);
                         System.out.println("Multa registrada com sucesso!");
                     } else {
                         System.out.println("Veículo não encontrado.");
