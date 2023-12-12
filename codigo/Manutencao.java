@@ -62,19 +62,26 @@ public class Manutencao {
         }
     }
 
-    public double realizarManutencaoPecas() {
-        this.kmDesdeUltimaManutencao = 0;
-        this.manutencaoPecasEmDia = true;
-        return custo;
-    }
-
-    public double realizarManutencaoPeriodica() {
-        this.kmDesdeUltimaManutencao = 0;
-        this.manutencaoPeriodicaEmDia = true;
-        return custo;
-    }
-
     public double getTotalDespesasManutencao() {
         return totalDespesasManutencao;
     }
+
+    public double realizarManutencaoPecas() {
+        if (!manutencaoPecasEmDia) {
+            totalDespesasManutencao += custo; 
+            manutencaoPecasEmDia = true;
+            kmDesdeUltimaManutencao = 0;
+        }
+        return custo;
+    }
+    
+    public double realizarManutencaoPeriodica() {
+        if (!manutencaoPeriodicaEmDia) {
+            totalDespesasManutencao += custo;
+            manutencaoPeriodicaEmDia = true;
+            kmDesdeUltimaManutencao = 0;
+        }
+        return custo;
+    }
+    
 }

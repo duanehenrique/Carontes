@@ -188,13 +188,13 @@ public class App {
             if (veiculoDespesas != null) {
                 // Obtem a despesa de combustível já existente
                 double despesaCombustivel = veiculoDespesas.getDespesaTotal();
-
+    
                 // Obtem as despesas totais de manutenção
                 double despesaManutencao = veiculoDespesas.getManutencao().getTotalDespesasManutencao();
-
+    
                 // Calcula a despesa total somando combustível e manutenção
                 double despesaTotal = despesaCombustivel + despesaManutencao;
-
+    
                 System.out.println("Despesa total do veículo com placa " + placaDespesas + ": R$ "
                         + String.format("%.2f", despesaTotal));
             } else {
@@ -204,7 +204,7 @@ public class App {
             System.out.println("Ocorreu um erro ao calcular as despesas: " + e.getMessage());
             e.printStackTrace(); // Apenas para depuração, pode ser removido em produção
         }
-    }
+    }    
 
     public static void main(String[] args) {
         System.out.println("Bem-vindo ao sistema de gerenciamento de frotas!");
