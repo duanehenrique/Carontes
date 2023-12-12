@@ -2,19 +2,35 @@ import java.time.LocalDate;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+/**
+ * Classe App que serve como ponto de entrada do sistema de gerenciamento de
+ * frotas.
+ * Este sistema permite o gerenciamento de uma frota de veículos, oferecendo
+ * funcionalidades
+ * como adicionar veículos, registrar rotas, abastecer, registrar multas,
+ * verificar manutenção
+ * e calcular despesas totais dos veículos.
+ */
 public class App {
 
     static Scanner teclado = new Scanner(System.in);
     static Frota frota;
 
+    /**
+     * Limpa a tela do console utilizando sequências de escape específicas do
+     * terminal.
+     */
     public static void limparTela() {
-        // Limpa a tela do terminal
         System.out.print("\033[H\033[2J");
         System.out.flush();
-    } 
+    }
 
+    /**
+     * Inicializa a frota de veículos com base na entrada do usuário.
+     * Solicita ao usuário o número de veículos e cria uma nova Frota com esse
+     * tamanho.
+     */
     private static void inicializarFrota() {
-        // Inicializa a frota de veículos
         System.out.print("Digite o número de veículos da frota: ");
         int tamanhoFrota = teclado.nextInt();
         teclado.nextLine();
@@ -22,6 +38,9 @@ public class App {
     }
 
     private static void mostrarMenu() {
+        /**
+         * Exibe o menu principal do sistema com as opções disponíveis para o usuário.
+         */
         String linha = new String(new char[50]).replace('\0', '-');
         System.out.println(linha);
         System.out.println("\t\t  Sistema de Gerenciamento de Frotas");
@@ -36,35 +55,50 @@ public class App {
         System.out.println("8. Encerrar o programa");
         System.out.println(linha);
         System.out.print("Selecione uma opção: ");
-    }    
+    }
 
+    /**
+     * Interage com o usuário para cadastrar um novo veículo na frota.
+     * Solicita informações como placa, tipo de veículo, custo de manutenção, tipo
+     * de combustível, nome e CPF do motorista.
+     * Valida as entradas e, se bem-sucedido, adiciona o veículo à frota.
+     */
     private static void cadastrarVeiculo() {
-        // Cadastrar o veículo
+        // Solicita e lê as informações do veículo do usuário
         System.out.print("Digite a placa do veículo: ");
         String placa = teclado.next();
         System.out.print("Digite o tipo do veículo (Carro, Van, Furgao, Caminhao): ");
         String tipoVeiculo = teclado.next();
+
+        // Inicializa a variável custoManutencao
         double custoManutencao = 0;
-        
+
+        // Tenta ler o custo da manutenção do veículo, e captura exceções de entrada
+        // inválida
         try {
             System.out.print("Digite o custo da manutenção do veículo: ");
             custoManutencao = teclado.nextDouble();
         } catch (InputMismatchException e) {
             System.out.println("Você digitou um custo inválido. Por favor, digite um número.");
-            teclado.next();
-            return; // Retorna do método para evitar criar um veículo com dados inválidos
+            teclado.next(); // Limpa o buffer do teclado
+            return; // Encerra o método para evitar prosseguir com dados inválidos
         }
-        
+
+        // Continua solicitando as demais informações do veículo
         System.out.print("Digite o tipo de combustível (Alcool, Gasolina, Diesel): ");
         String tipoCombustivelStr = teclado.next().toUpperCase();
         System.out.print("Digite o nome do motorista: ");
         String nomeMotorista = teclado.next();
         System.out.print("Digite o CPF do motorista: ");
         String cpfMotorista = teclado.next();
+
+        // Cria um objeto motorista com as informações coletadas
         Motorista motorista = new Motorista(nomeMotorista, cpfMotorista);
-    
-        // Com base no tipo do veículo e no custo de manutenção, cria-se a instância correta para cada um
+
+        // Inicializa a variável veiculo como nula
         Veiculo veiculo = null;
+
+        // Cria uma instância do veículo de acordo com o tipo fornecido
         switch (tipoVeiculo.toUpperCase()) {
             case "CARRO":
                 veiculo = new Carro(motorista, placa, tipoCombustivelStr, custoManutencao);
@@ -80,31 +114,43 @@ public class App {
                 break;
             default:
                 System.out.println("Tipo de veículo não reconhecido.");
-                return; // Retorna do método se o tipo do veículo não é reconhecido
+                return; // Encerra o método se o tipo de veículo não for reconhecido
         }
-    
+
+        // Se o veículo foi criado com sucesso, adiciona à frota
         if (veiculo != null) {
             frota.adicionarVeiculo(veiculo);
             System.out.println("Veículo cadastrado com sucesso!");
         }
-    }    
+    }
 
+    /**
+     * Exibe um relatório detalhado da frota, incluindo informações de cada veículo
+     * cadastrado.
+     */
     private static void exibirRelatorioFrota() {
         // Exibir relatorio completo da frota
         System.out.println(frota.relatorioFrota());
     }
 
+    /**
+     * Permite ao usuário registrar uma rota para um veículo específico.
+     * Solicita a placa do veículo e a quilometragem da rota a ser registrada.
+     */
     private static void registrarRota() {
-        // Registrar rota
+        // Solicita a placa e tenta registrar a rota, capturando exceções de entrada
+        // inválida
         try {
             System.out.print("Digite a placa do veículo para a rota: ");
             String placaRota = teclado.nextLine();
             Veiculo veiculoRota = frota.localizarVeiculo(placaRota);
+            // Verifica se o veículo foi encontrado
             if (veiculoRota != null) {
                 System.out.print("Digite a quilometragem da rota: ");
                 double kmRota = teclado.nextDouble();
-                teclado.nextLine();
+                teclado.nextLine(); // Limpa o buffer do teclado
                 Rota rota = new Rota(LocalDate.now(), kmRota);
+                // Tenta adicionar a rota ao veículo
                 boolean sucesso = veiculoRota.addRota(rota);
                 if (sucesso) {
                     System.out.println("Rota adicionada com sucesso!");
@@ -121,8 +167,11 @@ public class App {
         }
     }
 
+    /**
+     * Interage com o usuário para abastecer um veículo específico da frota.
+     * Solicita a placa do veículo e a quantidade de combustível para abastecimento.
+     */
     private static void abastecerVeiculo() {
-        // Abastecer veículo
         try {
             System.out.print("Digite a placa do veículo para abastecer: ");
             String placaAbastecer = teclado.nextLine();
@@ -142,24 +191,28 @@ public class App {
         }
     }
 
+    /**
+     * Permite ao usuário registrar uma multa para um motorista específico.
+     * Solicita a placa do veículo e o tipo de multa para registro.
+     */
     private static void registrarMulta() {
         // Registrar multa na carteira do motorista
         System.out.print("Digite a placa do veículo que recebeu a multa: ");
         String placa = teclado.nextLine();
         Veiculo veiculo = frota.localizarVeiculo(placa);
-        
+
         if (veiculo != null) {
             System.out.println("Selecione o tipo de multa:");
             System.out.println("1. Leve");
             System.out.println("2. Média");
             System.out.println("3. Grave");
             System.out.println("4. Gravíssima");
-            
+
             try {
                 int tipoMulta = teclado.nextInt();
                 teclado.nextLine(); // Lê o fim da linha após o número
                 Multa multa = null;
-                
+
                 switch (tipoMulta) {
                     case 1:
                         multa = veiculo.addMultaAoMotorista("LEVE");
@@ -177,7 +230,7 @@ public class App {
                         System.out.println("Tipo de multa não reconhecido.");
                         return; // Sai do método se o tipo de multa não é reconhecido
                 }
-                
+
                 if (multa != null) {
                     veiculo.despesaMultaMotorista(multa.getValor());
                     System.out.println("Multa registrada com sucesso!");
@@ -191,8 +244,13 @@ public class App {
         } else {
             System.out.println("Veículo não encontrado.");
         }
-    }    
+    }
 
+    /**
+     * Verifica e relata a necessidade de manutenção dos veículos da frota.
+     * Percorre todos os veículos da frota e verifica o estado da manutenção de cada
+     * um.
+     */
     private static void verificarManutencaoVeiculos() {
         // Verificar necessidade de manutenção de algum veículo
         System.out.println("Verificação de Manutenção dos Veículos:");
@@ -214,8 +272,17 @@ public class App {
         }
     }
 
+    /**
+     * Calcula e exibe as despesas totais de um veículo específico baseado em sua
+     * placa.
+     * Isso inclui tanto o custo com combustível quanto as despesas com manutenção.
+     * O usuário deve fornecer a placa do veículo para que o cálculo seja realizado.
+     * Se a placa não corresponder a um veículo na frota, uma mensagem de veículo
+     * não encontrado é exibida.
+     * Este método trata exceções para garantir que o aplicativo não falhe devido a
+     * erros inesperados durante o cálculo.
+     */
     private static void calcularDespesasTotaisVeiculo() {
-        // Calcular as despesas totais de um veículo
         try {
             System.out.print("Digite a placa do veículo para calcular as despesas: ");
             String placaDespesas = teclado.nextLine();
@@ -234,6 +301,17 @@ public class App {
         }
     }
 
+    /**
+     * Método principal que atua como ponto de entrada para o sistema de
+     * gerenciamento de frotas.
+     * Inicia o sistema, saúda o usuário e entra em um loop que apresenta um menu de
+     * opções.
+     * O usuário pode selecionar opções para gerenciar veículos, rotas, manutenções
+     * e despesas.
+     * O loop continua até que o usuário opte por encerrar o programa.
+     * Exceções de entrada são tratadas para evitar entradas inválidas durante a
+     * seleção do menu.
+     */
     public static void main(String[] args) {
         System.out.println("Bem-vindo ao sistema de gerenciamento de frotas!");
         inicializarFrota();
@@ -243,7 +321,7 @@ public class App {
             mostrarMenu();
             try {
                 int opcao = teclado.nextInt();
-                teclado.nextLine();
+                teclado.nextLine(); // Limpa o buffer do teclado após a leitura de um número.
                 switch (opcao) {
                     case 1:
                         cadastrarVeiculo();
@@ -267,7 +345,7 @@ public class App {
                         calcularDespesasTotaisVeiculo();
                         break;
                     case 8:
-                        continuar = false;
+                        continuar = false; // Sai do loop e encerra o programa.
                         System.out.println("Até logo ;)");
                         break;
                     default:
@@ -276,9 +354,9 @@ public class App {
                 }
             } catch (InputMismatchException e) {
                 System.out.println("Entrada inválida. Por favor, insira um número.");
-                teclado.nextLine();
+                teclado.next(); // Limpa o buffer do teclado para evitar loop infinito.
             }
         }
-        teclado.close();
+        teclado.close(); // Fecha o recurso Scanner antes de encerrar o programa.
     }
 }
