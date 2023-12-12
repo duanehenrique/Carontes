@@ -77,4 +77,12 @@ public class Frota {
         }
         return veiculoComMaiorKmMedia;
     }
+
+    public int getTamanhoFrota() {
+        return tamanhoFrota;
+    }
+
+    public Veiculo[] getVeiculos() {
+        return veiculos;
+    }
 }

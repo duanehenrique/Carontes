@@ -197,4 +197,8 @@ public abstract class Veiculo {
     protected void addDespesaTotal(double despesaNova){
         this.despesaTotal += despesaNova;
     }
+
+    public Manutencao getManutencao() {
+        return this.manutencao;
+    }    
 }

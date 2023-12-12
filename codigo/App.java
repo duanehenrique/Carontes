@@ -27,11 +27,12 @@ public class App {
     }
 
     private static void cadastrarVeiculo() {
-        // Cadastrar novo veículo
         System.out.print("Digite a placa do veículo: ");
         String placa = teclado.next();
         System.out.print("Digite o tipo do veículo (Carro, Van, Furgao, Caminhao): ");
         String tipoVeiculo = teclado.next();
+        System.out.print("Digite o custo da manutenção do veículo: "); // Novo input para custo de manutenção
+        double custoManutencao = teclado.nextDouble();
         System.out.print("Digite o tipo de combustível (Alcool, Gasolina, Diesel): ");
         String tipoCombustivelStr = teclado.next().toUpperCase();
         System.out.print("Digite o nome do motorista: ");
@@ -40,20 +41,21 @@ public class App {
         String cpfMotorista = teclado.next();
         Motorista motorista = new Motorista(nomeMotorista, cpfMotorista);
 
-        // Com base no tipo do veículo, cria-se a instância correta para cada um
+        // Com base no tipo do veículo e no custo de manutenção, cria-se a instância
+        // correta para cada um
         Veiculo veiculo = null;
         switch (tipoVeiculo.toUpperCase()) {
             case "CARRO":
-                veiculo = new Carro(motorista, placa, tipoCombustivelStr);
+                veiculo = new Carro(motorista, placa, tipoCombustivelStr, custoManutencao);
                 break;
             case "VAN":
-                veiculo = new Van(motorista, placa, tipoCombustivelStr);
+                veiculo = new Van(motorista, placa, tipoCombustivelStr, custoManutencao);
                 break;
             case "FURGAO":
-                veiculo = new Furgao(motorista, placa, tipoCombustivelStr);
+                veiculo = new Furgao(motorista, placa, tipoCombustivelStr, custoManutencao);
                 break;
             case "CAMINHAO":
-                veiculo = new Caminhao(motorista, placa, tipoCombustivelStr);
+                veiculo = new Caminhao(motorista, placa, tipoCombustivelStr, custoManutencao);
                 break;
             default:
                 System.out.println("Tipo de veículo não reconhecido.");
@@ -129,23 +131,29 @@ public class App {
             System.out.println("3. Grave");
             System.out.println("4. Gravíssima");
             int tipoMulta = teclado.nextInt();
+            double valorMulta = 0;
             switch (tipoMulta) {
                 case 1:
                     veiculo.getMotorista().adicionarPontos("LEVE");
+                    valorMulta = Multa.LEVE.getValor();
                     break;
                 case 2:
                     veiculo.getMotorista().adicionarPontos("MEDIA");
+                    valorMulta = Multa.MEDIA.getValor();
                     break;
                 case 3:
                     veiculo.getMotorista().adicionarPontos("GRAVE");
+                    valorMulta = Multa.GRAVE.getValor();
                     break;
                 case 4:
                     veiculo.getMotorista().adicionarPontos("GRAVISSIMA");
+                    valorMulta = Multa.GRAVISSIMA.getValor();
                     break;
                 default:
                     System.out.println("Tipo de multa não reconhecido.");
-                    break;
+                    return; // Sai do método se o tipo de multa não é reconhecido
             }
+            veiculo.despesaMultaMotorista(valorMulta);
             System.out.println("Multa registrada com sucesso!");
         } else {
             System.out.println("Veículo não encontrado.");
@@ -153,25 +161,48 @@ public class App {
     }
 
     private static void verificarManutencaoVeiculos() {
-        // Implementar a lógica de verificação de manutenção de veículos aqui
+        System.out.println("Verificação de Manutenção dos Veículos:");
+        boolean manutencaoNecessaria = false;
+
+        for (int i = 0; i < frota.getTamanhoFrota(); i++) {
+            Veiculo veiculo = frota.getVeiculos()[i];
+            if (veiculo != null) {
+                Manutencao manutencao = veiculo.getManutencao();
+                if (!manutencao.getManutencaoPecasEmDia() || !manutencao.getManutencaoPeriodicaEmDia()) {
+                    manutencaoNecessaria = true;
+                    System.out.println("Veículo " + veiculo.getPlaca() + " precisa de manutenção.");
+                }
+            }
+        }
+
+        if (!manutencaoNecessaria) {
+            System.out.println("Todos os veículos estão com a manutenção em dia.");
+        }
     }
 
     private static void calcularDespesasTotaisVeiculo() {
-        // Calcular despesas totais de um veículo
         try {
             System.out.print("Digite a placa do veículo para calcular as despesas: ");
             String placaDespesas = teclado.nextLine();
             Veiculo veiculoDespesas = frota.localizarVeiculo(placaDespesas);
             if (veiculoDespesas != null) {
-                double despesaTotal = veiculoDespesas.getDespesaTotal();
-                System.out.println("Despesa total de combustível para o veículo com placa " + placaDespesas
-                        + ": R$ " + despesaTotal);
+                // Obtem a despesa de combustível já existente
+                double despesaCombustivel = veiculoDespesas.getDespesaTotal();
+
+                // Obtem as despesas totais de manutenção
+                double despesaManutencao = veiculoDespesas.getManutencao().getTotalDespesasManutencao();
+
+                // Calcula a despesa total somando combustível e manutenção
+                double despesaTotal = despesaCombustivel + despesaManutencao;
+
+                System.out.println("Despesa total do veículo com placa " + placaDespesas + ": R$ "
+                        + String.format("%.2f", despesaTotal));
             } else {
                 System.out.println("Veículo não encontrado.");
             }
         } catch (Exception e) {
             System.out.println("Ocorreu um erro ao calcular as despesas: " + e.getMessage());
-            e.printStackTrace(); // Para ajudar na depuração, imprime a pilha de exceção.
+            e.printStackTrace(); // Apenas para depuração, pode ser removido em produção
         }
     }
 
@@ -216,7 +247,7 @@ public class App {
                 }
             } catch (InputMismatchException e) {
                 System.out.println("Entrada inválida. Por favor, insira um número.");
-                teclado.nextLine(); // Limpa o buffer do scanner
+                teclado.nextLine(); // Limpa o buffer do teclado
             }
         }
         teclado.close();
