@@ -5,11 +5,13 @@ public class Manutencao{
     private boolean manutencaoPecasEmDia;
     private double kmDesdeUltimaManutencao;
     private final KmManutencao km;
+    private final double custo;
 
-public Manutencao(String tipoVeiculo){
+public Manutencao(String tipoVeiculo, double custo){
     this.manutencaoPeriodicaEmDia = true;
     this.manutencaoPecasEmDia = true;
     this.kmDesdeUltimaManutencao = 0;
+    this.custo = custo;
     switch (Normalizer.normalize(tipoVeiculo.toUpperCase(), Normalizer.Form.NFD)
     .replaceAll("\\p{InCombiningDiacriticalMarks}+", "")) {
         case "CARRO":
@@ -55,13 +57,15 @@ private void manutencaoEstaEmDia(){
     }
 }
 
-public void realizarManutencaoPecas(){
+public double realizarManutencaoPecas(){
         this.kmDesdeUltimaManutencao = 0;
         this.manutencaoPecasEmDia = true;
+        return custo;
 }
 
-public void realizarManutencaoPeriodica(){
+public double realizarManutencaoPeriodica(){
         this.kmDesdeUltimaManutencao = 0;
         this.manutencaoPeriodicaEmDia = true;
+        return custo;
 }
 }

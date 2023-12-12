@@ -1,3 +1,5 @@
+import java.util.List;
+
 public class Motorista {
 
     private String nome;
@@ -23,8 +25,36 @@ public class Motorista {
         return cpf;
     }
 
+    public Carteira getCarteira(){
+        return carteira;
+    }
+
     public void setCpf(String cpf) {
         this.cpf = cpf;
+    }
+
+     public double pagarMulta(int posicaoMulta) {
+        return carteira.pagarMulta(posicaoMulta);
+    }
+
+    public double pagarTodasMultas(){
+        return carteira.pagarTodasMultas();
+    }
+
+    public List<Multa> listarMultas() {
+        return carteira.listarMultas();
+    }
+
+    public List<Multa> listarMultasAtivas() {
+        return carteira.listarMultasAtivas();
+    }
+
+    public List<Multa> listarMultasNaoPagas() {
+        return carteira.listarMultasNaoPagas();
+    }
+
+    public List<Multa> listarMultasPagas() {
+        return carteira.listarMultasPagas();
     }
 
     public int getPontos() {

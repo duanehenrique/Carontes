@@ -1,5 +1,4 @@
 import java.text.Normalizer;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,12 +38,71 @@ public class Carteira {
 
     public int calcularTotalPontos() {
         int totalPontos = 0;
-        LocalDate dataDeHoje = LocalDate.now();
         for (Multa multa : multas) {
-            if(multa.getDataDeEmissao().plusYears(1).isBefore(dataDeHoje)){
+            if(multa.multaExpirou()){
             totalPontos += multa.getPontos();
             }
         }
         return totalPontos;
+    }
+
+    public List<Multa> listarMultas() {
+        return multas;
+    }
+
+    public List<Multa> listarMultasAtivas() {
+        List<Multa> multasAtivas = new ArrayList<>();
+        for (Multa multa : multas) {
+            if (!multa.multaExpirou()) {
+                multasAtivas.add(multa);
+            }
+        }
+        return multasAtivas;
+    }
+
+    public List<Multa> listarMultasNaoPagas() {
+        List<Multa> multasNaoPagas = new ArrayList<>();
+        for (Multa multa : multas) {
+            if (!multa.getMultaPaga()) {
+                multasNaoPagas.add(multa);
+            }
+        }
+        return multasNaoPagas;
+    }
+
+    public List<Multa> listarMultasPagas() {
+        List<Multa> multasPagas = new ArrayList<>();
+        for (Multa multa : multas) {
+            if (multa.getMultaPaga()) {
+                multasPagas.add(multa);
+            }
+        }
+        return multasPagas;
+    }
+
+    public double pagarMulta(int posicaoMulta) {
+        if (posicaoMulta < 1 || posicaoMulta > multas.size()) {
+            throw new IllegalArgumentException("Posição de multa inválida");
+        }
+        Multa multaParaPagar = multas.get(posicaoMulta - 1);
+        try {
+            double valorPago = multaParaPagar.pagarMulta();
+            return valorPago;
+        } catch (IllegalStateException e) {
+            System.out.println("Multa já paga: " + e.getMessage());
+            return 0;
+        }
+    }
+
+    public double pagarTodasMultas() {
+        double valorTotalPago = 0.0;
+        for (Multa multa : multas) {
+            try {
+                valorTotalPago += multa.pagarMulta();
+            } catch (IllegalStateException e) {
+                System.out.println("Multa já paga: " + e.getMessage());
+            }
+        }
+        return valorTotalPago;
     }
 }

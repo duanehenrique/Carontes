@@ -1,7 +1,3 @@
-package codigo;
-
-import java.util.ArrayList;
-
 public class Frota {
     private int tamanhoFrota;
     private Veiculo[] veiculos;
