@@ -80,6 +80,13 @@ public class CarteiraMotorista {
         return multasPagas;
     }
 
+    public Multa multaMaisRecente() {
+        if (multas.isEmpty()) {
+            throw new IllegalStateException("Não há multas atreladas a esta carteira.");
+        }
+        return multas.get(multas.size() - 1);
+    }
+
     public double pagarMulta(int posicaoMulta) {
         if (posicaoMulta < 1 || posicaoMulta > multas.size()) {
             throw new IllegalArgumentException("Posição de multa inválida");

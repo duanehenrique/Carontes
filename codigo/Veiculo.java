@@ -180,7 +180,10 @@ public abstract class Veiculo {
             System.out.println("Veículo não necessita de manutenção! Apenas " + this.manutencao.getKmDesdeUltimaManutencao() + "km foram rodados.");
         }
        }
-
+       public Multa addMultaAoMotorista(String gravidade){
+        this.motorista.adicionarPontos(gravidade);
+        return this.motorista.multaMaisRecente();
+       }
 
     protected void despesaCombustível(Rota rota){
        addDespesaTotal(tanque.getPreco() * (rota.getQuilometragem() / tanque.getCONSUMO()));

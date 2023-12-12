@@ -57,6 +57,11 @@ public class Motorista {
         return carteira.listarMultasPagas();
     }
 
+    public Multa multaMaisRecente() {
+        return carteira.multaMaisRecente();
+
+    }
+
     public int getPontos() {
         return carteira.calcularTotalPontos();
     }
