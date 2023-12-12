@@ -4,13 +4,13 @@ public class Motorista {
 
     private String nome;
     private String cpf;
-    private Carteira carteira;
+    private CarteiraMotorista carteira;
 
 
     public Motorista(String nome, String cpf) {
         this.nome = nome;
         this.cpf = cpf;
-        this.carteira = new Carteira();
+        this.carteira = new CarteiraMotorista();
     }
 
     public String getNome() {
@@ -25,7 +25,7 @@ public class Motorista {
         return cpf;
     }
 
-    public Carteira getCarteira(){
+    public CarteiraMotorista getCarteira(){
         return carteira;
     }
 

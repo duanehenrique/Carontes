@@ -2,10 +2,10 @@ import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Carteira {
+public class CarteiraMotorista {
     private List<Multa> multas;
 
-    public Carteira() {
+    public CarteiraMotorista() {
         this.multas = new ArrayList<>();
     }
 
