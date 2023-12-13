@@ -190,12 +190,21 @@ public class App {
             System.out.print("Digite a placa do veículo para abastecer: ");
             String placaAbastecer = teclado.nextLine();
             Veiculo veiculoAbastecer = frota.localizarVeiculo(placaAbastecer);
+            double quantAbastecido;
             if (veiculoAbastecer != null) {
                 System.out.print("Digite a quantidade de combustível para abastecer (em litros): ");
                 double litros = teclado.nextDouble();
                 teclado.nextLine();
-                veiculoAbastecer.abastecer(litros);
+                
+               quantAbastecido = veiculoAbastecer.abastecer(litros);
+               if(quantAbastecido > 0){
                 System.out.println("Veículo abastecido com sucesso!");
+                System.out.println("Foram abastecidos" + quantAbastecido + "litros.");
+               }else{
+                System.out.println("Veículo já se encontra com tanque cheio.");
+               }
+
+
             } else {
                 System.out.println("Veículo não encontrado.");
             }

@@ -3,7 +3,7 @@ import java.text.Normalizer;
 public class Tanque {
     // Atributos da classe
     // Capacidade máxima do tanque em litros.
-    private double capacidadeMaxima;
+    private final double CAPACIDADEMAXIMA;
 
     // Quantidade atual de combustível no tanque em litros.
     private double capacidadeAtual;
@@ -16,11 +16,11 @@ public class Tanque {
      * Construtor da classe Tanque.
      *
      * @param capacidadeAtual Quantidade inicial de combustível no tanque.
-     * @param capacidadeMaxima Capacidade máxima do tanque.
+     * @param CAPACIDADEMAXIMA Capacidade máxima do tanque.
      */
     Tanque(double capacidadeMaxima, String tipo){
         this.capacidadeAtual = 0;
-        this.capacidadeMaxima = capacidadeMaxima;
+        this.CAPACIDADEMAXIMA = capacidadeMaxima;
         switch (Normalizer.normalize(tipo.toUpperCase(), Normalizer.Form.NFD)
     .replaceAll("\\p{InCombiningDiacriticalMarks}+", "")) {
             case "ALCOOL":
@@ -46,13 +46,17 @@ public class Tanque {
      * @return Retorna a capacidade atual do tanque após o abastecimento.
      */
     public double abastecer(double litros){
-        capacidadeAtual += litros;
-        if(capacidadeAtual > capacidadeMaxima){
-            double totalReabastecido = capacidadeAtual - capacidadeMaxima;
-            capacidadeAtual = capacidadeMaxima;
+    if(capacidadeAtual == CAPACIDADEMAXIMA){
+    return 0;
+    }else{
+     capacidadeAtual += litros;
+        if(capacidadeAtual > CAPACIDADEMAXIMA){
+            double totalReabastecido = capacidadeAtual - CAPACIDADEMAXIMA;
+            capacidadeAtual = CAPACIDADEMAXIMA;
             return totalReabastecido;
         }
         return litros;
+    }
     }
 
     /**
@@ -61,7 +65,7 @@ public class Tanque {
      * @return Retorna a autonomia máxima em quilômetros.
      */
     public double autonomiaMaxima(){
-        return capacidadeMaxima * tipoCombustivel.getConsumoMedio();
+        return CAPACIDADEMAXIMA * tipoCombustivel.getConsumoMedio();
     }
 
     /**
@@ -85,7 +89,7 @@ public class Tanque {
     }
 
     public double getCapacidadeMaxima(){
-    return capacidadeMaxima;
+    return CAPACIDADEMAXIMA;
     }
 
         public double getCapacidadeAtual(){
