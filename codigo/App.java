@@ -147,9 +147,9 @@ public class App {
      * Exibe um relatório detalhado da frota, incluindo informações de cada veículo
      * cadastrado.
      */
-    private static String exibirRelatorioFrota() {
+    private static void exibirRelatorioFrota() {
         // Exibir relatorio completo da frota
-        return frota.relatorioFrota();
+        System.out.println(frota.relatorioFrota());
     }
 
     /**
