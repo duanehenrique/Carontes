@@ -170,12 +170,7 @@ public class App {
                 //teclado.nextLine(); // Limpa o buffer do teclado
                 Rota rota = new Rota(LocalDate.now(), kmRota);
                 // Tenta adicionar a rota ao veículo
-                boolean sucesso = veiculoRota.addRota(rota);
-                if (sucesso) {
-                    System.out.println("Rota adicionada com sucesso!");
-                } else {
-                    System.out.println("Não foi possível adicionar a rota.");
-                }
+                veiculoRota.addRota(rota);
             } else {
                 System.out.println("Veículo não encontrado.");
             }
