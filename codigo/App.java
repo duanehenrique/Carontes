@@ -350,6 +350,9 @@ public class App {
                         break;
                     case 2:
                         exibirRelatorioFrota();
+                        separador();
+                        pausa();
+                        limparTela();
                         break;
                     case 3:
                         registrarRota();
