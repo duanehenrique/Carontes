@@ -167,13 +167,16 @@ public abstract class Veiculo {
         }
     }
     public void fazerManutencao(){
+        double custoManutencao;
        if(this.manutencao.getManutencaoPecasEmDia())
        {
-        despesaManutenção(this.manutencao.realizarManutencaoPecas());
+        custoManutencao = this.manutencao.realizarManutencaoPecas();
+        addDespesaTotal(custoManutencao);
         System.out.println("Manutenção de trocas de peças realizada com sucesso.");
        }   
        else if(this.manutencao.getManutencaoPeriodicaEmDia()){
-        despesaManutenção(this.manutencao.realizarManutencaoPeriodica());
+        custoManutencao = this.manutencao.realizarManutencaoPeriodica();
+        addDespesaTotal(custoManutencao);
         System.out.println("Manutenção periódica realizada com sucesso.");
        }
        else{
@@ -187,10 +190,6 @@ public abstract class Veiculo {
 
     protected void despesaCombustível(Rota rota){
        addDespesaTotal(tanque.getPreco() * (rota.getQuilometragem() / tanque.getCONSUMO()));
-    }
-
-    protected void despesaManutenção(double custo){
-    addDespesaTotal(custo);
     }
     
     public void despesaMultaMotorista(double valorMulta) {
