@@ -1,12 +1,28 @@
 public class Frota {
+    // #region Atributos
     private int tamanhoFrota;
     private Veiculo[] veiculos;
+    // #endregion
 
+    // #region Construtores
+    /**
+     * Construtor da classe Frota.
+     * 
+     * @param tamanhoFrota O tamanho da frota.
+     */
     public Frota(int tamanhoFrota) {
         this.tamanhoFrota = tamanhoFrota;
         this.veiculos = new Veiculo[tamanhoFrota];
     }
 
+    // #endregion
+
+    // #region Métodos
+    /**
+     * Adiciona um veículo à frota.
+     * 
+     * @param veiculo O veículo a ser adicionado.
+     */
     public void adicionarVeiculo(Veiculo veiculo) {
         for (int i = 0; i < tamanhoFrota; i++) {
             if (veiculos[i] == null) {
@@ -16,6 +32,11 @@ public class Frota {
         }
     }
 
+    /**
+     * Gera um relatório da frota.
+     * 
+     * @return Uma string contendo o relatório da frota.
+     */
     public String relatorioFrota() {
         StringBuilder relatorio = new StringBuilder();
         relatorio.append("Relatório da Frota:\n");
@@ -32,6 +53,12 @@ public class Frota {
         return relatorio.toString();
     }
 
+    /**
+     * Localiza um veículo na frota pela placa.
+     * 
+     * @param placa A placa do veículo a ser localizado.
+     * @return O veículo localizado, ou null se não for encontrado.
+     */
     public Veiculo localizarVeiculo(String placa) {
         for (int i = 0; i < tamanhoFrota; i++) {
             if (veiculos[i] != null && veiculos[i].getPlaca().equals(placa)) {
@@ -41,6 +68,11 @@ public class Frota {
         return null;
     }
 
+    /**
+     * Calcula a quilometragem total da frota.
+     * 
+     * @return A quilometragem total.
+     */
     public double quilometragemTotal() {
         double totalKm = 0.0;
         for (int i = 0; i < tamanhoFrota; i++) {
@@ -51,6 +83,11 @@ public class Frota {
         return totalKm;
     }
 
+    /**
+     * Encontra o veículo com a maior quilometragem total na frota.
+     * 
+     * @return O veículo com a maior quilometragem total.
+     */
     public Veiculo maiorKmTotal() {
         Veiculo veiculoComMaiorKm = null;
         double maiorKm = 0.0;
@@ -63,6 +100,11 @@ public class Frota {
         return veiculoComMaiorKm;
     }
 
+    /**
+     * Encontra o veículo com a maior quilometragem média na frota.
+     * 
+     * @return O veículo com a maior quilometragem média.
+     */
     public Veiculo maiorKmMedia() {
         Veiculo veiculoComMaiorKmMedia = null;
         double maiorKmMedia = 0.0;
@@ -78,11 +120,25 @@ public class Frota {
         return veiculoComMaiorKmMedia;
     }
 
+    // #endregion
+
+    // #region Getters
+    /**
+     * Retorna o tamanho da frota.
+     * 
+     * @return O tamanho da frota.
+     */
     public int getTamanhoFrota() {
         return tamanhoFrota;
     }
 
+    /**
+     * Retorna os veículos da frota.
+     * 
+     * @return Um array contendo os veículos da frota.
+     */
     public Veiculo[] getVeiculos() {
         return veiculos;
     }
+    // #endregion
 }

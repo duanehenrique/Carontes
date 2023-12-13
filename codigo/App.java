@@ -167,7 +167,7 @@ public class App {
             if (veiculoRota != null) {
                 System.out.print("Digite a quilometragem da rota: ");
                 double kmRota = teclado.nextDouble();
-                //teclado.nextLine(); // Limpa o buffer do teclado
+                // teclado.nextLine(); // Limpa o buffer do teclado
                 Rota rota = new Rota(LocalDate.now(), kmRota);
                 // Tenta adicionar a rota ao veículo
                 veiculoRota.addRota(rota);
@@ -195,15 +195,14 @@ public class App {
                 System.out.print("Digite a quantidade de combustível para abastecer (em litros): ");
                 double litros = teclado.nextDouble();
                 teclado.nextLine();
-                
-               quantAbastecido = veiculoAbastecer.abastecer(litros);
-               if(quantAbastecido > 0){
-                System.out.println("Veículo abastecido com sucesso!");
-                System.out.println("Foram abastecidos" + quantAbastecido + "litros.");
-               }else{
-                System.out.println("Veículo já se encontra com tanque cheio.");
-               }
 
+                quantAbastecido = veiculoAbastecer.abastecer(litros);
+                if (quantAbastecido > 0) {
+                    System.out.println("Veículo abastecido com sucesso!");
+                    System.out.println("Foram abastecidos" + quantAbastecido + "litros.");
+                } else {
+                    System.out.println("Veículo já se encontra com tanque cheio.");
+                }
 
             } else {
                 System.out.println("Veículo não encontrado.");
