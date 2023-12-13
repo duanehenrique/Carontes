@@ -60,6 +60,7 @@ public abstract class Veiculo {
     
             rotas[quantRotas] = rota;
             quantRotas++;
+            System.err.println("Rota adicionada ao veículo de placa " + getPlaca() + " com sucesso!");
         } catch (IllegalArgumentException | IllegalStateException e) {
             System.out.println("Erro ao adicionar rota: " + e.getMessage());
         }
