@@ -36,20 +36,35 @@ public abstract class Veiculo {
     // Verifica se o veículo está com sua manutenção em dia
     // Verifica se o motorista tem menos pontos na carteira que o limite
     //Retorna true se a adição foi bem-sucedida, false se não foi possível adicionar rota
-    public boolean addRota(Rota rota)
-    {
-        if ((quantRotas < MAX_ROTAS) && (rota.getQuilometragem() <= autonomiaAtual()) && (rota.getQuilometragem() <= autonomiaMaxima()) && manutencao.getManutencaoEmDia() && (motorista.getCarteiraValida()))
-        {
+    public void addRota(Rota rota) {
+        try {
+            if (quantRotas >= MAX_ROTAS) {
+                throw new IllegalArgumentException("Veículo não pode ter mais rotas. Espere o próximo mês para adicionar a rota.");
+            }
+    
+            if (rota.getQuilometragem() > autonomiaAtual()) {
+                throw new IllegalArgumentException("Autonomia insuficiente para realizar a rota. Abasteça o veículo antes de adicionar a rota.");
+            }
+    
+            if (rota.getQuilometragem() > autonomiaMaxima()) {
+                throw new IllegalArgumentException("Distância da rota excede a autonomia máxima do veículo. Escolha outro veículo para adicionar a rota.");
+            }
+    
+            if (!manutencao.getManutencaoEmDia()) {
+                throw new IllegalStateException("Manutenção do veículo em atraso. Realize manutenção antes de adicionar rota.");
+            }
+    
+            if (!motorista.getCarteiraValida()) {
+                throw new IllegalStateException("Carteira de motorista invalidada por multas. Espere o vencimento dos pontos da carteira antes de adicionar a rota.");
+            }
+    
             rotas[quantRotas] = rota;
             quantRotas++;
-            percorrerRota(rota);
-            return true;
-        }
-        else
-        {
-            return false;
+        } catch (IllegalArgumentException | IllegalStateException e) {
+            System.out.println("Erro ao adicionar rota: " + e.getMessage());
         }
     }
+    
 
     // Calcula a autonomia máxima, considerando o tanque cheio, com base no consumo
     public double autonomiaMaxima()
