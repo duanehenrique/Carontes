@@ -39,9 +39,12 @@ public class CarteiraMotorista {
     public int calcularTotalPontos() {
         int totalPontos = 0;
         for (Multa multa : multas) {
+            if(multa != null)
+            {
             if(multa.multaExpirou()){
             totalPontos += multa.getPontos();
             }
+        }
         }
         return totalPontos;
     }
