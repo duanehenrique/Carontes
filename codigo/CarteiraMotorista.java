@@ -33,7 +33,7 @@ public class CarteiraMotorista {
 
     public boolean carteiraValida() {
         int totalPontos = calcularTotalPontos();
-        return (totalPontos > 30);
+        return (totalPontos < 30);
     }
 
     public int calcularTotalPontos() {
