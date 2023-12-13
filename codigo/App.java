@@ -147,9 +147,9 @@ public class App {
      * Exibe um relatório detalhado da frota, incluindo informações de cada veículo
      * cadastrado.
      */
-    private static void exibirRelatorioFrota() {
+    private static String exibirRelatorioFrota() {
         // Exibir relatorio completo da frota
-        System.out.println(frota.relatorioFrota());
+        return frota.relatorioFrota();
     }
 
     /**
@@ -167,7 +167,7 @@ public class App {
             if (veiculoRota != null) {
                 System.out.print("Digite a quilometragem da rota: ");
                 double kmRota = teclado.nextDouble();
-                teclado.nextLine(); // Limpa o buffer do teclado
+                //teclado.nextLine(); // Limpa o buffer do teclado
                 Rota rota = new Rota(LocalDate.now(), kmRota);
                 // Tenta adicionar a rota ao veículo
                 boolean sucesso = veiculoRota.addRota(rota);
@@ -350,9 +350,6 @@ public class App {
                         break;
                     case 2:
                         exibirRelatorioFrota();
-                        separador();
-                        pausa();
-                        limparTela();
                         break;
                     case 3:
                         registrarRota();
