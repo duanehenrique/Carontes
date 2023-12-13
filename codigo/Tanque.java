@@ -18,8 +18,8 @@ public class Tanque {
      * @param capacidadeAtual Quantidade inicial de combustível no tanque.
      * @param capacidadeMaxima Capacidade máxima do tanque.
      */
-    Tanque(double capacidadeAtual, double capacidadeMaxima, String tipo){
-        this.capacidadeAtual = capacidadeAtual;
+    Tanque(double capacidadeMaxima, String tipo){
+        this.capacidadeAtual = 0;
         this.capacidadeMaxima = capacidadeMaxima;
         switch (Normalizer.normalize(tipo.toUpperCase(), Normalizer.Form.NFD)
     .replaceAll("\\p{InCombiningDiacriticalMarks}+", "")) {
@@ -48,9 +48,11 @@ public class Tanque {
     public double abastecer(double litros){
         capacidadeAtual += litros;
         if(capacidadeAtual > capacidadeMaxima){
+            double totalReabastecido = capacidadeAtual - capacidadeMaxima;
             capacidadeAtual = capacidadeMaxima;
+            return totalReabastecido;
         }
-        return capacidadeAtual;
+        return litros;
     }
 
     /**
@@ -84,5 +86,9 @@ public class Tanque {
 
     public double getCapacidadeMaxima(){
     return capacidadeMaxima;
+    }
+
+        public double getCapacidadeAtual(){
+    return capacidadeAtual;
     }
 }

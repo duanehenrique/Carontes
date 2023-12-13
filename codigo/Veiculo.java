@@ -82,23 +82,7 @@ public abstract class Veiculo {
     //Não permite reabastecimento menor ou igual a 0 e, se maior que a capacidade máxima, reabastece apenas o suficiente para encher tanque  
     public double abastecer(double litros)
     {
-        if (litros > 0)
-        {
-            if(tanqueAtual+litros > tanque.getCapacidadeMaxima())
-            {
-                double reabastecidoAgora = (litros-((tanqueAtual+litros)-tanque.getCapacidadeMaxima()));
-                totalReabastecido = reabastecidoAgora;
-                tanqueAtual = tanque.getCapacidadeMaxima();
-                return totalReabastecido;
-            }
-            else
-            {
-                tanqueAtual += litros;
-                totalReabastecido = litros;
-                return totalReabastecido;
-            }
-        }
-        return litros;
+            return tanque.abastecer(litros);
     }
 
     // Calcula o total de quilômetros percorridos no mês atual com base nas rotas e suas distâncias e datas
