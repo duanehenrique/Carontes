@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -26,6 +27,23 @@ public class App {
     }
 
     /**
+     * Pausa para leitura de mensagens em console
+     */
+    static void pausa() {
+        System.out.println("Pressione Enter para continuar...");
+        try {
+            System.in.read(); // Aguarda o usuário pressionar Enter
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void separador() {
+        String linha = new String(new char[60]).replace('\0', '-');
+        System.out.println(linha);
+    }
+
+    /**
      * Inicializa a frota de veículos com base na entrada do usuário.
      * Solicita ao usuário o número de veículos e cria uma nova Frota com esse
      * tamanho.
@@ -41,7 +59,7 @@ public class App {
         /**
          * Exibe o menu principal do sistema com as opções disponíveis para o usuário.
          */
-        String linha = new String(new char[50]).replace('\0', '-');
+        String linha = new String(new char[60]).replace('\0', '-');
         System.out.println(linha);
         System.out.println("\t\t  Sistema de Gerenciamento de Frotas");
         System.out.println(linha);
@@ -91,6 +109,7 @@ public class App {
         String nomeMotorista = teclado.next();
         System.out.print("Digite o CPF do motorista: ");
         String cpfMotorista = teclado.next();
+        separador();
 
         // Cria um objeto motorista com as informações coletadas
         Motorista motorista = new Motorista(nomeMotorista, cpfMotorista);
@@ -317,32 +336,53 @@ public class App {
         inicializarFrota();
         boolean continuar = true;
         while (continuar) {
-            limparTela();
             mostrarMenu();
             try {
                 int opcao = teclado.nextInt();
+                separador();
                 teclado.nextLine(); // Limpa o buffer do teclado após a leitura de um número.
                 switch (opcao) {
                     case 1:
                         cadastrarVeiculo();
+                        separador();
+                        pausa();
+                        limparTela();
                         break;
                     case 2:
                         exibirRelatorioFrota();
+                        separador();
+                        pausa();
+                        limparTela();
                         break;
                     case 3:
                         registrarRota();
+                        separador();
+                        pausa();
+                        limparTela();
                         break;
                     case 4:
                         abastecerVeiculo();
+                        separador();
+                        pausa();
+                        limparTela();
                         break;
                     case 5:
                         registrarMulta();
+                        separador();
+                        pausa();
+                        limparTela();
                         break;
                     case 6:
                         verificarManutencaoVeiculos();
+                        separador();
+                        pausa();
+                        limparTela();
                         break;
                     case 7:
                         calcularDespesasTotaisVeiculo();
+                        separador();
+                        pausa();
+                        limparTela();
                         break;
                     case 8:
                         continuar = false; // Sai do loop e encerra o programa.
@@ -355,6 +395,8 @@ public class App {
             } catch (InputMismatchException e) {
                 System.out.println("Entrada inválida. Por favor, insira um número.");
                 teclado.next(); // Limpa o buffer do teclado para evitar loop infinito.
+                pausa();
+                limparTela();
             }
         }
         teclado.close(); // Fecha o recurso Scanner antes de encerrar o programa.
