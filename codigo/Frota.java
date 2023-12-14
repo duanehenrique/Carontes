@@ -66,6 +66,7 @@ public class Frota {
         } else {
             System.out.println("Veículo não encontrado.");
         }
+        teclado.close();
     }
 
     /**

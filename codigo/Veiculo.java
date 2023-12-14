@@ -146,25 +146,99 @@ public abstract class Veiculo {
         return kmTotal;
     }
 
-    /**
-     * Percorre uma rota, atualizando o combustível disponível no tanque.
-     *
-     * @param rota A rota a ser percorrida.
-     */
-    public void percorrerRota(Rota rota) {
-        double consumoRota = (rota.getQuilometragem() / tanque.getCONSUMO());
-        tanqueAtual -= consumoRota;
-        kmDesdeUltimaManutencao(rota);
-        despesaCombustível(rota);
+/**
+ * Percorre uma rota, atualizando o combustível disponível no tanque.
+ *
+ * @param rota A rota a ser percorrida.
+ * @throws IllegalArgumentException Se a rota já foi percorrida.
+ * @throws IllegalStateException    Se a quilometragem da rota excede a autonomia atual do veículo.
+ */
+public void percorrerRota(Rota rota) {
+    try {
+        if (rota.getRotaPercorrida()) {
+            throw new IllegalArgumentException("A rota já foi percorrida. Escolha outra rota para percorrer");
+        }
+
+        if (rota.getQuilometragem() > autonomiaAtual()) {
+            rota.percorrerRota();
+            double consumoRota = (rota.getQuilometragem() / tanque.getCONSUMO());
+            tanqueAtual -= consumoRota;
+            kmDesdeUltimaManutencao(rota);
+            despesaCombustível(rota);
+        } else {
+            throw new IllegalStateException("Quilometragem da rota excede a autonomia atual do veículo. Reabasteça antes de percorrer rota");
+        }
+    } catch (IllegalArgumentException | IllegalStateException e) {
+        System.err.println("Erro ao percorrer rota: " + e.getMessage());
+    }
+}
+
+/**
+ * Lista as rotas não percorridas numerando cada uma para visualização do usuário.
+ * Lança uma exceção se o vetor de rotas estiver vazio ou se não houver rotas não percorridas.
+ *
+ * @throws IllegalStateException Se o vetor de rotas estiver vazio ou se não houver rotas não percorridas.
+ */
+public void listarRotasNaoPercorridas() {
+    if (quantRotas == 0) {
+        throw new IllegalStateException("Não há rotas associadas ao veículo.");
     }
 
+    int numeroRota = 1;
+    boolean encontrouRotaNaoPercorrida = false;
+
+    for (Rota rota : rotas) {
+        if (!rota.getRotaPercorrida()) {
+            encontrouRotaNaoPercorrida = true;
+        }
+    }
+    if (!encontrouRotaNaoPercorrida) {
+        throw new IllegalStateException("Não há rotas não percorridas associados ao veículo.");
+    }else{
+        System.out.println("Rotas não percorridas:");
+        for (Rota rota : rotas) {
+            if (rota != null && !rota.getRotaPercorrida()) {
+                encontrouRotaNaoPercorrida = true;
+                System.out.println(numeroRota + ". " + rota);
+                numeroRota++;
+            }
+        }
+    }   
+}
+
+/**
+ * Percorre uma rota não percorrida com base no número fornecido na lista de rotas não percorridas.
+ * Lança uma exceção se o vetor de rotas estiver vazio, se não houver rotas não percorridas ou se o número de rota fornecido for inválido.
+ *
+ * @param numeroRota O número da rota na lista de rotas não percorridas.
+ * @throws IllegalArgumentException Se o número de rota fornecido for inválido.
+ * @throws IllegalStateException    Se o vetor de rotas estiver vazio ou se não houver rotas não percorridas.
+ */
+public void percorrerRotaPorLista(int numeroRota) {
+    if (quantRotas == 0) {
+        throw new IllegalStateException("Não há rotas associadas ao veículo.");
+    }
+
+    int numeroRotaAtual = 1;
+
+    for (Rota rota : rotas) {
+        if (rota != null && !rota.getRotaPercorrida()) {
+            if (numeroRotaAtual == numeroRota) {
+                percorrerRota(rota);
+                return;
+            }
+            numeroRotaAtual++;
+        }
+    }
+    throw new IllegalArgumentException("Número de rota inválido.");
+}
 
 
     public String relatorioRotas() {
         StringBuilder relatorio = new StringBuilder();
         relatorio.append("Relatório de Rotas do Veículo " + this.placa + ":\n");
         for (int i = 0; i < this.quantRotas; i++) {
-            if (this.rotas[i] != null) {
+            if (this.rotas[i] != null && rotas[i].getRotaPercorrida()) {
                 relatorio.append("   Data: " + this.rotas[i].getData() + "\n");
                 relatorio.append("   Quilometragem: " + this.rotas[i].getQuilometragem() + "\n");
                 relatorio.append("\n");
@@ -259,7 +333,7 @@ public abstract class Veiculo {
 
     // #endregion
 
-    // #region Getters e Setters
+    // #region Getters
 
     /**
      * Retorna a placa do veículo.
