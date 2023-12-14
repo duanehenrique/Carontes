@@ -406,6 +406,8 @@ public void percorrerRotaPorLista(int numeroRota) {
     public String relatorio() {
         StringBuilder relatorio = new StringBuilder();
         relatorio.append(getPlaca() + ":\n");
+        relatorio.append("Motorista: " + motorista.getNome());
+        relatorio.append("CPF do Motorista: " + motorista.getCpf());
         relatorio.append(kmNoMes() + " km\n");
         relatorio.append(kmTotal() + " km\n");
         relatorio.append(autonomiaAtual() + " km\n");
