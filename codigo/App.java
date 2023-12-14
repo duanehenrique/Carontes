@@ -2,7 +2,6 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.InputMismatchException;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
@@ -278,32 +277,28 @@ public class App {
      * registrada.
      */
     private static void registrarRota(Scanner teclado) {
-        // Solicita a placa e tenta registrar a rota, capturando exceções de entrada
-        // inválida
         try {
             System.out.print("Digite a placa do veículo para a rota: ");
-            String placaRota = teclado.nextLine();
+            String placaRota = teclado.next().toUpperCase();
+    
             Veiculo veiculoRota = frota.localizarVeiculo(placaRota);
-            // Verifica se o veículo foi encontrado
             if (veiculoRota != null) {
                 System.out.print("Digite a quilometragem da rota: ");
-                double kmRota = teclado.nextDouble();
-                teclado.nextLine(); // Descomente esta linha se você estiver tendo problemas com o buffer do teclado
+                int kmRota = teclado.nextInt(); // Lê a quilometragem como um Int 
+    
                 Rota rota = new Rota(LocalDate.now(), kmRota);
-                // Tenta adicionar a rota ao veículo
                 veiculoRota.addRota(rota);
                 System.out.println("Rota registrada com sucesso!");
             } else {
                 System.out.println("Veículo não encontrado.");
             }
-        } catch (InputMismatchException e) {
+        } catch (NumberFormatException e) {
             System.out.println("Entrada inválida. Por favor, digite um número válido para a quilometragem.");
-            teclado.nextLine(); // Limpa o buffer do teclado
         } catch (Exception e) {
-            System.out.println(e.getMessage()); // Captura qualquer outra exceção que possa ser lançada no processo de
-                                                // adicionar a rota
+            System.out.println("Ocorreu um erro: " + e.getMessage());
         }
     }
+    
 
     /**
      * Permite ao sistema abastecer um veículo específico da frota.
@@ -312,7 +307,7 @@ public class App {
      */
     private static void abastecerVeiculo(Scanner teclado) {
         System.out.print("Digite a placa do veículo para abastecer: ");
-        String placaAbastecer = teclado.nextLine();
+        String placaAbastecer = teclado.next().toUpperCase();
         Veiculo veiculoAbastecer = frota.localizarVeiculo(placaAbastecer);
 
         if (veiculoAbastecer != null) {
@@ -335,7 +330,7 @@ public class App {
 
     private static void registrarMulta(Scanner teclado) {
         System.out.print("Digite a placa do veículo que recebeu a multa: ");
-        String placa = teclado.nextLine().toUpperCase();
+        String placa = teclado.next().toUpperCase();
         Veiculo veiculo = frota.localizarVeiculo(placa);
 
         if (veiculo != null) {
@@ -347,7 +342,7 @@ public class App {
             int escolhaMulta = teclado.nextInt();
             teclado.nextLine(); // Limpa o buffer do Scanner
 
-            String tipoMulta = convertEscolhaParaGravidade(escolhaMulta);
+            String tipoMulta = convertEscolhaParaGravidade(escolhaMulta).toUpperCase();
             if (!tipoMulta.isEmpty()) {
                 veiculo.addMultaAoMotorista(tipoMulta);
                 System.out
@@ -438,24 +433,23 @@ public class App {
      * Este método trata exceções para garantir que o aplicativo não falhe devido a
      * erros inesperados durante o cálculo.
      */
-    private static void calcularDespesasTotaisVeiculo() {
+    private static void calcularDespesasTotaisVeiculo(Scanner teclado) {
         try {
-            if (frota.getTamanhoFrota() > 0) {
-                Veiculo veiculoDespesas = frota.getVeiculos()[random.nextInt(frota.getTamanhoFrota())];
-                if (veiculoDespesas != null) {
-                    double despesaTotal = veiculoDespesas.getDespesaTotal();
-                    System.out.println("Despesa total do veículo de placa " + veiculoDespesas.getPlaca() + ": R$ "
-                            + String.format("%.2f", despesaTotal));
-                } else {
-                    System.out.println("Veículo não encontrado.");
-                }
+            System.out.print("Digite a placa do veículo para calcular as despesas: ");
+            String placa = teclado.next().toUpperCase(); // Converte para maiúscula para evitar problemas de comparação de string
+            Veiculo veiculoDespesas = frota.localizarVeiculo(placa);
+            
+            if (veiculoDespesas != null) {
+                double despesaTotal = veiculoDespesas.getDespesaTotal();
+                System.out.println("Despesa total do veículo de placa " + placa + ": R$ " + String.format("%.2f", despesaTotal));
             } else {
-                System.out.println("Não existem veículos cadastrados na frota para calcular despesas.");
+                System.out.println("Veículo não encontrado.");
             }
         } catch (Exception e) {
             System.out.println("Ocorreu um erro ao calcular as despesas totais do veículo: " + e.getMessage());
         }
     }
+    
 
     /**
      * Lista as rotas não percorridas de um veículo específico.
@@ -623,7 +617,7 @@ public class App {
                         separador();
                         break;
                     case 8:
-                        calcularDespesasTotaisVeiculo();
+                        calcularDespesasTotaisVeiculo(teclado);
                         separador();
                         break;
                     case 9:
