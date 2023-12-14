@@ -40,8 +40,6 @@ public class Frota {
         }
         }
 
-    }
-
     /**
      * Gera um relatório da frota.
      * 
@@ -151,7 +149,7 @@ public class Frota {
             return false;
         }        
     }
-    
+
     /**
      * Reinicia a frota, criando um novo array de veículos com o tamanho especificado.
      */
