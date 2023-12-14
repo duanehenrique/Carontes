@@ -29,7 +29,7 @@ public class App {
      * Limpa a tela do console utilizando sequências de escape específicas do
      * terminal.
      */
-    public static void limparTela() {
+    private static void limparTela() {
         System.out.print("\033[H\033[2J");
         System.out.flush();
     }
@@ -37,7 +37,7 @@ public class App {
     /**
      * Pausa para leitura de mensagens em console
      */
-    static void pausa() {
+    private static void pausa() {
         System.out.println("Pressione Enter para continuar...");
         try {
             System.in.read();
