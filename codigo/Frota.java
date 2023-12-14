@@ -60,7 +60,6 @@ public class Frota {
         } else {
             System.out.println("Veículo não encontrado.");
         }
-        teclado.close();
     }
 
     /**
@@ -71,7 +70,7 @@ public class Frota {
      */
     public Veiculo localizarVeiculo(String placa) {
         for (int i = 0; i < tamanhoFrota; i++) {
-            if (veiculos[i] != null && veiculos[i].getPlaca().equals(placa)) {
+            if (veiculos[i] != null && veiculos[i].getPlaca().equals(placa.toUpperCase())) {
                 return veiculos[i];
             }
         }

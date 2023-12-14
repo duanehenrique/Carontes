@@ -236,7 +236,7 @@ public void percorrerRotaPorLista(int numeroRota) {
         StringBuilder relatorio = new StringBuilder();
         relatorio.append("Relatório de Rotas do Veículo " + this.placa + ":\n");
         for (int i = 0; i < this.quantRotas; i++) {
-            if (this.rotas[i] != null && rotas[i].getRotaPercorrida()) {
+            if (rotas[i].getRotaPercorrida()) {
                 relatorio.append(rotas[i].relatorio() + "\n");
             }
         }
