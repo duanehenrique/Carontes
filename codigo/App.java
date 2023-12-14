@@ -93,6 +93,13 @@ public class App {
         int capacidadeTotalFrota = 10; // Define a capacidade total da frota
         frota = new Frota(capacidadeTotalFrota);
 
+        if (frota == null) {
+            System.out.println("Erro: 'frota' não foi inicializada corretamente.");
+        }
+        if (random == null) {
+            System.out.println("Erro: 'random' não foi inicializado.");
+        }
+
         // Inicializa metade da capacidade da frota
         int veiculosParaInicializar = capacidadeTotalFrota / 2;
         for (int i = 0; i < veiculosParaInicializar; i++) {
@@ -124,7 +131,8 @@ public class App {
         System.out.println("10. Percorrer rota específica de um veículo");
         System.out.println("11. Realizar manutenção de um veículo");
         System.out.println("12. Exibir relatório de rotas de um veículo");
-        System.out.println("13. Encerrar o programa");
+        System.out.println("13. Listar todos os veículos da frota");
+        System.out.println("14. Encerrar o programa");
         separador();
         System.out.print("Selecione uma opção: ");
     }
@@ -159,6 +167,9 @@ public class App {
         // Solicita ao usuário que digite o tipo de combustível
         System.out.print("Digite o tipo de combustível (Alcool, Gasolina, Diesel):");
         String tipoCombustivel = teclado.next();
+
+        // Separa com uma linha
+        separador();
 
         // Calcula o custo de manutenção com base no tipo de veículo
         double custoManutencao = calcularCustoManutencao(tipoVeiculo);
@@ -202,11 +213,11 @@ public class App {
 
         // Gera um tipo de veículo aleatório.
         String[] tiposVeiculo = { "Carro", "Van", "Furgao", "Caminhao" };
-        String tipoVeiculo = tiposVeiculo[random.nextInt(tiposVeiculo.length)];
+        String tipoVeiculo = tiposVeiculo[random.nextInt(tiposVeiculo.length)].toUpperCase();
 
         // Gera um tipo de combustível aleatório.
-        String[] tiposCombustivel = { "Alcool", "Gasolina", "Diesel" };
-        String tipoCombustivel = tiposCombustivel[random.nextInt(tiposCombustivel.length)];
+        String[] tiposCombustivel = { "alcool", "gasolina", "diesel" };
+        String tipoCombustivel = tiposCombustivel[random.nextInt(tiposCombustivel.length)].toUpperCase();
 
         // Calcula o custo de manutenção com base no tipo de veículo.
         double custoManutencao = calcularCustoManutencao(tipoVeiculo);
@@ -266,7 +277,6 @@ public class App {
      * Gera aleatoriamente a placa do veículo e a quilometragem da rota a ser
      * registrada.
      */
-
     private static void registrarRota(Scanner teclado) {
         // Solicita a placa e tenta registrar a rota, capturando exceções de entrada
         // inválida
@@ -278,17 +288,20 @@ public class App {
             if (veiculoRota != null) {
                 System.out.print("Digite a quilometragem da rota: ");
                 double kmRota = teclado.nextDouble();
-                // teclado.nextLine(); // Limpa o buffer do teclado
+                teclado.nextLine(); // Descomente esta linha se você estiver tendo problemas com o buffer do teclado
                 Rota rota = new Rota(LocalDate.now(), kmRota);
                 // Tenta adicionar a rota ao veículo
                 veiculoRota.addRota(rota);
+                System.out.println("Rota registrada com sucesso!");
             } else {
                 System.out.println("Veículo não encontrado.");
             }
         } catch (InputMismatchException e) {
-            System.out
-                    .println("Entrada inválida. Por favor, digite um número válido para a quilometragem.");
-            teclado.nextLine();
+            System.out.println("Entrada inválida. Por favor, digite um número válido para a quilometragem.");
+            teclado.nextLine(); // Limpa o buffer do teclado
+        } catch (Exception e) {
+            System.out.println(e.getMessage()); // Captura qualquer outra exceção que possa ser lançada no processo de
+                                                // adicionar a rota
         }
     }
 
@@ -300,7 +313,7 @@ public class App {
     private static void abastecerVeiculo(Scanner teclado) {
         System.out.print("Digite a placa do veículo para abastecer: ");
         String placaAbastecer = teclado.nextLine();
-        Veiculo veiculoAbastecer = frota.localizarVeiculo(placaAbastecer); // Supondo que exista esse método em Frota
+        Veiculo veiculoAbastecer = frota.localizarVeiculo(placaAbastecer);
 
         if (veiculoAbastecer != null) {
             System.out.print("Digite a quantidade de combustível para abastecer (em litros): ");
@@ -320,11 +333,11 @@ public class App {
      * Gera aleatoriamente a placa do veículo e o tipo de multa para registro.
      */
 
-   private static void registrarMulta(Scanner teclado) {
+    private static void registrarMulta(Scanner teclado) {
         System.out.print("Digite a placa do veículo que recebeu a multa: ");
         String placa = teclado.nextLine().toUpperCase();
         Veiculo veiculo = frota.localizarVeiculo(placa);
-    
+
         if (veiculo != null) {
             System.out.println("Selecione o tipo de multa:");
             System.out.println("1. Leve");
@@ -333,11 +346,12 @@ public class App {
             System.out.println("4. Gravíssima");
             int escolhaMulta = teclado.nextInt();
             teclado.nextLine(); // Limpa o buffer do Scanner
-    
+
             String tipoMulta = convertEscolhaParaGravidade(escolhaMulta);
             if (!tipoMulta.isEmpty()) {
                 veiculo.addMultaAoMotorista(tipoMulta);
-                System.out.println("Multa do tipo " + tipoMulta + " registrada com sucesso no veículo de placa " + placa);
+                System.out
+                        .println("Multa do tipo " + tipoMulta + " registrada com sucesso no veículo de placa " + placa);
             } else {
                 System.out.println("Tipo de multa inválido.");
             }
@@ -345,7 +359,7 @@ public class App {
             System.out.println("Veículo não encontrado.");
         }
     }
-    
+
     private static String convertEscolhaParaGravidade(int escolha) {
         switch (escolha) {
             case 1:
@@ -369,23 +383,23 @@ public class App {
      */
     private static void pagarMultas() {
         boolean multaPaga = false;
-    
+
         for (Veiculo veiculo : frota.getVeiculos()) {
             if (veiculo != null) {
                 Motorista motorista = veiculo.getMotorista();
                 double valorPago = motorista.pagarTodasMultas();
                 if (valorPago > 0) {
-                    System.out.println("Todas as multas pagas para o motorista com CPF: " + motorista.getCpf() + ". Total pago: " + valorPago);
+                    System.out.println("Todas as multas pagas para o motorista com CPF: " + motorista.getCpf()
+                            + ". Total pago: " + valorPago);
                     multaPaga = true;
                 }
             }
         }
-    
+
         if (!multaPaga) {
             System.out.println("Não havia multas para pagar em nenhum veículo da frota.");
         }
     }
-    
 
     /**
      * Verifica o estado de manutenção de todos os veículos da frota.
@@ -520,7 +534,34 @@ public class App {
     private static void exibirRelatorioRotasVeiculo() {
         frota.exibirRelatorioRotas();
     }
-    
+
+    /**
+     * Lista todos os veículos presentes na frota, incluindo informações como tipo
+     * de veículo e placa.
+     * Para posições não ocupadas na frota, indica que o espaço está disponível para
+     * cadastro.
+     * Este método fornece uma visão geral do estado atual da frota, permitindo ao
+     * usuário identificar
+     * rapidamente veículos existentes e espaços vagos para novos veículos.
+     */
+    private static void listarTodosVeiculos() {
+        Veiculo[] veiculos = frota.getVeiculos();
+        int quantidadeVeiculosCadastrados = 0;
+
+        System.out.println("Listando todos os veículos da frota:");
+        for (int i = 0; i < veiculos.length; i++) {
+            if (veiculos[i] != null) {
+                System.out.println("Veículo " + (i + 1) + ": " + veiculos[i].getPlaca() + " - "
+                        + veiculos[i].getClass().getSimpleName());
+                quantidadeVeiculosCadastrados++;
+            } else {
+                System.out.println("Espaço para veículo " + (i + 1) + ": Disponível para cadastro");
+            }
+        }
+
+        System.out.println("Total de veículos cadastrados: " + quantidadeVeiculosCadastrados);
+        System.out.println("Espaços disponíveis para cadastro: " + (veiculos.length - quantidadeVeiculosCadastrados));
+    }
 
     /**
      * Método principal que atua como ponto de entrada do sistema de gerenciamento
@@ -573,7 +614,8 @@ public class App {
                         separador();
                         break;
                     case 6:
-                        pagarMultas();;
+                        pagarMultas();
+                        ;
                         separador();
                         break;
                     case 7:
@@ -601,6 +643,10 @@ public class App {
                         separador();
                         break;
                     case 13:
+                        listarTodosVeiculos();
+                        separador();
+                        break;
+                    case 14:
                         continuar = false; // Sai do loop e encerra o programa.
                         System.out.println("Até logo ;)");
                         break;
