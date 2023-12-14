@@ -58,6 +58,14 @@ public class Tanque {
          }
             
         }
+
+        public void consumir(double km){
+            if (((capacidadeAtual) - (km / getCONSUMO())) < 0) {
+                throw new IllegalArgumentException("Não há combustível suficiente.");
+            } else {
+                capacidadeAtual -= (km / getCONSUMO());
+            }
+        }
     
 
     // #endregion

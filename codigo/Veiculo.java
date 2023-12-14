@@ -7,7 +7,6 @@ public abstract class Veiculo implements Relatorio{
     protected String placa;
     protected Rota[] rotas;
     protected int quantRotas;
-    protected double tanqueAtual;
     protected double totalReabastecido;
     protected Motorista motorista;
     protected Tanque tanque;
@@ -161,8 +160,7 @@ public void percorrerRota(Rota rota) {
 
         if (rota.getQuilometragem() > autonomiaAtual()) {
             rota.percorrerRota();
-            double consumoRota = (rota.getQuilometragem() / tanque.getCONSUMO());
-            tanqueAtual -= consumoRota;
+            tanque.consumir(rota.getQuilometragem());
             kmDesdeUltimaManutencao(rota);
             despesaCombustível(rota);
         } else {
