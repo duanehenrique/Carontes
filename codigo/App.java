@@ -1,10 +1,11 @@
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.InputMismatchException;
-import java.util.Map;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.Set;
 
 /**
  * Classe App que serve como ponto de entrada do sistema de gerenciamento de
@@ -16,7 +17,6 @@ import java.util.Scanner;
  * e calcular despesas totais dos veículos.
  */
 public class App {
-    static Scanner teclado = new Scanner(System.in);
     static Random random;
     static Frota frota;
 
@@ -30,8 +30,8 @@ public class App {
      * terminal.
      */
     public static void limparTela() {
-    System.out.print("\033[H\033[2J");
-    System.out.flush();
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
     }
 
     /**
@@ -54,129 +54,205 @@ public class App {
         System.out.println(linha);
     }
 
+    // Mantém um registro das placas já geradas para evitar duplicação
+    private static Set<String> placasGeradas = new HashSet<>();
+
+    /**
+     * Gera uma placa de veículo única, utilizando uma combinação de letras e
+     * números.
+     * Garante que cada placa gerada seja única para evitar duplicação.
+     * 
+     * @return Uma string representando a placa única gerada.
+     */
+    private static String gerarPlacaUnica() {
+        String letras = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        String placa;
+        do {
+            StringBuilder placaBuilder = new StringBuilder();
+            for (int i = 0; i < 3; i++) {
+                placaBuilder.append(letras.charAt(random.nextInt(letras.length())));
+            }
+            for (int i = 0; i < 4; i++) {
+                placaBuilder.append(random.nextInt(10));
+            }
+            placa = placaBuilder.toString();
+        } while (placasGeradas.contains(placa)); // Continua até gerar uma placa única
+
+        placa = placa.toUpperCase();
+        placasGeradas.add(placa); // Adiciona a nova placa ao conjunto para rastreamento
+        return placa;
+    }
+
     /**
      * Inicializa a frota de veículos com base em valores aleatórios gerados pelo
      * sistema.
-     * Cria uma nova Frota com um tamanho aleatório entre 1 e 20 veículos.
+     * Cria uma nova Frota com um tamanho aleatório entre 1 e 5 veículos e os
+     * abastece com uma quantidade inicial de combustível.
      */
     private static void inicializarFrota() {
-        int tamanhoFrota = random.nextInt(5) + 1; // Gera um tamanho aleatório para a frota entre 1 e 5
-        frota = new Frota(tamanhoFrota);
-        for (int i = 0; i < tamanhoFrota; i++) {
-            Veiculo veiculo = cadastrarVeiculo();
-            // Gera um valor aleatório entre 10 (inclusive) e 17 (exclusive)
-            double quantidadeInicial = 10 + random.nextInt(7); // 7 é o intervalo (16-10 + 1)
-            veiculo.abastecer(quantidadeInicial); // Abastece o veículo com a quantidade inicial aleatória
+        int capacidadeTotalFrota = 10; // Define a capacidade total da frota
+        frota = new Frota(capacidadeTotalFrota);
+
+        // Inicializa metade da capacidade da frota
+        int veiculosParaInicializar = capacidadeTotalFrota / 2;
+        for (int i = 0; i < veiculosParaInicializar; i++) {
+            String placaUnica = gerarPlacaUnica(); // Gera uma placa única para cada veículo
+            Veiculo veiculo = cadastrarVeiculoAutomatico(placaUnica); // Passa a placa única para o método de cadastro
+            double quantidadeInicial = 10 + random.nextInt(7); // Gera uma quantidade inicial de combustível aleatória
+            veiculo.abastecer(quantidadeInicial); // Abastece o veículo com a quantidade inicial
         }
-        System.out.println("Frota com " + tamanhoFrota + " veículos foi inicializada.");
+        System.out.println("Frota inicializada com " + veiculosParaInicializar + " de " + capacidadeTotalFrota
+                + " veículos possíveis.");
     }
-    
 
     /**
      * Exibe o menu principal do sistema com as opções disponíveis para o usuário.
-     * As opções são escolhidas automaticamente pelo sistema.
      */
     private static void mostrarMenu() {
-        String linha = new String(new char[60]).replace('\0', '-');
-        System.out.println(linha);
+        separador();
         System.out.println("\t\t  Sistema de Gerenciamento de Frotas");
-        System.out.println(linha);
+        separador();
         System.out.println("1. Cadastrar novo veículo na frota");
         System.out.println("2. Exibir relatório completo da frota");
         System.out.println("3. Registrar rota para veículo");
-        System.out.println("4. Exibir relatório de rotas");
-        System.out.println("5. Abastecer veículo");
-        System.out.println("6. Registrar multa para motorista");
+        System.out.println("4. Abastecer veículo");
+        System.out.println("5. Registrar multa para motorista");
+        System.out.println("6. Pagar multas");
         System.out.println("7. Verificar necessidade de manutenção dos veículos");
         System.out.println("8. Calcular despesas totais de um veículo");
-        System.out.println("9. Encerrar o programa");
-        System.out.println(linha);
+        System.out.println("9. Listar rotas não percorridas de um veículo");
+        System.out.println("10. Percorrer rota específica de um veículo");
+        System.out.println("11. Realizar manutenção de um veículo");
+        System.out.println("12. Exibir relatório de rotas de um veículo");
+        System.out.println("13. Encerrar o programa");
+        separador();
         System.out.print("Selecione uma opção: ");
     }
 
     /**
      * Interage com o sistema para cadastrar um novo veículo na frota.
-     * Gera informações aleatórias, como placa, tipo de veículo, custo de
-     * manutenção,
+     * Solicita ao usuário informações como, placa, tipo de veículo
      * tipo de combustível, nome e CPF do motorista.
-     * Valida as entradas geradas aleatoriamente e, se bem-sucedido, adiciona o
+     * Valida as entradas e, se bem-sucedido, adiciona o
      * veículo à frota.
      */
-    private static Veiculo cadastrarVeiculo() {
-        Veiculo veiculo = null;
-        try {
-            // Utiliza os valores do enum TipoCombustivel
-            TipoCombustivel[] tiposCombustivel = TipoCombustivel.values();
+    private static Veiculo cadastrarVeiculo(Scanner teclado) {
+        // Solicita ao usuário que digite o tipo de veículo
+        System.out.print("Digite o tipo de veículo (Carro, Van, Furgao, Caminhao):");
+        String tipoVeiculo = teclado.next().toUpperCase();
 
-            // Seleciona um tipo de combustível aleatoriamente
-            TipoCombustivel tipoCombustivelEscolhido = tiposCombustivel[random.nextInt(tiposCombustivel.length)];
-            String tipoCombustivel = tipoCombustivelEscolhido.name();
+        // Solicita ao usuário que digite o nome do motorista
+        System.out.print("Digite o nome do motorista:");
+        String nomeMotorista = teclado.next();
 
-            // Escolhe um tipo de veículo aleatoriamente
-            String[] tiposVeiculo = { "Carro", "Van", "Furgao", "Caminhao" };
-            String tipoVeiculo = tiposVeiculo[random.nextInt(tiposVeiculo.length)];
+        // Solicita ao usuário que digite o CPF do motorista
+        System.out.print("Digite o CPF do motorista:");
+        String cpfMotorista = teclado.next();
 
-            // Mapa de custos de manutenção
-            Map<String, Double> custosManutencao = new HashMap<>();
-            custosManutencao.put("Carro", 500.0);
-            custosManutencao.put("Van", 750.0);
-            custosManutencao.put("Furgao", 1000.0);
-            custosManutencao.put("Caminhao", 1500.0);
+        // Cria o motorista
+        Motorista motorista = new Motorista(nomeMotorista, cpfMotorista);
 
-            // Lista de nomes de motoristas
-            String[] nomesMotoristas = { "João", "Maria", "José", "Ana", "Pedro", "Sandra", "Carlos", "Laura",
-                    "Fernando", "Isabela" };
-            String nomeMotorista = nomesMotoristas[random.nextInt(nomesMotoristas.length)];
-            String cpfMotorista = String.format("%011d", random.nextInt(1000000000));
-            Motorista motorista = new Motorista(nomeMotorista, cpfMotorista);
+        // Solicita ao usuário que digite a placa do veículo
+        System.out.print("Digite a placa do veículo:");
+        String placa = teclado.next();
 
-            // Seleciona um tipo de veículo aleatório e seu respectivo custo de manutenção
-            double custoManutencao = custosManutencao.get(tipoVeiculo);
+        // Solicita ao usuário que digite o tipo de combustível
+        System.out.print("Digite o tipo de combustível (Alcool, Gasolina, Diesel):");
+        String tipoCombustivel = teclado.next();
 
-            // Gera placa aleatória com 3 letras diferentes pra cada veiculo e os 4 numeros
-            // diferentes também
-            String letras = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-            String placa = "" +
-                    letras.charAt(random.nextInt(letras.length())) +
-                    letras.charAt(random.nextInt(letras.length())) +
-                    letras.charAt(random.nextInt(letras.length()));
+        // Calcula o custo de manutenção com base no tipo de veículo
+        double custoManutencao = calcularCustoManutencao(tipoVeiculo);
 
-            int numeros = 1000 + random.nextInt(9000); //
-            placa += numeros;
+        // Cria o veículo com base no tipo
+        Veiculo veiculo = criarVeiculo(tipoVeiculo, motorista, placa, tipoCombustivel, custoManutencao);
 
-            // Cria o veículo baseado no tipo escolhido
-            switch (tipoVeiculo) {
-                case "Carro":
-                    veiculo = new Carro(motorista, placa, tipoCombustivel, custoManutencao);
-                    break;
-                case "Van":
-                    veiculo = new Van(motorista, placa, tipoCombustivel, custoManutencao);
-                    break;
-                case "Furgao":
-                    veiculo = new Furgao(motorista, placa, tipoCombustivel, custoManutencao);
-                    break;
-                case "Caminhao":
-                    veiculo = new Caminhao(motorista, placa, tipoCombustivel, custoManutencao);
-                    break;
-            }
-
-            // Adiciona o veículo à frota
-            if (veiculo != null) {
-                frota.adicionarVeiculo(veiculo);
-                System.out.println("Veículo do tipo " + tipoVeiculo + " cadastrado com sucesso! Placa: " + placa);
-                // Adiciona uma capacidade inicial ao tanque do veículo
-                double capacidadeInicial = 10 + random.nextInt(7); // Define a quantidade inicial de combustível
-                veiculo.abastecer(capacidadeInicial); // Abastece o veículo com a capacidade inicial
-            } else {
-                System.out.println("Não foi possível cadastrar o veículo.");
-                return null;
-            }
-        } catch (Exception e) {
-            System.out.println("Ocorreu um erro ao cadastrar o veículo: " + e.getMessage());
+        // Adiciona o veículo à frota se ele foi criado com sucesso
+        if (veiculo != null) {
+            frota.adicionarVeiculo(veiculo);
+            System.out.println("Veículo do tipo " + tipoVeiculo + " cadastrado com sucesso! Placa: " + placa);
+        } else {
+            System.out.println("Não foi possível cadastrar o veículo.");
         }
         return veiculo;
     }
-    
+
+    // Array de nomes que podem ser usados para gerar um nome de motorista
+    // aleatório.
+    private static final String[] NOMES = {
+            "João", "Maria", "José", "Ana", "Pedro", "Sandra", "Carlos", "Laura",
+            "Fernando", "Isabela", "Antônio", "Francisco", "Paula", "Patrícia", "Marcos", "Rafael"
+    };
+
+    /**
+     * Cadastra um veículo automaticamente com informações aleatórias.
+     * 
+     * @param placa A placa única do veículo a ser cadastrado.
+     * @return O veículo cadastrado ou null se não for possível criar o veículo.
+     */
+    private static Veiculo cadastrarVeiculoAutomatico(String placa) {
+        random = new Random();
+
+        // Gera um nome de motorista aleatório a partir do array de nomes.
+        String nomeMotorista = NOMES[random.nextInt(NOMES.length)];
+        // Gera um CPF aleatório.
+        String cpfMotorista = String.format("%011d", random.nextInt(1_000_000_000));
+
+        // Cria o motorista.
+        Motorista motorista = new Motorista(nomeMotorista, cpfMotorista);
+
+        // Gera um tipo de veículo aleatório.
+        String[] tiposVeiculo = { "Carro", "Van", "Furgao", "Caminhao" };
+        String tipoVeiculo = tiposVeiculo[random.nextInt(tiposVeiculo.length)];
+
+        // Gera um tipo de combustível aleatório.
+        String[] tiposCombustivel = { "Alcool", "Gasolina", "Diesel" };
+        String tipoCombustivel = tiposCombustivel[random.nextInt(tiposCombustivel.length)];
+
+        // Calcula o custo de manutenção com base no tipo de veículo.
+        double custoManutencao = calcularCustoManutencao(tipoVeiculo);
+
+        // Cria o veículo com base no tipo.
+        Veiculo veiculo = criarVeiculo(tipoVeiculo, motorista, placa, tipoCombustivel, custoManutencao);
+
+        // Adiciona o veículo à frota se ele foi criado com sucesso.
+        if (veiculo != null) {
+            frota.adicionarVeiculo(veiculo);
+            System.out.println("Veículo do tipo " + tipoVeiculo + " cadastrado com sucesso! Placa: " + placa);
+        } else {
+            System.out.println("Não foi possível cadastrar o veículo com a placa " + placa + ".");
+        }
+
+        return veiculo;
+    }
+
+    private static double calcularCustoManutencao(String tipoVeiculo) {
+        // Usando um HashMap para determinar o custo de manutenção
+        HashMap<String, Double> custosManutencao = new HashMap<>();
+        custosManutencao.put("Carro", 500.0);
+        custosManutencao.put("Van", 750.0);
+        custosManutencao.put("Furgao", 1000.0);
+        custosManutencao.put("Caminhao", 1500.0);
+
+        return custosManutencao.getOrDefault(tipoVeiculo, 0.0);
+    }
+
+    private static Veiculo criarVeiculo(String tipoVeiculo, Motorista motorista, String placa, String tipoCombustivel,
+            double custoManutencao) {
+        switch (tipoVeiculo) {
+            case "CARRO":
+                return new Carro(motorista, placa, tipoCombustivel, custoManutencao);
+            case "VAN":
+                return new Van(motorista, placa, tipoCombustivel, custoManutencao);
+            case "FURGAO":
+                return new Furgao(motorista, placa, tipoCombustivel, custoManutencao);
+            case "CAMINHAO":
+                return new Caminhao(motorista, placa, tipoCombustivel, custoManutencao);
+            default:
+                System.out.println("Tipo de veículo desconhecido.");
+                return null;
+        }
+    }
+
     /**
      * Exibe um relatório detalhado da frota, incluindo informações de cada veículo
      * cadastrado.
@@ -187,11 +263,11 @@ public class App {
 
     /**
      * Permite ao sistema registrar uma rota para um veículo específico.
-     * Recebe a placa do veículo e a quilometragem da rota a ser
+     * Gera aleatoriamente a placa do veículo e a quilometragem da rota a ser
      * registrada.
      */
 
-   private static void registrarRota() {
+    private static void registrarRota(Scanner teclado) {
         // Solicita a placa e tenta registrar a rota, capturando exceções de entrada
         // inválida
         try {
@@ -215,72 +291,98 @@ public class App {
             teclado.nextLine();
         }
     }
-    
 
     /**
      * Permite ao sistema abastecer um veículo específico da frota.
      * Gera aleatoriamente a placa do veículo e a quantidade de combustível para
      * abastecimento.
      */
-    private static void abastecerVeiculo() {
-        try {
-            if (frota.getTamanhoFrota() > 0) {
-                Veiculo veiculoAbastecer = frota.getVeiculos()[random.nextInt(frota.getTamanhoFrota())];
-                if (veiculoAbastecer != null) {
-                    double capacidadeParaAbastecer = veiculoAbastecer.getTanque().getCapacidadeMaxima() - veiculoAbastecer.getTanque().getCapacidadeAtual();
-                    double litros = (int) (10 + (random.nextDouble() * capacidadeParaAbastecer));
-                    double custoAbastecimento = litros * veiculoAbastecer.tanque.getPreco();
-                    veiculoAbastecer.abastecer(litros);
+    private static void abastecerVeiculo(Scanner teclado) {
+        System.out.print("Digite a placa do veículo para abastecer: ");
+        String placaAbastecer = teclado.nextLine();
+        Veiculo veiculoAbastecer = frota.localizarVeiculo(placaAbastecer); // Supondo que exista esse método em Frota
 
-                    veiculoAbastecer.addDespesaTotal(custoAbastecimento);
-                    System.out.println("Veículo de placa " + veiculoAbastecer.getPlaca() + " abastecido com " + litros + " litros de " + veiculoAbastecer.getTanque().getTipo() + ".\nCusto: R$ " + String.format("%.2f", custoAbastecimento));
-                   
-                }
-                else{
-                     System.out.println("Veículo não encontrado para abastecer.");
-                }
-            } else {
-                System.out.println("Não existem veículos cadastrados na frota para abastecer.");
-            }
-        } catch (Exception e) {
-            System.out.println("Ocorreu um erro ao abastecer o veículo: " + e.getMessage());
+        if (veiculoAbastecer != null) {
+            System.out.print("Digite a quantidade de combustível para abastecer (em litros): ");
+            double litros = teclado.nextDouble();
+            teclado.nextLine(); // Limpa o buffer após ler um número
+
+            double litrosAbastecidos = veiculoAbastecer.abastecer(litros);
+            System.out.println(
+                    "Veículo de placa " + placaAbastecer + " abastecido com " + litrosAbastecidos + " litros.");
+        } else {
+            System.out.println("Veículo não encontrado.");
         }
     }
-    
 
     /**
      * Permite ao sistema registrar uma multa para um motorista específico.
      * Gera aleatoriamente a placa do veículo e o tipo de multa para registro.
      */
 
-     private static void registrarMulta() {
-        try {
-            if (frota.getTamanhoFrota() > 0) {
-                Veiculo veiculo = frota.getVeiculos()[random.nextInt(frota.getTamanhoFrota())];
-                if (veiculo != null) {
-                    Motorista motorista = veiculo.getMotorista();
-                    // Verifica se a carteira do motorista ainda é válida
-                    if (motorista.getCarteiraValida()) {
-                        String[] tiposMulta = { "LEVE", "MEDIA", "GRAVE", "GRAVISSIMA" };
-                        String tipoMulta = tiposMulta[random.nextInt(tiposMulta.length)];
-                        Multa multa = veiculo.addMultaAoMotorista(tipoMulta); // Adiciona a multa e os pontos associados
-                        if (multa != null && multa.multaExpirou()) { // Supõe que a classe Multa tem o método multaExpirou()
-                            veiculo.addDespesaTotal(multa.getValor()); // Adiciona o valor da multa ao total de despesas do veículo
-                            System.out.println("Multa do tipo " + tipoMulta + " registrada no veículo de placa " + veiculo.getPlaca() + ".");
-                        } else {
-                            System.out.println("Não foi possível registrar a multa, multa expirada ou inválida.");
-                        }
-                    } else {
-                        System.out.println("Motorista com carteira invalidada, não é possível registrar multa.");
-                    }
-                } else {
-                    System.out.println("Veículo não encontrado para registrar multa.");
-                }
+   private static void registrarMulta(Scanner teclado) {
+        System.out.print("Digite a placa do veículo que recebeu a multa: ");
+        String placa = teclado.nextLine().toUpperCase();
+        Veiculo veiculo = frota.localizarVeiculo(placa);
+    
+        if (veiculo != null) {
+            System.out.println("Selecione o tipo de multa:");
+            System.out.println("1. Leve");
+            System.out.println("2. Média");
+            System.out.println("3. Grave");
+            System.out.println("4. Gravíssima");
+            int escolhaMulta = teclado.nextInt();
+            teclado.nextLine(); // Limpa o buffer do Scanner
+    
+            String tipoMulta = convertEscolhaParaGravidade(escolhaMulta);
+            if (!tipoMulta.isEmpty()) {
+                veiculo.addMultaAoMotorista(tipoMulta);
+                System.out.println("Multa do tipo " + tipoMulta + " registrada com sucesso no veículo de placa " + placa);
             } else {
-                System.out.println("Não existem veículos cadastrados na frota para registrar multas.");
+                System.out.println("Tipo de multa inválido.");
             }
-        } catch (Exception e) {
-            System.out.println("Ocorreu um erro ao registrar a multa: " + e.getMessage());
+        } else {
+            System.out.println("Veículo não encontrado.");
+        }
+    }
+    
+    private static String convertEscolhaParaGravidade(int escolha) {
+        switch (escolha) {
+            case 1:
+                return "LEVE";
+            case 2:
+                return "MEDIA";
+            case 3:
+                return "GRAVE";
+            case 4:
+                return "GRAVISSIMA";
+            default:
+                return "";
+        }
+    }
+
+    /**
+     * Permite ao sistema processar o pagamento de uma multa de um motorista
+     * específico.
+     * Solicita ao usuário o CPF do motorista e realiza o pagamento da multa
+     * associada.
+     */
+    private static void pagarMultas() {
+        boolean multaPaga = false;
+    
+        for (Veiculo veiculo : frota.getVeiculos()) {
+            if (veiculo != null) {
+                Motorista motorista = veiculo.getMotorista();
+                double valorPago = motorista.pagarTodasMultas();
+                if (valorPago > 0) {
+                    System.out.println("Todas as multas pagas para o motorista com CPF: " + motorista.getCpf() + ". Total pago: " + valorPago);
+                    multaPaga = true;
+                }
+            }
+        }
+    
+        if (!multaPaga) {
+            System.out.println("Não havia multas para pagar em nenhum veículo da frota.");
         }
     }
     
@@ -312,7 +414,6 @@ public class App {
             System.out.println("Ocorreu um erro ao verificar a manutenção dos veículos: " + e.getMessage());
         }
     }
-    
 
     /**
      * Calcula e exibe as despesas totais de um veículo aleatório na frota.
@@ -341,6 +442,85 @@ public class App {
             System.out.println("Ocorreu um erro ao calcular as despesas totais do veículo: " + e.getMessage());
         }
     }
+
+    /**
+     * Lista as rotas não percorridas de um veículo específico.
+     * Solicita ao usuário a placa do veículo e exibe as rotas disponíveis que ainda
+     * não foram percorridas.
+     */
+    private static void listarRotasNaoPercorridas(Scanner teclado) {
+        System.out.print("Digite a placa do veículo para listar rotas não percorridas: ");
+        String placa = teclado.next();
+        Veiculo veiculo = frota.localizarVeiculo(placa);
+        if (veiculo != null) {
+            try {
+                veiculo.listarRotasNaoPercorridas();
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        } else {
+            System.out.println("Veículo não encontrado.");
+        }
+    }
+
+    /**
+     * Permite ao usuário selecionar e percorrer uma rota específica de um veículo.
+     * Solicita a placa do veículo e o número da rota a ser percorrida.
+     */
+    private static void percorrerRotaEspecifica(Scanner teclado) {
+        System.out.print("Digite a placa do veículo para percorrer uma rota: ");
+        String placa = teclado.next();
+        Veiculo veiculo = frota.localizarVeiculo(placa);
+        if (veiculo != null) {
+            veiculo.listarRotasNaoPercorridas(); // Lista as rotas não percorridas
+            System.out.print("Escolha o número da rota para percorrer: ");
+            int numeroRota = teclado.nextInt();
+            try {
+                veiculo.percorrerRotaPorLista(numeroRota);
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        } else {
+            System.out.println("Veículo não encontrado.");
+        }
+    }
+
+    /**
+     * Permite ao usuário realizar a manutenção de um veículo específico.
+     * Solicita a placa do veículo e executa o procedimento de manutenção, se
+     * necessário.
+     */
+    private static void realizarManutencaoVeiculo(Scanner teclado) {
+        System.out.println("Digite a placa do veículo para realizar manutenção:");
+        String placa = teclado.next();
+        boolean veiculoEncontrado = false;
+
+        for (Veiculo veiculo : frota.getVeiculos()) {
+            if (veiculo != null && veiculo.getPlaca().equalsIgnoreCase(placa)) {
+                veiculoEncontrado = true;
+                try {
+                    veiculo.fazerManutencao();
+                    System.out.println("Manutenção realizada com sucesso no veículo com placa: " + placa);
+                } catch (Exception e) {
+                    System.out.println("Não foi possível realizar a manutenção: " + e.getMessage());
+                }
+                break;
+            }
+        }
+
+        if (!veiculoEncontrado) {
+            System.out.println("Veículo com placa " + placa + " não encontrado.");
+        }
+    }
+
+    /**
+     * Exibe um relatório detalhado das rotas percorridas por um veículo específico.
+     * Solicita ao usuário a placa do veículo e exibe o relatório das rotas.
+     */
+    private static void exibirRelatorioRotasVeiculo() {
+        frota.exibirRelatorioRotas();
+    }
+    
 
     /**
      * Método principal que atua como ponto de entrada do sistema de gerenciamento
@@ -373,54 +553,54 @@ public class App {
                 separador();
                 switch (opcao) {
                     case 1:
-                        cadastrarVeiculo();
+                        cadastrarVeiculo(teclado);
                         separador();
-                        pausa();
-                        limparTela();
                         break;
                     case 2:
                         exibirRelatorioFrota();
                         separador();
-                        pausa();
-                        limparTela();
                         break;
                     case 3:
-                        registrarRota();
+                        registrarRota(teclado);
                         separador();
-                        pausa();
-                        limparTela();
                         break;
                     case 4:
-                        frota.exibirRelatorioRotas();
+                        abastecerVeiculo(teclado);
                         separador();
-                        pausa();
-                        limparTela();
                         break;
                     case 5:
-                        abastecerVeiculo();
+                        registrarMulta(teclado);
                         separador();
-                        pausa();
-                        limparTela();
                         break;
                     case 6:
-                        registrarMulta();
+                        pagarMultas();;
                         separador();
-                        pausa();
-                        limparTela();
                         break;
                     case 7:
                         verificarManutencaoVeiculos();
                         separador();
-                        pausa();
-                        limparTela();
                         break;
                     case 8:
                         calcularDespesasTotaisVeiculo();
                         separador();
-                        pausa();
-                        limparTela();
                         break;
                     case 9:
+                        listarRotasNaoPercorridas(teclado);
+                        separador();
+                        break;
+                    case 10:
+                        percorrerRotaEspecifica(teclado);
+                        separador();
+                        break;
+                    case 11:
+                        realizarManutencaoVeiculo(teclado);
+                        separador();
+                        break;
+                    case 12:
+                        exibirRelatorioRotasVeiculo();
+                        separador();
+                        break;
+                    case 13:
                         continuar = false; // Sai do loop e encerra o programa.
                         System.out.println("Até logo ;)");
                         break;

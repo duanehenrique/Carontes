@@ -145,6 +145,19 @@ public abstract class Veiculo implements Relatorio{
         return kmTotal;
     }
 
+    /**
+     * Retorna se existem multas para serm pagas ou não
+     *
+     * @return Retorna se existem multas para serm pagas ou não
+     */
+    public boolean pagarMulta() {
+           
+           
+           
+            return false;
+            
+        }
+
 /**
  * Percorre uma rota, atualizando o combustível disponível no tanque.
  *
@@ -417,6 +430,8 @@ public String relatorioRotas() {
         //relatorio.append(getTanque().getTipo() + "\n");
         return relatorio.toString();
     }
+
+        
 
     // #endregion
 }
