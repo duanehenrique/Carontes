@@ -334,4 +334,8 @@ public abstract class Veiculo {
     public Manutencao getManutencao() {
         return this.manutencao;
     }
+
+    public Tanque getTanque() {
+        return tanque;
+    }
 }

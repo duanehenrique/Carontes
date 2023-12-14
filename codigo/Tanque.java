@@ -113,4 +113,8 @@ public class Tanque {
         return capacidadeAtual;
     }
     // #endregion
+
+    public TipoCombustivel getTipo() {
+        return tipoCombustivel;
+    }
 }

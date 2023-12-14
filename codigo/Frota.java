@@ -48,7 +48,8 @@ public class Frota {
                  relatorio.append("   Quilometragem no mês: " + veiculos[i].kmNoMes() + " km\n");
                  relatorio.append("   Quilometragem total: " + veiculos[i].kmTotal() + " km\n");
                  relatorio.append("   Autonomia atual: " + veiculos[i].autonomiaAtual() + " km\n");
-                 relatorio.append("   Litros reabastecidos: " + veiculos[i].getTotalReabastecido() + " litros\n");
+                 relatorio.append("   Litros reabastecidos: " + veiculos[i].getTanque().getCapacidadeAtual() + " litros\n");
+                 relatorio.append("   Tipo de Combustível: " + veiculos[i].getTanque().getTipo() + "\n");
                  relatorio.append("\n");
              }
          }
