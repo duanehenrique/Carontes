@@ -13,16 +13,11 @@ import java.util.Set;
  * funcionalidades
  * como adicionar veículos, registrar rotas, abastecer, registrar multas,
  * verificar manutenção
- * e calcular despesas totais dos veículos.
+ * e calcular despesas totais dos veículos, dentre outras funcionalidades.
  */
 public class App {
     static Random random;
     static Frota frota;
-
-    // private static int gerarOpcaoAleatoria() {
-    // return random.nextInt(8) + 1; // Retorna um número entre 1 e 8 para as opções
-    // do menu.
-    // }
 
     /**
      * Limpa a tela do console utilizando sequências de escape específicas do
@@ -49,7 +44,7 @@ public class App {
      * Cria uma linha separadora no console.
      */
     private static void separador() {
-        String linha = new String(new char[70]).replace('\0', '-');
+        String linha = new String(new char[75]).replace('\0', '-');
         System.out.println(linha);
     }
 
@@ -147,14 +142,17 @@ public class App {
         // Solicita ao usuário que digite o tipo de veículo
         System.out.print("Digite o tipo de veículo (Carro, Van, Furgao, Caminhao):");
         String tipoVeiculo = teclado.next().toUpperCase();
+        teclado.nextLine();
 
         // Solicita ao usuário que digite o nome do motorista
         System.out.print("Digite o nome do motorista:");
         String nomeMotorista = teclado.next();
+        teclado.nextLine();
 
         // Solicita ao usuário que digite o CPF do motorista
         System.out.print("Digite o CPF do motorista:");
         String cpfMotorista = teclado.next();
+        teclado.nextLine();
 
         // Cria o motorista
         Motorista motorista = new Motorista(nomeMotorista, cpfMotorista);
@@ -162,10 +160,12 @@ public class App {
         // Solicita ao usuário que digite a placa do veículo
         System.out.print("Digite a placa do veículo:");
         String placa = teclado.next();
+        teclado.nextLine();
 
         // Solicita ao usuário que digite o tipo de combustível
         System.out.print("Digite o tipo de combustível (Alcool, Gasolina, Diesel):");
         String tipoCombustivel = teclado.next();
+        teclado.nextLine();
 
         // Separa com uma linha
         separador();
@@ -280,11 +280,13 @@ public class App {
         try {
             System.out.print("Digite a placa do veículo para a rota: ");
             String placaRota = teclado.next().toUpperCase();
+            teclado.nextLine();
     
             Veiculo veiculoRota = frota.localizarVeiculo(placaRota);
             if (veiculoRota != null) {
                 System.out.print("Digite a quilometragem da rota: ");
                 int kmRota = teclado.nextInt(); // Lê a quilometragem como um Int 
+                teclado.nextLine();
     
                 Rota rota = new Rota(LocalDate.now(), kmRota);
                 veiculoRota.addRota(rota);
@@ -308,12 +310,14 @@ public class App {
     private static void abastecerVeiculo(Scanner teclado) {
         System.out.print("Digite a placa do veículo para abastecer: ");
         String placaAbastecer = teclado.next().toUpperCase();
+        teclado.nextLine();
+
         Veiculo veiculoAbastecer = frota.localizarVeiculo(placaAbastecer);
 
         if (veiculoAbastecer != null) {
-            System.out.print("Digite a quantidade de combustível para abastecer (em litros): ");
+            System.out.println("Digite a quantidade de combustível para abastecer (em litros): ");
             double litros = teclado.nextDouble();
-            teclado.nextLine(); // Limpa o buffer após ler um número
+            teclado.nextLine(); // Limpa o scanner após ler um número
 
             double litrosAbastecidos = veiculoAbastecer.abastecer(litros);
             System.out.println(
@@ -327,10 +331,11 @@ public class App {
      * Permite ao sistema registrar uma multa para um motorista específico.
      * Gera aleatoriamente a placa do veículo e o tipo de multa para registro.
      */
-
     private static void registrarMulta(Scanner teclado) {
         System.out.print("Digite a placa do veículo que recebeu a multa: ");
         String placa = teclado.next().toUpperCase();
+        teclado.nextLine();
+
         Veiculo veiculo = frota.localizarVeiculo(placa);
 
         if (veiculo != null) {
@@ -340,7 +345,7 @@ public class App {
             System.out.println("3. Grave");
             System.out.println("4. Gravíssima");
             int escolhaMulta = teclado.nextInt();
-            teclado.nextLine(); // Limpa o buffer do Scanner
+            teclado.nextLine();; // Limpa o buffer do Scanner
 
             String tipoMulta = convertEscolhaParaGravidade(escolhaMulta).toUpperCase();
             if (!tipoMulta.isEmpty()) {
@@ -437,6 +442,8 @@ public class App {
         try {
             System.out.print("Digite a placa do veículo para calcular as despesas: ");
             String placa = teclado.next().toUpperCase(); // Converte para maiúscula para evitar problemas de comparação de string
+            teclado.nextLine();
+
             Veiculo veiculoDespesas = frota.localizarVeiculo(placa);
             
             if (veiculoDespesas != null) {
@@ -458,8 +465,11 @@ public class App {
      */
     private static void listarRotasNaoPercorridas(Scanner teclado) {
         System.out.print("Digite a placa do veículo para listar rotas não percorridas: ");
-        String placa = teclado.next();
+        String placa = teclado.next().toUpperCase();
+        teclado.nextLine();
+
         Veiculo veiculo = frota.localizarVeiculo(placa);
+
         if (veiculo != null) {
             try {
                 veiculo.listarRotasNaoPercorridas();
@@ -477,12 +487,16 @@ public class App {
      */
     private static void percorrerRotaEspecifica(Scanner teclado) {
         System.out.print("Digite a placa do veículo para percorrer uma rota: ");
-        String placa = teclado.next();
+        String placa = teclado.next().toUpperCase();
+        teclado.nextLine();
+
         Veiculo veiculo = frota.localizarVeiculo(placa);
+
         if (veiculo != null) {
             veiculo.listarRotasNaoPercorridas(); // Lista as rotas não percorridas
             System.out.print("Escolha o número da rota para percorrer: ");
             int numeroRota = teclado.nextInt();
+            teclado.nextLine();
             try {
                 veiculo.percorrerRotaPorLista(numeroRota);
             } catch (Exception e) {
@@ -500,7 +514,9 @@ public class App {
      */
     private static void realizarManutencaoVeiculo(Scanner teclado) {
         System.out.println("Digite a placa do veículo para realizar manutenção:");
-        String placa = teclado.next();
+        String placa = teclado.next().toUpperCase();
+        teclado.nextLine();
+
         boolean veiculoEncontrado = false;
 
         for (Veiculo veiculo : frota.getVeiculos()) {
@@ -609,7 +625,6 @@ public class App {
                         break;
                     case 6:
                         pagarMultas();
-                        ;
                         separador();
                         break;
                     case 7:
