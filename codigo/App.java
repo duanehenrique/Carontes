@@ -536,7 +536,7 @@ public class App {
      * inválidas durante a
      * seleção do menu.
      */
-    private static void main(String[] args) {
+    public static void main(String[] args) {
         random = new Random();
         Scanner teclado = new Scanner(System.in);
 
