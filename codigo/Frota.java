@@ -44,13 +44,7 @@ public class Frota {
          relatorio.append("Relatório da Frota:\n");
          for (int i = 0; i < tamanhoFrota; i++) {
             if (veiculos[i] != null) {
-                 relatorio.append("Veículo " + veiculos[i].getPlaca() + ":\n");
-                 relatorio.append("   Quilometragem no mês: " + veiculos[i].kmNoMes() + " km\n");
-                 relatorio.append("   Quilometragem total: " + veiculos[i].kmTotal() + " km\n");
-                 relatorio.append("   Autonomia atual: " + veiculos[i].autonomiaAtual() + " km\n");
-                 relatorio.append("   Litros reabastecidos: " + veiculos[i].getTanque().getCapacidadeAtual() + " litros\n");
-                 relatorio.append("   Tipo de Combustível: " + veiculos[i].getTanque().getTipo() + "\n");
-                 relatorio.append("\n");
+                 relatorio.append(veiculos[i].relatorio() + "\n");
              }
          }
          return relatorio.toString();

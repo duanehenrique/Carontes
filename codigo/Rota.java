@@ -4,7 +4,7 @@ import java.time.LocalDate;
 /**
  * Classe Rota que representa uma rota de um veículo.
  */
-public class Rota {
+public class Rota implements Relatorio{
 
     // #region Atributos
     private LocalDate data;
@@ -66,5 +66,21 @@ public class Rota {
         return data;
     }
     // #endregion
+
+        // #region Relatório
+    /**
+     * Retorna uma representação em formato de string dos atributos da rota.
+     * 
+     * @return Uma string formatada com informações da rota.
+     */
+    public String relatorio() {
+        StringBuilder relatorio = new StringBuilder();
+        relatorio.append("   Data: " + getData() + "\n");
+        relatorio.append("   Quilometragem: " + getQuilometragem());
+        relatorio.append("Rota já foi percorrida: ").append(rotaPercorrida ? "Sim" : "Não").append("\n");
+        return relatorio.toString();
+}
+
+    //#endregion
 
 }

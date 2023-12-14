@@ -3,7 +3,7 @@ import java.time.LocalDate;
 /**
  * Enum que representa os diferentes tipos de multas.
  */
-public enum Multa {
+public enum Multa implements Relatorio{
     // #region Definição dos tipos de multas
 
     LEVE("Leve", 3, 88.38),
@@ -124,23 +124,23 @@ public enum Multa {
      *
      * @return Uma representação em string da multa.
      */
+    // #region Relatorio
+    /**
+     * Retorna uma representação em string da multa.
+     *
+     * @return Uma representação em string da multa.
+     */
     @Override
-    public String toString() {
-        String multaPaga;
-        if (this.multaPaga) {
-            multaPaga = "Sim";
-        } else {
-            multaPaga = "Não";
-        }
-        String validadeDaMulta;
-        if (this.multaAtiva) {
-            validadeDaMulta = "Sim";
-        } else {
-            validadeDaMulta = "Não";
-        }
-        return String.format(
-                "Gravidade: %s/nPontos: %d/nValor: %.2f/nData de Emissão: %s/nMulta está paga: $s/nMulta está ativa: %s",
-                getTipo(), pontos, valor, dataDeEmissao, multaPaga, validadeDaMulta);
+    public String relatorio() {
+        StringBuilder relatorio = new StringBuilder();
+        relatorio.append("Tipo: ").append(getTipo()).append("\n");
+        relatorio.append("Pontos: ").append(getPontos()).append("\n");
+        relatorio.append("Valor: ").append(String.format("%.2f", getValor())).append("\n");
+        relatorio.append("Data de Emissão: ").append(getDataDeEmissao()).append("\n");
+        relatorio.append("Multa está paga: ").append(multaPaga ? "Sim" : "Não").append("\n");
+        relatorio.append("Multa está ativa: ").append(multaAtiva ? "Sim" : "Não").append("\n");
+
+        return relatorio.toString();
     }
     // #endregion
 }

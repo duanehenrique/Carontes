@@ -7,7 +7,7 @@ import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CarteiraMotorista {
+public class CarteiraMotorista implements Relatorio{
     // #region Atributos
     private List<Multa> multas;
     // #endregion
@@ -184,4 +184,24 @@ public class CarteiraMotorista {
         }
         return valorTotalPago;
     }
+
+    
+            // #region Relatorio
+        /**
+     * Retorna uma representação em string do veículo.
+     * 
+     * @return Uma string representando o veículo.
+     */
+    public String relatorio() {
+        StringBuilder relatorio = new StringBuilder();
+        if (multas.isEmpty()) {
+            relatorio.append("Não há multas.\n");
+        } else {
+            for (int i = 0; i < multas.size(); i++) {
+                relatorio.append((i + 1) + ". " + multas.get(i).relatorio() + "\n");
+            }
+        }
+        return relatorio.toString();
+    }
+    //#endregion
 }

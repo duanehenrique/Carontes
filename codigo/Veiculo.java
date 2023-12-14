@@ -1,6 +1,6 @@
 import java.time.*;
 
-public abstract class Veiculo {
+public abstract class Veiculo implements Relatorio{
 
     // #region Atributos
     protected static final int MAX_ROTAS;
@@ -239,9 +239,7 @@ public void percorrerRotaPorLista(int numeroRota) {
         relatorio.append("Relatório de Rotas do Veículo " + this.placa + ":\n");
         for (int i = 0; i < this.quantRotas; i++) {
             if (this.rotas[i] != null && rotas[i].getRotaPercorrida()) {
-                relatorio.append("   Data: " + this.rotas[i].getData() + "\n");
-                relatorio.append("   Quilometragem: " + this.rotas[i].getQuilometragem() + "\n");
-                relatorio.append("\n");
+                relatorio.append(rotas[i].relatorio() + "\n");
             }
         }
         return relatorio.toString();
@@ -345,17 +343,6 @@ public void percorrerRotaPorLista(int numeroRota) {
     }
 
     /**
-     * Retorna uma representação em string do veículo, formatada para retornar
-     * apenas sua placa, seguido de sua kmTotal.
-     * 
-     * @return Uma string representando o veículo.
-     */
-    @Override
-    public String toString() {
-        return ("Veículo: " + this.placa + "/nTotal de Quilômetros Percorridos: " + kmTotal());
-    }
-
-    /**
      * Retorna as rotas do veículo.
      * 
      * @return Um array de rotas do veículo.
@@ -412,4 +399,22 @@ public void percorrerRotaPorLista(int numeroRota) {
     public Tanque getTanque() {
         return tanque;
     }
+        // #region Relatorio
+        /**
+     * Retorna uma representação em string do veículo.
+     * 
+     * @return Uma string representando o veículo.
+     */
+    public String relatorio() {
+        StringBuilder relatorio = new StringBuilder();
+        relatorio.append(getPlaca() + ":\n");
+        relatorio.append(kmNoMes() + " km\n");
+        relatorio.append(kmTotal() + " km\n");
+        relatorio.append(autonomiaAtual() + " km\n");
+        relatorio.append(getTanque().getCapacidadeAtual() + " litros\n");
+        relatorio.append(getTanque().getTipo() + "\n");
+        return relatorio.toString();
+    }
+
+    // #endregion
 }

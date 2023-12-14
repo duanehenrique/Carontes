@@ -3,7 +3,7 @@ import java.util.List;
 /**
  * Classe que representa um motorista.
  */
-public class Motorista {
+public class Motorista implements Relatorio{
     // #region Atributos
     private String nome;
     private String cpf;
@@ -165,4 +165,21 @@ public class Motorista {
     }
 
     // #endregion
+
+            // #region Relatorio
+        /**
+     * Retorna uma representação em string do veículo.
+     * 
+     * @return Uma string representando o veículo.
+     */
+    public String relatorio() {
+        StringBuilder relatorio = new StringBuilder();
+        relatorio.append("Relatório do Motorista:\n");
+        relatorio.append("Nome: " + getNome() + "\n");
+        relatorio.append("CPF: " + getCpf() + "\n");
+        relatorio.append("Carteira de Motorista:\n");
+        relatorio.append(carteira.relatorio());
+        return relatorio.toString();
+    }
+    //#endregion
 }
