@@ -1,9 +1,11 @@
+import java.time.LocalDate;
 import java.util.Scanner;
 
 public class Frota {
     // #region Atributos
     private int tamanhoFrota;
     private Veiculo[] veiculos;
+    private LocalDate dataUltimaFrota;
     // #endregion
 
     // #region Construtores
@@ -15,6 +17,7 @@ public class Frota {
     public Frota(int tamanhoFrota) {
         this.tamanhoFrota = tamanhoFrota;
         this.veiculos = new Veiculo[tamanhoFrota];
+        this.dataUltimaFrota = LocalDate.now();
     }
 
     // #endregion
@@ -26,13 +29,16 @@ public class Frota {
      * @param veiculo O veículo a ser adicionado.
      */
     public void adicionarVeiculo(Veiculo veiculo) {
+        if(mesVirou()){
+            reiniciarFrota();
+        }
         for (int i = 0; i < tamanhoFrota; i++) {
             if (veiculos[i] == null) {
                 veiculos[i] = veiculo;
                 break;
             }
         }
-    }
+        }
 
     /**
      * Gera um relatório da frota.
@@ -129,6 +135,27 @@ public class Frota {
         return veiculoComMaiorKmMedia;
     }
 
+        /**
+     * Verifica se houve mudança de mês.
+     * 
+     * @return true se o mês virou, false caso contrário.
+     */
+    private boolean mesVirou(){
+        LocalDate dataDeHoje = LocalDate.now();
+        if (dataDeHoje.getMonthValue() != dataUltimaFrota.getMonthValue()) {
+            dataUltimaFrota = dataDeHoje;
+            return true;
+        }else{
+            return false;
+        }        
+    }
+
+    /**
+     * Reinicia a frota, criando um novo array de veículos com o tamanho especificado.
+     */
+    private void reiniciarFrota(){
+        this.veiculos = new Veiculo[tamanhoFrota];
+    }
     // #endregion
 
     // #region Getters

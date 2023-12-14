@@ -1,2 +1,3 @@
 # Diagramas de classe
-Coloque aqui todas as versões do seu diagrama de classes. Cada versão deve começar com um número de dois dígitos, na ordem crescente.
+Diagrama de classe resultante da iteracão 2 do sistema de controle de frota.
+<img src=https://github.com/DisciplinasProgramacao/poo-tp-em-grupo-dinossauros-da-programacao/blob/master/docs/diagramas/Diagrama%20UML-Frota.png alt="Diagrama de classe do sistema de controle de frota">
