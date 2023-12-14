@@ -115,11 +115,11 @@ public class App {
             String tipoVeiculo = tiposVeiculo[random.nextInt(tiposVeiculo.length)];
 
             // Mapa de custos de manutenção
-            Map<String, Double> custosManutencao = Map.of(
-                    "Carro", 500.0,
-                    "Van", 750.0,
-                    "Furgao", 1000.0,
-                    "Caminhao", 1500.0);
+        Map<String, Double> custosManutencao = new HashMap<>();
+        custosManutencao.put("Carro", 500.0);
+        custosManutencao.put("Van", 750.0);
+        custosManutencao.put("Furgao", 1000.0);
+        custosManutencao.put("Caminhao", 1500.0);
 
             // Lista de nomes de motoristas
             String[] nomesMotoristas = { "João", "Maria", "José", "Ana", "Pedro", "Sandra", "Carlos", "Laura",
