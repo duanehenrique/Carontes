@@ -1,6 +1,7 @@
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.InputMismatchException;
 import java.util.Map;
 import java.util.Random;
 import java.util.Scanner;
@@ -15,7 +16,7 @@ import java.util.Scanner;
  * e calcular despesas totais dos veículos.
  */
 public class App {
-
+    static Scanner teclado = new Scanner(System.in);
     static Random random;
     static Frota frota;
 
@@ -186,29 +187,34 @@ public class App {
 
     /**
      * Permite ao sistema registrar uma rota para um veículo específico.
-     * Gera aleatoriamente a placa do veículo e a quilometragem da rota a ser
+     * Recebe a placa do veículo e a quilometragem da rota a ser
      * registrada.
      */
 
-    private static void registrarRota() {
-    try {
-        if (frota.getTamanhoFrota() > 0) {
-            Veiculo veiculoRota = frota.getVeiculos()[random.nextInt(frota.getTamanhoFrota())];
-            if (veiculoRota != null && veiculoRota.getQuantRotas() < Veiculo.MAX_ROTAS) {
-                double kmRota = 10 + (random.nextDouble() * (Math.min(veiculoRota.autonomiaAtual(), veiculoRota.autonomiaMaxima()) - 10));
+   private static void registrarRota() {
+        // Solicita a placa e tenta registrar a rota, capturando exceções de entrada
+        // inválida
+        try {
+            System.out.print("Digite a placa do veículo para a rota: ");
+            String placaRota = teclado.nextLine();
+            Veiculo veiculoRota = frota.localizarVeiculo(placaRota);
+            // Verifica se o veículo foi encontrado
+            if (veiculoRota != null) {
+                System.out.print("Digite a quilometragem da rota: ");
+                double kmRota = teclado.nextDouble();
+                // teclado.nextLine(); // Limpa o buffer do teclado
                 Rota rota = new Rota(LocalDate.now(), kmRota);
-                veiculoRota.addRota(rota); // Assume que addRota lida com exceções internamente
-                System.out.println("Rota de " + kmRota + " km adicionada ao veículo de placa: " + veiculoRota.getPlaca());
+                // Tenta adicionar a rota ao veículo
+                veiculoRota.addRota(rota);
             } else {
-                System.out.println("Veículo não encontrado ou já atingiu o limite de rotas para este mês.");
+                System.out.println("Veículo não encontrado.");
             }
-        } else {
-            System.out.println("Não existem veículos cadastrados na frota para registrar uma rota.");
+        } catch (InputMismatchException e) {
+            System.out
+                    .println("Entrada inválida. Por favor, digite um número válido para a quilometragem.");
+            teclado.nextLine();
         }
-    } catch (Exception e) {
-        System.out.println("Ocorreu um erro ao registrar a rota: " + e.getMessage());
     }
-}
     
 
     /**

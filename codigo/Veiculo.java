@@ -232,16 +232,18 @@ public void percorrerRotaPorLista(int numeroRota) {
 }
 
 
-    public String relatorioRotas() {
-        StringBuilder relatorio = new StringBuilder();
-        relatorio.append("Relatório de Rotas do Veículo " + this.placa + ":\n");
-        for (int i = 0; i < this.quantRotas; i++) {
-            if (rotas[i].getRotaPercorrida()) {
-                relatorio.append(rotas[i].relatorio() + "\n");
-            }
+public String relatorioRotas() {
+    StringBuilder relatorio = new StringBuilder();
+    relatorio.append("Relatório de Rotas do Veículo " + this.placa + ":\n");
+    for (int i = 0; i < this.quantRotas; i++) {
+        if (this.rotas[i] != null) {
+            relatorio.append("   Data: " + this.rotas[i].getData() + "\n");
+            relatorio.append("   Quilometragem: " + this.rotas[i].getQuilometragem() + "\n");
+            relatorio.append("\n");
         }
-        return relatorio.toString();
     }
+    return relatorio.toString();
+}
     
 
     /**
@@ -403,16 +405,16 @@ public void percorrerRotaPorLista(int numeroRota) {
      * 
      * @return Uma string representando o veículo.
      */
-    public String relatorio() {
+   public String relatorio() {
         StringBuilder relatorio = new StringBuilder();
         relatorio.append(getPlaca() + ":\n");
-        relatorio.append("Motorista: " + motorista.getNome() + "/n");
-        relatorio.append("CPF do Motorista: " + motorista.getCpf() + "/n");
-        relatorio.append(kmNoMes() + " km\n");
-        relatorio.append(kmTotal() + " km\n");
-        relatorio.append(autonomiaAtual() + " km\n");
-        relatorio.append(getTanque().getCapacidadeAtual() + " litros\n");
-        relatorio.append(getTanque().getTipo() + "\n");
+        relatorio.append("Motorista: " + motorista.getNome() + "\n");
+        relatorio.append("CPF do Motorista: " + motorista.getCpf()+ "\n");
+        relatorio.append("Km Rodados no mes: " + kmNoMes() + " km\n");
+        relatorio.append("Km Total: " + kmTotal() + " km\n");
+        relatorio.append("Autonomia do veiculo: " + autonomiaAtual() + " km\n");
+        relatorio.append("Tanque abastecido com: " + getTanque().getCapacidadeAtual() + " litros de "+ getTanque().getTipo() +  "\n");
+        //relatorio.append(getTanque().getTipo() + "\n");
         return relatorio.toString();
     }
 
