@@ -5,9 +5,9 @@ public enum TipoCombustivel {
 
     // #region Tipos de Combustível
 
-    ALCOOL(3.29, 9.5),
-    GASOLINA(5.19, 12.0),
-    DIESEL(6.09, 15.0);
+    ALCOOL(3.29, 7.0),
+    GASOLINA(5.19, 10.0),
+    DIESEL(6.09, 4.0);
 
     // #endregion
 

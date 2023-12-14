@@ -46,16 +46,19 @@ public class Tanque {
     public double abastecer(double litros) {
         if (capacidadeAtual == CAPACIDADEMAXIMA) {
             return 0;
-        } else {
-            capacidadeAtual += litros;
-            if (capacidadeAtual > CAPACIDADEMAXIMA) {
-                double totalReabastecido = capacidadeAtual - CAPACIDADEMAXIMA;
+        } else if((capacidadeAtual + litros) > CAPACIDADEMAXIMA) {
+            
+                double totalReabastecido = CAPACIDADEMAXIMA - capacidadeAtual;
                 capacidadeAtual = CAPACIDADEMAXIMA;
                 return totalReabastecido;
             }
+         else {
+            capacidadeAtual += litros;
             return litros;
+         }
+            
         }
-    }
+    
 
     // #endregion
 

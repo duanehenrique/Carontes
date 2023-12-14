@@ -199,7 +199,7 @@ public class App {
                 quantAbastecido = veiculoAbastecer.abastecer(litros);
                 if (quantAbastecido > 0) {
                     System.out.println("Veículo abastecido com sucesso!");
-                    System.out.println("Foram abastecidos" + quantAbastecido + "litros.");
+                    System.out.println("Foram abastecidos " + quantAbastecido + "litros.");
                 } else {
                     System.out.println("Veículo já se encontra com tanque cheio.");
                 }
