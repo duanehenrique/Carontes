@@ -59,7 +59,7 @@ public class Frota {
     public void exibirRelatorioRotas() {
         Scanner teclado = new Scanner(System.in);
         System.out.print("Digite a placa do veículo para exibir o relatório de rotas: ");
-         String placaRotas = teclado.nextLine();
+         String placaRotas = teclado.nextLine().toUpperCase();
         Veiculo veiculo = this.localizarVeiculo(placaRotas);
         if (veiculo != null) {
             System.out.println(veiculo.relatorioRotas());

@@ -2,6 +2,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.InputMismatchException;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
@@ -18,7 +19,8 @@ import java.util.Set;
 public class App {
     static Random random;
     static Frota frota;
-
+    static Scanner teclado = new Scanner(System.in);
+   
     /**
      * Limpa a tela do console utilizando sequências de escape específicas do
      * terminal.
@@ -159,7 +161,7 @@ public class App {
 
         // Solicita ao usuário que digite a placa do veículo
         System.out.print("Digite a placa do veículo:");
-        String placa = teclado.next();
+        String placa = teclado.next().toUpperCase();
         teclado.nextLine();
 
         // Solicita ao usuário que digite o tipo de combustível
@@ -276,29 +278,32 @@ public class App {
      * Gera aleatoriamente a placa do veículo e a quilometragem da rota a ser
      * registrada.
      */
-    private static void registrarRota(Scanner teclado) {
+     private static void registrarRota() {
+        // Solicita a placa e tenta registrar a rota, capturando exceções de entrada
+        // inválida
+         
         try {
             System.out.print("Digite a placa do veículo para a rota: ");
-            String placaRota = teclado.next().toUpperCase();
-            teclado.nextLine();
-    
+            String placaRota = teclado.next();
             Veiculo veiculoRota = frota.localizarVeiculo(placaRota);
+            // Verifica se o veículo foi encontrado
+            teclado.nextLine();
             if (veiculoRota != null) {
                 System.out.print("Digite a quilometragem da rota: ");
-                int kmRota = teclado.nextInt(); // Lê a quilometragem como um Int 
-                teclado.nextLine();
-    
+                double kmRota = teclado.nextDouble();
+                // teclado.nextLine(); // Limpa o buffer do teclado
                 Rota rota = new Rota(LocalDate.now(), kmRota);
+                // Tenta adicionar a rota ao veículo
                 veiculoRota.addRota(rota);
-                System.out.println("Rota registrada com sucesso!");
             } else {
                 System.out.println("Veículo não encontrado.");
             }
-        } catch (NumberFormatException e) {
-            System.out.println("Entrada inválida. Por favor, digite um número válido para a quilometragem.");
-        } catch (Exception e) {
-            System.out.println("Ocorreu um erro: " + e.getMessage());
+        } catch (InputMismatchException e) {
+            System.out
+                    .println("Entrada inválida. Por favor, digite um número válido para a quilometragem.");
+            teclado.nextLine();
         }
+        
     }
     
 
@@ -386,10 +391,10 @@ public class App {
 
         for (Veiculo veiculo : frota.getVeiculos()) {
             if (veiculo != null) {
-                Motorista motorista = veiculo.getMotorista();
-                double valorPago = motorista.pagarTodasMultas();
+                
+                double valorPago = veiculo.pagarTodasMultas();
                 if (valorPago > 0) {
-                    System.out.println("Todas as multas pagas para o motorista com CPF: " + motorista.getCpf()
+                    System.out.println("Todas as multas pagas para o motorista com CPF: " + veiculo.getMotorista().getCpf()
                             + ". Total pago: " + valorPago);
                     multaPaga = true;
                 }
@@ -522,13 +527,9 @@ public class App {
         for (Veiculo veiculo : frota.getVeiculos()) {
             if (veiculo != null && veiculo.getPlaca().equalsIgnoreCase(placa)) {
                 veiculoEncontrado = true;
-                try {
-                    veiculo.fazerManutencao();
-                    System.out.println("Manutenção realizada com sucesso no veículo com placa: " + placa);
-                } catch (Exception e) {
-                    System.out.println("Não foi possível realizar a manutenção: " + e.getMessage());
-                }
-                break;
+                
+                    veiculo.fazerManutencao();   
+               
             }
         }
 
@@ -612,7 +613,7 @@ public class App {
                         separador();
                         break;
                     case 3:
-                        registrarRota(teclado);
+                        registrarRota();
                         separador();
                         break;
                     case 4:

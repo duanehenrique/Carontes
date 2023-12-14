@@ -112,7 +112,10 @@ public abstract class Veiculo implements Relatorio{
      * @return A quantidade de litros abastecida.
      */
     public double abastecer(double litros) {
+        
+        addDespesaTotal(litros*this.tanque.getPreco());
         return tanque.abastecer(litros);
+
     }
 
     /**
@@ -150,11 +153,11 @@ public abstract class Veiculo implements Relatorio{
      *
      * @return Retorna se existem multas para serm pagas ou não
      */
-    public boolean pagarMulta() {
+    public double pagarTodasMultas() {
            
-           
-           
-            return false;
+            double valorTotal = this.motorista.pagarTodasMultas();
+            addDespesaTotal(valorTotal);
+           return valorTotal;
             
         }
 
@@ -290,11 +293,11 @@ public String relatorioRotas() {
      */
     public void fazerManutencao() {
         double custoManutencao;
-        if (this.manutencao.getManutencaoPecasEmDia()) {
+        if (!this.manutencao.getManutencaoPecasEmDia()) {
             custoManutencao = this.manutencao.realizarManutencaoPecas();
             addDespesaTotal(custoManutencao);
             System.out.println("Manutenção de trocas de peças realizada com sucesso.");
-        } else if (this.manutencao.getManutencaoPeriodicaEmDia()) {
+        } else if (!this.manutencao.getManutencaoPeriodicaEmDia()) {
             custoManutencao = this.manutencao.realizarManutencaoPeriodica();
             addDespesaTotal(custoManutencao);
             System.out.println("Manutenção periódica realizada com sucesso.");
