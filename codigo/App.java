@@ -221,7 +221,7 @@ public class App {
             if (frota.getTamanhoFrota() > 0) {
                 Veiculo veiculoAbastecer = frota.getVeiculos()[random.nextInt(frota.getTamanhoFrota())];
                 if (veiculoAbastecer != null) {
-                    double capacidadeParaAbastecer = veiculoAbastecer.tanque.getCapacidadeMaxima() - veiculoAbastecer.tanqueAtual;
+                    double capacidadeParaAbastecer = veiculoAbastecer.getTanque().getCapacidadeMaxima() - veiculoAbastecer.getTanque().getCapacidadeAtual();
                     double litros = (int) (10 + (random.nextDouble() * capacidadeParaAbastecer));
                     double custoAbastecimento = litros * veiculoAbastecer.tanque.getPreco();
                     veiculoAbastecer.abastecer(litros);
