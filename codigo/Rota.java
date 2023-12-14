@@ -1,3 +1,4 @@
+
 import java.time.LocalDate;
 
 /**
@@ -8,7 +9,7 @@ public class Rota {
     // #region Atributos
     private LocalDate data;
     private double quilometragem;
-    private Veiculo veiculo;
+
 
     // #endregion
     // #region Construtor
@@ -27,20 +28,7 @@ public class Rota {
     // #endregion
     // #region Métodos
 
-    /**
-     * Emite um relatório da rota.
-     * 
-     * @return Uma string representando o relatório da rota.
-     */
-    public String emitirRelatorioRota() {
-        StringBuilder relatorio = new StringBuilder();
-        relatorio.append("Relatório da Rota:\n");
-        relatorio.append("   Data: " + data + "\n");
-        relatorio.append("   Quilometragem: " + quilometragem + "\n");
-        relatorio.append("   Veículo: " + veiculo.getPlaca() + "\n");
-        relatorio.append("\n");
-        return relatorio.toString();
-    }
+    
 
     // #endregion
     // #region Getters

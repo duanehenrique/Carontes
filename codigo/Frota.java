@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 public class Frota {
     // #region Atributos
     private int tamanhoFrota;
@@ -37,20 +39,32 @@ public class Frota {
      * 
      * @return Uma string contendo o relatório da frota.
      */
-    public String relatorioFrota() {
-        StringBuilder relatorio = new StringBuilder();
-        relatorio.append("Relatório da Frota:\n");
-        for (int i = 0; i < tamanhoFrota; i++) {
+     public String relatorioFrota() {
+    StringBuilder relatorio = new StringBuilder();
+         relatorio.append("Relatório da Frota:\n");
+         for (int i = 0; i < tamanhoFrota; i++) {
             if (veiculos[i] != null) {
-                relatorio.append("Veículo " + veiculos[i].getPlaca() + ":\n");
-                relatorio.append("   Quilometragem no mês: " + veiculos[i].kmNoMes() + " km\n");
-                relatorio.append("   Quilometragem total: " + veiculos[i].kmTotal() + " km\n");
-                relatorio.append("   Autonomia atual: " + veiculos[i].autonomiaAtual() + " km\n");
-                relatorio.append("   Litros reabastecidos: " + veiculos[i].getTotalReabastecido() + " litros\n");
-                relatorio.append("\n");
-            }
+                 relatorio.append("Veículo " + veiculos[i].getPlaca() + ":\n");
+                 relatorio.append("   Quilometragem no mês: " + veiculos[i].kmNoMes() + " km\n");
+                 relatorio.append("   Quilometragem total: " + veiculos[i].kmTotal() + " km\n");
+                 relatorio.append("   Autonomia atual: " + veiculos[i].autonomiaAtual() + " km\n");
+                 relatorio.append("   Litros reabastecidos: " + veiculos[i].getTotalReabastecido() + " litros\n");
+                 relatorio.append("\n");
+             }
+         }
+         return relatorio.toString();
+     }
+
+    public void exibirRelatorioRotas() {
+        Scanner teclado = new Scanner(System.in);
+        System.out.print("Digite a placa do veículo para exibir o relatório de rotas: ");
+         String placaRotas = teclado.nextLine();
+        Veiculo veiculo = this.localizarVeiculo(placaRotas);
+        if (veiculo != null) {
+            System.out.println(veiculo.relatorioRotas());
+        } else {
+            System.out.println("Veículo não encontrado.");
         }
-        return relatorio.toString();
     }
 
     /**

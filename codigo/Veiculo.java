@@ -158,6 +158,22 @@ public abstract class Veiculo {
         despesaCombustível(rota);
     }
 
+
+
+    public String relatorioRotas() {
+        StringBuilder relatorio = new StringBuilder();
+        relatorio.append("Relatório de Rotas do Veículo " + this.placa + ":\n");
+        for (int i = 0; i < this.quantRotas; i++) {
+            if (this.rotas[i] != null) {
+                relatorio.append("   Data: " + this.rotas[i].getData() + "\n");
+                relatorio.append("   Quilometragem: " + this.rotas[i].getQuilometragem() + "\n");
+                relatorio.append("\n");
+            }
+        }
+        return relatorio.toString();
+    }
+    
+
     /**
      * Verifica se o veículo tem autonomia suficiente para realizar a rota.
      *

@@ -65,12 +65,14 @@ public class App {
         System.out.println(linha);
         System.out.println("1. Cadastrar novo veículo na frota");
         System.out.println("2. Exibir relatório completo da frota");
-        System.out.println("3. Registrar rota para veículo");
-        System.out.println("4. Abastecer veículo");
-        System.out.println("5. Registrar multa para motorista");
-        System.out.println("6. Verificar necessidade de manutenção dos veículos");
-        System.out.println("7. Calcular despesas totais de um veículo");
-        System.out.println("8. Encerrar o programa");
+        System.out.println("3. Exibir relatório de rotas de um veículo");
+        System.out.println("4. Registrar rota para veículo");
+        System.out.println("5. Abastecer veículo");
+        System.out.println("6. Registrar multa para motorista");
+        System.out.println("7. Verificar necessidade de manutenção dos veículos");
+        System.out.println("8. Calcular despesas totais de um veículo");
+        System.out.println("9. Encerrar o programa");
+        
         System.out.println(linha);
         System.out.print("Selecione uma opção: ");
     }
@@ -151,6 +153,8 @@ public class App {
         // Exibir relatorio completo da frota
         System.out.println(frota.relatorioFrota());
     }
+
+
 
     /**
      * Permite ao usuário registrar uma rota para um veículo específico.
@@ -358,36 +362,42 @@ public class App {
                         limparTela();
                         break;
                     case 3:
-                        registrarRota();
+                        frota.exibirRelatorioRotas();
                         separador();
                         pausa();
                         limparTela();
                         break;
                     case 4:
-                        abastecerVeiculo();
+                        registrarRota();
                         separador();
                         pausa();
                         limparTela();
                         break;
                     case 5:
-                        registrarMulta();
+                        abastecerVeiculo();
                         separador();
                         pausa();
                         limparTela();
                         break;
                     case 6:
-                        verificarManutencaoVeiculos();
+                        registrarMulta();
                         separador();
                         pausa();
                         limparTela();
                         break;
                     case 7:
-                        calcularDespesasTotaisVeiculo();
+                        verificarManutencaoVeiculos();
                         separador();
                         pausa();
                         limparTela();
                         break;
                     case 8:
+                        calcularDespesasTotaisVeiculo();
+                        separador();
+                        pausa();
+                        limparTela();
+                        break;
+                    case 9:
                         continuar = false; // Sai do loop e encerra o programa.
                         System.out.println("Até logo ;)");
                         break;
