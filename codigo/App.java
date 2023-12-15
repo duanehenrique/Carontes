@@ -146,8 +146,8 @@ public class App {
             System.out.print("Digite o tipo de veículo (Carro, Van, Furgao, Caminhao):");
         tipoVeiculo = normalizar(teclado.next());
         teclado.nextLine();
-        veiculoValido = (!(tipoVeiculo.equals("CARRO")) || (!tipoVeiculo.equals("VAN")) || (!tipoVeiculo.equals("FURGAO"))|| (!tipoVeiculo.equals("CAMINHAO")));
-        if(veiculoValido){
+        veiculoValido = ((tipoVeiculo.equals("CARRO")) || (tipoVeiculo.equals("VAN")) || (tipoVeiculo.equals("FURGAO"))|| (tipoVeiculo.equals("CAMINHAO")));
+        if(!veiculoValido){
             System.err.println("Tipo de veículo inválido. Tente novamente com alguma das opções disponíveis.");
         }    
         }
