@@ -175,11 +175,12 @@ public void percorrerRota(Rota rota) {
             throw new IllegalArgumentException("A rota já foi percorrida. Escolha outra rota para percorrer");
         }
 
-        if (rota.getQuilometragem() > autonomiaAtual()) {
+        if (rota.getQuilometragem() <= autonomiaAtual()) {
             rota.percorrerRota();
             tanque.consumir(rota.getQuilometragem());
             kmDesdeUltimaManutencao(rota);
-            addDespesaCombustivel(despesaCombustivel);
+            /* addDespesaCombustivel(despesaCombustivel); */
+            System.out.println("Rota percorrida com sucesso!");
         } else {
             throw new IllegalStateException("Quilometragem da rota excede a autonomia atual do veículo. Reabasteça antes de percorrer rota");
         }
@@ -203,7 +204,7 @@ public void listarRotasNaoPercorridas() {
     boolean encontrouRotaNaoPercorrida = false;
 
     for (Rota rota : rotas) {
-        if (!rota.getRotaPercorrida()) {
+        if (rota != null && !rota.getRotaPercorrida()) {
             encontrouRotaNaoPercorrida = true;
         }
     }

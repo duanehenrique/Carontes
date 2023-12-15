@@ -81,6 +81,13 @@ public class Rota implements Relatorio{
         return relatorio.toString();
 }
 
+    @Override
+    public String toString() {
+        return "Rota: data=" + data + ", quilometragem=" + quilometragem + ", rotaPercorrida=" + rotaPercorrida;
+    }
+
+
+
     //#endregion
 
 }
