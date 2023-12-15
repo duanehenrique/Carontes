@@ -61,14 +61,14 @@ public abstract class Veiculo implements Relatorio{
                         "Veículo não pode ter mais rotas. Espere o próximo mês para adicionar a rota.");
             }
 
-            if (rota.getQuilometragem() > autonomiaAtual()) {
-                throw new IllegalArgumentException(
-                        "Autonomia insuficiente para realizar a rota. Abasteça o veículo antes de adicionar a rota.");
-            }
-
             if (rota.getQuilometragem() > autonomiaMaxima()) {
                 throw new IllegalArgumentException(
                         "Distância da rota excede a autonomia máxima do veículo. Escolha outro veículo para adicionar a rota.");
+            }
+            
+            if (rota.getQuilometragem() > autonomiaAtual()) {
+                throw new IllegalArgumentException(
+                        "Autonomia insuficiente para realizar a rota. Abasteça o veículo antes de adicionar a rota.");
             }
 
             if (!manutencao.getManutencaoEmDia()) {
