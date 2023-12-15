@@ -1,4 +1,3 @@
-import java.text.Normalizer;
 
 /**
  * Classe que representa a manutenção de um veículo.

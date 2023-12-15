@@ -534,34 +534,6 @@ public class App {
         frota.exibirRelatorioRotas();
     }
 
-    /**
-     * Lista todos os veículos presentes na frota, incluindo informações como tipo
-     * de veículo e placa.
-     * Para posições não ocupadas na frota, indica que o espaço está disponível para
-     * cadastro.
-     * Este método fornece uma visão geral do estado atual da frota, permitindo ao
-     * usuário identificar
-     * rapidamente veículos existentes e espaços vagos para novos veículos.
-     */
-    private static void listarTodosVeiculos() {
-        Veiculo[] veiculos = frota.getVeiculos();
-        int quantidadeVeiculosCadastrados = 0;
-
-        System.out.println("Listando todos os veículos da frota:");
-        for (int i = 0; i < veiculos.length; i++) {
-            if (veiculos[i] != null) {
-                System.out.println("Veículo " + (i + 1) + ": " + normalizar(veiculos[i].getPlaca()) + " - "
-                        + veiculos[i].getClass().getSimpleName());
-                quantidadeVeiculosCadastrados++;
-            } else {
-                System.out.println("Espaço para veículo " + (i + 1) + ": Disponível para cadastro");
-            }
-        }
-
-        System.out.println("Total de veículos cadastrados: " + quantidadeVeiculosCadastrados);
-        System.out.println("Espaços disponíveis para cadastro: " + (veiculos.length - quantidadeVeiculosCadastrados));
-    }
-
         /**
         * Normaliza a string fornecida, removendo acentos e cedilha, e transformando
         * todos os caracteres para caixa alta.
