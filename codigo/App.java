@@ -120,15 +120,13 @@ public class App {
         System.out.println("3. Registrar rota para veículo");
         System.out.println("4. Abastecer veículo");
         System.out.println("5. Registrar multa para motorista");
-        System.out.println("6. Pagar multas");
+        System.out.println("6. Pagar multa do motorista");
         System.out.println("7. Verificar necessidade de manutenção dos veículos");
-        System.out.println("8. Calcular despesas totais de um veículo");
-        System.out.println("9. Listar rotas não percorridas de um veículo");
-        System.out.println("10. Percorrer rota específica de um veículo");
-        System.out.println("11. Realizar manutenção de um veículo");
-        System.out.println("12. Exibir relatório de rotas de um veículo");
-        System.out.println("13. Listar todos os veículos da frota");
-        System.out.println("14. Encerrar o programa");
+        System.out.println("8. Listar rotas não percorridas de um veículo");
+        System.out.println("9. Percorrer rota específica de um veículo");
+        System.out.println("10. Realizar manutenção de um veículo");
+        System.out.println("11. Exibir relatório de rotas de um veículo");
+        System.out.println("12. Encerrar o programa");
         separador();
         System.out.print("Selecione uma opção: ");
     }
@@ -386,24 +384,24 @@ public class App {
      * Solicita ao usuário o CPF do motorista e realiza o pagamento da multa
      * associada.
      */
-    private static void pagarMultas() {
-        boolean multaPaga = false;
+    private static void pagarMulta(Scanner teclado) {
+        System.out.print("Digite o CPF do motorista para pagar a multa: ");
+        String cpf = teclado.nextLine();
 
         for (Veiculo veiculo : frota.getVeiculos()) {
-            if (veiculo != null) {
-                
-                double valorPago = veiculo.pagarTodasMultas();
-                if (valorPago > 0) {
-                    System.out.println("Todas as multas pagas para o motorista com CPF: " + veiculo.getMotorista().getCpf()
-                            + ". Total pago: " + valorPago);
-                    multaPaga = true;
+            Motorista motorista = veiculo.getMotorista();
+            if (motorista.getCpf().equals(cpf)) {
+                boolean sucesso = veiculo.pagarTodasMultas();
+                if (sucesso) {
+                    System.out.println("Multa paga com sucesso para o motorista com CPF: " + cpf);
+                } else {
+                    System.out.println("Não foi possível pagar a multa. O motorista não tem multas ou já estão pagas.");
                 }
+                return;
             }
         }
 
-        if (!multaPaga) {
-            System.out.println("Não havia multas para pagar em nenhum veículo da frota.");
-        }
+        System.out.println("Motorista com CPF " + cpf + " não encontrado.");
     }
 
     /**
@@ -443,24 +441,7 @@ public class App {
      * Este método trata exceções para garantir que o aplicativo não falhe devido a
      * erros inesperados durante o cálculo.
      */
-    private static void calcularDespesasTotaisVeiculo(Scanner teclado) {
-        try {
-            System.out.print("Digite a placa do veículo para calcular as despesas: ");
-            String placa = teclado.next().toUpperCase(); // Converte para maiúscula para evitar problemas de comparação de string
-            teclado.nextLine();
 
-            Veiculo veiculoDespesas = frota.localizarVeiculo(placa);
-            
-            if (veiculoDespesas != null) {
-                double despesaTotal = veiculoDespesas.getDespesaTotal();
-                System.out.println("Despesa total do veículo de placa " + placa + ": R$ " + String.format("%.2f", despesaTotal));
-            } else {
-                System.out.println("Veículo não encontrado.");
-            }
-        } catch (Exception e) {
-            System.out.println("Ocorreu um erro ao calcular as despesas totais do veículo: " + e.getMessage());
-        }
-    }
     
 
     /**
@@ -625,7 +606,7 @@ public class App {
                         separador();
                         break;
                     case 6:
-                        pagarMultas();
+                        pagarMulta(teclado);
                         separador();
                         break;
                     case 7:
@@ -633,42 +614,35 @@ public class App {
                         separador();
                         break;
                     case 8:
-                        calcularDespesasTotaisVeiculo(teclado);
-                        separador();
-                        break;
-                    case 9:
                         listarRotasNaoPercorridas(teclado);
                         separador();
                         break;
-                    case 10:
+                    case 9:
                         percorrerRotaEspecifica(teclado);
                         separador();
                         break;
-                    case 11:
+                    case 10:
                         realizarManutencaoVeiculo(teclado);
                         separador();
                         break;
-                    case 12:
+                    case 11:
                         exibirRelatorioRotasVeiculo();
                         separador();
                         break;
-                    case 13:
-                        listarTodosVeiculos();
-                        separador();
-                        break;
-                    case 14:
+                    case 12:
                         continuar = false; // Sai do loop e encerra o programa.
                         System.out.println("Até logo ;)");
                         break;
                     default:
-                        System.out.println("Opção inválida! Tente novamente! :)");
+                        System.out.println("Opção inválida! Digite opção presente no menu. :)");
                         break;
                 }
                 // Aguarda um tempo antes de executar a próxima ação
                 pausa();
                 limparTela();
             } catch (Exception e) {
-                System.out.println("Ocorreu um erro: " + e.getMessage());
+                System.out.println("Ocorreu um erro: digite um número presente no menu." );
+                teclado.nextLine();
                 pausa();
                 limparTela();
             }
