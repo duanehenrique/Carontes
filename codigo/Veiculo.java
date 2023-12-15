@@ -425,7 +425,7 @@ public String relatorioRotas() {
         relatorio.append("Despesas com combustível: " + despesaCombustivel + "\n");
         relatorio.append("Despesas com multas: " + despesaMulta + "\n");
         relatorio.append("Despesas com manutenção: " + despesaManutencao + "\n");
-        relatorio.append("Despesa total: " + (despesaCombustivel+despesaManutencao+despesaManutencao) + "\n");
+        relatorio.append("Despesa total: " + (despesaCombustivel+despesaManutencao+despesaMulta) + "\n");
         
         return relatorio.toString();
     }
