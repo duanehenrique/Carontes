@@ -15,7 +15,7 @@ public class Furgao extends Veiculo {
         public Furgao(Motorista motorista, String placa, String tipoCombustivel, double custoManutencao) {
                 super(motorista, placa);
                 this.tanque = new Tanque(TANQUE_MAX, tipoCombustivel);
-                this.manutencao = new Manutencao("Furgão", custoManutencao);
+                this.manutencao = new Manutencao(this, custoManutencao);
                 // #endregion
         }
 }
