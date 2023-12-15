@@ -45,11 +45,13 @@ public class Tanque {
      */
     public double abastecer(double litros) {
         if (capacidadeAtual == CAPACIDADEMAXIMA) {
+            System.err.println("Tanque do veículo está cheio.");
             return 0;
         } else if((capacidadeAtual + litros) > CAPACIDADEMAXIMA) {
             
                 double totalReabastecido = CAPACIDADEMAXIMA - capacidadeAtual;
                 capacidadeAtual = CAPACIDADEMAXIMA;
+                System.err.println("Abastecido pedido excede a capacidade do tanque. Veículo foi abastecido até o máximo possível.");
                 return totalReabastecido;
             }
          else {

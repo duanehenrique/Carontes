@@ -333,8 +333,10 @@ public class App {
             teclado.nextLine(); // Limpa o scanner após ler um número
 
             double litrosAbastecidos = veiculoAbastecer.abastecer(litros);
-            System.out.println(
-                    "Veículo de placa " + placaAbastecer + " abastecido com " + litrosAbastecidos + " litros.");
+            System.out.println("Veículo de placa " + placaAbastecer + " abastecido com " + litrosAbastecidos + " litros.");
+            System.out.println("Capacidade atual: " + veiculoAbastecer.getTanque().getCapacidadeAtual() + " litros.");
+            System.out.println("Capacidade máxima: " + veiculoAbastecer.getTanque().getCapacidadeMaxima() + " litros.");
+
         } else {
             System.out.println("Veículo não encontrado.");
         }
