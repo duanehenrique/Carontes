@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.text.Normalizer;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -572,6 +573,21 @@ public class App {
 
         System.out.println("Total de veículos cadastrados: " + quantidadeVeiculosCadastrados);
         System.out.println("Espaços disponíveis para cadastro: " + (veiculos.length - quantidadeVeiculosCadastrados));
+    }
+
+        /**
+        * Normaliza a string fornecida, removendo acentos e cedilha, e transformando
+        * todos os caracteres para caixa alta.
+        * 
+        * @param input A string a ser normalizada.
+        * @return A string normalizada.
+        */
+        public static String normalizar(String texto) {
+        String normalizado = Normalizer.normalize(texto, Normalizer.Form.NFD)
+                .replaceAll("[^\\p{ASCII}]", "");
+        String caixaAlta = normalizado.toUpperCase();
+
+        return caixaAlta;
     }
 
     /**
