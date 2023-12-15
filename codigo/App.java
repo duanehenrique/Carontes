@@ -480,16 +480,22 @@ public class App {
         Veiculo veiculo = frota.localizarVeiculo(placa);
 
         if (veiculo != null) {
-            veiculo.listarRotasNaoPercorridas(); // Lista as rotas não percorridas
-            System.out.print("Escolha o número da rota para percorrer: ");
-            int numeroRota = teclado.nextInt();
-            teclado.nextLine();
-            try {
-                veiculo.percorrerRotaPorLista(numeroRota);
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
+            if(veiculo.getQuantRotas() == 0){
+                System.out.println("Não existe uma rota cadastrada nesse veiculo");
+            }else{
+                veiculo.listarRotasNaoPercorridas(); // Lista as rotas não percorridas
+                System.out.print("Escolha o número da rota para percorrer: ");
+                int numeroRota = teclado.nextInt();
+                teclado.nextLine();
+                try {
+                    veiculo.percorrerRotaPorLista(numeroRota);
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }  
             }
-        } else {
+        }
+        
+        else {
             System.out.println("Veículo não encontrado.");
         }
     }
