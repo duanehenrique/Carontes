@@ -386,7 +386,7 @@ public class App {
      */
     private static void pagarMulta(Scanner teclado) {
         System.out.print("Digite o CPF do motorista para pagar a multa: ");
-        String cpf = teclado.nextLine();
+        String cpf = teclado.next();
 
         for (Veiculo veiculo : frota.getVeiculos()) {
             Motorista motorista = veiculo.getMotorista();

@@ -10,7 +10,9 @@ public abstract class Veiculo implements Relatorio{
     protected double totalReabastecido;
     protected Motorista motorista;
     protected Tanque tanque;
-    protected double despesaTotal;
+    protected double despesaCombustivel;
+    protected double despesaMulta;
+    protected double despesaManutencao;
     protected Manutencao manutencao;
 
     // #endregion
@@ -33,7 +35,7 @@ public abstract class Veiculo implements Relatorio{
         this.quantRotas = 0;
         this.rotas = new Rota[MAX_ROTAS];
         this.totalReabastecido = 0;
-        this.despesaTotal = 0;
+        
     }
 
     // #endregion
@@ -112,8 +114,7 @@ public abstract class Veiculo implements Relatorio{
      * @return A quantidade de litros abastecida.
      */
     public double abastecer(double litros) {
-        
-        addDespesaTotal(litros*this.tanque.getPreco());
+        addDespesaCombustivel(litros*tanque.getPreco());
         return tanque.abastecer(litros);
 
     }
@@ -153,14 +154,14 @@ public abstract class Veiculo implements Relatorio{
      *
      * @return Retorna se existem multas para serm pagas ou não
      */
-    public double pagarTodasMultas() {
-           
-            double valorTotal = this.motorista.pagarTodasMultas();
-            addDespesaTotal(valorTotal);
-           return valorTotal;
-            
-        }
-
+    public boolean pagarTodasMultas() {
+        double despesaMulta =  this.motorista.pagarTodasMultas();
+        addDespesaMulta(despesaMulta);
+   
+   
+    return true;
+    
+}
 /**
  * Percorre uma rota, atualizando o combustível disponível no tanque.
  *
@@ -178,7 +179,7 @@ public void percorrerRota(Rota rota) {
             rota.percorrerRota();
             tanque.consumir(rota.getQuilometragem());
             kmDesdeUltimaManutencao(rota);
-            despesaCombustível(rota);
+            addDespesaCombustivel(despesaCombustivel);
         } else {
             throw new IllegalStateException("Quilometragem da rota excede a autonomia atual do veículo. Reabasteça antes de percorrer rota");
         }
@@ -295,11 +296,11 @@ public String relatorioRotas() {
         double custoManutencao;
         if (!this.manutencao.getManutencaoPecasEmDia()) {
             custoManutencao = this.manutencao.realizarManutencaoPecas();
-            addDespesaTotal(custoManutencao);
+            addDespesaManutencao(custoManutencao);
             System.out.println("Manutenção de trocas de peças realizada com sucesso.");
         } else if (!this.manutencao.getManutencaoPeriodicaEmDia()) {
             custoManutencao = this.manutencao.realizarManutencaoPeriodica();
-            addDespesaTotal(custoManutencao);
+            addDespesaManutencao(custoManutencao);
             System.out.println("Manutenção periódica realizada com sucesso.");
         } else {
             System.out.println("Veículo não necessita de manutenção! Apenas "
@@ -317,14 +318,13 @@ public String relatorioRotas() {
         this.motorista.adicionarPontos(gravidade);
         return this.motorista.multaMaisRecente();
     }
-
-    /**
+  /**
      * Adiciona a despesa de combustível da rota à despesa total.
      * 
      * @param rota A rota a ser adicionada.
      */
-    protected void despesaCombustível(Rota rota) {
-        addDespesaTotal(tanque.getPreco() * (rota.getQuilometragem() / tanque.getCONSUMO()));
+    protected void addDespesaCombustivel(double despesaCombustivel) {
+        this.despesaCombustivel += despesaCombustivel;
     }
 
     /**
@@ -332,8 +332,8 @@ public String relatorioRotas() {
      * 
      * @param valorMulta O valor da multa.
      */
-    public void despesaMultaMotorista(double valorMulta) {
-        addDespesaTotal(valorMulta);
+    public void addDespesaMulta(double valorMulta) {
+        despesaMulta += valorMulta;
     }
 
     /**
@@ -341,8 +341,8 @@ public String relatorioRotas() {
      * 
      * @param despesaNova A nova despesa a ser adicionada.
      */
-    protected void addDespesaTotal(double despesaNova) {
-        this.despesaTotal += despesaNova;
+    protected void addDespesaManutencao(double despesaManutencao) {
+        this.despesaManutencao += despesaManutencao;
     }
 
     // #endregion
@@ -394,14 +394,6 @@ public String relatorioRotas() {
         return totalReabastecido;
     }
 
-    /**
-     * Retorna a despesa total.
-     * 
-     * @return A despesa total.
-     */
-    public double getDespesaTotal() {
-        return despesaTotal;
-    }
 
     /**
      * Retorna a manutenção do veículo.
@@ -421,16 +413,20 @@ public String relatorioRotas() {
      * 
      * @return Uma string representando o veículo.
      */
-   public String relatorio() {
+    public String relatorio() {
         StringBuilder relatorio = new StringBuilder();
         relatorio.append(getPlaca() + ":\n");
         relatorio.append("Motorista: " + motorista.getNome() + "\n");
-        relatorio.append("CPF do Motorista: " + motorista.getCpf()+ "\n");
+        relatorio.append("CPF do Motorista: " + motorista.getCpf() + "\n");
         relatorio.append("Km Rodados no mes: " + kmNoMes() + " km\n");
         relatorio.append("Km Total: " + kmTotal() + " km\n");
         relatorio.append("Autonomia do veiculo: " + autonomiaAtual() + " km\n");
         relatorio.append("Tanque abastecido com: " + getTanque().getCapacidadeAtual() + " litros de "+ getTanque().getTipo() +  "\n");
-        //relatorio.append(getTanque().getTipo() + "\n");
+        relatorio.append("Despesas com combustível: " + despesaCombustivel + "\n");
+        relatorio.append("Despesas com multas: " + despesaMulta + "\n");
+        relatorio.append("Despesas com manutenção: " + despesaManutencao + "\n");
+        relatorio.append("Despesa total: " + (despesaCombustivel+despesaManutencao+despesaManutencao) + "\n");
+        
         return relatorio.toString();
     }
 
