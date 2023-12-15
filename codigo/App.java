@@ -140,9 +140,19 @@ public class App {
      */
     private static Veiculo cadastrarVeiculo(Scanner teclado) {
         // Solicita ao usuário que digite o tipo de veículo
-        System.out.print("Digite o tipo de veículo (Carro, Van, Furgao, Caminhao):");
-        String tipoVeiculo = normalizar(teclado.next());
+        String tipoVeiculo;
+        boolean veiculoValido;
+        do{
+            System.out.print("Digite o tipo de veículo (Carro, Van, Furgao, Caminhao):");
+        tipoVeiculo = normalizar(teclado.next());
         teclado.nextLine();
+        veiculoValido = (!(tipoVeiculo.equals("CARRO")) || (!tipoVeiculo.equals("VAN")) || (!tipoVeiculo.equals("FURGAO"))|| (!tipoVeiculo.equals("CAMINHAO")));
+        if(veiculoValido){
+            System.err.println("Tipo de veículo inválido. Tente novamente com alguma das opções disponíveis.");
+        }    
+        }
+        while(!veiculoValido);
+        
 
         // Solicita ao usuário que digite o nome do motorista
         System.out.print("Digite o nome do motorista:");
