@@ -21,7 +21,7 @@ public class Carro extends Veiculo {
     public Carro(Motorista motorista, String placa, String tipoCombustivel, double custoManutencao) {
         super(motorista, placa);
         this.tanque = new Tanque(TANQUE_MAX, tipoCombustivel);
-        this.manutencao = new Manutencao("Carro", custoManutencao);
+        this.manutencao = new Manutencao(this, custoManutencao);
     }
     // #endregion
 }

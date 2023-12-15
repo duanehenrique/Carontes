@@ -23,27 +23,22 @@ public class Manutencao {
      * @param tipoVeiculo O tipo de veículo.
      * @param custo       O custo da manutenção.
      */
-    public Manutencao(String tipoVeiculo, double custo) {
+    public Manutencao(Veiculo veiculo, double custo) {
         this.manutencaoPeriodicaEmDia = true;
         this.manutencaoPecasEmDia = true;
         this.kmDesdeUltimaManutencao = 0;
         this.custo = custo;
-        switch (Normalizer.normalize(tipoVeiculo.toUpperCase(), Normalizer.Form.NFD)
-                .replaceAll("\\p{InCombiningDiacriticalMarks}+", "")) {
-            case "CARRO":
-                km = KmManutencao.CARRO;
-                break;
-            case "VAN":
-                km = KmManutencao.VAN;
-                break;
-            case "FURGAO":
-                km = KmManutencao.FURGAO;
-                break;
-            case "CAMINHAO":
-                km = KmManutencao.CAMINHAO;
-                break;
-            default:
-                throw new IllegalArgumentException("Tipo de veículo desconhecido: " + tipoVeiculo);
+        if(veiculo instanceof Carro){
+        km = KmManutencao.CARRO;
+        } else if(veiculo instanceof Van){
+        km = KmManutencao.VAN;
+        }else if(veiculo instanceof Furgao){
+        km = KmManutencao.FURGAO;
+        }else if(veiculo instanceof Caminhao){
+        km = KmManutencao.CAMINHAO;
+        }else{
+                throw new IllegalArgumentException("Não foi possível criar o veículo desejado.");
+
         }
     }
 
