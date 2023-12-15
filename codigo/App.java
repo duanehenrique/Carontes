@@ -75,8 +75,7 @@ public class App {
             placa = placaBuilder.toString();
         } while (placasGeradas.contains(placa)); // Continua até gerar uma placa única
 
-        placa = placa.toUpperCase();
-        placasGeradas.add(placa); // Adiciona a nova placa ao conjunto para rastreamento
+        placasGeradas.add(normalizar(placa)); // Adiciona a nova placa ao conjunto para rastreamento
         return placa;
     }
 
@@ -144,7 +143,7 @@ public class App {
     private static Veiculo cadastrarVeiculo(Scanner teclado) {
         // Solicita ao usuário que digite o tipo de veículo
         System.out.print("Digite o tipo de veículo (Carro, Van, Furgao, Caminhao):");
-        String tipoVeiculo = teclado.next().toUpperCase();
+        String tipoVeiculo = normalizar(teclado.next());
         teclado.nextLine();
 
         // Solicita ao usuário que digite o nome do motorista
@@ -162,12 +161,12 @@ public class App {
 
         // Solicita ao usuário que digite a placa do veículo
         System.out.print("Digite a placa do veículo:");
-        String placa = teclado.next().toUpperCase();
+        String placa = normalizar(teclado.next());
         teclado.nextLine();
 
         // Solicita ao usuário que digite o tipo de combustível
         System.out.print("Digite o tipo de combustível (Alcool, Gasolina, Diesel):");
-        String tipoCombustivel = teclado.next();
+        String tipoCombustivel = normalizar(teclado.next());
         teclado.nextLine();
 
         // Separa com uma linha
@@ -214,12 +213,12 @@ public class App {
         Motorista motorista = new Motorista(nomeMotorista, cpfMotorista);
 
         // Gera um tipo de veículo aleatório.
-        String[] tiposVeiculo = { "Carro", "Van", "Furgao", "Caminhao" };
-        String tipoVeiculo = tiposVeiculo[random.nextInt(tiposVeiculo.length)].toUpperCase();
+        String[] tiposVeiculo = { "CARRO", "VAN", "FURGAO", "CAMINHAO" };
+        String tipoVeiculo = normalizar(tiposVeiculo[random.nextInt(tiposVeiculo.length)].toUpperCase());
 
         // Gera um tipo de combustível aleatório.
-        String[] tiposCombustivel = { "alcool", "gasolina", "diesel" };
-        String tipoCombustivel = tiposCombustivel[random.nextInt(tiposCombustivel.length)].toUpperCase();
+        String[] tiposCombustivel = { "ALCOOL", "GASOLINA", "DIESEL" };
+        String tipoCombustivel = normalizar(tiposCombustivel[random.nextInt(tiposCombustivel.length)].toUpperCase());
 
         // Calcula o custo de manutenção com base no tipo de veículo.
         double custoManutencao = calcularCustoManutencao(tipoVeiculo);
@@ -241,25 +240,25 @@ public class App {
     private static double calcularCustoManutencao(String tipoVeiculo) {
         // Usando um HashMap para determinar o custo de manutenção
         HashMap<String, Double> custosManutencao = new HashMap<>();
-        custosManutencao.put("Carro", 500.0);
-        custosManutencao.put("Van", 750.0);
-        custosManutencao.put("Furgao", 1000.0);
-        custosManutencao.put("Caminhao", 1500.0);
+        custosManutencao.put("CARRO", 500.0);
+        custosManutencao.put("VAN", 750.0);
+        custosManutencao.put("FURGAO", 1000.0);
+        custosManutencao.put("CAMINHAO", 1500.0);
 
-        return custosManutencao.getOrDefault(tipoVeiculo, 0.0);
+        return custosManutencao.getOrDefault(normalizar(tipoVeiculo), 0.0);
     }
 
     private static Veiculo criarVeiculo(String tipoVeiculo, Motorista motorista, String placa, String tipoCombustivel,
             double custoManutencao) {
-        switch (tipoVeiculo) {
+        switch (normalizar(tipoVeiculo)) {
             case "CARRO":
-                return new Carro(motorista, placa, tipoCombustivel, custoManutencao);
+                return new Carro(motorista, normalizar(placa), normalizar(tipoCombustivel), custoManutencao);
             case "VAN":
-                return new Van(motorista, placa, tipoCombustivel, custoManutencao);
+                return new Van(motorista, normalizar(placa), normalizar(tipoCombustivel), custoManutencao);
             case "FURGAO":
-                return new Furgao(motorista, placa, tipoCombustivel, custoManutencao);
+                return new Furgao(motorista, normalizar(placa), normalizar(tipoCombustivel), custoManutencao);
             case "CAMINHAO":
-                return new Caminhao(motorista, placa, tipoCombustivel, custoManutencao);
+                return new Caminhao(motorista, normalizar(placa), normalizar(tipoCombustivel), custoManutencao);
             default:
                 System.out.println("Tipo de veículo desconhecido.");
                 return null;
@@ -285,7 +284,7 @@ public class App {
          
         try {
             System.out.print("Digite a placa do veículo para a rota: ");
-            String placaRota = teclado.next();
+            String placaRota = normalizar(teclado.next());
             Veiculo veiculoRota = frota.localizarVeiculo(placaRota);
             // Verifica se o veículo foi encontrado
             teclado.nextLine();
@@ -315,7 +314,7 @@ public class App {
      */
     private static void abastecerVeiculo(Scanner teclado) {
         System.out.print("Digite a placa do veículo para abastecer: ");
-        String placaAbastecer = teclado.next().toUpperCase();
+        String placaAbastecer = normalizar(teclado.next());
         teclado.nextLine();
 
         Veiculo veiculoAbastecer = frota.localizarVeiculo(placaAbastecer);
@@ -339,7 +338,7 @@ public class App {
      */
     private static void registrarMulta(Scanner teclado) {
         System.out.print("Digite a placa do veículo que recebeu a multa: ");
-        String placa = teclado.next().toUpperCase();
+        String placa = normalizar(teclado.next());
         teclado.nextLine();
 
         Veiculo veiculo = frota.localizarVeiculo(placa);
@@ -353,11 +352,11 @@ public class App {
             int escolhaMulta = teclado.nextInt();
             teclado.nextLine();; // Limpa o buffer do Scanner
 
-            String tipoMulta = convertEscolhaParaGravidade(escolhaMulta).toUpperCase();
+            String tipoMulta = normalizar(convertEscolhaParaGravidade(escolhaMulta));
             if (!tipoMulta.isEmpty()) {
                 veiculo.addMultaAoMotorista(tipoMulta);
                 System.out
-                        .println("Multa do tipo " + tipoMulta + " registrada com sucesso no veículo de placa " + placa);
+                        .println("Multa do tipo " + tipoMulta + " registrada com sucesso no veículo de placa " + normalizar(placa));
             } else {
                 System.out.println("Tipo de multa inválido.");
             }
@@ -447,14 +446,14 @@ public class App {
     private static void calcularDespesasTotaisVeiculo(Scanner teclado) {
         try {
             System.out.print("Digite a placa do veículo para calcular as despesas: ");
-            String placa = teclado.next().toUpperCase(); // Converte para maiúscula para evitar problemas de comparação de string
+            String placa = normalizar(teclado.next());
             teclado.nextLine();
 
-            Veiculo veiculoDespesas = frota.localizarVeiculo(placa);
+            Veiculo veiculoDespesas = frota.localizarVeiculo(normalizar(placa));
             
             if (veiculoDespesas != null) {
                 double despesaTotal = veiculoDespesas.getDespesaTotal();
-                System.out.println("Despesa total do veículo de placa " + placa + ": R$ " + String.format("%.2f", despesaTotal));
+                System.out.println("Despesa total do veículo de placa " + normalizar(placa) + ": R$ " + String.format("%.2f", despesaTotal));
             } else {
                 System.out.println("Veículo não encontrado.");
             }
@@ -471,10 +470,10 @@ public class App {
      */
     private static void listarRotasNaoPercorridas(Scanner teclado) {
         System.out.print("Digite a placa do veículo para listar rotas não percorridas: ");
-        String placa = teclado.next().toUpperCase();
+        String placa = normalizar(teclado.next());
         teclado.nextLine();
 
-        Veiculo veiculo = frota.localizarVeiculo(placa);
+        Veiculo veiculo = frota.localizarVeiculo(normalizar(placa));
 
         if (veiculo != null) {
             try {
@@ -493,7 +492,7 @@ public class App {
      */
     private static void percorrerRotaEspecifica(Scanner teclado) {
         System.out.print("Digite a placa do veículo para percorrer uma rota: ");
-        String placa = teclado.next().toUpperCase();
+        String placa = normalizar(teclado.next());
         teclado.nextLine();
 
         Veiculo veiculo = frota.localizarVeiculo(placa);
@@ -520,7 +519,7 @@ public class App {
      */
     private static void realizarManutencaoVeiculo(Scanner teclado) {
         System.out.println("Digite a placa do veículo para realizar manutenção:");
-        String placa = teclado.next().toUpperCase();
+        String placa = normalizar(teclado.next());
         teclado.nextLine();
 
         boolean veiculoEncontrado = false;
@@ -535,7 +534,7 @@ public class App {
         }
 
         if (!veiculoEncontrado) {
-            System.out.println("Veículo com placa " + placa + " não encontrado.");
+            System.out.println("Veículo com placa " + normalizar(placa) + " não encontrado.");
         }
     }
 
@@ -563,7 +562,7 @@ public class App {
         System.out.println("Listando todos os veículos da frota:");
         for (int i = 0; i < veiculos.length; i++) {
             if (veiculos[i] != null) {
-                System.out.println("Veículo " + (i + 1) + ": " + veiculos[i].getPlaca() + " - "
+                System.out.println("Veículo " + (i + 1) + ": " + normalizar(veiculos[i].getPlaca()) + " - "
                         + veiculos[i].getClass().getSimpleName());
                 quantidadeVeiculosCadastrados++;
             } else {
