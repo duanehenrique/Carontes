@@ -1,12 +1,14 @@
 import java.time.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class Veiculo implements Relatorio{
 
     // #region Atributos
     protected static final int MAX_ROTAS;
     protected String placa;
-    protected Rota[] rotas;
-    protected int quantRotas;
+    protected List<Rota> rotas;
+    protected int capacidadePassageiros;
     protected double totalReabastecido;
     protected Motorista motorista;
     protected Tanque tanque;
@@ -32,8 +34,7 @@ public abstract class Veiculo implements Relatorio{
     public Veiculo(Motorista motorista, String placa) {
         this.motorista = motorista;
         this.placa = placa;
-        this.quantRotas = 0;
-        this.rotas = new Rota[MAX_ROTAS];
+        this.rotas = new ArrayList<>();
         this.totalReabastecido = 0;
         
     }
@@ -54,11 +55,11 @@ public abstract class Veiculo implements Relatorio{
      *                                  se a carteira de motorista está invalidada
      *                                  por multas.
      */
+
     public void addRota(Rota rota) {
         try {
-            if (quantRotas >= MAX_ROTAS) {
-                throw new IllegalArgumentException(
-                        "Veículo não pode ter mais rotas. Espere o próximo mês para adicionar a rota.");
+            if (rotas.contains(rota)) {
+            throw new IllegalArgumentException("A rota já existe na lista de rotas.");
             }
 
             if (rota.getQuilometragem() > autonomiaMaxima()) {
@@ -81,8 +82,7 @@ public abstract class Veiculo implements Relatorio{
                         "Carteira de motorista invalidada por multas. Espere o vencimento dos pontos da carteira antes de adicionar a rota.");
             }
 
-            rotas[quantRotas] = rota;
-            quantRotas++;
+            rotas.add(rota);
             System.err.println("Rota adicionada ao veículo de placa " + getPlaca() + " com sucesso!");
         } catch (IllegalArgumentException | IllegalStateException e) {
             System.out.println("Erro ao adicionar rota: " + e.getMessage());
@@ -127,10 +127,10 @@ public abstract class Veiculo implements Relatorio{
     public double kmNoMes() {
         LocalDate dataAtual = LocalDate.now();
         double kmNoMes = 0;
-        for (int i = 0; i < quantRotas; i++) {
-            LocalDate dataRota = rotas[i].getData();
+        for (int i = 0; i < rotas.size(); i++) {
+            LocalDate dataRota = rotas.get(i).getData();
             if (dataAtual.getMonthValue() == dataRota.getMonthValue()) {
-                kmNoMes += rotas[i].getQuilometragem();
+                kmNoMes += rotas.get(i).getQuilometragem();
             }
         }
         return kmNoMes;
@@ -143,8 +143,8 @@ public abstract class Veiculo implements Relatorio{
      */
     public double kmTotal() {
         double kmTotal = 0;
-        for (int i = 0; i < quantRotas; i++) {
-            kmTotal += rotas[i].getQuilometragem();
+        for (int i = 0; i < rotas.size(); i++) {
+            kmTotal += rotas.get(i).getQuilometragem();
         }
         return kmTotal;
     }
@@ -169,24 +169,39 @@ public abstract class Veiculo implements Relatorio{
  * @throws IllegalArgumentException Se a rota já foi percorrida.
  * @throws IllegalStateException    Se a quilometragem da rota excede a autonomia atual do veículo.
  */
-public void percorrerRota(Rota rota) {
+public int percorrerRota(Rota rota) {
+    int totalAlmas = 0;
     try {
         if (rota.getRotaPercorrida()) {
             throw new IllegalArgumentException("A rota já foi percorrida. Escolha outra rota para percorrer");
         }
 
         if (rota.getQuilometragem() <= autonomiaAtual()) {
-            rota.percorrerRota();
+            totalAlmas = rota.percorrerRota(capacidadePassageiros);
             tanque.consumir(rota.getQuilometragem());
             kmDesdeUltimaManutencao(rota);
             /* addDespesaCombustivel(despesaCombustivel); */
             System.out.println("Rota percorrida com sucesso!");
+            return totalAlmas;
         } else {
-            throw new IllegalStateException("Quilometragem da rota excede a autonomia atual do veículo. Reabasteça antes de percorrer rota");
+            throw new IllegalStateException("Quilometragem da rota excede a autonomia atual da embarcação. Reabasteça antes de percorrer rota");
         }
     } catch (IllegalArgumentException | IllegalStateException e) {
         System.err.println("Erro ao percorrer rota: " + e.getMessage());
+        return totalAlmas;
     }
+}
+
+public int fecharDia(LocalDate dataAtual) {
+    int totalAlmasDia = 0;
+    if (rotas != null) {
+        for (Rota rota : rotas) {
+            if (rota != null && !rota.getRotaPercorrida() && rota.getData().isEqual(dataAtual)) {
+                totalAlmasDia += rota.percorrerRota(capacidadePassageiros); // Ajuste para passar a capacidade máxima
+            }
+        }
+    }
+    return totalAlmasDia;
 }
 
 /**
@@ -196,7 +211,7 @@ public void percorrerRota(Rota rota) {
  * @throws IllegalStateException Se o vetor de rotas estiver vazio ou se não houver rotas não percorridas.
  */
 public void listarRotasNaoPercorridas() {
-    if (quantRotas == 0) {
+    if (rotas.size() == 0) {
         throw new IllegalStateException("Não há rotas associadas ao veículo.");
     }
 
@@ -231,7 +246,7 @@ public void listarRotasNaoPercorridas() {
  * @throws IllegalStateException    Se o vetor de rotas estiver vazio ou se não houver rotas não percorridas.
  */
 public void percorrerRotaPorLista(int numeroRota) {
-    if (quantRotas == 0) {
+    if (rotas.size() == 0) {
         throw new IllegalStateException("Não há rotas associadas ao veículo.");
     }
 
@@ -253,10 +268,10 @@ public void percorrerRotaPorLista(int numeroRota) {
 public String relatorioRotas() {
     StringBuilder relatorio = new StringBuilder();
     relatorio.append("Relatório de Rotas do Veículo " + this.placa + ":\n");
-    for (int i = 0; i < this.quantRotas; i++) {
-        if (this.rotas[i] != null) {
-            relatorio.append("   Data: " + this.rotas[i].getData() + "\n");
-            relatorio.append("   Quilometragem: " + this.rotas[i].getQuilometragem() + "\n");
+    for (int i = 0; i < rotas.size(); i++) {
+        if (rotas.get(i) != null) {
+            relatorio.append("   Data: " + rotas.get(i).getData() + "\n");
+            relatorio.append("   Quilometragem: " + rotas.get(i).getQuilometragem() + "\n");
             relatorio.append("\n");
         }
     }
@@ -364,7 +379,7 @@ public String relatorioRotas() {
      * 
      * @return Um array de rotas do veículo.
      */
-    public Rota[] getRotas() {
+    public List<Rota> getRotas() {
         return this.rotas;
     }
 
@@ -374,7 +389,7 @@ public String relatorioRotas() {
      * @return A quantidade de rotas.
      */
     public double getQuantRotas() {
-        return quantRotas;
+        return rotas.size();
     }
 
     /**

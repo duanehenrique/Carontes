@@ -17,7 +17,7 @@ import java.util.Set;
  * verificar manutenção
  * e calcular despesas totais dos veículos, dentre outras funcionalidades.
  */
-public class App {
+public class App implements Normalizador{
     static Random random;
     static Frota frota;
     static Scanner teclado = new Scanner(System.in);
@@ -541,12 +541,12 @@ public class App {
         * @param input A string a ser normalizada.
         * @return A string normalizada.
         */
-        public static String normalizar(String texto) {
+        private static String normalizar(String texto) {
         String normalizado = Normalizer.normalize(texto, Normalizer.Form.NFD)
                 .replaceAll("[^\\p{ASCII}]", "");
-        String caixaAlta = normalizado.toUpperCase();
+        normalizado = normalizado.toUpperCase();
 
-        return caixaAlta;
+        return normalizado;
     }
 
     /**
