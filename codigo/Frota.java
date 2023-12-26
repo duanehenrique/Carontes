@@ -4,7 +4,7 @@ import java.util.Scanner;
 public class Frota {
     // #region Atributos
     private int tamanhoFrota;
-    private Veiculo[] veiculos;
+    private Barco[] veiculos;
     private LocalDate dataUltimaFrota;
     // #endregion
 
@@ -16,7 +16,7 @@ public class Frota {
      */
     public Frota(int tamanhoFrota) {
         this.tamanhoFrota = tamanhoFrota;
-        this.veiculos = new Veiculo[tamanhoFrota];
+        this.veiculos = new Barco[tamanhoFrota];
         this.dataUltimaFrota = LocalDate.now();
     }
 
@@ -28,7 +28,7 @@ public class Frota {
      * 
      * @param veiculo O veículo a ser adicionado.
      */
-    public void adicionarVeiculo(Veiculo veiculo) {
+    public void adicionarVeiculo(Barco veiculo) {
         if(mesVirou()){
             reiniciarFrota();
         }
@@ -60,7 +60,7 @@ public class Frota {
         Scanner teclado = new Scanner(System.in);
         System.out.print("Digite a placa do veículo para exibir o relatório de rotas: ");
          String placaRotas = teclado.nextLine().toUpperCase();
-        Veiculo veiculo = this.localizarVeiculo(placaRotas);
+        Barco veiculo = this.localizarVeiculo(placaRotas);
         if (veiculo != null) {
             System.out.println(veiculo.relatorioRotas());
         } else {
@@ -74,7 +74,7 @@ public class Frota {
      * @param placa A placa do veículo a ser localizado.
      * @return O veículo localizado, ou null se não for encontrado.
      */
-    public Veiculo localizarVeiculo(String placa) {
+    public Barco localizarVeiculo(String placa) {
         for (int i = 0; i < tamanhoFrota; i++) {
             if (veiculos[i] != null && veiculos[i].getPlaca().equals(placa.toUpperCase())) {
                 return veiculos[i];
@@ -103,8 +103,8 @@ public class Frota {
      * 
      * @return O veículo com a maior quilometragem total.
      */
-    public Veiculo maiorKmTotal() {
-        Veiculo veiculoComMaiorKm = null;
+    public Barco maiorKmTotal() {
+        Barco veiculoComMaiorKm = null;
         double maiorKm = 0.0;
         for (int i = 0; i < tamanhoFrota; i++) {
             if (veiculos[i] != null && veiculos[i].kmTotal() > maiorKm) {
@@ -120,8 +120,8 @@ public class Frota {
      * 
      * @return O veículo com a maior quilometragem média.
      */
-    public Veiculo maiorKmMedia() {
-        Veiculo veiculoComMaiorKmMedia = null;
+    public Barco maiorKmMedia() {
+        Barco veiculoComMaiorKmMedia = null;
         double maiorKmMedia = 0.0;
         for (int i = 0; i < tamanhoFrota; i++) {
             if (veiculos[i] != null) {
@@ -154,7 +154,7 @@ public class Frota {
      * Reinicia a frota, criando um novo array de veículos com o tamanho especificado.
      */
     private void reiniciarFrota(){
-        this.veiculos = new Veiculo[tamanhoFrota];
+        this.veiculos = new Barco[tamanhoFrota];
     }
     // #endregion
 
@@ -173,7 +173,7 @@ public class Frota {
      * 
      * @return Um array contendo os veículos da frota.
      */
-    public Veiculo[] getVeiculos() {
+    public Barco[] getVeiculos() {
         return veiculos;
     }
     // #endregion

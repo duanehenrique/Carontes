@@ -22,7 +22,7 @@ public class Manutencao {
      * @param tipoVeiculo O tipo de veículo.
      * @param custo       O custo da manutenção.
      */
-    public Manutencao(Veiculo veiculo, double custo) {
+    public Manutencao(Barco veiculo, double custo) {
         this.manutencaoPeriodicaEmDia = true;
         this.manutencaoPecasEmDia = true;
         this.kmDesdeUltimaManutencao = 0;

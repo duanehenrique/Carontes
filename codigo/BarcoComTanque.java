@@ -1,4 +1,4 @@
-public interface VeiculoComTanque{
+public interface BarcoComTanque{
     public double autonomiaMaxima();
     public double autonomiaAtual();
     public double abastecer(double litros);

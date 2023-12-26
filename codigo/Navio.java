@@ -1,4 +1,4 @@
-public class Navio extends Veiculo  implements VeiculoComTanque{
+public class Navio extends Barco  implements BarcoComTanque{
         // #region Atributos
         private static final double TANQUE_MAX = 80;
         private static final int TOTAL_PASSAGEIROS = 20;

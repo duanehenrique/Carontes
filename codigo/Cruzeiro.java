@@ -2,7 +2,7 @@
  * Classe Caminhao que estende a classe Veiculo.
  * Esta classe representa um caminhão no sistema.
  */
-public class Cruzeiro extends Veiculo implements VeiculoComTanque{
+public class Cruzeiro extends Barco implements BarcoComTanque{
 
     // #region Atributos
     private static final double TANQUE_MAX = 250;

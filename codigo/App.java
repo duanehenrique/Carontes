@@ -100,7 +100,7 @@ public class App implements Normalizador{
         int veiculosParaInicializar = capacidadeTotalFrota / 2;
         for (int i = 0; i < veiculosParaInicializar; i++) {
             String placaUnica = gerarPlacaUnica(); // Gera uma placa única para cada veículo
-            Veiculo veiculo = cadastrarVeiculoAutomatico(placaUnica); // Passa a placa única para o método de cadastro
+            Barco veiculo = cadastrarVeiculoAutomatico(placaUnica); // Passa a placa única para o método de cadastro
             double quantidadeInicial = 10 + random.nextInt(7); // Gera uma quantidade inicial de combustível aleatória
             veiculo.abastecer(quantidadeInicial); // Abastece o veículo com a quantidade inicial
         }
@@ -138,7 +138,7 @@ public class App implements Normalizador{
      * Valida as entradas e, se bem-sucedido, adiciona o
      * veículo à frota.
      */
-    private static Veiculo cadastrarVeiculo(Scanner teclado) {
+    private static Barco cadastrarVeiculo(Scanner teclado) {
         // Solicita ao usuário que digite o tipo de veículo
         String tipoVeiculo;
         boolean veiculoValido;
@@ -184,7 +184,7 @@ public class App implements Normalizador{
         double custoManutencao = calcularCustoManutencao(tipoVeiculo);
 
         // Cria o veículo com base no tipo
-        Veiculo veiculo = criarVeiculo(tipoVeiculo, motorista, placa, tipoCombustivel, custoManutencao);
+        Barco veiculo = criarVeiculo(tipoVeiculo, motorista, placa, tipoCombustivel, custoManutencao);
 
         // Adiciona o veículo à frota se ele foi criado com sucesso
         if (veiculo != null) {
@@ -209,7 +209,7 @@ public class App implements Normalizador{
      * @param placa A placa única do veículo a ser cadastrado.
      * @return O veículo cadastrado ou null se não for possível criar o veículo.
      */
-    private static Veiculo cadastrarVeiculoAutomatico(String placa) {
+    private static Barco cadastrarVeiculoAutomatico(String placa) {
         random = new Random();
 
         // Gera um nome de motorista aleatório a partir do array de nomes.
@@ -232,7 +232,7 @@ public class App implements Normalizador{
         double custoManutencao = calcularCustoManutencao(tipoVeiculo);
 
         // Cria o veículo com base no tipo.
-        Veiculo veiculo = criarVeiculo(tipoVeiculo, motorista, placa, tipoCombustivel, custoManutencao);
+        Barco veiculo = criarVeiculo(tipoVeiculo, motorista, placa, tipoCombustivel, custoManutencao);
 
         // Adiciona o veículo à frota se ele foi criado com sucesso.
         if (veiculo != null) {
@@ -256,7 +256,7 @@ public class App implements Normalizador{
         return custosManutencao.getOrDefault(normalizar(tipoVeiculo), 0.0);
     }
 
-    private static Veiculo criarVeiculo(String tipoVeiculo, Motorista motorista, String placa, String tipoCombustivel,
+    private static Barco criarVeiculo(String tipoVeiculo, Motorista motorista, String placa, String tipoCombustivel,
             double custoManutencao) {
         switch (normalizar(tipoVeiculo)) {
             case "CARRO":
@@ -293,7 +293,7 @@ public class App implements Normalizador{
         try {
             System.out.print("Digite a placa do veículo para a rota: ");
             String placaRota = normalizar(teclado.next());
-            Veiculo veiculoRota = frota.localizarVeiculo(placaRota);
+            Barco veiculoRota = frota.localizarVeiculo(placaRota);
             // Verifica se o veículo foi encontrado
             teclado.nextLine();
             if (veiculoRota != null) {
@@ -325,7 +325,7 @@ public class App implements Normalizador{
         String placaAbastecer = normalizar(teclado.next());
         teclado.nextLine();
 
-        Veiculo veiculoAbastecer = frota.localizarVeiculo(placaAbastecer);
+        Barco veiculoAbastecer = frota.localizarVeiculo(placaAbastecer);
 
         if (veiculoAbastecer != null) {
             System.out.println("Digite a quantidade de combustível para abastecer (em litros): ");
@@ -351,7 +351,7 @@ public class App implements Normalizador{
         String placa = normalizar(teclado.next());
         teclado.nextLine();
 
-        Veiculo veiculo = frota.localizarVeiculo(placa);
+        Barco veiculo = frota.localizarVeiculo(placa);
 
         if (veiculo != null) {
             System.out.println("Selecione o tipo de multa:");
@@ -400,7 +400,7 @@ public class App implements Normalizador{
         System.out.print("Digite o CPF do motorista para pagar a multa: ");
         String cpf = teclado.next();
 
-        for (Veiculo veiculo : frota.getVeiculos()) {
+        for (Barco veiculo : frota.getVeiculos()) {
             Motorista motorista = veiculo.getMotorista();
             if (motorista.getCpf().equals(cpf)) {
                 boolean sucesso = veiculo.pagarTodasMultas();
@@ -424,7 +424,7 @@ public class App implements Normalizador{
         try {
             boolean manutencaoNecessaria = false;
             // Itera sobre cada veículo na frota
-            for (Veiculo veiculo : frota.getVeiculos()) {
+            for (Barco veiculo : frota.getVeiculos()) {
                 if (veiculo != null) {
                     // Obtém o objeto de manutenção do veículo
                     Manutencao manutencao = veiculo.getManutencao();
@@ -455,7 +455,7 @@ public class App implements Normalizador{
         String placa = normalizar(teclado.next());
         teclado.nextLine();
 
-        Veiculo veiculo = frota.localizarVeiculo(normalizar(placa));
+        Barco veiculo = frota.localizarVeiculo(normalizar(placa));
 
         if (veiculo != null) {
             try {
@@ -477,7 +477,7 @@ public class App implements Normalizador{
         String placa = normalizar(teclado.next());
         teclado.nextLine();
 
-        Veiculo veiculo = frota.localizarVeiculo(placa);
+        Barco veiculo = frota.localizarVeiculo(placa);
 
         if (veiculo != null) {
             if(veiculo.getQuantRotas() == 0){
@@ -512,7 +512,7 @@ public class App implements Normalizador{
 
         boolean veiculoEncontrado = false;
 
-        for (Veiculo veiculo : frota.getVeiculos()) {
+        for (Barco veiculo : frota.getVeiculos()) {
             if (veiculo != null && veiculo.getPlaca().equalsIgnoreCase(placa)) {
                 veiculoEncontrado = true;
                 

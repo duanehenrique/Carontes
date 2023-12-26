@@ -2,7 +2,7 @@
  * Classe Carro que estende a classe Veiculo.
  * Esta classe representa um carro no sistema.
  */
-public class Gondola extends Veiculo {
+public class Gondola extends Barco {
 
     // #region Atributos
     private static final int TOTAL_PASSAGEIROS = 4;

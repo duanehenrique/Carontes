@@ -23,7 +23,7 @@ public class Rota implements Relatorio{
      * @param data          A data da rota.
      * @param quilometragem A quilometragem da rota.
      */
-    public Rota(LocalDate data, double quilometragem, List<Passageiro> passageiros, Veiculo veiculo) {
+    public Rota(LocalDate data, double quilometragem, List<Passageiro> passageiros, Barco veiculo) {
         this.data = data;
         this.quilometragem = quilometragem;
         this.passageiros = passageiros;

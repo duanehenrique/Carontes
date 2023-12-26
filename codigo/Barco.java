@@ -2,7 +2,7 @@ import java.time.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Veiculo implements Relatorio{
+public abstract class Barco implements Relatorio{
 
     // #region Atributos
     protected String placa;
@@ -20,12 +20,12 @@ public abstract class Veiculo implements Relatorio{
     // #region Construtor
 
     /**
-     * Construtor da classe Veiculo.
+     * Construtor da classe Barco.
      *
      * @param motorista O motorista do veículo.
      * @param placa     A placa do veículo.
      */
-     Veiculo(Motorista motorista, String placa) {
+     Barco(Motorista motorista, String placa) {
         this.motorista = motorista;
         this.placa = placa;
         this.rotas = new ArrayList<>();

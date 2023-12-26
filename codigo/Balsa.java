@@ -1,7 +1,7 @@
 /**
  * Classe Van que estende a classe Veículo.
  */
-public class Balsa extends Veiculo implements VeiculoComTanque{
+public class Balsa extends Barco implements BarcoComTanque{
 
     // #region Atributos
     private static final double TANQUE_MAX = 60;
