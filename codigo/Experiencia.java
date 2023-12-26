@@ -1,13 +1,13 @@
 public enum Experiencia {
-    NIVEL_1(1, 0.50),
-    NIVEL_2(2, 1.00),
-    NIVEL_3(3, 1.50),
-    NIVEL_4(4, 2.50);
+    NIVEL_1(1, 1),
+    NIVEL_2(2, 2),
+    NIVEL_3(3, 4),
+    NIVEL_4(4, 6);
 
     private final int nivel;
-    private final double salario;
+    private final int salario;
 
-    Experiencia(int nivel, double salario) {
+    Experiencia(int nivel, int salario) {
         this.nivel = nivel;
         this.salario = salario;
     }

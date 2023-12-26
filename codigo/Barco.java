@@ -7,6 +7,7 @@ public abstract class Barco implements Relatorio{
     // #region Atributos
     protected String placa;
     protected List<Rota> rotas;
+    protected DiarioDeBordo diarioDesteBarco;
     protected static int CAPACIDADEPASSAGEIROS;
     protected double totalReabastecido;
     protected Caronte motorista;
@@ -15,6 +16,7 @@ public abstract class Barco implements Relatorio{
     protected double despesaManutencao;
     protected double despesaSalario;
     protected Manutencao manutencao;
+    boolean abertoParaViagens;
 
     // #endregion
 
@@ -31,6 +33,7 @@ public abstract class Barco implements Relatorio{
         this.placa = placa;
         this.rotas = new ArrayList<>();
         this.totalReabastecido = 0;
+        this.abertoParaViagens = false;
     }
 
     protected static void inicializarCapacidade(int capacidade) {
@@ -144,9 +147,8 @@ public int percorrerRota(Rota rota) {
     }
 }
 
-public int fecharDiaGanhos() {
+public int fecharDia( LocalDate dataAtual) {
     int totalAlmasDia = 0;
-    LocalDate dataAtual = LocalDate.now();
     if (rotas != null) {
         for (Rota rota : rotas) {
             if (rota != null && !rota.getRotaPercorrida() && rota.getData().isEqual(dataAtual)) {
@@ -154,10 +156,19 @@ public int fecharDiaGanhos() {
             }
         }
     }
+    abertoParaViagens = false;
+    diarioDesteBarco.addDiario(this, dataAtual);
+    totalAlmasDia -= despesaCombustivel - despesaManutencao - despesaMulta - despesaSalario;
     return totalAlmasDia;
 }
 
-
+public void iniciarDia(){
+    this.abertoParaViagens = true;
+    this.despesaCombustivel = 0;
+    this.despesaManutencao = 0;
+    this.despesaMulta = 0;
+    this.despesaSalario = 0;
+}
 
 /**
  * Lista as rotas não percorridas numerando cada uma para visualização do usuário.
@@ -375,5 +386,6 @@ public String relatorioRotas() {
     public Manutencao getManutencao() {
         return this.manutencao;
     }
+    
     // #endregion
 }
