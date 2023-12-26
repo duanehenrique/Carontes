@@ -92,8 +92,9 @@ public class Balsa extends Barco implements BarcoComTanque{
     public String relatorio() {
         StringBuilder relatorio = new StringBuilder();
         relatorio.append(getPlaca() + ":\n");
-        relatorio.append("Motorista: " + motorista.getNome() + "\n");
-        relatorio.append("CPF do Motorista: " + motorista.getCpf() + "\n");
+        relatorio.append("Caronte: " + motorista.getNome() + "\n");
+        relatorio.append("Nível de Experiência do Caronte: " + motorista.getNivel() + "\n");
+        relatorio.append("Capacidade máxima do barco: " + CAPACIDADEPASSAGEIROS + "\n");
         relatorio.append("Km Rodados no mes: " + kmNoMes() + " km\n");
         relatorio.append("Km Total: " + kmTotal() + " km\n");
         relatorio.append("Autonomia do veiculo: " + autonomiaAtual() + " km\n");
