@@ -13,6 +13,7 @@ public abstract class Barco implements Relatorio{
     protected double despesaCombustivel;
     protected double despesaMulta;
     protected double despesaManutencao;
+    protected double despesaSalario;
     protected Manutencao manutencao;
 
     // #endregion
@@ -130,20 +131,22 @@ public int percorrerRota(Rota rota) {
     try {
         if (rota.getRotaPercorrida()) {
             throw new IllegalArgumentException("A rota já foi percorrida. Escolha outra rota para percorrer");
-        }
+        }else{
             totalAlmas = rota.percorrerRota(CAPACIDADEPASSAGEIROS);
             kmDesdeUltimaManutencao(rota);
-            /* addDespesaCombustivel(despesaCombustivel); */
+            addDespesaSalario(motorista.getSalario());
             System.out.println("Rota percorrida com sucesso!");
             return totalAlmas;
+        }
     } catch (IllegalArgumentException | IllegalStateException e) {
         System.err.println("Erro ao percorrer rota: " + e.getMessage());
         return totalAlmas;
     }
 }
 
-public int fecharDia(LocalDate dataAtual) {
+public int fecharDiaGanhos() {
     int totalAlmasDia = 0;
+    LocalDate dataAtual = LocalDate.now();
     if (rotas != null) {
         for (Rota rota : rotas) {
             if (rota != null && !rota.getRotaPercorrida() && rota.getData().isEqual(dataAtual)) {
@@ -153,6 +156,8 @@ public int fecharDia(LocalDate dataAtual) {
     }
     return totalAlmasDia;
 }
+
+
 
 /**
  * Lista as rotas não percorridas numerando cada uma para visualização do usuário.
@@ -306,6 +311,10 @@ public String relatorioRotas() {
      */
     protected void addDespesaManutencao(double despesaManutencao) {
         this.despesaManutencao += despesaManutencao;
+    }
+
+    protected void addDespesaSalario (double despesaSalario) {
+        this.despesaSalario += despesaSalario;
     }
 
     // #endregion

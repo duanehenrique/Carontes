@@ -52,6 +52,7 @@ public class Balsa extends Barco implements BarcoComTanque{
 
     }
 
+    @Override
     public int percorrerRota(Rota rota) {
         int totalAlmas = 0;
         try {
@@ -63,7 +64,7 @@ public class Balsa extends Barco implements BarcoComTanque{
                 totalAlmas = rota.percorrerRota(CAPACIDADEPASSAGEIROS);
                 tanque.consumir(rota.getQuilometragem());
                 kmDesdeUltimaManutencao(rota);
-                /* addDespesaCombustivel(despesaCombustivel); */
+                addDespesaSalario(motorista.getSalario());
                 System.out.println("Rota percorrida com sucesso!");
                 return totalAlmas;
             } else {
