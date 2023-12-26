@@ -6,8 +6,8 @@ import java.util.List;
 public class Caronte implements Relatorio{
     // #region Atributos
     private String nome;
-    private String cpf;
     private CarteiraMotorista carteira;
+    private Experiencia experiencia;
     // #endregion
 
     // #region Construtor
@@ -18,10 +18,19 @@ public class Caronte implements Relatorio{
      * @param nome O nome do Caronte.
      * @param cpf  O CPF do Caronte.
      */
-    public Caronte(String nome, String cpf) {
+    public Caronte(String nome, int nivel) {
         this.nome = nome;
-        this.cpf = cpf;
         this.carteira = new CarteiraMotorista();
+        this.experiencia = criarExperiencia(nivel);
+    }
+
+    private Experiencia criarExperiencia(int nivelExperiencia) {
+        for (Experiencia experiencia : Experiencia.values()) {
+            if (nivelExperiencia == experiencia.getNivel()) {
+                return experiencia;
+            }
+        }
+        throw new IllegalArgumentException("Nível de experiência de Caronte inválido: " + nivelExperiencia);
     }
 
     // #endregion
@@ -47,30 +56,12 @@ public class Caronte implements Relatorio{
     }
 
     /**
-     * Retorna o CPF do Caronte.
-     *
-     * @return O CPF do Caronte.
-     */
-    public String getCpf() {
-        return cpf;
-    }
-
-    /**
      * Retorna a carteira de motorista do Caronte.
      *
      * @return A carteira de motorista do Caronte.
      */
     public CarteiraMotorista getCarteira() {
         return carteira;
-    }
-
-    /**
-     * Define o CPF do Caronte.
-     *
-     * @param cpf O novo CPF do Caronte.
-     */
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
     }
 
     /**
@@ -163,6 +154,14 @@ public class Caronte implements Relatorio{
     public boolean getCarteiraValida() {
         return this.carteira.carteiraValida();
     }
+    
+    public int getNivel() {
+        return this.experiencia.getNivel();
+    }
+
+    public double getSalario() {
+        return this.experiencia.getSalario();
+    }
 
     // #endregion
 
@@ -176,7 +175,6 @@ public class Caronte implements Relatorio{
         StringBuilder relatorio = new StringBuilder();
         relatorio.append("Relatório do Caronte:\n");
         relatorio.append("Nome: " + getNome() + "\n");
-        relatorio.append("CPF: " + getCpf() + "\n");
         relatorio.append("Carteira de Motorista:\n");
         relatorio.append(carteira.relatorio());
         return relatorio.toString();
