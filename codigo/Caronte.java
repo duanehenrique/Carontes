@@ -3,7 +3,7 @@ import java.util.List;
 /**
  * Classe que representa um motorista.
  */
-public class Motorista implements Relatorio{
+public class Caronte implements Relatorio{
     // #region Atributos
     private String nome;
     private String cpf;
@@ -13,12 +13,12 @@ public class Motorista implements Relatorio{
     // #region Construtor
 
     /**
-     * Construtor da classe Motorista.
+     * Construtor da classe Caronte.
      *
-     * @param nome O nome do motorista.
-     * @param cpf  O CPF do motorista.
+     * @param nome O nome do Caronte.
+     * @param cpf  O CPF do Caronte.
      */
-    public Motorista(String nome, String cpf) {
+    public Caronte(String nome, String cpf) {
         this.nome = nome;
         this.cpf = cpf;
         this.carteira = new CarteiraMotorista();
@@ -29,45 +29,45 @@ public class Motorista implements Relatorio{
     // #region Métodos
 
     /**
-     * Retorna o nome do motorista.
+     * Retorna o nome do Caronte.
      *
-     * @return O nome do motorista.
+     * @return O nome do Caronte.
      */
     public String getNome() {
         return nome;
     }
 
     /**
-     * Define o nome do motorista.
+     * Define o nome do Caronte.
      *
-     * @param nome O novo nome do motorista.
+     * @param nome O novo nome do Caronte.
      */
     public void setNome(String nome) {
         this.nome = nome;
     }
 
     /**
-     * Retorna o CPF do motorista.
+     * Retorna o CPF do Caronte.
      *
-     * @return O CPF do motorista.
+     * @return O CPF do Caronte.
      */
     public String getCpf() {
         return cpf;
     }
 
     /**
-     * Retorna a carteira de motorista do motorista.
+     * Retorna a carteira de motorista do Caronte.
      *
-     * @return A carteira de motorista do motorista.
+     * @return A carteira de motorista do Caronte.
      */
     public CarteiraMotorista getCarteira() {
         return carteira;
     }
 
     /**
-     * Define o CPF do motorista.
+     * Define o CPF do Caronte.
      *
-     * @param cpf O novo CPF do motorista.
+     * @param cpf O novo CPF do Caronte.
      */
     public void setCpf(String cpf) {
         this.cpf = cpf;
@@ -84,7 +84,7 @@ public class Motorista implements Relatorio{
     }
 
     /**
-     * Paga todas as multas do motorista.
+     * Paga todas as multas do Caronte.
      *
      * @return O valor total das multas pagas.
      */
@@ -93,61 +93,61 @@ public class Motorista implements Relatorio{
     }
 
     /**
-     * Lista todas as multas do motorista.
+     * Lista todas as multas do Caronte.
      *
-     * @return Uma lista de todas as multas do motorista.
+     * @return Uma lista de todas as multas do Caronte.
      */
     public List<Multa> listarMultas() {
         return carteira.listarMultas();
     }
 
     /**
-     * Lista todas as multas ativas do motorista.
+     * Lista todas as multas ativas do Caronte.
      *
-     * @return Uma lista de todas as multas ativas do motorista.
+     * @return Uma lista de todas as multas ativas do Caronte.
      */
     public List<Multa> listarMultasAtivas() {
         return carteira.listarMultasAtivas();
     }
 
     /**
-     * Lista todas as multas não pagas do motorista.
+     * Lista todas as multas não pagas do Caronte.
      *
-     * @return Uma lista de todas as multas não pagas do motorista.
+     * @return Uma lista de todas as multas não pagas do Caronte.
      */
     public List<Multa> listarMultasNaoPagas() {
         return carteira.listarMultasNaoPagas();
     }
 
     /**
-     * Lista todas as multas pagas do motorista.
+     * Lista todas as multas pagas do Caronte.
      *
-     * @return Uma lista de todas as multas pagas do motorista.
+     * @return Uma lista de todas as multas pagas do Caronte.
      */
     public List<Multa> listarMultasPagas() {
         return carteira.listarMultasPagas();
     }
 
     /**
-     * Retorna a multa mais recente do motorista.
+     * Retorna a multa mais recente do Caronte.
      *
-     * @return A multa mais recente do motorista.
+     * @return A multa mais recente do Caronte.
      */
     public Multa multaMaisRecente() {
         return carteira.multaMaisRecente();
     }
 
     /**
-     * Retorna o total de pontos na carteira do motorista.
+     * Retorna o total de pontos na carteira do Caronte.
      *
-     * @return O total de pontos na carteira do motorista.
+     * @return O total de pontos na carteira do Caronte.
      */
     public int getPontos() {
         return carteira.calcularTotalPontos();
     }
 
     /**
-     * Adiciona pontos à carteira do motorista.
+     * Adiciona pontos à carteira do Caronte.
      *
      * @param gravidade A gravidade da infração.
      */
@@ -156,7 +156,7 @@ public class Motorista implements Relatorio{
     }
 
     /**
-     * Verifica se a carteira do motorista é válida.
+     * Verifica se a carteira do Caronte é válida.
      *
      * @return Verdadeiro se a carteira é válida, falso caso contrário.
      */
@@ -174,7 +174,7 @@ public class Motorista implements Relatorio{
      */
     public String relatorio() {
         StringBuilder relatorio = new StringBuilder();
-        relatorio.append("Relatório do Motorista:\n");
+        relatorio.append("Relatório do Caronte:\n");
         relatorio.append("Nome: " + getNome() + "\n");
         relatorio.append("CPF: " + getCpf() + "\n");
         relatorio.append("Carteira de Motorista:\n");

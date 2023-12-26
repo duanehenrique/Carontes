@@ -165,7 +165,7 @@ public class App implements Normalizador{
         teclado.nextLine();
 
         // Cria o motorista
-        Motorista motorista = new Motorista(nomeMotorista, cpfMotorista);
+        Caronte motorista = new Caronte(nomeMotorista, cpfMotorista);
 
         // Solicita ao usuário que digite a placa do veículo
         System.out.print("Digite a placa do veículo:");
@@ -218,7 +218,7 @@ public class App implements Normalizador{
         String cpfMotorista = String.format("%011d", random.nextInt(1_000_000_000));
 
         // Cria o motorista.
-        Motorista motorista = new Motorista(nomeMotorista, cpfMotorista);
+        Caronte motorista = new Caronte(nomeMotorista, cpfMotorista);
 
         // Gera um tipo de veículo aleatório.
         String[] tiposVeiculo = { "CARRO", "VAN", "FURGAO", "CAMINHAO" };
@@ -256,7 +256,7 @@ public class App implements Normalizador{
         return custosManutencao.getOrDefault(normalizar(tipoVeiculo), 0.0);
     }
 
-    private static Barco criarVeiculo(String tipoVeiculo, Motorista motorista, String placa, String tipoCombustivel,
+    private static Barco criarVeiculo(String tipoVeiculo, Caronte motorista, String placa, String tipoCombustivel,
             double custoManutencao) {
         switch (normalizar(tipoVeiculo)) {
             case "CARRO":
@@ -401,7 +401,7 @@ public class App implements Normalizador{
         String cpf = teclado.next();
 
         for (Barco veiculo : frota.getVeiculos()) {
-            Motorista motorista = veiculo.getMotorista();
+            Caronte motorista = veiculo.getMotorista();
             if (motorista.getCpf().equals(cpf)) {
                 boolean sucesso = veiculo.pagarTodasMultas();
                 if (sucesso) {

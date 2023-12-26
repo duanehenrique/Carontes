@@ -19,7 +19,7 @@ public class Balsa extends Barco implements BarcoComTanque{
      * @param tipoCombustivel O tipo de combustível da Van.
      * @param custoManutencao O custo de manutenção da Van.
      */
-    public Balsa(Motorista motorista, String placa, String tipoCombustivel, double custoManutencao) {
+    public Balsa(Caronte motorista, String placa, String tipoCombustivel, double custoManutencao) {
         super(motorista, placa);
         this.tanque = new Tanque(TANQUE_MAX, tipoCombustivel);
         this.manutencao = new Manutencao(this, custoManutencao);

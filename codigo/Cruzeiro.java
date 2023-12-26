@@ -20,7 +20,7 @@ public class Cruzeiro extends Barco implements BarcoComTanque{
      * @param tipoCombustivel O tipo de combustível que o caminhão usa.
      * @param custoManutencao O custo de manutenção do caminhão.
      */
-    public Cruzeiro(Motorista motorista, String placa, String tipoCombustivel, double custoManutencao) {
+    public Cruzeiro(Caronte motorista, String placa, String tipoCombustivel, double custoManutencao) {
         super(motorista, placa);
         this.tanque = new Tanque(TANQUE_MAX, tipoCombustivel);
         this.manutencao = new Manutencao(this, custoManutencao);
