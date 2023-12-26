@@ -27,13 +27,13 @@ public class Manutencao {
         this.manutencaoPecasEmDia = true;
         this.kmDesdeUltimaManutencao = 0;
         this.custo = custo;
-        if(veiculo instanceof Carro){
+        if(veiculo instanceof Gondola){
         km = KmManutencao.CARRO;
-        } else if(veiculo instanceof Van){
+        } else if(veiculo instanceof Balsa){
         km = KmManutencao.VAN;
-        }else if(veiculo instanceof Furgao){
+        }else if(veiculo instanceof Navio){
         km = KmManutencao.FURGAO;
-        }else if(veiculo instanceof Caminhao){
+        }else if(veiculo instanceof Cruzeiro){
         km = KmManutencao.CAMINHAO;
         }else{
                 throw new IllegalArgumentException("Não foi possível criar o veículo desejado.");

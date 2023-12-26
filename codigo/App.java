@@ -262,11 +262,11 @@ public class App implements Normalizador{
             case "CARRO":
                 return new Carro(motorista, normalizar(placa), normalizar(tipoCombustivel), custoManutencao);
             case "VAN":
-                return new Van(motorista, normalizar(placa), normalizar(tipoCombustivel), custoManutencao);
+                return new Balsa(motorista, normalizar(placa), normalizar(tipoCombustivel), custoManutencao);
             case "FURGAO":
-                return new Furgao(motorista, normalizar(placa), normalizar(tipoCombustivel), custoManutencao);
+                return new Navio(motorista, normalizar(placa), normalizar(tipoCombustivel), custoManutencao);
             case "CAMINHAO":
-                return new Caminhao(motorista, normalizar(placa), normalizar(tipoCombustivel), custoManutencao);
+                return new Cruzeiro(motorista, normalizar(placa), normalizar(tipoCombustivel), custoManutencao);
             default:
                 System.out.println("Tipo de veículo desconhecido.");
                 return null;
