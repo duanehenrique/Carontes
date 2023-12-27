@@ -65,7 +65,7 @@ public class DiarioDeBordo implements Relatorio {
         public String relatorio() {
             StringBuilder relatorio = new StringBuilder();
 
-            relatorio.append("Diário de bordo do barco " + barcoDoDiario.getnome());
+            relatorio.append("Diário de bordo do barco " + barcoDoDiario.getNome());
     
             for (Map.Entry<LocalDate, Barco> entry : diarioPorDia.entrySet()) {
                 LocalDate dataDoDiario = entry.getKey();

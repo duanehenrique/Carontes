@@ -38,7 +38,7 @@ public class Gondola extends Barco {
 
     public String relatorio() {
         StringBuilder relatorio = new StringBuilder();
-        relatorio.append(getPlaca() + ":\n");
+        relatorio.append(getNome() + ":\n");
         relatorio.append("Caronte: " + motorista.getNome() + "\n");
         relatorio.append("Nível de Experiência do Caronte: " + motorista.getNivel() + "\n");
         relatorio.append("Capacidade máxima do barco: " + CAPACIDADEPASSAGEIROS + "\n");

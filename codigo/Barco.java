@@ -5,7 +5,7 @@ import java.util.List;
 public abstract class Barco implements Relatorio{
 
     // #region Atributos
-    protected String placa;
+    protected String nome;
     protected List<Rota> rotas;
     protected DiarioDeBordo diarioDesteBarco;
     protected static int CAPACIDADEPASSAGEIROS;
@@ -31,7 +31,7 @@ public abstract class Barco implements Relatorio{
      */
      Barco(Caronte motorista, String placa) {
         this.motorista = motorista;
-        this.placa = placa;
+        this.nome = nome;
         this.rotas = new ArrayList<>();
         this.totalReabastecido = 0;
         this.abertoParaViagens = false;
@@ -76,7 +76,7 @@ public abstract class Barco implements Relatorio{
             }
 
             rotas.add(rota);
-            System.err.println("Rota adicionada ao veículo de placa " + getPlaca() + " com sucesso!");
+            System.err.println("Rota adicionada ao veículo de placa " + getNome() + " com sucesso!");
         } catch (IllegalArgumentException | IllegalStateException e) {
             System.out.println("Erro ao adicionar rota: " + e.getMessage());
         }
@@ -231,7 +231,7 @@ public void percorrerRotaPorLista(int numeroRota) {
 
 public String relatorioRotas() {
     StringBuilder relatorio = new StringBuilder();
-    relatorio.append("Relatório de Rotas do Veículo " + this.placa + ":\n");
+    relatorio.append("Relatório de Rotas do Veículo " + this.nome + ":\n");
     for (int i = 0; i < rotas.size(); i++) {
         if (rotas.get(i) != null) {
             relatorio.append("   Data: " + rotas.get(i).getData() + "\n");
@@ -343,8 +343,8 @@ public String relatorioRotas() {
      * 
      * @return A placa do veículo.
      */
-    public String getPlaca() {
-        return this.placa;
+    public String getNome() {
+        return this.nome;
     }
 
     /**

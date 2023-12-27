@@ -76,7 +76,7 @@ public class Frota {
      */
     public Barco localizarVeiculo(String placa) {
         for (int i = 0; i < tamanhoFrota; i++) {
-            if (veiculos[i] != null && veiculos[i].getPlaca().equals(placa.toUpperCase())) {
+            if (veiculos[i] != null && veiculos[i].getNome().equals(placa.toUpperCase())) {
                 return veiculos[i];
             }
         }

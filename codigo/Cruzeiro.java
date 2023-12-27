@@ -92,7 +92,7 @@ public class Cruzeiro extends Barco implements BarcoComTanque{
      */
     public String relatorio() {
         StringBuilder relatorio = new StringBuilder();
-        relatorio.append(getPlaca() + ":\n");
+        relatorio.append(getNome() + ":\n");
         relatorio.append("Caronte: " + motorista.getNome() + "\n");
         relatorio.append("Nível de Experiência do Caronte: " + motorista.getNivel() + "\n");
         relatorio.append("Capacidade máxima do barco: " + CAPACIDADEPASSAGEIROS + "\n");
@@ -134,7 +134,7 @@ public class Cruzeiro extends Barco implements BarcoComTanque{
             }
 
             rotas.add(rota);
-            System.err.println("Rota adicionada ao veículo de placa " + getPlaca() + " com sucesso!");
+            System.err.println("Rota adicionada ao veículo de placa " + getNome() + " com sucesso!");
         } catch (IllegalArgumentException | IllegalStateException e) {
             System.out.println("Erro ao adicionar rota: " + e.getMessage());
         }
