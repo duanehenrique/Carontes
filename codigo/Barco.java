@@ -17,7 +17,6 @@ public abstract class Barco implements Relatorio{
     protected double despesaSalario;
     protected Manutencao manutencao;
     protected double totalAlmasColetadas;
-    protected boolean abertoParaViagens;
 
     // #endregion
 
@@ -34,7 +33,6 @@ public abstract class Barco implements Relatorio{
         this.nome = nome;
         this.rotas = new ArrayList<>();
         this.totalReabastecido = 0;
-        this.abertoParaViagens = false;
     }
 
     protected static void inicializarCapacidade(int capacidade) {
@@ -148,24 +146,22 @@ public int percorrerRota(Rota rota) {
     }
 }
 
-public void fecharDia(LocalDate dataAtual) {
-    if (rotas != null) {
+public Barco fecharDia(LocalDate dataAtual) {
         for (Rota rota : rotas) {
             if (rota != null && !rota.getRotaPercorrida()) {
                 this.totalAlmasColetadas += rota.percorrerRota(CAPACIDADEPASSAGEIROS); // Ajuste para passar a capacidade máxima
             }
-        }
-    }
-    abertoParaViagens = false;
-    diarioDesteBarco.addDiario(this, dataAtual);
+        }  
+    return this;
 }
 
 public void iniciarDia(){
-    this.abertoParaViagens = true;
     this.despesaCombustivel = 0;
     this.despesaManutencao = 0;
     this.despesaMulta = 0;
     this.despesaSalario = 0;
+    this.totalAlmasColetadas = 0;
+    rotas.clear();
 }
 
 /**
