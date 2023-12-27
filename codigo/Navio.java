@@ -94,12 +94,12 @@ public class Navio extends Barco  implements BarcoComTanque{
                 relatorio.append("Km Rodados no mes: " + kmNoMes() + " km\n");
                 relatorio.append("Km Total: " + kmTotal() + " km\n");
                 relatorio.append("Autonomia do veiculo: " + autonomiaAtual() + " km\n");
-                relatorio.append("Tanque abastecido com: " + getTanque().getCapacidadeAtual() + " litros de "+ getTanque().getTipo() +  "\n");
-                relatorio.append("Despesas com combustível: R$ " + String.format("%.2f", despesaCombustivel) + "\n");
-                relatorio.append("Despesas com multas: R$ " + String.format("%.2f", despesaMulta) + "\n");
-                relatorio.append("Despesas com manutenção: R$ " + String.format("%.2f", despesaManutencao) + "\n");
-                relatorio.append("Despesa total: R$ " + String.format("%.2f", (despesaCombustivel + despesaManutencao + despesaMulta)) + "\n");
-                return relatorio.toString();
+                relatorio.append("Tanque abastecido com: " + getTanque().getCapacidadeAtual() + " almas de "+ getTanque().getTipo() +  "\n");
+                relatorio.append("Despesas com combustível: " + String.format("%.2f", despesaCombustivel) + " almas.\n");
+                relatorio.append("Despesas com multas: " + String.format("%.2f", despesaMulta) + " almas.\n");
+                relatorio.append("Despesas com manutenção: " + String.format("%.2f", despesaManutencao) + " almas.\n");
+                relatorio.append("Despesa total: " + String.format("%.2f", (getDespesaTotal()) + " almas.\n"));
+                relatorio.append("Arrecadação total: " + String.format("%.2f", (getTotalAlmasColetadas()) + " almas.\n"));                   return relatorio.toString();
             }
 
             @Override

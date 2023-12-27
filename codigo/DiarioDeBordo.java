@@ -16,18 +16,20 @@ public class DiarioDeBordo {
         }
 
         public double balancoTotalPorDia(LocalDate dataDoDiario) {
-            Barco barco = diarioPorDia.get(dataDoDiario);
-        
+            Barco barco = diarioPorDia.get(dataDoDiario);  
+            double ganhoTotal = 0;
+            double despesaTotal = 0;
+            
             if (barco != null) {
                 if (!barco.getRotas().isEmpty()) {
-                    if (barco.rotaNesteDiaFoiPercorrida(dataDoDiario)) {
-                        double ganhoTotal = barco.getGanhoTotal();
-                        double despesaTotal = barco.getDespesaTotal();
-        
-                        return ganhoTotal - despesaTotal;
-                    } else {
-                        throw new IllegalArgumentException("A rota com a data informada ainda não foi percorrida.");
-                    }
+                    List<Rota> listaRotas = barco.getRotas();        
+                    for (Rota rota : listaRotas) {
+                        if (rota.getRotaPercorrida()) {
+                            ganhoTotal += barco.getTotalAlmasColetadas();
+                            despesaTotal += barco.getDespesaTotal();
+                        }
+                    }        
+                    return ganhoTotal - despesaTotal;
                 } else {
                     throw new IllegalArgumentException("O barco ainda não possui rotas registradas.");
                 }
@@ -35,9 +37,9 @@ public class DiarioDeBordo {
                 LocalDate dataMaisAvancada = diarioPorDia.keySet().stream().max(LocalDate::compareTo).orElse(null);
         
                 if (dataMaisAvancada != null && dataDoDiario.isAfter(dataMaisAvancada)) {
-                    throw new IllegalArgumentException("A data informada é depois da data mais avançada presente no diário.");
+                    throw new IllegalArgumentException("A data informada é depois da data mais tardia presente no diário.\nTente novamente com outra data.");
                 } else {
-                    throw new IllegalArgumentException("Uma rota com a data informada não foi encontrada.");
+                    throw new IllegalArgumentException("Uma rota com a data informada não foi encontrada.\nTente novamente com outra data.");
                 }
             }
         }
@@ -59,6 +61,3 @@ public class DiarioDeBordo {
         }
         
         }
-        
-
-}
