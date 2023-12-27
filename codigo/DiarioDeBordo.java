@@ -4,11 +4,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class DiarioDeBordo {
-    protected Map<LocalDate, Barco> diarioPorDia;
+public class DiarioDeBordo implements Relatorio {
+    private Map<LocalDate, Barco> diarioPorDia;
+    private Barco barcoDoDiario;
 
-    DiarioDeBordo() {
+    DiarioDeBordo(Barco barco) {
         this.diarioPorDia = new HashMap<>();
+        this.barcoDoDiario = barco;
     }
 
         public void addDiario(Barco esteBarco, LocalDate data){
@@ -60,4 +62,20 @@ public class DiarioDeBordo {
             return balancoTotalGeral;
         }
         
+        public String relatorio() {
+            StringBuilder relatorio = new StringBuilder();
+
+            relatorio.append("Diário de bordo do barco " + barcoDoDiario.getnome());
+    
+            for (Map.Entry<LocalDate, Barco> entry : diarioPorDia.entrySet()) {
+                LocalDate dataDoDiario = entry.getKey();
+                Barco barco = entry.getValue();
+                relatorio.append("Data: ").append(dataDoDiario).append("\n");
+                relatorio.append(barco.relatorio()).append("\n");
+                relatorio.append("\n");
+            }
+    
+            return relatorio.toString();
+        }
+
         }
