@@ -105,8 +105,8 @@ public class Tanque {
     /***
      * @return Retorna o preço do combustível.
      */
-    public double getPreco() {
-        return tipoCombustivel.getPreco();
+    public double getCusto() {
+        return tipoCombustivel.getCusto();
     }
 
     /***
@@ -126,5 +126,9 @@ public class Tanque {
 
     public TipoCombustivel getTipo() {
         return tipoCombustivel;
+    }
+
+    public int getAdicionalPrecoVenda(){
+        return tipoCombustivel.getAdicionalPrecoVenda();
     }
 }

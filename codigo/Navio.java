@@ -42,7 +42,7 @@ public class Navio extends Barco  implements BarcoComTanque{
              * @return A quantidade de litros abastecida.
              */
             public double abastecer(double litros) {
-                addDespesaCombustivel(litros*tanque.getPreco());
+                addDespesaCombustivel(litros*tanque.getCusto());
                 return tanque.abastecer(litros);
         
             }

@@ -21,8 +21,8 @@ public class Gondola extends Barco {
      * @param tipoCombustivel O tipo de combustível que o carro usa.
      * @param custoManutencao O custo de manutenção do carro.
      */
-    public Gondola(Caronte motorista, String placa, String tipoCombustivel, double custoManutencao) {
-        super(motorista, placa);
+    public Gondola(Caronte motorista, String nome, String tipoCombustivel, double custoManutencao) {
+        super(motorista, nome);
         this.manutencao = new Manutencao(this, custoManutencao);
         inicializarCapacidade(TOTAL_PASSAGEIROS);
     }

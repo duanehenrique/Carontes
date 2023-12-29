@@ -20,8 +20,8 @@ public class Cruzeiro extends Barco implements BarcoComTanque{
      * @param tipoCombustivel O tipo de combustível que o caminhão usa.
      * @param custoManutencao O custo de manutenção do caminhão.
      */
-    public Cruzeiro(Caronte motorista, String placa, String tipoCombustivel, double custoManutencao) {
-        super(motorista, placa);
+    public Cruzeiro(Caronte motorista, String nome, String tipoCombustivel, double custoManutencao) {
+        super(motorista, nome);
         this.tanque = new Tanque(TANQUE_MAX, tipoCombustivel);
         this.manutencao = new Manutencao(this, custoManutencao);
     }
@@ -47,7 +47,7 @@ public class Cruzeiro extends Barco implements BarcoComTanque{
      * @return A quantidade de litros abastecida.
      */
     public double abastecer(double litros) {
-        addDespesaCombustivel(litros*tanque.getPreco());
+        addDespesaCombustivel(litros*tanque.getCusto());
         return tanque.abastecer(litros);
 
     }

@@ -5,7 +5,7 @@ import java.util.List;
 public abstract class Barco implements Relatorio{
 
     // #region Atributos
-    protected String nome;
+    protected final String nome;
     protected List<Rota> rotas;
     protected DiarioDeBordo diarioDesteBarco;
     protected static int CAPACIDADEPASSAGEIROS;
@@ -28,9 +28,9 @@ public abstract class Barco implements Relatorio{
      * @param motorista O motorista do veículo.
      * @param placa     A placa do veículo.
      */
-     Barco(Caronte motorista, String placa) {
+     Barco(Caronte motorista, String nomeBarco) {
         this.motorista = motorista;
-        this.nome = nome;
+        nome = nomeBarco;
         this.rotas = new ArrayList<>();
         this.totalReabastecido = 0;
     }
