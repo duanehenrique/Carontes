@@ -64,6 +64,10 @@ public class DiarioDeBordo implements Relatorio {
         
             return balancoTotalGeral;
         }
+
+        public Barco getBarcoDoDiario() {
+            return barcoDoDiario;
+        }
         
         public String relatorio() {
             StringBuilder relatorio = new StringBuilder();

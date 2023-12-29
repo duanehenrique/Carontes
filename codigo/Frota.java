@@ -1,22 +1,24 @@
+import java.text.Normalizer;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
-public class Frota {
+public class Frota implements Normalizador {
     // #region Atributos
-    private int tamanhoFrota;
-    private Barco[] veiculos;
+    private List<DiarioDeBordo> diariosDeBordo;
     private LocalDate dataUltimaFrota;
     // #endregion
 
     // #region Construtores
     /**
      * Construtor da classe Frota.
-     * 
+     *
      * @param tamanhoFrota O tamanho da frota.
      */
-    public Frota(int tamanhoFrota) {
-        this.tamanhoFrota = tamanhoFrota;
-        this.veiculos = new Barco[tamanhoFrota];
+    public Frota() {
+        this.diariosDeBordo = new ArrayList<>();
         this.dataUltimaFrota = LocalDate.now();
     }
 
@@ -28,45 +30,46 @@ public class Frota {
      * 
      * @param veiculo O veículo a ser adicionado.
      */
-    public void adicionarVeiculo(Barco veiculo) {
-        if(mesVirou()){
-            reiniciarFrota();
+    public void adicionarBarco(Barco barco) {
+        if (diariosDeBordo.stream().anyMatch(diario -> diario.getBarcoDoDiario().equals(barco))) {
+            throw new IllegalArgumentException("O barco já faz parte da frota de Carontes");
         }
-        for (int i = 0; i < tamanhoFrota; i++) {
-            if (veiculos[i] == null) {
-                veiculos[i] = veiculo;
-                break;
-            }
-        }
-        }
+        DiarioDeBordo diario = new DiarioDeBordo(barco);
+        diariosDeBordo.add(diario);
+    }
+    
+    
 
     /**
      * Gera um relatório da frota.
      * 
      * @return Uma string contendo o relatório da frota.
      */
-     public String relatorioFrota() {
-    StringBuilder relatorio = new StringBuilder();
-         relatorio.append("Relatório da Frota:\n");
-         for (int i = 0; i < tamanhoFrota; i++) {
-            if (veiculos[i] != null) {
-                 relatorio.append(veiculos[i].relatorio() + "\n");
-             }
-         }
-         return relatorio.toString();
-     }
+    public String relatorioFrota() {
+        StringBuilder relatorio = new StringBuilder();
+        relatorio.append("Relatório da Frota de Carontes:\n");
+    
+        for (DiarioDeBordo diario : diariosDeBordo) {
+            relatorio.append(diario.relatorio()).append("\n");
+        }
+    
+        return relatorio.toString();
+    }
+    
 
     public void exibirRelatorioRotas() {
         Scanner teclado = new Scanner(System.in);
-        System.out.print("Digite a placa do veículo para exibir o relatório de rotas: ");
-         String placaRotas = teclado.nextLine().toUpperCase();
-        Barco veiculo = this.localizarVeiculo(placaRotas);
-        if (veiculo != null) {
-            System.out.println(veiculo.relatorioRotas());
+        System.out.print("Digite o nome do barco para exibir o relatório de rotas: ");
+        String nomeBarco = teclado.nextLine().toUpperCase();
+        DiarioDeBordo diario = this.localizarDiario(nomeBarco);
+    
+        if (diario != null) {
+            System.out.println(diario.relatorio());
         } else {
-            System.out.println("Veículo não encontrado.");
+            System.out.println("Barco não encontrado.");
         }
     }
+    
 
     /**
      * Localiza um veículo na frota pela placa.
@@ -74,15 +77,16 @@ public class Frota {
      * @param placa A placa do veículo a ser localizado.
      * @return O veículo localizado, ou null se não for encontrado.
      */
-    public Barco localizarVeiculo(String placa) {
-        for (int i = 0; i < tamanhoFrota; i++) {
-            if (veiculos[i] != null && veiculos[i].getNome().equals(placa.toUpperCase())) {
-                return veiculos[i];
+        private DiarioDeBordo localizarDiario(String nome) {
+        for (DiarioDeBordo diario : diariosDeBordo) {
+            if (diario != null && normalizar(nome).equals(normalizar(diario.getBarcoDoDiario().getNOME()))) {
+            return diario;
             }
         }
-        return null;
-    }
-
+        throw new NoSuchElementException("Não há um barco com este nome na frota de Carontes.");
+        }
+    
+    
     /**
      * Calcula a quilometragem total da frota.
      * 
@@ -90,13 +94,13 @@ public class Frota {
      */
     public double quilometragemTotal() {
         double totalKm = 0.0;
-        for (int i = 0; i < tamanhoFrota; i++) {
-            if (veiculos[i] != null) {
-                totalKm += veiculos[i].kmTotal();
-            }
+        for (DiarioDeBordo diario : diariosDeBordo) {
+            totalKm += diario.getBarcoDoDiario().kmTotal();
         }
         return totalKm;
     }
+    
+    
 
     /**
      * Encontra o veículo com a maior quilometragem total na frota.
@@ -104,16 +108,24 @@ public class Frota {
      * @return O veículo com a maior quilometragem total.
      */
     public Barco maiorKmTotal() {
-        Barco veiculoComMaiorKm = null;
+        Barco barcoComMaiorKm = null;
         double maiorKm = 0.0;
-        for (int i = 0; i < tamanhoFrota; i++) {
-            if (veiculos[i] != null && veiculos[i].kmTotal() > maiorKm) {
-                veiculoComMaiorKm = veiculos[i];
-                maiorKm = veiculos[i].kmTotal();
+    
+        for (DiarioDeBordo diario : diariosDeBordo) {
+            if (diario != null) {
+                Barco barco = diario.getBarcoDoDiario();
+                if (barco != null && barco.kmTotal() > maiorKm) {
+                    barcoComMaiorKm = barco;
+                    maiorKm = barco.kmTotal();
+                }
             }
         }
-        return veiculoComMaiorKm;
+    
+        return barcoComMaiorKm;
     }
+    
+    
+    
 
     /**
      * Encontra o veículo com a maior quilometragem média na frota.
@@ -121,60 +133,56 @@ public class Frota {
      * @return O veículo com a maior quilometragem média.
      */
     public Barco maiorKmMedia() {
-        Barco veiculoComMaiorKmMedia = null;
+        Barco barcoComMaiorKmMedia = null;
         double maiorKmMedia = 0.0;
-        for (int i = 0; i < tamanhoFrota; i++) {
-            if (veiculos[i] != null) {
-                double kmMedia = veiculos[i].kmTotal() / veiculos[i].getQuantRotas();
-                if (kmMedia > maiorKmMedia) {
-                    veiculoComMaiorKmMedia = veiculos[i];
-                    maiorKmMedia = kmMedia;
+    
+        for (DiarioDeBordo diario : diariosDeBordo) {
+            if (diario != null) {
+                Barco barco = diario.getBarcoDoDiario();
+                if (barco != null && barco.getQuantRotas() > 0) {
+                    double kmMedia = barco.kmTotal() / barco.getQuantRotas();
+                    if (kmMedia > maiorKmMedia) {
+                        barcoComMaiorKmMedia = barco;
+                        maiorKmMedia = kmMedia;
+                    }
                 }
             }
         }
-        return veiculoComMaiorKmMedia;
+    
+        return barcoComMaiorKmMedia;
     }
+    
+    
 
         /**
      * Verifica se houve mudança de mês.
      * 
      * @return true se o mês virou, false caso contrário.
      */
-    private boolean mesVirou(){
+    private void passarDia(){
         LocalDate dataDeHoje = LocalDate.now();
         if (dataDeHoje.getMonthValue() != dataUltimaFrota.getMonthValue()) {
             dataUltimaFrota = dataDeHoje;
-            return true;
         }else{
-            return false;
         }        
     }
 
-    /**
-     * Reinicia a frota, criando um novo array de veículos com o tamanho especificado.
-     */
-    private void reiniciarFrota(){
-        this.veiculos = new Barco[tamanhoFrota];
-    }
-    // #endregion
-
     // #region Getters
-    /**
-     * Retorna o tamanho da frota.
-     * 
-     * @return O tamanho da frota.
-     */
-    public int getTamanhoFrota() {
-        return tamanhoFrota;
-    }
-
     /**
      * Retorna os veículos da frota.
      * 
      * @return Um array contendo os veículos da frota.
      */
-    public Barco[] getVeiculos() {
-        return veiculos;
+    public List<DiarioDeBordo> getDiarioDeBordos() {
+        return diariosDeBordo;
     }
     // #endregion
+
+    private static String normalizar(String texto) {
+        String normalizado = Normalizer.normalize(texto, Normalizer.Form.NFD)
+                .replaceAll("[^\\p{ASCII}]", "");
+        normalizado = normalizado.toUpperCase();
+
+        return normalizado;
+    }
 }
