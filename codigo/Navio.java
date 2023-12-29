@@ -2,7 +2,7 @@ public class Navio extends Barco  implements BarcoComTanque{
         // #region Atributos
         private static final double TANQUE_MAX = 80;
         private static final int TOTAL_PASSAGEIROS = 20;
-        protected static final double CUSTO_COMPRA = 65;
+        protected static final int CUSTO_COMPRA = 65;
         private final Tanque tanque;
 
         // #endregion
@@ -16,7 +16,7 @@ public class Navio extends Barco  implements BarcoComTanque{
          * @param custoManutencao O custo de manutenção do furgão.
          */
         public Navio(Caronte motorista, String placa, String tipoCombustivel, double custoManutencao) {
-                super(motorista, placa, TOTAL_PASSAGEIROS);
+                super(motorista, placa, TOTAL_PASSAGEIROS, CUSTO_COMPRA);
                 this.tanque = new Tanque(TANQUE_MAX, tipoCombustivel);
                 this.manutencao = new Manutencao(this, custoManutencao);
                 // #endregion

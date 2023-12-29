@@ -30,10 +30,11 @@ public abstract class Barco implements Relatorio{
      * @param motorista O motorista do veículo.
      * @param placa     A placa do veículo.
      */
-     Barco(Caronte motorista, String nomeBarco, int capacidade) {
+     Barco(Caronte motorista, String nomeBarco, int capacidade, int preco) {
         this.motorista = motorista;
         this.NOME = nomeBarco;
         CAPACIDADEPASSAGEIROS = capacidade;
+        PRECOCUSTO = preco;
         this.rotas = new ArrayList<>();
         this.totalReabastecido = 0;
     }

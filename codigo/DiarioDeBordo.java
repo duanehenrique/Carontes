@@ -13,7 +13,7 @@ public class DiarioDeBordo implements Relatorio {
     }
 
         public void addDiario(Barco esteBarco, LocalDate data){
-            if(barcoDoDiario.getNome().equals(esteBarco.getNome())){
+            if(barcoDoDiario.getNOME().equals(esteBarco.getNOME())){
             diarioPorDia.put(data, esteBarco);
             }else{
                 throw new IllegalArgumentException("Registro não efetuado. O barco em questão não é o barco deste diário de bordo.");
@@ -68,7 +68,7 @@ public class DiarioDeBordo implements Relatorio {
         public String relatorio() {
             StringBuilder relatorio = new StringBuilder();
 
-            relatorio.append("Diário de bordo do barco " + barcoDoDiario.getNome());
+            relatorio.append("Diário de bordo do barco " + barcoDoDiario.getNOME());
     
             for (Map.Entry<LocalDate, Barco> entry : diarioPorDia.entrySet()) {
                 LocalDate dataDoDiario = entry.getKey();

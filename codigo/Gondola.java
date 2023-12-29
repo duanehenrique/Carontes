@@ -6,8 +6,8 @@ public class Gondola extends Barco {
 
     // #region Atributos
     private static final int TOTAL_PASSAGEIROS = 4;
-    private static final double CUSTO_COMPRA = 10;
-    private static final double AUTONOMIA = 10;
+    private static final int CUSTO_COMPRA = 10;
+    private static final int AUTONOMIA = 10;
 
     // #endregion
 
@@ -22,7 +22,7 @@ public class Gondola extends Barco {
      * @param custoManutencao O custo de manutenção do carro.
      */
     public Gondola(Caronte motorista, String nome, String tipoCombustivel, double custoManutencao) {
-        super(motorista, nome);
+        super(motorista, nome, TOTAL_PASSAGEIROS, CUSTO_COMPRA);
         this.manutencao = new Manutencao(this, custoManutencao);
     }
 
@@ -37,7 +37,7 @@ public class Gondola extends Barco {
 
     public String relatorio() {
         StringBuilder relatorio = new StringBuilder();
-        relatorio.append(getNome() + ":\n");
+        relatorio.append(getNOME() + ":\n");
         relatorio.append("Caronte: " + motorista.getNome() + "\n");
         relatorio.append("Nível de Experiência do Caronte: " + motorista.getNivel() + "\n");
         relatorio.append("Capacidade máxima do barco: " + CAPACIDADEPASSAGEIROS + "\n");

@@ -7,7 +7,7 @@ public class Cruzeiro extends Barco implements BarcoComTanque{
     // #region Atributos
     private static final double TANQUE_MAX = 250;
     private static final int TOTAL_PASSAGEIROS = 40;
-    protected static final double CUSTO_COMPRA = 100;
+    protected static final int CUSTO_COMPRA = 100;
     private final Tanque tanque;
     // #endregion
 
@@ -21,7 +21,7 @@ public class Cruzeiro extends Barco implements BarcoComTanque{
      * @param custoManutencao O custo de manutenção do caminhão.
      */
     public Cruzeiro(Caronte motorista, String nome, String tipoCombustivel, double custoManutencao) {
-        super(motorista, nome, TOTAL_PASSAGEIROS);
+        super(motorista, nome, TOTAL_PASSAGEIROS, CUSTO_COMPRA);
         this.tanque = new Tanque(TANQUE_MAX, tipoCombustivel);
         this.manutencao = new Manutencao(this, custoManutencao);
     }
