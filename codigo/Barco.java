@@ -5,10 +5,10 @@ import java.util.List;
 public abstract class Barco implements Relatorio{
 
     // #region Atributos
-    protected final String nome;
+    protected final String NOME;
     protected List<Rota> rotas;
     protected DiarioDeBordo diarioDesteBarco;
-    protected static int CAPACIDADEPASSAGEIROS;
+    protected final int CAPACIDADEPASSAGEIROS;
     protected static int PRECOCUSTO;
     protected double totalReabastecido;
     protected Caronte motorista;
@@ -30,15 +30,12 @@ public abstract class Barco implements Relatorio{
      * @param motorista O motorista do veículo.
      * @param placa     A placa do veículo.
      */
-     Barco(Caronte motorista, String nomeBarco) {
+     Barco(Caronte motorista, String nomeBarco, int capacidade) {
         this.motorista = motorista;
-        this.nome = nomeBarco;
+        this.NOME = nomeBarco;
+        CAPACIDADEPASSAGEIROS = capacidade;
         this.rotas = new ArrayList<>();
         this.totalReabastecido = 0;
-    }
-
-    protected static void inicializarCapacidade(int capacidade) {
-        CAPACIDADEPASSAGEIROS = capacidade;
     }
 
 
@@ -76,7 +73,7 @@ public abstract class Barco implements Relatorio{
             }
 
             rotas.add(rota);
-            System.err.println("Rota adicionada ao veículo de placa " + getNome() + " com sucesso!");
+            System.err.println("Rota adicionada ao veículo de placa " + getNOME() + " com sucesso!");
         } catch (IllegalArgumentException | IllegalStateException e) {
             System.out.println("Erro ao adicionar rota: " + e.getMessage());
         }
@@ -229,7 +226,7 @@ public void percorrerRotaPorLista(int numeroRota) {
 
 public String relatorioRotas() {
     StringBuilder relatorio = new StringBuilder();
-    relatorio.append("Relatório de Rotas do Veículo " + this.nome + ":\n");
+    relatorio.append("Relatório de Rotas do Veículo " + this.NOME + ":\n");
     for (int i = 0; i < rotas.size(); i++) {
         if (rotas.get(i) != null) {
             relatorio.append("   Data: " + rotas.get(i).getData() + "\n");
@@ -341,8 +338,8 @@ public String relatorioRotas() {
      * 
      * @return A placa do veículo.
      */
-    public String getNome() {
-        return this.nome;
+    public String getNOME() {
+        return this.NOME;
     }
 
     /**

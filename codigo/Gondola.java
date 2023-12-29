@@ -24,7 +24,6 @@ public class Gondola extends Barco {
     public Gondola(Caronte motorista, String nome, String tipoCombustivel, double custoManutencao) {
         super(motorista, nome);
         this.manutencao = new Manutencao(this, custoManutencao);
-        inicializarCapacidade(TOTAL_PASSAGEIROS);
     }
 
 

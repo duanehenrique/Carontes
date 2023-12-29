@@ -16,7 +16,7 @@ public class Navio extends Barco  implements BarcoComTanque{
          * @param custoManutencao O custo de manutenção do furgão.
          */
         public Navio(Caronte motorista, String placa, String tipoCombustivel, double custoManutencao) {
-                super(motorista, placa);
+                super(motorista, placa, TOTAL_PASSAGEIROS);
                 this.tanque = new Tanque(TANQUE_MAX, tipoCombustivel);
                 this.manutencao = new Manutencao(this, custoManutencao);
                 // #endregion
@@ -87,7 +87,7 @@ public class Navio extends Barco  implements BarcoComTanque{
              */
             public String relatorio() {
                 StringBuilder relatorio = new StringBuilder();
-                relatorio.append(getNome() + ":\n");
+                relatorio.append(getNOME() + ":\n");
                 relatorio.append("Caronte: " + motorista.getNome() + "\n");
                 relatorio.append("Nível de Experiência do Caronte: " + motorista.getNivel() + "\n");
                 relatorio.append("Capacidade máxima do barco: " + CAPACIDADEPASSAGEIROS + "\n");
@@ -99,7 +99,7 @@ public class Navio extends Barco  implements BarcoComTanque{
                 relatorio.append("Despesas com multas: " + String.format("%.2f", despesaMulta) + " almas.\n");
                 relatorio.append("Despesas com manutenção: " + String.format("%.2f", despesaManutencao) + " almas.\n");
                 relatorio.append("Despesa total: " + String.format("%.2f", (getDespesaTotal()) + " almas.\n"));
-                relatorio.append("Arrecadação total: " + String.format("%.2f", (getTotalAlmasColetadas()) + " almas.\n"));                   return relatorio.toString();
+                relatorio.append("Arrecadação total: " + String.format("%.2f", (getTotalAlmasColetadas()) + " almas.\n"));   return relatorio.toString();
             }
 
             @Override
@@ -130,7 +130,7 @@ public class Navio extends Barco  implements BarcoComTanque{
             }
 
             rotas.add(rota);
-            System.err.println("Rota adicionada ao veículo de placa " + getNome() + " com sucesso!");
+            System.err.println("Rota adicionada ao veículo de placa " + getNOME() + " com sucesso!");
         } catch (IllegalArgumentException | IllegalStateException e) {
             System.out.println("Erro ao adicionar rota: " + e.getMessage());
         }
