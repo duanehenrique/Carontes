@@ -9,6 +9,7 @@ public abstract class Barco implements Relatorio{
     protected List<Rota> rotas;
     protected DiarioDeBordo diarioDesteBarco;
     protected static int CAPACIDADEPASSAGEIROS;
+    protected static int PRECOCUSTO;
     protected double totalReabastecido;
     protected Caronte motorista;
     protected double despesaCombustivel;
@@ -16,7 +17,8 @@ public abstract class Barco implements Relatorio{
     protected double despesaManutencao;
     protected double despesaSalario;
     protected Manutencao manutencao;
-    protected double totalAlmasColetadas;
+    protected int totalAlmasColetadas;
+    
 
     // #endregion
 
@@ -30,7 +32,7 @@ public abstract class Barco implements Relatorio{
      */
      Barco(Caronte motorista, String nomeBarco) {
         this.motorista = motorista;
-        nome = nomeBarco;
+        this.nome = nomeBarco;
         this.rotas = new ArrayList<>();
         this.totalReabastecido = 0;
     }
@@ -388,6 +390,11 @@ public String relatorioRotas() {
     public Manutencao getManutencao() {
         return this.manutencao;
     }
+
+    public int getPRECOCUSTO(){
+        return PRECOCUSTO;
+    }
+
     
     // #endregion
 }

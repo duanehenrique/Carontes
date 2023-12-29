@@ -139,4 +139,12 @@ public class Cruzeiro extends Barco implements BarcoComTanque{
             System.out.println("Erro ao adicionar rota: " + e.getMessage());
         }
     }
+
+    public int getAdicionalPrecoVenda(){
+        return tanque.getAdicionalPrecoVenda();
+    }
+
+    public int getPrecoTotal(){
+        return (getPRECOCUSTO() + getAdicionalPrecoVenda());
+    }
 }
