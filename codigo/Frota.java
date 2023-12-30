@@ -98,7 +98,7 @@ public class Frota implements Normalizador {
                         listaBarcosParaRotas.add(textoBarco.toString());
                     }                    
                         } else {
-                            throw new IllegalArgumentException("Não há barcos na sua frota de Carontes.");
+                            throw new IllegalArgumentException("Diário de bordo #" + i +" não pertence a um barco.");
                         }
                          
                 }
@@ -139,7 +139,7 @@ public class Frota implements Normalizador {
      * @param placa A placa do veículo a ser localizado.
      * @return O veículo localizado, ou null se não for encontrado.
      */
-        private DiarioDeBordo localizarDiarioPorNome(String nome) {
+        public DiarioDeBordo localizarDiarioPorNome(String nome) {
         for (DiarioDeBordo diario : diariosDeBordo) {
             if (diario != null && normalizar(nome).equals(normalizar(diario.getBarcoDoDiario().getNOME()))) {
             return diario;
@@ -148,6 +148,24 @@ public class Frota implements Normalizador {
         throw new IllegalArgumentException("Não há um barco com este nome na frota de Carontes.");
         }
     
+        public DiarioDeBordo localizarDiarioPorIndex(int posicao) {
+            DiarioDeBordo diarioPorIndex;
+            if(posicao < diariosDeBordo.size()){
+                if(posicao > 1){
+                    diarioPorIndex = diariosDeBordo.get(posicao-1);
+                }else{
+                    throw new IllegalArgumentException("Posição informada menor que 1");
+                }
+            }else{
+                throw new IllegalArgumentException("Posição informada excede a quantidade atual de diários de bordo. Quantidade atual: " + diariosDeBordo.size());
+            }
+           
+        if (diarioPorIndex != null) {
+            return diarioPorIndex;
+        }else{
+            throw new IllegalArgumentException("Diário de bordo informado não pertence a um barco.");
+        }
+        }
     
     /**
      * Calcula a quilometragem total da frota.
