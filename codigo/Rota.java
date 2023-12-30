@@ -10,6 +10,7 @@ public class Rota implements Relatorio{
     // #region Atributos
     private LocalDate data;
     private List<Passageiro> passageiros;
+    private int QtdPassageirosLevados;
     private double quilometragem;
     private boolean rotaPercorrida;
 
@@ -37,6 +38,7 @@ public class Rota implements Relatorio{
      */
     public int percorrerRota(int capacidadeMaximaPassageiros) {
     this.rotaPercorrida = true;
+    this.QtdPassageirosLevados = capacidadeMaximaPassageiros;
     return calcularTotalAlmas(capacidadeMaximaPassageiros);
     }
 
@@ -92,16 +94,23 @@ public class Rota implements Relatorio{
         StringBuilder relatorio = new StringBuilder();
         relatorio.append("   Data: ").append(getData()).append("\n");
         relatorio.append("   Quilometragem: ").append(getQuilometragem()).append("\n");
-        relatorio.append("   Quantidade de Almas Total: ").append(calcularTotalAlmas(passageiros.size())).append("\n");
         relatorio.append("   Rota já foi percorrida: ").append(rotaPercorrida ? "Sim" : "Não").append("\n");
         
-        relatorio.append("   Passageiros na Rota: \n");
-        int numeroPassageiro = 1;
-        for (Passageiro passageiro : passageiros) {
-            relatorio.append(numeroPassageiro).append(". Nome: ").append(passageiro.getNome())
+        if(getRotaPercorrida()){
+            relatorio.append("   Quantidade Total de Passageiros: ").append(passageiros.size()).append("\n");
+            relatorio.append("   Quantidade Total de Almas: ").append(calcularTotalAlmas(passageiros.size())).append("\n");
+            relatorio.append("   Quantidade de Passageiros levados: " + QtdPassageirosLevados).append("\n");
+            relatorio.append("   Quantidade Total de Almas: ").append(calcularTotalAlmas(QtdPassageirosLevados)).append("\n");
+            relatorio.append("   Passageiros na Rota: \n");
+            int numeroPassageiro = 1;
+            for (Passageiro passageiro : passageiros) {
+                relatorio.append(numeroPassageiro).append(". Nome: ").append(passageiro.getNome())
                     .append("/nPecado: ").append(passageiro.getPecado())
                     .append("/nValor do Pecado: ").append(passageiro.getAlmas()).append("\n");
-            numeroPassageiro++;
+                numeroPassageiro++;
+            }
+        }else{
+            relatorio.append("   Quantidade Total de Passageiros: ").append(passageiros.size()).append("\n");
         }
     
         return relatorio.toString();
