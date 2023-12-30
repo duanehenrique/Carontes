@@ -108,17 +108,6 @@ public abstract class Barco implements Relatorio{
      *
      * @return A quilometragem no mês do veículo.
      */
-    public double kmNoMes() {
-        LocalDate dataAtual = LocalDate.now();
-        double kmNoMes = 0;
-        for (int i = 0; i < rotas.size(); i++) {
-            LocalDate dataRota = rotas.get(i).getData();
-            if (dataAtual.getMonthValue() == dataRota.getMonthValue()) {
-                kmNoMes += rotas.get(i).getQuilometragem();
-            }
-        }
-        return kmNoMes;
-    }
 
     /**
      * Retorna a quilometragem total do veículo.
@@ -152,21 +141,15 @@ public abstract class Barco implements Relatorio{
  * @throws IllegalStateException    Se a quilometragem da rota excede a autonomia atual do veículo.
  */
 public int percorrerRota(Rota rota) {
-    int totalAlmas = 0;
-    try {
         if (rota.getRotaPercorrida()) {
             throw new IllegalArgumentException("A rota já foi percorrida. Escolha outra rota para percorrer");
         }else{
-            totalAlmas = rota.percorrerRota(CAPACIDADEPASSAGEIROS);
+            int totalAlmas = rota.percorrerRota(CAPACIDADEPASSAGEIROS);
             kmDesdeUltimaManutencao(rota);
             addDespesaSalario(motorista.getSalario());
-            System.out.println("Rota percorrida com sucesso!");
+            System.out.println("Rota percorrida com sucesso! Almas mortais coletadas.");
             return totalAlmas;
         }
-    } catch (IllegalArgumentException | IllegalStateException e) {
-        System.err.println("Erro ao percorrer rota: " + e.getMessage());
-        return totalAlmas;
-    }
 }
 
 public void encerrarDia() {
@@ -249,12 +232,11 @@ public void percorrerRotaPorLista(int numeroRota) {
 
 public String relatorioRotas() {
     StringBuilder relatorio = new StringBuilder();
-    relatorio.append("Relatório de Rotas do Veículo " + this.NOME + ":\n");
+    relatorio.append("Relatório de Rotas do Barco " + this.NOME + ":\n");
     for (int i = 0; i < rotas.size(); i++) {
         if (rotas.get(i) != null) {
-            relatorio.append("   Data: " + rotas.get(i).getData() + "\n");
-            relatorio.append("   Quilometragem: " + rotas.get(i).getQuilometragem() + "\n");
-            relatorio.append("\n");
+            relatorio.append(rotas.get(i).relatorio()+ "\n");
+
         }
     }
     return relatorio.toString();
@@ -289,16 +271,12 @@ public String relatorioRotas() {
      */
     public void fazerManutencao() {
         double custoManutencao;
-        if (!this.manutencao.getManutencaoPecasEmDia()) {
-            custoManutencao = this.manutencao.realizarManutencaoPecas();
-            addDespesaManutencao(custoManutencao);
-            System.out.println("Manutenção de trocas de peças realizada com sucesso.");
-        } else if (!this.manutencao.getManutencaoPeriodicaEmDia()) {
+        if (!this.manutencao.getManutencaoPeriodicaEmDia()) {
             custoManutencao = this.manutencao.realizarManutencaoPeriodica();
             addDespesaManutencao(custoManutencao);
-            System.out.println("Manutenção periódica realizada com sucesso.");
+            System.out.println("Manutenção periódica realizada com sucesso no barco " + getNOME() + ".\n");
         } else {
-            System.out.println("Veículo não necessita de manutenção! Apenas "
+            System.out.println("O barco está com a papelada em dia e não precisa de manutenção! Apenas "
                     + this.manutencao.getKmDesdeUltimaManutencao() + "km foram rodados.");
         }
     }
@@ -432,6 +410,9 @@ public String relatorioRotas() {
         return PRECOCUSTO;
     }
 
+    public double getKmAteProximaManutencao(){
+       return manutencao.getKmAteProximaManutencao();
+    }
     
     // #endregion
 }

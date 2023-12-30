@@ -4,15 +4,14 @@
  */
 public enum KmManutencao {
     // #region Definição dos tipos de veículos
-    CARRO(10000, 10000), 
-    VAN(10000, 12000), 
-    FURGAO(10000, 12000), 
-    CAMINHAO(20000, 20000); 
+    GONDOLA(5000), 
+    BALSA(10000), 
+    NAVIO(10000), 
+    CRUZEIRO(15000); 
     // #endregion
 
     // #region Atributos
     private final int manutencaoPeriodica; 
-    private final int manutencaoPecas; 
     // #endregion
 
     // #region Construtor
@@ -25,9 +24,8 @@ public enum KmManutencao {
      * @param manutencaoPecas     A quilometragem necessária para manutenção para
      *                            troca de peças.
      */
-    KmManutencao(int manutencaoPeriodica, int manutencaoPecas) {
+    KmManutencao(int manutencaoPeriodica) {
         this.manutencaoPeriodica = manutencaoPeriodica;
-        this.manutencaoPecas = manutencaoPecas;
     }
     // #endregion
 
@@ -40,15 +38,6 @@ public enum KmManutencao {
      */
     public double getManutencaoPeriodica() {
         return manutencaoPeriodica;
-    }
-
-    /**
-     * Retorna a quilometragem necessária para manutenção para troca de peças.
-     *
-     * @return A quilometragem necessária para manutenção para troca de peças.
-     */
-    public double getManutencaoPecas() {
-        return manutencaoPecas;
     }
     // #endregion
 }

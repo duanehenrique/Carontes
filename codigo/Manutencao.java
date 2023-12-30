@@ -22,21 +22,21 @@ public class Manutencao {
      * @param tipoVeiculo O tipo de veículo.
      * @param custo       O custo da manutenção.
      */
-    public Manutencao(Barco veiculo, double custo) {
+    public Manutencao(Barco barco, double custo) {
         this.manutencaoPeriodicaEmDia = true;
         this.manutencaoPecasEmDia = true;
         this.kmDesdeUltimaManutencao = 0;
         this.custo = custo;
-        if(veiculo instanceof Gondola){
-        km = KmManutencao.CARRO;
-        } else if(veiculo instanceof Balsa){
-        km = KmManutencao.VAN;
-        }else if(veiculo instanceof Navio){
-        km = KmManutencao.FURGAO;
-        }else if(veiculo instanceof Cruzeiro){
-        km = KmManutencao.CAMINHAO;
+        if(barco instanceof Gondola){
+        km = KmManutencao.GONDOLA;
+        } else if(barco instanceof Balsa){
+        km = KmManutencao.BALSA;
+        }else if(barco instanceof Navio){
+        km = KmManutencao.NAVIO;
+        }else if(barco instanceof Cruzeiro){
+        km = KmManutencao.CRUZEIRO;
         }else{
-                throw new IllegalArgumentException("Não foi possível criar o veículo desejado.");
+                throw new IllegalArgumentException("Este barco não existe e seus senhores não estão contentes.");
 
         }
     }
@@ -97,9 +97,6 @@ public class Manutencao {
      * Verifica se a manutenção está em dia.
      */
     private void manutencaoEstaEmDia() {
-        if (kmDesdeUltimaManutencao >= km.getManutencaoPecas()) {
-            this.manutencaoPecasEmDia = false;
-        }
         if (kmDesdeUltimaManutencao >= km.getManutencaoPeriodica()) {
             this.manutencaoPeriodicaEmDia = false;
         }
@@ -114,18 +111,12 @@ public class Manutencao {
         return totalDespesasManutencao;
     }
 
-    /**
-     * Realiza a manutenção de peças.
-     *
-     * @return O custo da manutenção.
-     */
-    public double realizarManutencaoPecas() {
-        if (!manutencaoPecasEmDia) {
-            totalDespesasManutencao += custo;
-            manutencaoPecasEmDia = true;
-            kmDesdeUltimaManutencao = 0;
-        }
-        return custo;
+    public double getKmParaManutencao(){
+        return km.getManutencaoPeriodica();
+    }
+
+    public double getKmAteProximaManutencao(){
+    return (getKmParaManutencao() - getKmDesdeUltimaManutencao());
     }
 
     /**
@@ -135,11 +126,12 @@ public class Manutencao {
      */
     public double realizarManutencaoPeriodica() {
         if (!manutencaoPeriodicaEmDia) {
-            totalDespesasManutencao += custo;
             manutencaoPeriodicaEmDia = true;
             kmDesdeUltimaManutencao = 0;
+            return km.getManutencaoPeriodica();
+        } else{
+            throw new IllegalArgumentException("O barco está a papelada em dia e não precisa realizar manutenção.");
         }
-        return custo;
     }
 
     // #endregion

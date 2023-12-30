@@ -41,8 +41,8 @@ public class Gondola extends Barco {
         relatorio.append("Caronte: " + motorista.getNome() + "\n");
         relatorio.append("Nível de Experiência do Caronte: " + motorista.getNivel() + "\n");
         relatorio.append("Capacidade máxima do barco: " + CAPACIDADEPASSAGEIROS + "\n");
-        relatorio.append("Km Rodados no mes: " + kmNoMes() + " km\n");
         relatorio.append("Km Total: " + kmTotal() + " km\n");
+        relatorio.append("Km até próxima manutenção periódica: " + getKmAteProximaManutencao() + " km\n");
         relatorio.append("Autonomia do veiculo: " + getAutonomia() + " km\n");
         relatorio.append("Tanque abastecido: Veículo sem tanque.\n");
         relatorio.append("Despesas com combustível: Veículo não consume combustível.\n");

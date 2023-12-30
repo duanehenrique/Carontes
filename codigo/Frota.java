@@ -20,7 +20,7 @@ public class Frota implements Normalizador {
     public Frota() {
         this.diariosDeBordo = new ArrayList<>();
         this.dataInicial = LocalDate.now();
-        this.dataAtual = LocalDate.now();
+        this.dataAtual = dataInicial;
     }
 
     // #endregion
@@ -53,6 +53,19 @@ public class Frota implements Normalizador {
             relatorio.append(diario.relatorio()).append("\n");
         }
     
+        return relatorio.toString();
+    }
+
+    public String relatorioFrotaDeOntem() {
+        StringBuilder relatorio = new StringBuilder();
+        for (DiarioDeBordo diario : diariosDeBordo) {
+            Barco barco = diario.getUltimoBarcoInserido();
+            relatorio.append(barco.relatorio()).append("\n");
+            List <Rota> rotasBarco = barco.getRotas();
+            for (Rota rota : rotasBarco) {
+                relatorio.append(rota.relatorio()).append("\n");
+            }
+        }
         return relatorio.toString();
     }
     
@@ -303,9 +316,15 @@ public class Frota implements Normalizador {
         // Percorre a lista de diários e chama o método fecharDiario para cada um
         for (DiarioDeBordo diario : diariosDeBordo) {
             diario.encerrarDia(dataAtual);
-            totalAlmasColetadasDia = diario.balancoTotalDeOntem();
+            totalAlmasColetadasDia += diario.balancoTotalDeOntem();
         }
         return totalAlmasColetadasDia;
+    }
+
+    public void iniciarDia() {
+        for (DiarioDeBordo diario : diariosDeBordo) {
+            diario.iniciarDiario();
+        }
     }
     
 

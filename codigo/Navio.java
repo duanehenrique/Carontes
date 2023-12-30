@@ -91,7 +91,6 @@ public class Navio extends Barco  implements BarcoComTanque{
                 relatorio.append("Caronte: " + motorista.getNome() + "\n");
                 relatorio.append("Nível de Experiência do Caronte: " + motorista.getNivel() + "\n");
                 relatorio.append("Capacidade máxima do barco: " + CAPACIDADEPASSAGEIROS + "\n");
-                relatorio.append("Km Rodados no mes: " + kmNoMes() + " km\n");
                 relatorio.append("Km Total: " + kmTotal() + " km\n");
                 relatorio.append("Autonomia do veiculo: " + autonomiaAtual() + " km\n");
                 relatorio.append("Tanque abastecido com: " + getTanque().getCapacidadeAtual() + " almas de "+ getTanque().getTipo() +  "\n");
