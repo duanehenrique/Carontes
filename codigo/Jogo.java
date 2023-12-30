@@ -20,6 +20,7 @@ import java.util.Set;
 public class Jogo implements Normalizador{
     static Random random;
     static Frota frota;
+    static NomesCarontes nomesCarontes;
     static Scanner teclado = new Scanner(System.in);   
     /**
      * Limpa a tela do console utilizando sequências de escape específicas do
@@ -85,26 +86,11 @@ public class Jogo implements Normalizador{
      * abastece com uma quantidade inicial de combustível.
      */
     private static void inicializarFrota() {
-        int capacidadeTotalFrota = 10; // Define a capacidade total da frota
-        frota = new Frota(capacidadeTotalFrota);
+        frota = new Frota();
 
-        if (frota == null) {
-            System.out.println("Erro: 'frota' não foi inicializada corretamente.");
+        for (int i = 0; i < 4; i++) {
+            Barco Gondola = gerarBarco(1); 
         }
-        if (random == null) {
-            System.out.println("Erro: 'random' não foi inicializado.");
-        }
-
-        // Inicializa metade da capacidade da frota
-        int veiculosParaInicializar = capacidadeTotalFrota / 2;
-        for (int i = 0; i < veiculosParaInicializar; i++) {
-            String placaUnica = gerarPlacaUnica(); // Gera uma placa única para cada veículo
-            Barco veiculo = cadastrarVeiculoAutomatico(placaUnica); // Passa a placa única para o método de cadastro
-            double quantidadeInicial = 10 + random.nextInt(7); // Gera uma quantidade inicial de combustível aleatória
-            veiculo.abastecer(quantidadeInicial); // Abastece o veículo com a quantidade inicial
-        }
-        System.out.println("Frota inicializada com " + veiculosParaInicializar + " de " + capacidadeTotalFrota
-                + " veículos possíveis.");
     }
 
     /**
@@ -195,29 +181,19 @@ public class Jogo implements Normalizador{
         return veiculo;
     }
 
-    // Array de nomes que podem ser usados para gerar um nome de motorista
-    // aleatório.
-    private static final String[] NOMES = {
-            "João", "Maria", "José", "Ana", "Pedro", "Sandra", "Carlos", "Laura",
-            "Fernando", "Isabela", "Antônio", "Francisco", "Paula", "Patrícia", "Marcos", "Rafael"
-    };
-
     /**
      * Cadastra um veículo automaticamente com informações aleatórias.
      * 
      * @param placa A placa única do veículo a ser cadastrado.
      * @return O veículo cadastrado ou null se não for possível criar o veículo.
      */
-    private static Barco cadastrarVeiculoAutomatico(String placa) {
-        random = new Random();
-
+    private static Barco gerarBarco(int nivel) {
         // Gera um nome de motorista aleatório a partir do array de nomes.
-        String nomeMotorista = NOMES[random.nextInt(NOMES.length)];
+        
+        String nomeMotorista = nomesCarontes.gerarNome();
         // Gera um CPF aleatório.
-        String cpfMotorista = String.format("%011d", random.nextInt(1_000_000_000));
-
         // Cria o motorista.
-        Caronte motorista = new Caronte(nomeMotorista, cpfMotorista);
+        Caronte motorista = new Caronte(nomeMotorista, nivel);
 
         // Gera um tipo de veículo aleatório.
         String[] tiposVeiculo = { "CARRO", "VAN", "FURGAO", "CAMINHAO" };
