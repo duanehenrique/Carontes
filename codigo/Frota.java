@@ -48,7 +48,6 @@ public class Frota implements Normalizador {
      */
     public String relatorioFrota() {
         StringBuilder relatorio = new StringBuilder();
-        relatorio.append("Relatório da Frota de Carontes:\n");
     
         for (DiarioDeBordo diario : diariosDeBordo) {
             relatorio.append(diario.relatorio()).append("\n");
@@ -58,14 +57,25 @@ public class Frota implements Normalizador {
     }
     
 
-    public void relatorioBarco(String nomeBarco) {
+    public String relatorioBarcoPorNome(String nomeBarco) {
         DiarioDeBordo diario = this.localizarDiarioPorNome(nomeBarco);
-    
-        if (diario != null) {
-            System.out.println(diario.relatorio());
-        } else {
-            System.out.println("Barco não encontrado.");
-        }
+        return diario.getBarcoDoDiario().relatorio();
+    }
+
+    public String relatorioBarcoPorIndex(int posicao) {
+        DiarioDeBordo diario = this.localizarDiarioPorIndex(posicao);
+        return diario.relatorio();
+    }
+
+    public String relatorioCompletoBarcoPorIndex(int posicao) {
+        DiarioDeBordo diario = this.localizarDiarioPorIndex(posicao);
+        return diario.getBarcoDoDiario().relatorio();
+
+    }
+
+    public String relatorioCompletoBarcoPorNome(String nomeBarco) {
+        DiarioDeBordo diario = this.localizarDiarioPorNome(nomeBarco);
+        return diario.relatorio();
     }
 
     public List<String> listarBarcosParaRotas() {
