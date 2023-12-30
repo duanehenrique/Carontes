@@ -164,7 +164,7 @@ public class Frota implements Normalizador {
                 if(posicao > 1){
                     diarioPorIndex = diariosDeBordo.get(posicao-1);
                 }else{
-                    throw new IllegalArgumentException("Posição informada menor que 1");
+                    throw new IllegalArgumentException("Posição informada menor que 1.");
                 }
             }else{
                 throw new IllegalArgumentException("Posição informada excede a quantidade atual de diários de bordo. Quantidade atual: " + diariosDeBordo.size());
@@ -178,21 +178,21 @@ public class Frota implements Normalizador {
         }
 
         public Caronte localizarMotoristaPorNome(String nome) {
-        for (DiarioDeBordo diario : diariosDeBordo) {
+        DiarioDeBordo diario = localizarDiarioPorNome(nome);
             if (diario != null && normalizar(nome).equals(normalizar(diario.getBarcoDoDiario().getMotorista().getNome()))) {
             return diario.getBarcoDoDiario().getMotorista();
+            }else{
+            throw new IllegalArgumentException("Não há um Caronte com este nome na frota.");
             }
-        }
-        throw new IllegalArgumentException("Não há um Caronte com este nome na frota.");
         }
     
         public Caronte localizarMotoristaPorIndex(int posicao) {
-            DiarioDeBordo diarioPorIndex;
+            DiarioDeBordo diarioPorIndex = localizarDiarioPorIndex(posicao);
             if(posicao < diariosDeBordo.size()){
                 if(posicao > 1){
                     diarioPorIndex = diariosDeBordo.get(posicao-1);
                 }else{
-                    throw new IllegalArgumentException("Posição informada menor que 1");
+                    throw new IllegalArgumentException("Posição informada menor que 1.");
                 }
             }else{
                 throw new IllegalArgumentException("Posição informada excede a quantidade atual de Carontes. Quantidade atual: " + diariosDeBordo.size());
@@ -200,6 +200,25 @@ public class Frota implements Normalizador {
            
         if (diarioPorIndex != null) {
             return diarioPorIndex.getBarcoDoDiario().getMotorista();
+        }else{
+            throw new IllegalArgumentException("Caronte informado não está empregado na frota.");
+        }
+        }
+
+        public List<Rota> localizarRotasPorIndex(int posicao) {
+            DiarioDeBordo diarioPorIndex;
+            if(posicao < diariosDeBordo.size()){
+                if(posicao > 1){
+                    diarioPorIndex = diariosDeBordo.get(posicao-1);
+                }else{
+                    throw new IllegalArgumentException("Posição informada menor que 1.");
+                }
+            }else{
+                throw new IllegalArgumentException("Posição informada excede a quantidade atual de Carontes. Quantidade atual: " + diariosDeBordo.size());
+            }
+           
+        if (diarioPorIndex != null) {
+            return diarioPorIndex.getBarcoDoDiario().getRotas();
         }else{
             throw new IllegalArgumentException("Caronte informado não está empregado na frota.");
         }
