@@ -1,4 +1,5 @@
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,7 +14,8 @@ public class DiarioDeBordo implements Relatorio {
     }
 
         public void encerrarDia(LocalDate data){
-            diarioPorDia.put(data, barcoDoDiario.encerrarDia());
+            barcoDoDiario.encerrarDia();
+            diarioPorDia.put(data, barcoDoDiario);
         }
 
         public void iniciarDiario(){
@@ -22,22 +24,9 @@ public class DiarioDeBordo implements Relatorio {
 
         public double balancoTotalPorDia(LocalDate dataDoDiario) {
             Barco barco = diarioPorDia.get(dataDoDiario);  
-            double ganhoTotal = 0;
-            double despesaTotal = 0;
             
             if (barco != null) {
-                if (!barco.getRotas().isEmpty()) {
-                    List<Rota> listaRotas = barco.getRotas();        
-                    for (Rota rota : listaRotas) {
-                        if (rota.getRotaPercorrida()) {
-                            ganhoTotal += barco.getTotalAlmasColetadas();
-                            despesaTotal += barco.getDespesaTotal();
-                        }
-                    }        
-                    return ganhoTotal - despesaTotal;
-                } else {
-                    throw new IllegalArgumentException("O barco ainda não possui rotas registradas.");
-                }
+                return calcularBalancoTotal(barco);
             } else {
                 LocalDate dataMaisAvancada = diarioPorDia.keySet().stream().max(LocalDate::compareTo).orElse(null);
         
@@ -48,7 +37,17 @@ public class DiarioDeBordo implements Relatorio {
                 }
             }
         }
-        public double balancoTotalGeral(LocalDate dataInicial, int numeroDias) {
+
+        public double balancoTotalDeOntem() {
+            Barco barco = getUltimoBarcoInserido();  
+            if (barco != null) {
+                return calcularBalancoTotal(barco);
+            } else {
+                throw new IllegalArgumentException("Barco não encerrou seu primeiro dia de viagens ainda. Encerre o dia primeiro.");
+                }
+            }
+
+        public double balancoTotalGeralPorDias(LocalDate dataInicial, int numeroDias) {
             double balancoTotalGeral = 0;
         
             for (int i = 0; i < numeroDias; i++) {
@@ -56,13 +55,34 @@ public class DiarioDeBordo implements Relatorio {
                 try {
                     double balancoDia = balancoTotalPorDia(dataDoDiario);
                     balancoTotalGeral += balancoDia;
-                    System.out.println("Balanço para " + dataDoDiario + ": " + balancoDia);
                 } catch (IllegalArgumentException e) {
                     System.out.println(e.getMessage());
                 }
             }
         
             return balancoTotalGeral;
+        }
+
+        private double calcularBalancoTotal(Barco barcoDoDia){
+            double ganhoTotal = 0;
+            double despesaTotal = 0;
+            if (!barcoDoDia.getRotas().isEmpty()) {
+                    List<Rota> listaRotas = barcoDoDia.getRotas();        
+                    for (Rota rota : listaRotas) {
+                        if (rota.getRotaPercorrida() && rota != null) {
+                            ganhoTotal += barcoDoDia.getTotalAlmasColetadasDia();
+                            despesaTotal += barcoDoDia.getDespesaTotal();
+                        }
+                    }        
+                    return ganhoTotal - despesaTotal;
+                } else {
+                    return 0;                
+                    }
+        }
+
+        public Barco getUltimoBarcoInserido() {
+                List<Barco> barcos = new ArrayList<>(diarioPorDia.values());
+                return barcos.get(barcos.size() - 1);
         }
 
         public Barco getBarcoDoDiario() {

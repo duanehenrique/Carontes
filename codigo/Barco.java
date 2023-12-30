@@ -18,7 +18,7 @@ public abstract class Barco implements Relatorio{
     protected double despesaManutencao;
     protected double despesaSalario;
     protected Manutencao manutencao;
-    protected int totalAlmasColetadas;
+    protected int totalAlmasColetadasDia;
     
 
     // #endregion
@@ -169,13 +169,12 @@ public int percorrerRota(Rota rota) {
     }
 }
 
-public Barco encerrarDia() {
+public void encerrarDia() {
         for (Rota rota : rotas) {
             if (rota != null && !rota.getRotaPercorrida()) {
-                this.totalAlmasColetadas += rota.percorrerRota(CAPACIDADEPASSAGEIROS);
+                this.totalAlmasColetadasDia += rota.percorrerRota(CAPACIDADEPASSAGEIROS);
             }
         }  
-    return this;
 }
 
 public void iniciarDia(){
@@ -183,7 +182,7 @@ public void iniciarDia(){
     this.despesaManutencao = 0;
     this.despesaMulta = 0;
     this.despesaSalario = 0;
-    this.totalAlmasColetadas = 0;
+    this.totalAlmasColetadasDia = 0;
     rotas.clear();
 }
 
@@ -349,8 +348,8 @@ public String relatorioRotas() {
         return (despesaCombustivel + despesaManutencao + despesaMulta + despesaSalario);
     }
 
-    public double getTotalAlmasColetadas(){
-         return totalAlmasColetadas;
+    public double getTotalAlmasColetadasDia(){
+         return totalAlmasColetadasDia;
     }
 
         public  String getTipoDeBarco() {

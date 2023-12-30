@@ -99,7 +99,7 @@ public class Navio extends Barco  implements BarcoComTanque{
                 relatorio.append("Despesas com multas: " + String.format("%.2f", despesaMulta) + " almas.\n");
                 relatorio.append("Despesas com manutenção: " + String.format("%.2f", despesaManutencao) + " almas.\n");
                 relatorio.append("Despesa total: " + String.format("%.2f", (getDespesaTotal()) + " almas.\n"));
-                relatorio.append("Arrecadação total: " + String.format("%.2f", (getTotalAlmasColetadas()) + " almas.\n"));   return relatorio.toString();
+                relatorio.append("Arrecadação total: " + String.format("%.2f", (getTotalAlmasColetadasDia()) + " almas.\n"));   return relatorio.toString();
             }
 
             @Override
