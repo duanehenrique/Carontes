@@ -17,12 +17,10 @@ import java.util.Set;
  * verificar manutenção
  * e calcular despesas totais dos veículos, dentre outras funcionalidades.
  */
-public class App implements Normalizador{
+public class Jogo implements Normalizador{
     static Random random;
     static Frota frota;
-    static Scanner teclado = new Scanner(System.in);
-    double almas;
-   
+    static Scanner teclado = new Scanner(System.in);   
     /**
      * Limpa a tela do console utilizando sequências de escape específicas do
      * terminal.
