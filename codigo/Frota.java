@@ -8,7 +8,6 @@ public class Frota implements Normalizador {
     private List<DiarioDeBordo> diariosDeBordo;
     private LocalDate dataInicial;
     private LocalDate dataAtual;
-    private double almas;
     // #endregion
 
     // #region Construtores

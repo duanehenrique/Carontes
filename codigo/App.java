@@ -21,6 +21,7 @@ public class App implements Normalizador{
     static Random random;
     static Frota frota;
     static Scanner teclado = new Scanner(System.in);
+    double almas;
    
     /**
      * Limpa a tela do console utilizando sequências de escape específicas do
