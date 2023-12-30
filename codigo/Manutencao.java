@@ -10,8 +10,6 @@ public class Manutencao {
     private double kmDesdeUltimaManutencao;
     private double totalDespesasManutencao;
     private final KmManutencao km;
-    private final double custo;
-
     // #endregion
 
     // #region Construtor
@@ -26,7 +24,6 @@ public class Manutencao {
         this.manutencaoPeriodicaEmDia = true;
         this.manutencaoPecasEmDia = true;
         this.kmDesdeUltimaManutencao = 0;
-        this.custo = custo;
         if(barco instanceof Gondola){
         km = KmManutencao.GONDOLA;
         } else if(barco instanceof Balsa){
