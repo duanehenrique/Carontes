@@ -4,20 +4,20 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-public class NomesCarontes {
+public class GeradorNomesBarcos {
         private static final String[] nomes = {
-                "Eustáquio Felipe", "Prudêncio José", "Adasmastor", "Carimbo Miguel", "Jacinto",
-                "Fagner", "Severino", "Anselmo Antônio", "Waldemar", "Edmundo Joaquim",
-                "Remo", "Ricardo", "Ermenegildo", "Nilton", "Juvêncio",
-                "Ambrósio Alexandre", "Evaldo", "Evair", "Lourivanderson", "Lourival",
-                "Floriano Peixoso", "Iracemo", "Lineu", "Irineu", "Sebastião Doce",
-                "Raimundo Do Nato", "Romário", "Ronaldinho Potiguar", "Waldomiro Bolo", "Humberto",
-                "Uberaldo", "Uberlando", "João Boticatubas", "Getúlio Vagas", "Juscelino Cobre-Cheque"
+                "Pescador de Ilusões", "Banana Boat", "Jacaré Panguá", "Olha a Onda", "",
+                "Barqueta Furacão", "Titaníquel", "Tubarão (1975)", "Holandês Aviador", "Pérola Branca",
+                "Ama Deus", "Nãotilus", "Centennial Hawk", "Aprilflower", "Moby Duck",
+                "SS Norman Die", "Mellow Submarine", "Mississipi Queen Bee", "USS Exitprise", "Paraíso Tropical",
+                "Príncipe do Mar", "Rei dos Rios", "Domingueiro", "Pilotado Por Mim, Guiado Por Hades", "Apaixonado por Água",
+                "Águas de Fortaleza", "Cervejinha e Carne Boa", "Nossa Senhora Aparecida", "O Ciúme da Patroa", "Três Marias",
+                "Peixe-Espada", "Pula Onda", "Marca de Noé", "Saúde e Alegria", "Meus Filhos Tão Sem Pensão Por Esse Barco"
         };
     private Map<String, List<Boolean>> nomesDisponíveis;
     Random random;
 
-     public NomesCarontes() {
+    public GeradorNomesBarcos() {
         this.nomesDisponíveis = new HashMap<>();
         for (String nome : nomes) {
             List<Boolean> descendencia = new ArrayList<>();
@@ -42,9 +42,9 @@ public class NomesCarontes {
             listaBooleanos.set(i, true);
             nomesDisponíveis.replace(nome.toString(), listaBooleanos);
             if(i == 1){
-                nome.append(" Jr.");
+                nome.append(" II");
             }else if(i == 2){
-                nome.append(" Neto");
+                nome.append(" III");
             }else if(i == 3){
                 nome.append(" IV");
             }
@@ -53,5 +53,5 @@ public class NomesCarontes {
         iteracao++;
         } 
     }
-    throw new IllegalArgumentException("Todos os Carontes do Tártaro já estão empregados em sua frota. Se contente com o que tem.");       
+    throw new IllegalArgumentException("Todos os barcos do Tártaro já fazem parte da sua frota. Se contente com o que tem.");       
     }}

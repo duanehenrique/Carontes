@@ -20,7 +20,7 @@ import java.util.Set;
 public class Jogo implements Normalizador{
     static Random random;
     static Frota frota;
-    static NomesCarontes nomesCarontes;
+    static GeradorNomesCarontes nomesCarontes;
     static Scanner teclado = new Scanner(System.in);   
     /**
      * Limpa a tela do console utilizando sequências de escape específicas do
