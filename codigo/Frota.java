@@ -2,8 +2,6 @@ import java.text.Normalizer;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Scanner;
 
 public class Frota implements Normalizador {
     // #region Atributos
@@ -61,7 +59,7 @@ public class Frota implements Normalizador {
     
 
     public void relatorioBarco(String nomeBarco) {
-        DiarioDeBordo diario = this.localizarDiario(nomeBarco);
+        DiarioDeBordo diario = this.localizarDiarioPorNome(nomeBarco);
     
         if (diario != null) {
             System.out.println(diario.relatorio());
@@ -70,32 +68,41 @@ public class Frota implements Normalizador {
         }
     }
 
-    public void listarBarcosParaRotas() {
-        System.out.println("Lista de Barcos na Frota:");
-        
+    public List<String> listarBarcosParaRotas() {
+    List<String> listaBarcosParaRotas = new ArrayList<>();
         for (int i = 0; i < diariosDeBordo.size(); i++) {
             DiarioDeBordo diario = diariosDeBordo.get(i);
             
             if (diario != null) {
                 Barco barco = diario.getBarcoDoDiario();
-                    System.out.println("Barco-" + (i + 1));
-                    System.out.println("Nome: " + barco.getNOME());
-                    System.out.println("Motorista: " + barco.getMotorista().getNome());
-                    System.out.println("Tipo de barco: " + barco.getTipoDeBarco());
-                    System.out.println("Capacidade de passageiros: " + barco.getTipoDeBarco());
+                StringBuilder textoBarco = new StringBuilder();
+                textoBarco.append("Barco #" + (i + 1));
+                textoBarco.append("\n");
+                textoBarco.append("Nome: " + barco.getNOME());
+                textoBarco.append("\n");
+                textoBarco.append("Motorista: " + barco.getMotorista().getNome());
+                textoBarco.append("\n");
+                textoBarco.append("Tipo de barco: " + barco.getTipoDeBarco());
+                textoBarco.append("\n");
+                textoBarco.append("Capacidade de passageiros: " + barco.getTipoDeBarco());
+                textoBarco.append("\n");
                     if(!barco.getRotas().isEmpty()){
-                        System.out.println("Rotas associadas: " + barco.getRotas().size());
-                        System.out.println("Rotas já percorridas: " + barco.getQuantRotasPercorridasHj());
-                        System.out.println("Rotas ainda não percorridas: " + (4 - barco.getQuantRotasPercorridasHj()));
+                        textoBarco.append("Rotas associadas: " + barco.getRotas().size());
+                        textoBarco.append("\n");
+                        textoBarco.append("Rotas já percorridas: " + barco.getQuantRotasPercorridasHj());
+                        textoBarco.append("\n");
+                        textoBarco.append("Rotas ainda não percorridas: " + (4 - barco.getQuantRotasPercorridasHj()));
+                    listaBarcosParaRotas.add(textoBarco.toString());
                     }else {
-                        System.out.println("Nenhuma rota associada barco.");
-                    }
-                    
+                        textoBarco.append("Nenhuma rota associada barco ainda.");
+                        listaBarcosParaRotas.add(textoBarco.toString());
+                    }                    
                         } else {
-                            System.out.println("Não há entradas no diário de bordo.");
+                            throw new IllegalArgumentException("Não há barcos na sua frota de Carontes.");
                         }
-                        System.out.println();
+                         
                 }
+                return listaBarcosParaRotas;
             }
     
        public void listarRotasPorBarco() {
@@ -132,13 +139,13 @@ public class Frota implements Normalizador {
      * @param placa A placa do veículo a ser localizado.
      * @return O veículo localizado, ou null se não for encontrado.
      */
-        private DiarioDeBordo localizarDiario(String nome) {
+        private DiarioDeBordo localizarDiarioPorNome(String nome) {
         for (DiarioDeBordo diario : diariosDeBordo) {
             if (diario != null && normalizar(nome).equals(normalizar(diario.getBarcoDoDiario().getNOME()))) {
             return diario;
             }
         }
-        throw new NoSuchElementException("Não há um barco com este nome na frota de Carontes.");
+        throw new IllegalArgumentException("Não há um barco com este nome na frota de Carontes.");
         }
     
     
