@@ -296,13 +296,16 @@ public class Frota implements Normalizador {
      * 
      * @return true se o mês virou, false caso contrário.
      */
-    public void encerrarDia() {
+    public double encerrarDia() {
         dataAtual = dataAtual.plusDays(1);
+        double totalAlmasColetadasDia = 0;
     
         // Percorre a lista de diários e chama o método fecharDiario para cada um
         for (DiarioDeBordo diario : diariosDeBordo) {
             diario.encerrarDia(dataAtual);
+            totalAlmasColetadasDia = diario.balancoTotalDeOntem();
         }
+        return totalAlmasColetadasDia;
     }
     
 
