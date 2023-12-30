@@ -17,7 +17,7 @@ public class NomesCarontes {
     private Map<String, List<Boolean>> nomesDisponíveis;
     Random random;
 
-     NomesCarontes() {
+     public NomesCarontes() {
         this.nomesDisponíveis = new HashMap<>();
         for (String nome : nomes) {
             List<Boolean> descendencia = new ArrayList<>();
