@@ -7,6 +7,7 @@ public abstract class Barco implements Relatorio{
     // #region Atributos
     protected final String NOME;
     protected List<Rota> rotas;
+    protected static final int MAX_ROTAS = 4;
     protected DiarioDeBordo diarioDesteBarco;
     protected final int CAPACIDADEPASSAGEIROS;
     protected static int PRECOCUSTO;
@@ -63,6 +64,12 @@ public abstract class Barco implements Relatorio{
             throw new IllegalArgumentException("A rota já existe na lista de rotas.");
             }
 
+            if(rotas.size() == MAX_ROTAS)
+            {
+                        throw new IllegalStateException(
+                        "Manutenção do veículo em atraso. Realize manutenção antes de adicionar rota.");
+            }
+
             if (!manutencao.getManutencaoEmDia()) {
                 throw new IllegalStateException(
                         "Manutenção do veículo em atraso. Realize manutenção antes de adicionar rota.");
@@ -80,6 +87,22 @@ public abstract class Barco implements Relatorio{
         }
     }
 
+
+    public void excluirRota(Rota rota) {
+        try {
+            if(rotas.isEmpty()){
+            throw new IllegalStateException("Este barco não possui rotas atribuídas a ele.");
+            }
+            if (!rotas.contains(rota)){
+            throw new IllegalArgumentException("A rota em questão não foi atribuída a este barco.");
+            }
+
+            rotas.remove(rota);
+            System.err.println("Rota excluída ao veículo de placa " + getNOME() + " com sucesso!");
+        } catch (IllegalArgumentException | IllegalStateException e) {
+            System.out.println("Erro ao excluir rota: " + e.getMessage());
+        }
+    }
     /**
      * Retorna a quilometragem no mês do veículo.
      *
@@ -146,10 +169,10 @@ public int percorrerRota(Rota rota) {
     }
 }
 
-public Barco fecharDia(LocalDate dataAtual) {
+public Barco encerrarDia() {
         for (Rota rota : rotas) {
             if (rota != null && !rota.getRotaPercorrida()) {
-                this.totalAlmasColetadas += rota.percorrerRota(CAPACIDADEPASSAGEIROS); // Ajuste para passar a capacidade máxima
+                this.totalAlmasColetadas += rota.percorrerRota(CAPACIDADEPASSAGEIROS);
             }
         }  
     return this;
@@ -330,6 +353,23 @@ public String relatorioRotas() {
          return totalAlmasColetadas;
     }
 
+        public  String getTipoDeBarco() {
+        if (this instanceof Gondola) {
+           return "Gôndola";
+        } else if (this instanceof Balsa) {
+            return "Balsa";
+        } else if (this instanceof Navio) {
+            return "Navio";
+        } else if (this instanceof Cruzeiro) {
+           return "Cruzeiro";
+        } else {
+            throw new IllegalArgumentException("Este barco não existe e seus senhores não estão contentes.");
+        }
+    }
+
+    public int getQuantRotasPercorridasHj(){
+        return (int) getRotas().stream().filter(Rota::getRotaPercorrida).count();
+    }
     // #endregion
 
     // #region Getters

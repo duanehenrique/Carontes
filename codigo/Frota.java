@@ -8,7 +8,9 @@ import java.util.Scanner;
 public class Frota implements Normalizador {
     // #region Atributos
     private List<DiarioDeBordo> diariosDeBordo;
-    private LocalDate dataUltimaFrota;
+    private LocalDate dataInicial;
+    private LocalDate dataAtual;
+    private double almas;
     // #endregion
 
     // #region Construtores
@@ -19,7 +21,8 @@ public class Frota implements Normalizador {
      */
     public Frota() {
         this.diariosDeBordo = new ArrayList<>();
-        this.dataUltimaFrota = LocalDate.now();
+        this.dataInicial = LocalDate.now();
+        this.dataAtual = LocalDate.now();
     }
 
     // #endregion
@@ -31,7 +34,7 @@ public class Frota implements Normalizador {
      * @param veiculo O veículo a ser adicionado.
      */
     public void adicionarBarco(Barco barco) {
-        if (diariosDeBordo.stream().anyMatch(diario -> diario.getBarcoDoDiario().equals(barco))) {
+        if (diariosDeBordo.stream().anyMatch(diario -> normalizar(diario.getBarcoDoDiario().getNOME()).equals(normalizar(barco.getNOME())))) {
             throw new IllegalArgumentException("O barco já faz parte da frota de Carontes");
         }
         DiarioDeBordo diario = new DiarioDeBordo(barco);
@@ -57,10 +60,7 @@ public class Frota implements Normalizador {
     }
     
 
-    public void exibirRelatorioRotas() {
-        Scanner teclado = new Scanner(System.in);
-        System.out.print("Digite o nome do barco para exibir o relatório de rotas: ");
-        String nomeBarco = teclado.nextLine().toUpperCase();
+    public void relatorioBarco(String nomeBarco) {
         DiarioDeBordo diario = this.localizarDiario(nomeBarco);
     
         if (diario != null) {
@@ -69,7 +69,62 @@ public class Frota implements Normalizador {
             System.out.println("Barco não encontrado.");
         }
     }
+
+    public void listarBarcosParaRotas() {
+        System.out.println("Lista de Barcos na Frota:");
+        
+        for (int i = 0; i < diariosDeBordo.size(); i++) {
+            DiarioDeBordo diario = diariosDeBordo.get(i);
+            
+            if (diario != null) {
+                Barco barco = diario.getBarcoDoDiario();
+                    System.out.println("Barco-" + (i + 1));
+                    System.out.println("Nome: " + barco.getNOME());
+                    System.out.println("Motorista: " + barco.getMotorista().getNome());
+                    System.out.println("Tipo de barco: " + barco.getTipoDeBarco());
+                    System.out.println("Capacidade de passageiros: " + barco.getTipoDeBarco());
+                    if(!barco.getRotas().isEmpty()){
+                        System.out.println("Rotas associadas: " + barco.getRotas().size());
+                        System.out.println("Rotas já percorridas: " + barco.getQuantRotasPercorridasHj());
+                        System.out.println("Rotas ainda não percorridas: " + (4 - barco.getQuantRotasPercorridasHj()));
+                    }else {
+                        System.out.println("Nenhuma rota associada barco.");
+                    }
+                    
+                        } else {
+                            System.out.println("Não há entradas no diário de bordo.");
+                        }
+                        System.out.println();
+                }
+            }
     
+       public void listarRotasPorBarco() {
+        System.out.println("Lista de Barcos na Frota:");
+        
+        for (int i = 0; i < diariosDeBordo.size(); i++) {
+            DiarioDeBordo diario = diariosDeBordo.get(i);
+            
+            if (diario != null) {
+                Barco barco = diario.getBarcoDoDiario();
+                    System.out.println("Barco-" + (i + 1));
+                    System.out.println("Nome: " + barco.getNOME());
+                    System.out.println("Motorista: " + barco.getMotorista().getNome());
+                    System.out.println("Tipo de barco: " + barco.getTipoDeBarco());
+                    System.out.println("Capacidade de passageiros: " + barco.getTipoDeBarco());
+                    if(!barco.getRotas().isEmpty()){
+                        System.out.println("Rotas associadas: " + barco.getRotas().size());
+                        System.out.println("Rotas já percorridas: " + barco.getQuantRotasPercorridasHj());
+                        System.out.println("Rotas ainda não percorridas: " + (4 - barco.getQuantRotasPercorridasHj()));
+                    }else {
+                        System.out.println("Nenhuma rota associada barco.");
+                    }
+                    
+                        } else {
+                            System.out.println("Não há entradas no diário de bordo.");
+                        }
+                        System.out.println();
+                }
+            }
 
     /**
      * Localiza um veículo na frota pela placa.
@@ -159,13 +214,15 @@ public class Frota implements Normalizador {
      * 
      * @return true se o mês virou, false caso contrário.
      */
-    private void passarDia(){
-        LocalDate dataDeHoje = LocalDate.now();
-        if (dataDeHoje.getMonthValue() != dataUltimaFrota.getMonthValue()) {
-            dataUltimaFrota = dataDeHoje;
-        }else{
-        }        
+    public void encerrarDia() {
+        dataAtual = dataAtual.plusDays(1);
+    
+        // Percorre a lista de diários e chama o método fecharDiario para cada um
+        for (DiarioDeBordo diario : diariosDeBordo) {
+            diario.encerrarDia(dataAtual);
+        }
     }
+    
 
     // #region Getters
     /**

@@ -12,12 +12,12 @@ public class DiarioDeBordo implements Relatorio {
         this.barcoDoDiario = barco;
     }
 
-        public void addDiario(Barco esteBarco, LocalDate data){
-            if(barcoDoDiario.getNOME().equals(esteBarco.getNOME())){
-            diarioPorDia.put(data, esteBarco);
-            }else{
-                throw new IllegalArgumentException("Registro não efetuado. O barco em questão não é o barco deste diário de bordo.");
-            }
+        public void encerrarDia(LocalDate data){
+            diarioPorDia.put(data, barcoDoDiario.encerrarDia());
+        }
+
+        public void iniciarDiario(){
+            barcoDoDiario.iniciarDia();
         }
 
         public double balancoTotalPorDia(LocalDate dataDoDiario) {
