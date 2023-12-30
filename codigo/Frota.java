@@ -176,6 +176,34 @@ public class Frota implements Normalizador {
             throw new IllegalArgumentException("Diário de bordo informado não pertence a um barco.");
         }
         }
+
+        public Caronte localizarMotoristaPorNome(String nome) {
+        for (DiarioDeBordo diario : diariosDeBordo) {
+            if (diario != null && normalizar(nome).equals(normalizar(diario.getBarcoDoDiario().getMotorista().getNome()))) {
+            return diario.getBarcoDoDiario().getMotorista();
+            }
+        }
+        throw new IllegalArgumentException("Não há um Caronte com este nome na frota.");
+        }
+    
+        public Caronte localizarMotoristaPorIndex(int posicao) {
+            DiarioDeBordo diarioPorIndex;
+            if(posicao < diariosDeBordo.size()){
+                if(posicao > 1){
+                    diarioPorIndex = diariosDeBordo.get(posicao-1);
+                }else{
+                    throw new IllegalArgumentException("Posição informada menor que 1");
+                }
+            }else{
+                throw new IllegalArgumentException("Posição informada excede a quantidade atual de Carontes. Quantidade atual: " + diariosDeBordo.size());
+            }
+           
+        if (diarioPorIndex != null) {
+            return diarioPorIndex.getBarcoDoDiario().getMotorista();
+        }else{
+            throw new IllegalArgumentException("Caronte informado não está empregado na frota.");
+        }
+        }
     
     /**
      * Calcula a quilometragem total da frota.
