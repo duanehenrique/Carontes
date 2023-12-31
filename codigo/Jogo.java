@@ -21,6 +21,7 @@ public class Jogo implements Normalizador{
     static Random random;
     static Frota frota;
     static GeradorNomesCarontes nomesCarontes;
+    static GeradorNomesBarcos nomesBarcos;
     static Scanner teclado = new Scanner(System.in);   
     /**
      * Limpa a tela do console utilizando sequências de escape específicas do
@@ -187,38 +188,32 @@ public class Jogo implements Normalizador{
      * @param placa A placa única do veículo a ser cadastrado.
      * @return O veículo cadastrado ou null se não for possível criar o veículo.
      */
-    private static Barco gerarBarco(int nivel) {
-        // Gera um nome de motorista aleatório a partir do array de nomes.
-        
+    private static Barco gerarBarco(int nivelMotorista, String tipoBarco, String tipoCombustivel) {
         String nomeMotorista = nomesCarontes.gerarNome();
-        // Gera um CPF aleatório.
-        // Cria o motorista.
-        Caronte motorista = new Caronte(nomeMotorista, nivel);
-
-        // Gera um tipo de veículo aleatório.
-        String[] tiposVeiculo = { "CARRO", "VAN", "FURGAO", "CAMINHAO" };
-        String tipoVeiculo = normalizar(tiposVeiculo[random.nextInt(tiposVeiculo.length)].toUpperCase());
-
-        // Gera um tipo de combustível aleatório.
-        String[] tiposCombustivel = { "ALCOOL", "GASOLINA", "DIESEL" };
-        String tipoCombustivel = normalizar(tiposCombustivel[random.nextInt(tiposCombustivel.length)].toUpperCase());
-
-        // Calcula o custo de manutenção com base no tipo de veículo.
-        double custoManutencao = calcularCustoManutencao(tipoVeiculo);
-
-        // Cria o veículo com base no tipo.
-        Barco veiculo = criarVeiculo(tipoVeiculo, motorista, placa, tipoCombustivel, custoManutencao);
-
-        // Adiciona o veículo à frota se ele foi criado com sucesso.
-        if (veiculo != null) {
-            frota.adicionarVeiculo(veiculo);
-            System.out.println("Veículo do tipo " + tipoVeiculo + " cadastrado com sucesso! Placa: " + placa);
-        } else {
-            System.out.println("Não foi possível cadastrar o veículo com a placa " + placa + ".");
+        Caronte motorista = new Caronte(nomeMotorista, nivelMotorista);
+    
+        String nomeBarco = nomesBarcos.gerarNome();
+        switch (normalizar(tipoBarco)) {
+            case "GONDOLA":
+                 throw new IllegalArgumentException("Gôndolas não podem ser fabricadas dessa forma. Tente de outra forma.");
+                break;
+            case "BALSA":
+                Barco balsa = new Balsa(motorista, nomeBarco,  normalizar(tipoCombustivel));
+                return balsa;
+                break;
+            case "NAVIO":
+                Barco navio = new Navio(motorista, nomeBarco,  normalizar(tipoCombustivel));
+                return navio;
+                break;
+            case "CRUZEIRO":
+                Barco cruzeiro = new Cruzeiro(motorista, nomeBarco,  normalizar(tipoCombustivel));
+                return cruzeiro;
+                break;
+            default:
+                throw new IllegalArgumentException("Este barco não existe e seus senhores não estão contentes.");
         }
-
-        return veiculo;
     }
+    
 
     private static double calcularCustoManutencao(String tipoVeiculo) {
         // Usando um HashMap para determinar o custo de manutenção

@@ -1,6 +1,6 @@
 import java.text.Normalizer;
 
-public class Tanque {
+public class Tanque implements Normalizador{
     // #region Atributos
     private final double CAPACIDADEMAXIMA;
     private double capacidadeAtual;
@@ -17,8 +17,7 @@ public class Tanque {
     Tanque(double capacidadeMaxima, String tipo) {
         this.capacidadeAtual = 0;
         this.CAPACIDADEMAXIMA = capacidadeMaxima;
-        switch (Normalizer.normalize(tipo.toUpperCase(), Normalizer.Form.NFD)
-                .replaceAll("\\p{InCombiningDiacriticalMarks}+", "")) {
+        switch (normalizar(tipo)) {
             case "ALCOOL":
                 tipoCombustivel = TipoCombustivel.ALCOOL;
                 break;
@@ -29,7 +28,7 @@ public class Tanque {
                 tipoCombustivel = TipoCombustivel.DIESEL;
                 break;
             default:
-                throw new IllegalArgumentException("Tipo de combustível desconhecido: " + tipo);
+                throw new IllegalArgumentException("Barco não pôde ser fabricado. Tipo de combustível desconhecido: " + tipo);
         }
     }
     // #endregion
@@ -130,5 +129,13 @@ public class Tanque {
 
     public int getAdicionalPrecoVenda(){
         return tipoCombustivel.getAdicionalPrecoVenda();
+    }
+
+    private static String normalizar(String texto) {
+        String normalizado = Normalizer.normalize(texto, Normalizer.Form.NFD)
+                .replaceAll("[^\\p{ASCII}]", "");
+        normalizado = normalizado.toUpperCase();
+
+        return normalizado;
     }
 }
