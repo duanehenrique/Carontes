@@ -333,7 +333,7 @@ public class Frota implements Normalizador {
      * 
      * @return Um array contendo os veículos da frota.
      */
-    public List<DiarioDeBordo> getDiarioDeBordos() {
+    public List<DiarioDeBordo> getDiariosdeBordo() {
         return diariosDeBordo;
     }
 

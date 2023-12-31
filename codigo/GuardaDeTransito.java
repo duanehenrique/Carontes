@@ -4,7 +4,7 @@ public class GuardaDeTransito {
 
     public Multa verificarMulta(Barco barco, Rota rota) {
         double chanceBase = barco.getMotorista().getProbabilidade();
-        double chanceComCapacidade = calcularChanceComCapacidade(barco.getCAPACIDADEPASSGEIROS(), rota.getQtdTotalPassageiros());
+        double chanceComCapacidade = calcularChanceComCapacidade(barco.getCAPACIDADEPASSAGEIROS(), rota.getQtdTotalPassageiros());
         double chanceTotal = (chanceBase * chanceComCapacidade);
         return aplicarMulta(chanceTotal);
     }

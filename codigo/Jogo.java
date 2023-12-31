@@ -120,7 +120,7 @@ private static void cranio(){
         System.err.println("É algo do sindicato. Melhor não mexer nisso.");
         System.err.println("Carontes têm nível de experiência. Alguns têm mais anos de firma.");
         System.err.println("Aqueles que começaram há pouco tempo não são muito prudentes e tem mais chance de cometer infrações.");
-        System.err.println("Quanto mais experiente, menor a chance do acabar guarda aplicando multa.");
+        System.err.println("Quanto mais experiente, menor a chance do guarda costeiro acabar aplicando uma multa.");
         System.err.println("Nós não queremos multas. Se o Caronte tiver uma multa pendente, ele não pode entrar em uma rota.");
         System.err.println("A legislação do Submundo é bem rígida quanto a isso");
         System.err.println("Multas custam. E isso sai do nosso bolso. Do que ganhamos no dia.");

@@ -1,13 +1,14 @@
 public enum Pecado {
     HEROI(0, "Herói nobre livre de pecados. Enviar aos Campos Elíseos."),
-    LUXURIA(1, "Luxúria"),
-    GULA(2, "Gula"),
-    AVAREZA(3, "Avareza"),
-    IRA(4, "Ira"),
-    HERESIA(5, "Heresia"),
-    VIOLENCIA(6, "Violência"),
-    FRAUDE(7, "Fraude"),
-    TRAICAO(8, "Traição");
+    LIMBO(1, "Comportamento Digno do Limbo"),
+    LUXURIA(2, "Luxúria"),
+    GULA(3, "Gula"),
+    AVAREZA(4, "Avareza"),
+    IRA(5, "Ira"),
+    HERESIA(6, "Heresia"),
+    VIOLENCIA(7, "Violência"),
+    FRAUDE(8, "Fraude"),
+    TRAICAO(9, "Traição");
 
     private final int valor;
     private final String pecado;

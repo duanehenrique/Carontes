@@ -8,7 +8,6 @@ import java.util.List;
 public class Rota implements Relatorio{
 
     // #region Atributos
-    private LocalDate data;
     private List<Passageiro> passageiros;
     private int qtdPassageirosLevados;
     private double quilometragem;
@@ -21,14 +20,13 @@ public class Rota implements Relatorio{
     /**
      * Construtor para a rota.
      * 
-     * @param data          A data da rota.
      * @param quilometragem A quilometragem da rota.
      */
-    public Rota(LocalDate data, double quilometragem, List<Passageiro> passageiros, Barco veiculo) {
-        this.data = data;
+    public Rota(double quilometragem, List<Passageiro> passageiros) {
         this.quilometragem = quilometragem;
         this.passageiros = passageiros;
         this.rotaPercorrida = false;
+        this.passageiros = passageiros;
     }
 
     // #endregion
@@ -74,15 +72,6 @@ public class Rota implements Relatorio{
         return quilometragem;
     }
 
-    /**
-     * Retorna a data da rota.
-     * 
-     * @return A data da rota.
-     */
-    public LocalDate getData() {
-        return data;
-    }
-
     public int getQtdTotalPassageiros(){
         return passageiros.size();
     }
@@ -96,7 +85,6 @@ public class Rota implements Relatorio{
      */
     public String relatorio() {
         StringBuilder relatorio = new StringBuilder();
-        relatorio.append("   Data: ").append(getData()).append("\n");
         relatorio.append("   Quilometragem: ").append(getQuilometragem()).append("\n");
         relatorio.append("   Rota já foi percorrida: ").append(rotaPercorrida ? "Sim" : "Não").append("\n");
         

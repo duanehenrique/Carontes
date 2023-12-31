@@ -409,7 +409,7 @@ public String relatorioRotas() {
         return PRECOCUSTO;
     }
 
-    public int getCAPACIDADEPASSGEIROS(){
+    public int getCAPACIDADEPASSAGEIROS(){
     return CAPACIDADEPASSAGEIROS;
     }
 
