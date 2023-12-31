@@ -163,6 +163,10 @@ public class Caronte implements Relatorio{
         return this.experiencia.getSalario();
     }
 
+    public double getProbabilidade(){
+        return experiencia.getProbabilidade();
+    }
+
     // #endregion
 
             // #region Relatorio
