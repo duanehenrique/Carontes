@@ -10,7 +10,7 @@ public class GuardaDeTransito {
     }
 
     private double calcularChanceComCapacidade(int capacidadePassageiros) {
-        if (capacidadePassageiros >= 80) {
+        if (capacidadePassageiros/100.0 >= 0.8) {
             return 1.5;
         }
         return 0.0;
