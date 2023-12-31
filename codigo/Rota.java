@@ -10,7 +10,7 @@ public class Rota implements Relatorio{
     // #region Atributos
     private LocalDate data;
     private List<Passageiro> passageiros;
-    private int QtdPassageirosLevados;
+    private int qtdPassageirosLevados;
     private double quilometragem;
     private boolean rotaPercorrida;
 
@@ -38,7 +38,7 @@ public class Rota implements Relatorio{
      */
     public int percorrerRota(int capacidadeMaximaPassageiros) {
     this.rotaPercorrida = true;
-    this.QtdPassageirosLevados = capacidadeMaximaPassageiros;
+    this.qtdPassageirosLevados = capacidadeMaximaPassageiros;
     return calcularTotalAlmas(capacidadeMaximaPassageiros);
     }
 
@@ -82,6 +82,10 @@ public class Rota implements Relatorio{
     public LocalDate getData() {
         return data;
     }
+
+    public int getQtdTotalPassageiros(){
+        return passageiros.size();
+    }
     // #endregion
 
         // #region Relatório
@@ -99,8 +103,8 @@ public class Rota implements Relatorio{
         if(getRotaPercorrida()){
             relatorio.append("   Quantidade Total de Passageiros: ").append(passageiros.size()).append("\n");
             relatorio.append("   Quantidade Total de Almas: ").append(calcularTotalAlmas(passageiros.size())).append("\n");
-            relatorio.append("   Quantidade de Passageiros levados: " + QtdPassageirosLevados).append("\n");
-            relatorio.append("   Quantidade Total de Almas: ").append(calcularTotalAlmas(QtdPassageirosLevados)).append("\n");
+            relatorio.append("   Quantidade de Passageiros levados: " + qtdPassageirosLevados).append("\n");
+            relatorio.append("   Quantidade Total de Almas: ").append(calcularTotalAlmas(qtdPassageirosLevados)).append("\n");
             relatorio.append("   Passageiros na Rota: \n");
             int numeroPassageiro = 1;
             for (Passageiro passageiro : passageiros) {

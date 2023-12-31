@@ -4,16 +4,16 @@ public class GuardaDeTransito {
 
     public Multa verificarMulta(Barco barco, Rota rota) {
         double chanceBase = barco.getMotorista().getProbabilidade();
-        double chanceComCapacidade = calcularChanceComCapacidade(barco.getCAPACIDADEPASSGEIROS());
+        double chanceComCapacidade = calcularChanceComCapacidade(barco.getCAPACIDADEPASSGEIROS(), rota.getQtdTotalPassageiros());
         double chanceTotal = (chanceBase * chanceComCapacidade);
         return aplicarMulta(chanceTotal);
     }
 
-    private double calcularChanceComCapacidade(int capacidadePassageiros) {
-        if (capacidadePassageiros/100.0 >= 0.8) {
+    private double calcularChanceComCapacidade(int capacidadePassageiros, int qtdTotalPassageiros) {
+        if (qtdTotalPassageiros/capacidadePassageiros >= 0.8) {
             return 1.5;
         }
-        return 0.0;
+        return 1;
     }
 
     private boolean sorteio(double chance) {
