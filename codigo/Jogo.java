@@ -188,7 +188,7 @@ public class Jogo implements Normalizador{
      * @param placa A placa única do veículo a ser cadastrado.
      * @return O veículo cadastrado ou null se não for possível criar o veículo.
      */
-    private static Barco gerarBarco(int nivelMotorista, String tipoBarco, String tipoCombustivel) {
+    private static Barco gerarBarcoComTanque(int nivelMotorista, String tipoBarco, String tipoCombustivel) {
         String nomeMotorista = nomesCarontes.gerarNome();
         Caronte motorista = new Caronte(nomeMotorista, nivelMotorista);
     
