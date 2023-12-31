@@ -4,10 +4,10 @@
  */
 public enum KmManutencao {
     // #region Definição dos tipos de veículos
-    GONDOLA(5000), 
-    BALSA(10000), 
-    NAVIO(10000), 
-    CRUZEIRO(15000); 
+    GONDOLA(500), 
+    BALSA(1000), 
+    NAVIO(1000), 
+    CRUZEIRO(1500); 
     // #endregion
 
     // #region Atributos
