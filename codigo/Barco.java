@@ -409,6 +409,10 @@ public String relatorioRotas() {
         return PRECOCUSTO;
     }
 
+    public int getCAPACIDADEPASSGEIROS(){
+    return CAPACIDADEPASSAGEIROS;
+    }
+
     public double getKmAteProximaManutencao(){
        return manutencao.getKmAteProximaManutencao();
     }
