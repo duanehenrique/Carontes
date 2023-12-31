@@ -195,8 +195,9 @@ public class CarteiraMotorista implements Relatorio{
     public String relatorio() {
         StringBuilder relatorio = new StringBuilder();
         if (multas.isEmpty()) {
-            relatorio.append("Não há multas.\n");
+            relatorio.append("Multas do Caronte: Não há multas.\n");
         } else {
+            relatorio.append("Multas do Caronte:\n");
             for (int i = 0; i < multas.size(); i++) {
                 relatorio.append((i + 1) + ". " + multas.get(i).relatorio() + "\n");
             }

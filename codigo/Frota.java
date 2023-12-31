@@ -336,6 +336,15 @@ public class Frota implements Normalizador {
     public List<DiarioDeBordo> getDiarioDeBordos() {
         return diariosDeBordo;
     }
+
+    public LocalDate getDataAtual(){
+        return dataAtual;
+    }
+
+    public int getDiaDoDesafio(){
+        long diferenca = (dataInicial.until(dataAtual).getDays() + 1);
+        return (int) diferenca;
+        }
     // #endregion
 
     private static String normalizar(String texto) {

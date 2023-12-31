@@ -175,6 +175,9 @@ public class Caronte implements Relatorio{
         StringBuilder relatorio = new StringBuilder();
         relatorio.append("Relatório do Caronte:\n");
         relatorio.append("Nome: " + getNome() + "\n");
+        relatorio.append("Nivel de Experiência: " + experiencia.getNivel() + "\n");
+        relatorio.append("Salário por Dia: " + experiencia.getSalario() + "\n");
+        relatorio.append("Probabilidade de Cometer Infrações: " + experiencia.getProbabilidade() + "\n");
         relatorio.append("Carteira de Motorista:\n");
         relatorio.append(carteira.relatorio());
         return relatorio.toString();

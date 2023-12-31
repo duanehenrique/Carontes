@@ -80,6 +80,48 @@ public class Jogo implements Normalizador{
         return placa;
     }
 
+
+private static void cranio(){
+            System.out.println("      ___________");
+            System.out.println("   /_ _     _  _        \\");
+            System.out.println(" /  /  \\    / \\ |         \\");
+            System.out.println(" |  \\_//  \\\\_/ |    \\    |");
+            System.out.println("|__ | (||)  |_____/     |");
+            System.out.println(" \\ __ || __| _  /_||/  /");
+            System.out.println("  |_|_|_|_|/|  _/___/");
+            System.out.println(".|_|_|_|_|_    |");
+            System.out.println("  |_______/");
+        }
+    private static void tutorial(){
+        exibirDia();
+        System.err.println("Sua frota não é grande, mas tem potencial.");
+        System.err.println("Esses são os seus barcos e seus Carontes disponíveis:");
+        separador();
+        exibirRelatorioFrota();
+
+    }
+
+private static void esperarInicio() {
+        String enter;
+
+        System.err.println("O Submundo é mais competitivo do que parece. O chefão, o próprio Hades, está ");
+        System.err.println("precisando urgentemente de um novo Diretor Regional  e ele quer um funcionário");
+        System.err.println("exemplar. Começou, então, a maior competição entre gerentes de Carontes. Temos");
+        System.err.println("13 dias para coletar 444 almas e bater a meta. Precisamos de enviar bons ");
+        System.err.println("barqueiros em barcos que suportam vários passageiros para conseguir mais pontos ");
+        System.err.println("com o chefe. Mas não existe almoço grátis. Você terá que gastar dinheiro para fazer ");
+        System.err.println("dinheiro. Ou melhor, dar a alma para o negócio. Só temos que ter o cuidado de não");
+        System.err.println("gastar tudo que conseguirmos para em compras, salário e combustível. A meta ");
+        System.err.println("ainda é trazer 444 almas penitentes para o fundo do Tártaro.");
+        separador();
+        System.err.println("Estamos prontos para trazer almas mortais e conquistarmos a vaga de Diretor Regional?");
+        System.err.println("Pressione Enter para começar.");
+
+        while(!enter.equals("\n")){
+            teclado.next();
+        }
+}
+
     /**
      * Inicializa a frota de veículos com base em valores aleatórios gerados pelo
      * sistema.
@@ -228,6 +270,11 @@ public class Jogo implements Normalizador{
                 System.out.println("Tipo de veículo desconhecido.");
                 return null;
         }
+    }
+
+    private static void exibirDia(){
+        System.err.println("---- " + frota.getDataAtual() + " ----");
+        System.err.println("------ Dia "+ frota.getDiaDoDesafio() + "------");
     }
 
     /**
@@ -521,13 +568,14 @@ public class Jogo implements Normalizador{
      * seleção do menu.
      */
     public static void main(String[] args) {
-        random = new Random();
         Scanner teclado = new Scanner(System.in);
 
-        System.out.println("Bem-vindo ao sistema de gerenciamento de frotas!");
+        System.out.println("");
         separador();
         inicializarFrota();
         separador();
+        esperarInicio();
+        tutorial();
 
         boolean continuar = true;
         while (continuar) {
