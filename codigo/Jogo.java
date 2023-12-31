@@ -21,6 +21,7 @@ public class Jogo implements Normalizador{
     static Random random;
     static Frota frota;
     static int MAX_ROTAS_DIA = 4;
+    static Jogador jogador;
     static GeradorNomesCarontes nomesCarontes;
     static GeradorNomesBarcos nomesBarcos;
     static Scanner teclado = new Scanner(System.in);   
@@ -170,7 +171,8 @@ private static void esperarInicio() {
      * Exibe o menu principal do sistema com as opções disponíveis para o usuário.
      */
     private static void mostrarMenu() {
-        separador();
+        exibirDia();
+        exibirAlmas();
         System.out.println("\t\t  Sistema de Gerenciamento de Frotas");
         separador();
         System.out.println("1. Cadastrar novo veículo na frota");
@@ -305,6 +307,13 @@ private static void esperarInicio() {
         separador();;
         System.err.println("---- " + frota.getDataAtual() + " ----");
         System.err.println("------ Dia "+ frota.getDiaDoDesafio() + "------");
+        separador();
+    }
+
+        private static void exibirAlmas(){
+        separador();;
+        System.err.println("---- Almas em Estoque:" + jogador.getAlmas() + " ----");
+        System.err.println("---- Almas coletadas hoje: "+ jogador.getAlmasDeHoje() + "----");
         separador();
     }
 

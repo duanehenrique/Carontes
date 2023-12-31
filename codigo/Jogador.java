@@ -20,6 +20,10 @@ public class Jogador {
         return almas;
     }
 
+    public double getAlmasDeHoje(){
+       return almasPorDia.get((almasPorDia.size() -1));
+    }
+
     public void coletarAlmas(double almas){
         addAlmasAoDia(almas);
         almas += almas;
