@@ -20,6 +20,7 @@ import java.util.Set;
 public class Jogo implements Normalizador{
     static Random random;
     static Frota frota;
+    static int MAX_ROTAS_DIA = 4;
     static GeradorNomesCarontes nomesCarontes;
     static GeradorNomesBarcos nomesBarcos;
     static Scanner teclado = new Scanner(System.in);   
@@ -104,7 +105,7 @@ private static void cranio(){
                 System.out.println("⠀⣸⡿⠀⡞⠀⠀⠀⣀⡼⠛⠀⠀⠀⠹⣆⠀⠀⠈⡇⠀⣿");
                 System.out.println("⠀⣿⠇⢸⠁⠀⠀⣰⠋ ⠀⠀⠀⠀⠀⢹⡀⠀⠀⣿⠀⣿⡇");
                 System.out.println("⠈⣿⠀⢿⠀⠀⢸⠀⠀⠀⠀⠀ ⠀⠀⠀⣸⣇⠀⣸⠃⢰⣇");
-                System.out.println("⠀⠀⠈⠻⣦⣀⠙⢮⣄  ⠀ ⠀⢀⣴⡿⠶⠊⣉⣴⡾⠋⠁");
+                System.out.println("⠀⠀⠈⠻⣦⣀⠙⢮⣄    ⠀⢀⣴⡿⠶⠊⣉⣴⡾⠋⠁");
                 System.out.println("⠀⠀⠀⠀⠈⠛⢷⣦⣄⣉⠉⢉⣠⣤⣶⡿⠟⠉");
                 System.out.println("⠀⠀⠀⠀⠀⠀⠀⠈⠉⠛⠿⠿⠛⠋⠉");
             }
@@ -114,6 +115,18 @@ private static void cranio(){
         System.err.println("Sua frota não é grande, mas tem potencial.");
         System.err.println("Esses são os seus barcos e seus Carontes disponíveis:");
         exibirRelatorioFrota();
+        System.err.println("Carontes podem fazer até " + MAX_ROTAS_DIA + " viagens por dia.");
+        System.err.println("Não podem percorrer mais de " + MAX_ROTAS_DIA + " rotas em um mesmo dia");
+        System.err.println("É algo do sindicato. Melhor não mexer nisso.");
+        System.err.println("Carontes têm nível de experiência. Alguns têm mais anos de firma.");
+        System.err.println("Aqueles que começaram há pouco tempo não são muito prudentes e tem mais chance de cometer infrações.");
+        System.err.println("Quanto mais experiente, menor a chance do acabar guarda aplicando multa.");
+        System.err.println("Nós não queremos multas. Se o Caronte tiver uma multa pendente, ele não pode entrar em uma rota.");
+        System.err.println("A legislação do Submundo é bem rígida quanto a isso");
+        System.err.println("Multas custam. E isso sai do nosso bolso. Do que ganhamos no dia.");
+    
+
+
 
     }
 
