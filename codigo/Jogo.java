@@ -83,20 +83,36 @@ public class Jogo implements Normalizador{
 
 private static void cranio(){
             System.out.println("      ___________");
-            System.out.println("   /_ _     _  _        \\");
-            System.out.println(" /  /  \\    / \\ |         \\");
-            System.out.println(" |  \\_//  \\\\_/ |    \\    |");
-            System.out.println("|__ | (||)  |_____/     |");
-            System.out.println(" \\ __ || __| _  /_||/  /");
+            System.out.println("   /_ _     _  _ \\");
+            System.out.println(" /  /  \\    / \\ | \\");
+            System.out.println(" |  \\_//  \\\\_/ |   \\");
+            System.out.println("|__ | (||)  |_____/   ||");
+            System.out.println(" \\ __ || __| _  /_||//");
             System.out.println("  |_|_|_|_|/|  _/___/");
-            System.out.println(".|_|_|_|_|_    |");
-            System.out.println("  |_______/");
+            System.out.println("  |_|_|_|_|_  |");
+            System.out.println("  |_________/");
         }
+
+            public static void fogo() {
+                System.out.println("               ⢀⣠⡄");
+                System.out.println("             ⣤⠃    ⣇");
+                System.out.println("          ⣤⡟      ⡾⢷ ⠘⣿⡀");
+                System.out.println("⠀⠀⠀⠀⠀⠀⣴⡟⠀    ⣴     ⣦ ⠈⣷⡀");
+                System.out.println("⠀⠀⠀⠀⠀⢶⣿  ⣼ ⡟⠀⠀   ⠘⠷⢷⠙⣷⡄");
+                System.out.println("⠀⠀⢀⣼⠏⢠⠏      ⠀⢸⢳⡀⢀⠀⠀⢹⡄ ⣿⡀");
+                System.out.println("⠀⠀⣼⡏⢀⡏⠀⠀⠀⠀⢸⠀⠉⣦⠀⠀⠁⢻⡀ ⠹⣧⠀");
+                System.out.println("⠀⣸⡿⠀⡞⠀⠀⠀⣀⡼⠛⠀⠀⠀⠹⣆⠀⠀⠈⡇⠀⣿");
+                System.out.println("⠀⣿⠇⢸⠁⠀⠀⣰⠋ ⠀⠀⠀⠀⠀⢹⡀⠀⠀⣿⠀⣿⡇");
+                System.out.println("⠈⣿⠀⢿⠀⠀⢸⠀⠀⠀⠀⠀ ⠀⠀⠀⣸⣇⠀⣸⠃⢰⣇");
+                System.out.println("⠀⠀⠈⠻⣦⣀⠙⢮⣄  ⠀ ⠀⢀⣴⡿⠶⠊⣉⣴⡾⠋⠁");
+                System.out.println("⠀⠀⠀⠀⠈⠛⢷⣦⣄⣉⠉⢉⣠⣤⣶⡿⠟⠉");
+                System.out.println("⠀⠀⠀⠀⠀⠀⠀⠈⠉⠛⠿⠿⠛⠋⠉");
+            }
+                
     private static void tutorial(){
         exibirDia();
         System.err.println("Sua frota não é grande, mas tem potencial.");
         System.err.println("Esses são os seus barcos e seus Carontes disponíveis:");
-        separador();
         exibirRelatorioFrota();
 
     }
@@ -273,8 +289,10 @@ private static void esperarInicio() {
     }
 
     private static void exibirDia(){
+        separador();;
         System.err.println("---- " + frota.getDataAtual() + " ----");
         System.err.println("------ Dia "+ frota.getDiaDoDesafio() + "------");
+        separador();
     }
 
     /**
@@ -282,7 +300,9 @@ private static void esperarInicio() {
      * cadastrado.
      */
     private static void exibirRelatorioFrota() {
+        separador();
         System.out.println(frota.relatorioFrota());
+        separador();
     }
 
     /**
@@ -571,7 +591,6 @@ private static void esperarInicio() {
         Scanner teclado = new Scanner(System.in);
 
         System.out.println("");
-        separador();
         inicializarFrota();
         separador();
         esperarInicio();
