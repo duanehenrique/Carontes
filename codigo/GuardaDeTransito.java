@@ -29,7 +29,7 @@ public class GuardaDeTransito {
                 return Multa.GRAVE;
             } else if (chanceTotal > 0.4) {
                 return Multa.MEDIA;
-            } else if (chanceTotal > 0.2) {
+            } else{
                 return Multa.LEVE;
             }
         }
