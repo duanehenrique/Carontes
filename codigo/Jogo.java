@@ -188,31 +188,28 @@ public class Jogo implements Normalizador{
      * @param placa A placa única do veículo a ser cadastrado.
      * @return O veículo cadastrado ou null se não for possível criar o veículo.
      */
-    private static Barco gerarBarcoComTanque(int nivelMotorista, String tipoBarco, String tipoCombustivel) {
+    private static Barco gerarBarco(int nivelMotorista, String tipoBarco, String tipoCombustivel) {
         String nomeMotorista = nomesCarontes.gerarNome();
         Caronte motorista = new Caronte(nomeMotorista, nivelMotorista);
     
         String nomeBarco = nomesBarcos.gerarNome();
         switch (normalizar(tipoBarco)) {
             case "GONDOLA":
-                 throw new IllegalArgumentException("Gôndolas não podem ser fabricadas dessa forma. Tente de outra forma.");
-                break;
+                throw new IllegalArgumentException("Gôndolas não podem ser fabricadas dessa forma. Tente de outra forma.");
             case "BALSA":
-                Barco balsa = new Balsa(motorista, nomeBarco,  normalizar(tipoCombustivel));
+                Barco balsa = new Balsa(motorista, nomeBarco, normalizar(tipoCombustivel));
                 return balsa;
-                break;
             case "NAVIO":
-                Barco navio = new Navio(motorista, nomeBarco,  normalizar(tipoCombustivel));
+                Barco navio = new Navio(motorista, nomeBarco, normalizar(tipoCombustivel));
                 return navio;
-                break;
             case "CRUZEIRO":
-                Barco cruzeiro = new Cruzeiro(motorista, nomeBarco,  normalizar(tipoCombustivel));
+                Barco cruzeiro = new Cruzeiro(motorista, nomeBarco, normalizar(tipoCombustivel));
                 return cruzeiro;
-                break;
             default:
                 throw new IllegalArgumentException("Este barco não existe e seus senhores não estão contentes.");
         }
     }
+    
     
 
     private static double calcularCustoManutencao(String tipoVeiculo) {

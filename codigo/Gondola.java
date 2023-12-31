@@ -7,6 +7,7 @@ public class Gondola extends Barco {
     // #region Atributos
     private static final int TOTAL_PASSAGEIROS = 4;
     private static final int CUSTO_COMPRA = 10;
+    private static final int CUSTO_MANUTENCAO = 5;
     private static final int AUTONOMIA = 10;
 
     // #endregion
@@ -21,9 +22,9 @@ public class Gondola extends Barco {
      * @param tipoCombustivel O tipo de combustível que o carro usa.
      * @param custoManutencao O custo de manutenção do carro.
      */
-    public Gondola(Caronte motorista, String nome, String tipoCombustivel, double custoManutencao) {
+    public Gondola(Caronte motorista, String nome, String tipoCombustivel) {
         super(motorista, nome, TOTAL_PASSAGEIROS, CUSTO_COMPRA);
-        this.manutencao = new Manutencao(this, custoManutencao);
+        this.manutencao = new Manutencao(this, CUSTO_MANUTENCAO);
     }
 
 
