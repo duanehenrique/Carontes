@@ -88,9 +88,10 @@ public class Jogo implements Normalizador{
      */
     private static void inicializarFrota() {
         frota = new Frota();
-
         for (int i = 0; i < 4; i++) {
-            Barco Gondola = gerarBarco(1); 
+            String nomeMotorista = nomesCarontes.gerarNome();
+            Caronte motorista = new Caronte(nomeMotorista, 1);
+            Barco Gondola = gerarGondola(motorista); 
         }
     }
 
@@ -188,28 +189,17 @@ public class Jogo implements Normalizador{
      * @param placa A placa única do veículo a ser cadastrado.
      * @return O veículo cadastrado ou null se não for possível criar o veículo.
      */
-    private static Barco gerarBarco(int nivelMotorista, String tipoBarco, String tipoCombustivel) {
-        String nomeMotorista = nomesCarontes.gerarNome();
-        Caronte motorista = new Caronte(nomeMotorista, nivelMotorista);
-    
+    private static Barco gerarBarco(Caronte motorista) {    
         String nomeBarco = nomesBarcos.gerarNome();
-        switch (normalizar(tipoBarco)) {
-            case "GONDOLA":
-                throw new IllegalArgumentException("Gôndolas não podem ser fabricadas dessa forma. Tente de outra forma.");
-            case "BALSA":
-                Barco balsa = new Balsa(motorista, nomeBarco, normalizar(tipoCombustivel));
-                return balsa;
-            case "NAVIO":
-                Barco navio = new Navio(motorista, nomeBarco, normalizar(tipoCombustivel));
-                return navio;
-            case "CRUZEIRO":
-                Barco cruzeiro = new Cruzeiro(motorista, nomeBarco, normalizar(tipoCombustivel));
-                return cruzeiro;
-            default:
-                throw new IllegalArgumentException("Este barco não existe e seus senhores não estão contentes.");
+                Barco gondola = new Gondola(motorista, nomeBarco);
+                return gondola;
         }
     }
     
+     private static Barco gerarGondola(Caronte motorista) {    
+        Gondola gondola = new Gondola(motorista, nomesBarcos.gerarNome());
+        return gondola;
+    }
     
 
     private static double calcularCustoManutencao(String tipoVeiculo) {
