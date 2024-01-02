@@ -184,6 +184,7 @@ public class Frota implements Normalizador {
                     relatorio.append("Barco #").append(i + 1).append("\n");
                     relatorio.append("Motorista: ").append(motorista.getNome()).append("\n");
                     relatorio.append("Barco: ").append(barco.getNOME()).append("\n");
+                    relatorio.append("Tipo de Barco: ").append(barco.getTipoDeBarco()).append("\n");
                     relatorio.append("Nível: ").append(motorista.getNivel()).append("\n");
                     relatorio.append("Salário: ").append(motorista.getSalario()).append("\n");
                 }else{
@@ -207,6 +208,7 @@ public class Frota implements Normalizador {
 
                 if (motorista != null) {
                     relatorio.append("Barco #").append(i + 1).append("\n");
+                    relatorio.append("Tipo de Barco: ").append(barco.getTipoDeBarco()).append("\n");
                     relatorio.append("Motorista: ").append(motorista.getNome()).append("\n");
                     relatorio.append("Barco: ").append(barco.getNOME()).append("\n");
                     relatorio.append("Nível: ").append(motorista.getNivel()).append("\n");
@@ -244,6 +246,7 @@ public class Frota implements Normalizador {
                 if(!multas.isEmpty()){
                 if (motorista != null) {
                     relatorio.append("Barco #").append(i + 1).append("\n");
+                    relatorio.append("Tipo de Barco: ").append(barco.getTipoDeBarco()).append("\n");
                     relatorio.append("Motorista: ").append(motorista.getNome()).append("\n");
                     relatorio.append("Barco: ").append(barco.getNOME()).append("\n");
                     relatorio.append("Nível: ").append(motorista.getNivel()).append("\n");
@@ -269,6 +272,8 @@ public class Frota implements Normalizador {
                 Barco barco = diario.getBarcoDoDiario();
                 StringBuilder textoBarco = new StringBuilder();
                 textoBarco.append("Barco #" + (i + 1));
+                textoBarco.append("\n");
+                textoBarco.append("Tipo de Barco: ").append(barco.getTipoDeBarco());
                 textoBarco.append("\n");
                 textoBarco.append("Nome: " + barco.getNOME());
                 textoBarco.append("\n");
@@ -307,6 +312,7 @@ public class Frota implements Normalizador {
                     if (diario != null) {
                         Barco barco = diario.getBarcoDoDiario();
                         resultado.append("Barco #").append(i + 1).append("\n");
+                        resultado.append("Tipo de Barco: ").append(barco.getTipoDeBarco()).append("\n");
                         resultado.append("Nome: ").append(barco.getNOME()).append("\n");
                         resultado.append("Motorista: ").append(barco.getMotorista().getNome()).append("\n");
                         resultado.append("Tipo de barco: ").append(barco.getTipoDeBarco()).append("\n");
@@ -341,7 +347,9 @@ public class Frota implements Normalizador {
                         Caronte motorista = barco.getMotorista();
         
                         if (motorista != null && motorista.getNivel() == nivelDesejado) {
-                            resultado.append("Barco #").append(contagem + 1).append(": ").append(barco.getNOME()).append("\n");
+                            resultado.append("---- Barco #").append(contagem + 1).append("----").append("\n");
+                            resultado.append("Nome: ").append(barco.getNOME()).append("\n");
+                            resultado.append("Tipo de Barco: ").append(barco.getTipoDeBarco()).append("\n");
                             resultado.append("Caronte: ").append(motorista.getNome()).append("\n");
                             resultado.append("Nível: ").append(motorista.getNivel()).append("\n");                        }
                     }
@@ -351,7 +359,39 @@ public class Frota implements Normalizador {
                 return resultado.toString();
             }
 
-    /**
+            public String listarBarcosPorTipo(String tipo) {
+                StringBuilder resultado = new StringBuilder();
+                if(normalizar(tipo).equals("GONDOLA") || normalizar(tipo).equals("BALSA")
+                || normalizar(tipo).equals("NAVIO") || normalizar(tipo).equals("CRUZEIRO")){
+    	        resultado.append("---- Lista de ").append(tipo).append(" ----\n");
+            
+                for (int i = 0; i < diariosDeBordo.size(); i++) {
+                    DiarioDeBordo diario = diariosDeBordo.get(i);
+            
+                    if (diario != null) {
+                        Barco barco = diario.getBarcoDoDiario();
+            
+                        if (barco != null && normalizar(tipo).equals(normalizar(barco.getTipoDeBarco()))) {
+                            resultado.append(barco.relatorio());
+            
+                            if (!barco.getRotas().isEmpty()) {
+                                resultado.append(barco.relatorioRotas());
+                            } else {
+                                resultado.append("Nenhuma rota associada ao barco hoje.\n");
+                            }
+            
+                            resultado.append("\n");
+                        }
+                        }
+                }
+            
+                return resultado.toString();
+                }else{
+                throw new IllegalArgumentException("Isso não é um tipo de barco. Você está com criatividade demais.");
+                }
+            }
+
+            /**
      * Localiza um veículo na frota pela placa.
      * 
      * @param placa A placa do veículo a ser localizado.

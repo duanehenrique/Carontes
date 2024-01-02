@@ -235,9 +235,10 @@ public void percorrerRotaPorLista(int numeroRota) {
 
 public String relatorioRotas() {
     StringBuilder relatorio = new StringBuilder();
-    relatorio.append("Relatório de Rotas do Barco " + this.NOME + ":\n");
+    relatorio.append("Relatório de Rotas do Barco " + getNOME() + ":\n");
     for (int i = 0; i < rotas.size(); i++) {
         if (rotas.get(i) != null) {
+            relatorio.append("---- Rota #").append(i+1).append(" ----\n");
             relatorio.append(rotas.get(i).relatorio()+ "\n");
 
         }

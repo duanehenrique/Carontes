@@ -96,6 +96,7 @@ public class Cruzeiro extends Barco implements BarcoComTanque{
         relatorio.append(getNOME() + ":\n");
         relatorio.append("Caronte: " + motorista.getNome() + "\n");
         relatorio.append("Nível de Experiência do Caronte: " + motorista.getNivel() + "\n");
+        relatorio.append("Tipo de Barco: ").append(getTipoDeBarco());
         relatorio.append("Capacidade máxima do barco: " + CAPACIDADEPASSAGEIROS + "\n");
         relatorio.append("Km Total: " + kmTotal() + " km\n");
         relatorio.append("Km até próxima manutenção periódica: " + getKmAteProximaManutencao() + " km\n");
