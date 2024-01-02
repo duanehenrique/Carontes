@@ -8,6 +8,7 @@ public class Caronte implements Relatorio{
     private String nome;
     private CarteiraMotorista carteira;
     private Experiencia experiencia;
+    private int viagensRestantes;
     // #endregion
 
     // #region Construtor
@@ -22,6 +23,7 @@ public class Caronte implements Relatorio{
         this.nome = nome;
         this.carteira = new CarteiraMotorista();
         this.experiencia = criarExperiencia(nivel);
+        this.viagensRestantes = 4;
     }
 
     private Experiencia criarExperiencia(int nivelExperiencia) {
@@ -47,21 +49,26 @@ public class Caronte implements Relatorio{
     }
 
     /**
-     * Define o nome do Caronte.
-     *
-     * @param nome O novo nome do Caronte.
-     */
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    /**
      * Retorna a carteira de motorista do Caronte.
      *
      * @return A carteira de motorista do Caronte.
      */
     public CarteiraMotorista getCarteira() {
         return carteira;
+    }
+
+    public void fazerViagem(){
+        if(getViagensRestantes() > 4){
+            throw new IllegalArgumentException("Caronte está fazendo mais viagens que permitido. O sindicato está descontente.");
+        }else if(getViagensRestantes() > 0){
+            viagensRestantes--;
+        }else{
+            throw new IllegalArgumentException("Caronte já fez todas as viagens de hoje. O sindicato só permitirá que ele volte a trabalhar amanhã.");
+        }
+    }
+
+    public void iniciarDia(){
+        this.viagensRestantes = 4;
     }
 
     /**
@@ -158,6 +165,10 @@ public class Caronte implements Relatorio{
         return experiencia.getProbabilidade();
     }
 
+    public int getViagensRestantes(){
+        return viagensRestantes;
+    }
+
     // #endregion
 
             // #region Relatorio
@@ -168,8 +179,8 @@ public class Caronte implements Relatorio{
      */
     public String relatorio() {
         StringBuilder relatorio = new StringBuilder();
-        relatorio.append("Relatório do Caronte:\n");
         relatorio.append("Nome: " + getNome() + "\n");
+        relatorio.append("Viagens restante por hoje: " + getViagensRestantes() + "\n");
         relatorio.append("Nivel de Experiência: " + experiencia.getNivel() + "\n");
         relatorio.append("Salário por Dia: " + experiencia.getSalario() + "\n");
         relatorio.append("Probabilidade de Cometer Infrações: " + experiencia.getProbabilidade() + "\n");

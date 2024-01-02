@@ -160,7 +160,7 @@ public void encerrarDia() {
             if (rota != null && !rota.getRotaPercorrida()) {
                 this.totalAlmasColetadasDia += rota.percorrerRota(CAPACIDADEPASSAGEIROS);
             }
-        }  
+        } 
 }
 
 public void iniciarDia(){
@@ -170,6 +170,7 @@ public void iniciarDia(){
     this.despesaSalario = 0;
     this.totalAlmasColetadasDia = 0;
     rotas.clear();
+    motorista.iniciarDia();
 }
 
 /**

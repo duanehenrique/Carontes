@@ -182,13 +182,11 @@ public class Frota implements Normalizador {
 
                 if (motorista != null) {
                     relatorio.append("Barco #").append(i + 1).append("\n");
-                    relatorio.append("Motorista: ").append(motorista.getNome()).append("\n");
                     relatorio.append("Barco: ").append(barco.getNOME()).append("\n");
                     relatorio.append("Tipo de Barco: ").append(barco.getTipoDeBarco()).append("\n");
-                    relatorio.append("Nível: ").append(motorista.getNivel()).append("\n");
-                    relatorio.append("Salário: ").append(motorista.getSalario()).append("\n");
+                    relatorio.append(motorista.relatorio()).append("\n");
                 }else{
-                relatorio.append("Barco sem motorista\n");
+                relatorio.append("Barco sem motorista. Isso não parece certo.\n");
                 }
             }
         }
@@ -350,8 +348,8 @@ public class Frota implements Normalizador {
                             resultado.append("---- Barco #").append(contagem + 1).append("----").append("\n");
                             resultado.append("Nome: ").append(barco.getNOME()).append("\n");
                             resultado.append("Tipo de Barco: ").append(barco.getTipoDeBarco()).append("\n");
-                            resultado.append("Caronte: ").append(motorista.getNome()).append("\n");
-                            resultado.append("Nível: ").append(motorista.getNivel()).append("\n");                        }
+                            resultado.append(motorista.relatorio()).append("\n");
+                      }
                     }
                     contagem++;
                 }
