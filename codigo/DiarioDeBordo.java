@@ -26,6 +26,9 @@ public class DiarioDeBordo implements Relatorio {
         barcoDoDiario.addRota(rota);
         }
         
+        public void excluirRota(Rota rota) {
+        barcoDoDiario.excluirRota(rota);
+        }
 
         public double balancoTotalPorDia(LocalDate dataDoDiario) {
             Barco barco = diarioPorDia.get(dataDoDiario);  

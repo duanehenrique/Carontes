@@ -30,7 +30,7 @@ public class Frota implements Normalizador {
      * 
      * @param veiculo O veículo a ser adicionado.
      */
-    public void adicionarBarco(Barco barco) {
+    public void addBarco(Barco barco) {
         if (diariosDeBordo.stream().anyMatch(diario -> normalizar(diario.getBarcoDoDiario().getNOME()).equals(normalizar(barco.getNOME())))) {
             throw new IllegalArgumentException("O barco já faz parte da frota de Carontes");
         }
@@ -38,7 +38,7 @@ public class Frota implements Normalizador {
         diariosDeBordo.add(diario);
     }
 
-    public void adicionarRotaPorIndex(int posicao, Rota rotaNova) {
+    public void addRotaPorIndex(int posicao, Rota rotaNova) {
         DiarioDeBordo diarioRota = localizarDiarioPorIndex(posicao);
     
         if (diarioRota != null) {
@@ -50,6 +50,16 @@ public class Frota implements Normalizador {
     }
     
     
+    public void addExcluirPorIndex(int posicao, Rota rotaNova) {
+        DiarioDeBordo diarioRota = localizarDiarioPorIndex(posicao);
+    
+        if (diarioRota != null) {
+            diarioRota.excluirRota(rotaNova);
+            diariosDeBordo.set(posicao, diarioRota);
+        } else {
+           throw new IllegalArgumentException("Diário de bordo #" + posicao +" não pertence a um barco.");
+        }
+    }
     
 
     /**
