@@ -95,7 +95,7 @@ private static void cranio(){
             System.out.println("  |_________/");
         }
 
-            public static void fogo() {
+            private static void fogo() {
                 System.out.println("               ⢀⣠⡄");
                 System.out.println("             ⣤⠃    ⣇");
                 System.out.println("          ⣤⡟      ⡾⢷ ⠘⣿⡀");
@@ -117,8 +117,10 @@ private static void cranio(){
         System.err.println("Esses são os seus barcos e seus Carontes disponíveis:");
         exibirRelatorioFrota();
         System.err.println("Carontes podem fazer até " + MAX_ROTAS_DIA + " viagens por dia.");
-        System.err.println("Não podem percorrer mais de " + MAX_ROTAS_DIA + " rotas em um mesmo dia");
+        System.err.println("Nenhum deles pode percorrer mais de " + MAX_ROTAS_DIA + " rotas em um mesmo dia");
         System.err.println("É algo do sindicato. Melhor não mexer nisso.");
+        esperarEnter();
+        exibirRotas();
         System.err.println("Carontes têm nível de experiência. Alguns têm mais anos de firma.");
         System.err.println("Aqueles que começaram há pouco tempo não são muito prudentes e tem mais chance de cometer infrações.");
         System.err.println("Quanto mais experiente, menor a chance do guarda costeiro acabar aplicando uma multa.");
@@ -132,8 +134,6 @@ private static void cranio(){
     }
 
 private static void esperarInicio() {
-        String enter;
-
         System.err.println("O Submundo é mais competitivo do que parece. O chefão, o próprio Hades, está ");
         System.err.println("precisando urgentemente de um novo Diretor Regional  e ele quer um funcionário");
         System.err.println("exemplar. Começou, então, a maior competição entre gerentes de Carontes. Temos");
@@ -145,12 +145,16 @@ private static void esperarInicio() {
         System.err.println("ainda é trazer 444 almas penitentes para o fundo do Tártaro.");
         separador();
         System.err.println("Estamos prontos para trazer almas mortais e conquistarmos a vaga de Diretor Regional?");
-        System.err.println("Pressione Enter para começar.");
-
-        while(!enter.equals("\n")){
-            teclado.next();
+        esperarEnter();
         }
-}
+
+        private static void esperarEnter(){
+            String enter;
+            System.err.println("Pressione Enter para começar.");
+            while(!enter.equals("\n")){
+            teclado.next();
+            }
+        }
 
     /**
      * Inicializa a frota de veículos com base em valores aleatórios gerados pelo
@@ -316,6 +320,12 @@ private static void esperarInicio() {
         System.err.println("---- Almas coletadas hoje: "+ jogador.getAlmasDeHoje() + "----");
         separador();
     }
+
+        private static void exibirRotas(){
+        separador();
+        System.out.println(frota.relatorioCarontes());
+        separador();
+        }
 
     /**
      * Exibe um relatório detalhado da frota, incluindo informações de cada veículo

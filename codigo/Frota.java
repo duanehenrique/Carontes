@@ -47,7 +47,7 @@ public class Frota implements Normalizador {
      */
     public String relatorioFrota() {
         StringBuilder relatorio = new StringBuilder();
-    
+        relatorio.append("Dia " + getDiaDoDesafio()).append("\n");
         for (DiarioDeBordo diario : diariosDeBordo) {
             relatorio.append(diario.relatorio()).append("\n");
         }
@@ -88,6 +88,31 @@ public class Frota implements Normalizador {
     public String relatorioCompletoBarcoPorNome(String nomeBarco) {
         DiarioDeBordo diario = this.localizarDiarioPorNome(nomeBarco);
         return diario.relatorio();
+    }
+
+        public String relatorioCarontes() {
+        StringBuilder relatorio = new StringBuilder();
+        relatorio.append("---- Carontes na sua frota ----");
+
+
+        for (int i = 0; i < diariosDeBordo.size(); i++) {
+            DiarioDeBordo diario = diariosDeBordo.get(i);
+            Barco barco = diario.getBarcoDoDiario();
+            if (barco != null) {
+                Caronte motorista = barco.getMotorista();
+
+                if (motorista != null) {
+                    relatorio.append("Barco #").append(i).append("\n");
+                    relatorio.append("Motorista: ").append(motorista.getNome()).append("\n");
+                    relatorio.append("Barco: ").append(barco.getNOME()).append("\n");
+                    relatorio.append("Nível: ").append(motorista.getNivel()).append("\n");
+                    relatorio.append("Salário: ").append(motorista.getSalario()).append("\n");
+                }else{
+                relatorio.append("Barco sem motorista\n");
+                }
+            }
+        }
+        return relatorio.toString();
     }
 
     public List<String> listarBarcosParaRotas() {
