@@ -16,8 +16,8 @@ public class Navio extends Barco  implements BarcoComTanque{
          * @param tipoCombustivel O tipo de combustível do furgão.
          * @param custoManutencao O custo de manutenção do furgão.
          */
-        public Navio(Caronte motorista, String placa, String tipoCombustivel) {
-                super(motorista, placa, TOTAL_PASSAGEIROS, CUSTO_COMPRA);
+        public Navio(Caronte motorista, String placa, String tipoCombustivel, int qtdRotas) {
+                super(motorista, placa, TOTAL_PASSAGEIROS, CUSTO_COMPRA, qtdRotas);
                 this.tanque = new Tanque(TANQUE_MAX, tipoCombustivel);
                 this.manutencao = new Manutencao(this, CUSTO_MANUTENCAO);
                 // #endregion
@@ -93,6 +93,7 @@ public class Navio extends Barco  implements BarcoComTanque{
                 relatorio.append("Nível de Experiência do Caronte: " + motorista.getNivel() + "\n");
                 relatorio.append("Tipo de Barco: ").append(getTipoDeBarco());
                 relatorio.append("Capacidade máxima do barco: " + CAPACIDADEPASSAGEIROS + "\n");
+                relatorio.append("Viagens restante por hoje: " + (MAX_ROTAS_DIA - rotas.size()) + " km\n");
                 relatorio.append("Km Total: " + kmTotal() + " km\n");
                 relatorio.append("Autonomia do veiculo: " + autonomiaAtual() + " km\n");
                 relatorio.append("Tanque abastecido com: " + getTanque().getCapacidadeAtual() + " almas de "+ getTanque().getTipo() +  "\n");

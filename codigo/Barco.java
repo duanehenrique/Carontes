@@ -6,7 +6,8 @@ public abstract class Barco implements Relatorio{
     // #region Atributos
     protected final String NOME;
     protected List<Rota> rotas;
-    protected static final int MAX_ROTAS = 4;
+    protected final int MAX_ROTAS_DIA;
+    private int viagensRestantes;
     protected DiarioDeBordo diarioDesteBarco;
     protected final int CAPACIDADEPASSAGEIROS;
     protected static int PRECOCUSTO;
@@ -30,13 +31,15 @@ public abstract class Barco implements Relatorio{
      * @param motorista O motorista do veículo.
      * @param placa     A placa do veículo.
      */
-     Barco(Caronte motorista, String nomeBarco, int capacidade, int preco) {
+     Barco(Caronte motorista, String nomeBarco, int capacidade, int preco, int qtdRotas) {
         this.motorista = motorista;
         this.NOME = nomeBarco;
         CAPACIDADEPASSAGEIROS = capacidade;
+        MAX_ROTAS_DIA = qtdRotas;
         PRECOCUSTO = preco;
         this.rotas = new ArrayList<>();
         this.totalReabastecido = 0;
+
     }
 
 
@@ -63,7 +66,7 @@ public abstract class Barco implements Relatorio{
             throw new IllegalArgumentException("A rota já existe na lista de rotas.");
             }
 
-            if(rotas.size() == MAX_ROTAS)
+            if(rotas.size() >= MAX_ROTAS_DIA)
             {
                         throw new IllegalStateException(
                         "Manutenção do veículo em atraso. Realize manutenção antes de adicionar rota.");

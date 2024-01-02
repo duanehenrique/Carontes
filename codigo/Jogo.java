@@ -167,7 +167,7 @@ private static void esperarInicio() {
         frota = new Frota();
         for (int i = 0; i < 4; i++) {
             String nomeMotorista = nomesCarontes.gerarNome();
-            Caronte motorista = new Caronte(nomeMotorista, 1);
+            Caronte motorista = new Caronte(nomeMotorista, 1, MAX_ROTAS_DIA);
             Barco Gondola = gerarGondola(motorista); 
         }
     }
@@ -267,15 +267,14 @@ private static void esperarInicio() {
      * @param placa A placa única do veículo a ser cadastrado.
      * @return O veículo cadastrado ou null se não for possível criar o veículo.
      */
-    private static Barco gerarBarco(Caronte motorista) {    
+    private static Barco gerarBarcoComTanque(Caronte motorista, String tipo) {    
         String nomeBarco = nomesBarcos.gerarNome();
-                Barco gondola = new Gondola(motorista, nomeBarco);
-                return gondola;
+                return barco;
         }
     }
     
      private static Barco gerarGondola(Caronte motorista) {    
-        Gondola gondola = new Gondola(motorista, nomesBarcos.gerarNome());
+        Gondola gondola = new Gondola(motorista, nomesBarcos.gerarNome(), MAX_ROTAS_DIA);
         return gondola;
     }
     

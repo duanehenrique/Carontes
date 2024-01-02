@@ -9,6 +9,7 @@ public class Caronte implements Relatorio{
     private CarteiraMotorista carteira;
     private Experiencia experiencia;
     private int viagensRestantes;
+    private final int MAX_ROTAS_DIA;
     // #endregion
 
     // #region Construtor
@@ -19,11 +20,12 @@ public class Caronte implements Relatorio{
      * @param nome O nome do Caronte.
      * @param cpf  O CPF do Caronte.
      */
-    public Caronte(String nome, int nivel) {
+    public Caronte(String nome, int nivel, int qtdRotas) {
         this.nome = nome;
         this.carteira = new CarteiraMotorista();
         this.experiencia = criarExperiencia(nivel);
-        this.viagensRestantes = 4;
+        this.MAX_ROTAS_DIA = qtdRotas;
+        this.viagensRestantes = qtdRotas;
     }
 
     private Experiencia criarExperiencia(int nivelExperiencia) {
