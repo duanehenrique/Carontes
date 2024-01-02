@@ -38,7 +38,19 @@ public class Frota implements Normalizador {
         diariosDeBordo.add(diario);
     }
 
-    public void addRotaPorIndex(int posicao, Rota rotaNova) {
+    public void addRotaPorIndex(String nome, Rota rotaNova) {
+        DiarioDeBordo diarioRota = localizarDiarioPorNome(nome);
+    
+        if (diarioRota != null) {
+            diarioRota.addRota(rotaNova);
+            int index = diariosDeBordo.indexOf(diarioRota);
+            diariosDeBordo.set(index, diarioRota);
+        } else {
+           throw new IllegalArgumentException("Diário de bordo #" + posicao +" não pertence a um barco.");
+        }
+    }
+
+        public void addRotaPorIndex(int posicao, Rota rotaNova) {
         DiarioDeBordo diarioRota = localizarDiarioPorIndex(posicao);
     
         if (diarioRota != null) {
@@ -55,6 +67,17 @@ public class Frota implements Normalizador {
     
         if (diarioRota != null) {
             diarioRota.excluirRota(rotaNova);
+            diariosDeBordo.set(posicao, diarioRota);
+        } else {
+           throw new IllegalArgumentException("Diário de bordo #" + posicao +" não pertence a um barco.");
+        }
+    }
+
+    public void addExcluirPorNome(int posicao, Rota rotaNova) {
+        DiarioDeBordo diarioRota = localizarDiarioPorIndex(posicao);
+    
+        if (diarioRota != null) {
+            diarioRota.addRota(rotaNova);
             diariosDeBordo.set(posicao, diarioRota);
         } else {
            throw new IllegalArgumentException("Diário de bordo #" + posicao +" não pertence a um barco.");
