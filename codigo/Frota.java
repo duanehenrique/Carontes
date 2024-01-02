@@ -203,6 +203,36 @@ public class Frota implements Normalizador {
         return relatorio.toString();
     }
 
+    public String listarTodasMultas(){
+        StringBuilder relatorio = new StringBuilder();
+        relatorio.append("---- Multas na sua frota ----");
+
+
+        for (int i = 0; i < diariosDeBordo.size(); i++) {
+            DiarioDeBordo diario = diariosDeBordo.get(i);
+            Barco barco = diario.getBarcoDoDiario();
+            if (barco != null) {
+                Caronte motorista = barco.getMotorista();
+                List<Multa> multas = motorista.getCarteira().listarMultas();
+                if(!multas.isEmpty()){
+                if (motorista != null) {
+                    relatorio.append("Barco #").append(i + 1).append("\n");
+                    relatorio.append("Motorista: ").append(motorista.getNome()).append("\n");
+                    relatorio.append("Barco: ").append(barco.getNOME()).append("\n");
+                    relatorio.append("Nível: ").append(motorista.getNivel()).append("\n");
+                    relatorio.append("Multas: ").append("\n");
+                    for (int j = 0; j < diariosDeBordo.size(); j++) {
+                        Multa multa = multas.get(j);
+                        relatorio.append(multa.relatorio()).append("\n");
+                    }
+                }
+            }
+        }
+    }
+        return relatorio.toString();
+    }
+
+
     public List<String> listarBarcosParaRotas() {
     List<String> listaBarcosParaRotas = new ArrayList<>();
         for (int i = 0; i < diariosDeBordo.size(); i++) {

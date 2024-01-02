@@ -96,13 +96,9 @@ public class CarteiraMotorista implements Relatorio{
             throw new IllegalArgumentException("Posição de multa inválida");
         }
         Multa multaParaPagar = multas.get(posicaoMulta - 1);
-        try {
             double valorPago = multaParaPagar.pagarMulta();
+            multas.remove(multaParaPagar);
             return valorPago;
-        } catch (IllegalStateException e) {
-            System.out.println("Multa já paga: " + e.getMessage());
-            return 0;
-        }
     }
 
     /**
