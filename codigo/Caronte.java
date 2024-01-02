@@ -83,6 +83,25 @@ public class Caronte implements Relatorio{
         return carteira.pagarTodasMultas();
     }
 
+    public int fazerCursoDeEspecializacao() {
+        switch (experiencia) {
+            case NIVEL_1:
+                experiencia = Experiencia.NIVEL_2;
+                break;
+            case NIVEL_2:
+                experiencia = Experiencia.NIVEL_3;
+                break;
+            case NIVEL_3:
+                experiencia = Experiencia.NIVEL_4;
+                break;
+            default:
+                throw new IllegalArgumentException("Esse Caronte já é experiente demais.\nPode ser difícil para ele conseguir trabalhos instrumentais.");
+            }
+        System.out.println("Nível de experiência aumentado para " + experiencia.getNivel());
+        return experiencia.getCustoCurso();
+
+    }
+
     /**
      * Lista todas as multas do Caronte.
      *

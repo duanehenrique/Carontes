@@ -84,8 +84,35 @@ public class Frota implements Normalizador {
            throw new IllegalArgumentException("Diário de bordo #" + nome +" não pertence a um barco.");
         }
     }
-    
 
+    public void trocarCarontes(Barco barco1, Barco barco2) {
+        if (barco1 != null && barco2 != null) {
+            Caronte caronteBarco1 = barco1.getMotorista();
+            Caronte caronteBarco2 = barco2.getMotorista();
+    
+            if (caronteBarco1 != null && caronteBarco2 != null) {
+                // Troca os Carontes entre os barcos
+                barco1.atribuirMotorista(caronteBarco2);
+                barco2.atribuirMotorista(caronteBarco1);
+                relatorioBarcoPorNome(barco1.getNOME());
+                relatorioBarcoPorNome(barco2.getNOME());
+                } 
+        } else {
+            System.out.println("Os barcos selecionados não fazem parte da sua frota.");
+        }
+    }
+
+    public int pagarCursoDeEspecializacaoPorNome(String nome){
+        Caronte motorista= localizarMotoristaPorNome(nome);
+        int custoCurso = motorista.fazerCursoDeEspecializacao();
+        return custoCurso;
+    }
+    
+    public int pagarCursoDeEspecializacaoPorIndex(int posicao){
+        Caronte motorista= localizarMotoristaPorIndex(posicao);
+        int custoCurso = motorista.fazerCursoDeEspecializacao();
+        return custoCurso;
+    }
     /**
      * Gera um relatório da frota.
      * 

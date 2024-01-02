@@ -102,6 +102,10 @@ public abstract class Barco implements Relatorio{
             System.out.println("Erro ao excluir rota: " + e.getMessage());
         }
     }
+    public void atribuirMotorista(Caronte caronte){
+        this.motorista = caronte;
+    }
+
     /**
      * Retorna a quilometragem no mês do veículo.
      *
