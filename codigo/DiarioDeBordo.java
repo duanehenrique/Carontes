@@ -22,6 +22,11 @@ public class DiarioDeBordo implements Relatorio {
             barcoDoDiario.iniciarDia();
         }
 
+        public void addRota(Rota rota) {
+        barcoDoDiario.addRota(rota);
+        }
+        
+
         public double balancoTotalPorDia(LocalDate dataDoDiario) {
             Barco barco = diarioPorDia.get(dataDoDiario);  
             

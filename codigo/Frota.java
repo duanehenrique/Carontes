@@ -37,6 +37,18 @@ public class Frota implements Normalizador {
         DiarioDeBordo diario = new DiarioDeBordo(barco);
         diariosDeBordo.add(diario);
     }
+
+    public void adicionarRotaPorIndex(int posicao, Rota rotaNova) {
+        DiarioDeBordo diarioRota = localizarDiarioPorIndex(posicao);
+    
+        if (diarioRota != null) {
+            diarioRota.addRota(rotaNova);
+            diariosDeBordo.set(posicao, diarioRota);
+        } else {
+           throw new IllegalArgumentException("Diário de bordo #" + posicao +" não pertence a um barco.");
+        }
+    }
+    
     
     
 
