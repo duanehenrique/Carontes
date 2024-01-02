@@ -38,15 +38,15 @@ public class Frota implements Normalizador {
         diariosDeBordo.add(diario);
     }
 
-    public void addRotaPorIndex(String nome, Rota rotaNova) {
+    public void addRotaPorNome(String nome, Rota rotaNova) {
         DiarioDeBordo diarioRota = localizarDiarioPorNome(nome);
     
         if (diarioRota != null) {
             diarioRota.addRota(rotaNova);
-            int index = diariosDeBordo.indexOf(diarioRota);
-            diariosDeBordo.set(index, diarioRota);
+            int posicao = diariosDeBordo.indexOf(diarioRota);
+            diariosDeBordo.set(posicao, diarioRota);
         } else {
-           throw new IllegalArgumentException("Diário de bordo #" + posicao +" não pertence a um barco.");
+           throw new IllegalArgumentException("Diário de bordo do barco " + nome +" não pertence a um barco.");
         }
     }
 
@@ -73,14 +73,15 @@ public class Frota implements Normalizador {
         }
     }
 
-    public void addExcluirPorNome(int posicao, Rota rotaNova) {
-        DiarioDeBordo diarioRota = localizarDiarioPorIndex(posicao);
+    public void addExcluirPorNome(String nome, Rota rotaExcluida) {
+        DiarioDeBordo diarioRota = localizarDiarioPorNome(nome);
     
         if (diarioRota != null) {
-            diarioRota.addRota(rotaNova);
+            diarioRota.excluirRota(rotaExcluida);
+            int posicao = diariosDeBordo.indexOf(diarioRota);
             diariosDeBordo.set(posicao, diarioRota);
         } else {
-           throw new IllegalArgumentException("Diário de bordo #" + posicao +" não pertence a um barco.");
+           throw new IllegalArgumentException("Diário de bordo #" + nome +" não pertence a um barco.");
         }
     }
     
@@ -102,13 +103,19 @@ public class Frota implements Normalizador {
 
     public String relatorioFrotaDeOntem() {
         StringBuilder relatorio = new StringBuilder();
+        int i = 0, j = 0;
         for (DiarioDeBordo diario : diariosDeBordo) {
             Barco barco = diario.getUltimoBarcoInserido();
+            relatorio.append("Barco #").append(i + 1).append("\n");
             relatorio.append(barco.relatorio()).append("\n");
             List <Rota> rotasBarco = barco.getRotas();
             for (Rota rota : rotasBarco) {
+                relatorio.append("Rota #").append(j + 1).append("\n");
                 relatorio.append(rota.relatorio()).append("\n");
+                j++;
             }
+            i++;
+            j = 0;
         }
         return relatorio.toString();
     }
@@ -147,11 +154,47 @@ public class Frota implements Normalizador {
                 Caronte motorista = barco.getMotorista();
 
                 if (motorista != null) {
-                    relatorio.append("Barco #").append(i).append("\n");
+                    relatorio.append("Barco #").append(i + 1).append("\n");
                     relatorio.append("Motorista: ").append(motorista.getNome()).append("\n");
                     relatorio.append("Barco: ").append(barco.getNOME()).append("\n");
                     relatorio.append("Nível: ").append(motorista.getNivel()).append("\n");
                     relatorio.append("Salário: ").append(motorista.getSalario()).append("\n");
+                }else{
+                relatorio.append("Barco sem motorista\n");
+                }
+            }
+        }
+        return relatorio.toString();
+    }
+
+    public String relatorioTodasMultas(){
+        StringBuilder relatorio = new StringBuilder();
+        relatorio.append("---- Multas na sua frota ----");
+
+
+        for (int i = 0; i < diariosDeBordo.size(); i++) {
+            DiarioDeBordo diario = diariosDeBordo.get(i);
+            Barco barco = diario.getBarcoDoDiario();
+            if (barco != null) {
+                Caronte motorista = barco.getMotorista();
+
+                if (motorista != null) {
+                    relatorio.append("Barco #").append(i + 1).append("\n");
+                    relatorio.append("Motorista: ").append(motorista.getNome()).append("\n");
+                    relatorio.append("Barco: ").append(barco.getNOME()).append("\n");
+                    relatorio.append("Nível: ").append(motorista.getNivel()).append("\n");
+
+                    List<Multa> multas = motorista.getCarteira().listarMultas();
+                    if(!multas.isEmpty()){
+                    relatorio.append("Multas: ").append("\n");
+                    for (int j = 0; j < diariosDeBordo.size(); j++) {
+                        Multa multa = multas.get(j);
+                        relatorio.append(multa.relatorio()).append("\n");
+                    }
+                    }else{
+                        relatorio.append("Caronte não tem multas ativas");
+                    }
+                    
                 }else{
                 relatorio.append("Barco sem motorista\n");
                 }

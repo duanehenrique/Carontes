@@ -91,34 +91,6 @@ public class Caronte implements Relatorio{
     public List<Multa> listarMultas() {
         return carteira.listarMultas();
     }
-
-    /**
-     * Lista todas as multas ativas do Caronte.
-     *
-     * @return Uma lista de todas as multas ativas do Caronte.
-     */
-    public List<Multa> listarMultasAtivas() {
-        return carteira.listarMultasAtivas();
-    }
-
-    /**
-     * Lista todas as multas não pagas do Caronte.
-     *
-     * @return Uma lista de todas as multas não pagas do Caronte.
-     */
-    public List<Multa> listarMultasNaoPagas() {
-        return carteira.listarMultasNaoPagas();
-    }
-
-    /**
-     * Lista todas as multas pagas do Caronte.
-     *
-     * @return Uma lista de todas as multas pagas do Caronte.
-     */
-    public List<Multa> listarMultasPagas() {
-        return carteira.listarMultasPagas();
-    }
-
     /**
      * Retorna a multa mais recente do Caronte.
      *
@@ -142,8 +114,8 @@ public class Caronte implements Relatorio{
      *
      * @param gravidade A gravidade da infração.
      */
-    public void adicionarPontos(String gravidade) {
-        this.carteira.adicionarMulta(gravidade);
+    public void adicionarMulta(Multa multa) {
+        this.carteira.adicionarMulta(multa);
     }
 
     /**

@@ -120,6 +120,7 @@ private static void cranio(){
         System.err.println("Nenhum deles pode percorrer mais de " + MAX_ROTAS_DIA + " rotas em um mesmo dia");
         System.err.println("É algo do sindicato. Melhor não mexer nisso.");
         esperarEnter();
+        exibirTodasMultas();
         exibirRotas();
         System.err.println("Carontes têm nível de experiência. Alguns têm mais anos de firma.");
         System.err.println("Aqueles que começaram há pouco tempo não são muito prudentes e tem mais chance de cometer infrações.");
@@ -334,6 +335,12 @@ private static void esperarInicio() {
     private static void exibirRelatorioFrota() {
         separador();
         System.out.println(frota.relatorioFrota());
+        separador();
+    }
+
+    private static void exibirTodasMultas() {
+        separador();
+        System.out.println(frota.relatorioTodasMultas());
         separador();
     }
 

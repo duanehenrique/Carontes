@@ -29,26 +29,10 @@ public class CarteiraMotorista implements Relatorio{
      * @throws IllegalArgumentException Se a gravidade fornecida não for
      *                                  reconhecida.
      */
-    public void adicionarMulta(String gravidade) {
-        Multa novaMulta;
-        switch (Normalizer.normalize(gravidade.toUpperCase(), Normalizer.Form.NFD)
-                .replaceAll("\\p{InCombiningDiacriticalMarks}+", "")) {
-            case "LEVE":
-                novaMulta = Multa.LEVE;
-                break;
-            case "MEDIA":
-                novaMulta = Multa.MEDIA;
-                break;
-            case "GRAVE":
-                novaMulta = Multa.GRAVE;
-                break;
-            case "GRAVISSIMA":
-                novaMulta = Multa.GRAVISSIMA;
-                break;
-            default:
-                throw new IllegalArgumentException("Gravidade de multa desconhecida: " + gravidade);
+    public void adicionarMulta(Multa novaMulta) {
+        if(novaMulta != null){
+            multas.add(novaMulta);
         }
-        multas.add(novaMulta);
     }
 
     /**
@@ -71,9 +55,7 @@ public class CarteiraMotorista implements Relatorio{
         int totalPontos = 0;
         for (Multa multa : multas) {
             if (multa != null) {
-                if (multa.multaExpirou()) {
                     totalPontos += multa.getPontos();
-                }
             }
         }
         return totalPontos;
@@ -86,51 +68,6 @@ public class CarteiraMotorista implements Relatorio{
      */
     public List<Multa> listarMultas() {
         return multas;
-    }
-
-    /**
-     * Lista todas as multas ativas associadas a esta carteira de motorista.
-     * 
-     * @return Uma lista de todas as multas ativas.
-     */
-    public List<Multa> listarMultasAtivas() {
-        List<Multa> multasAtivas = new ArrayList<>();
-        for (Multa multa : multas) {
-            if (!multa.multaExpirou()) {
-                multasAtivas.add(multa);
-            }
-        }
-        return multasAtivas;
-    }
-
-    /**
-     * Lista todas as multas não pagas associadas a esta carteira de motorista.
-     * 
-     * @return Uma lista de todas as multas não pagas.
-     */
-    public List<Multa> listarMultasNaoPagas() {
-        List<Multa> multasNaoPagas = new ArrayList<>();
-        for (Multa multa : multas) {
-            if (!multa.getMultaPaga()) {
-                multasNaoPagas.add(multa);
-            }
-        }
-        return multasNaoPagas;
-    }
-
-    /**
-     * Lista todas as multas pagas associadas a esta carteira de motorista.
-     * 
-     * @return Uma lista de todas as multas pagas.
-     */
-    public List<Multa> listarMultasPagas() {
-        List<Multa> multasPagas = new ArrayList<>();
-        for (Multa multa : multas) {
-            if (multa.getMultaPaga()) {
-                multasPagas.add(multa);
-            }
-        }
-        return multasPagas;
     }
 
     /**

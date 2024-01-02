@@ -76,7 +76,7 @@ public abstract class Barco implements Relatorio{
 
             if (!motorista.getCarteiraValida()) {
                 throw new IllegalStateException(
-                        "Carteira de motorista invalidada por multas. Espere o vencimento dos pontos da carteira antes de adicionar a rota.");
+                        "Carteira de motorista invalidada por multas.Pague as multas do Caronte antes de adicionar a rota.");
             }
 
             rotas.add(rota);
@@ -286,8 +286,8 @@ public String relatorioRotas() {
      * @param gravidade A gravidade da multa.
      * @return A multa mais recente do motorista.
      */
-    public Multa addMultaAoMotorista(String gravidade) {
-        this.motorista.adicionarPontos(gravidade);
+    public Multa addMultaAoMotorista(Multa multa) {
+        this.motorista.adicionarMulta(multa);
         return this.motorista.multaMaisRecente();
     }
   /**
