@@ -8,6 +8,12 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
 
+import Barcos.Barcos.Barcos.Balsa;
+import Barcos.Barcos.Barcos.Barco;
+import Barcos.Barcos.Barcos.Cruzeiro;
+import Barcos.Barcos.Barcos.Gondola;
+import Barcos.Barcos.Barcos.Navio;
+
 /**
  * Classe App que serve como ponto de entrada do sistema de gerenciamento de
  * frotas.

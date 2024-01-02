@@ -7,7 +7,6 @@ public abstract class Barco implements Relatorio{
     protected final String NOME;
     protected List<Rota> rotas;
     protected final int MAX_ROTAS_DIA;
-    private int viagensRestantes;
     protected DiarioDeBordo diarioDesteBarco;
     protected final int CAPACIDADEPASSAGEIROS;
     protected static int PRECOCUSTO;
