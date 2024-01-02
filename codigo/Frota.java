@@ -297,33 +297,38 @@ public class Frota implements Normalizador {
                 return listaBarcosParaRotas;
             }
     
-       public String listarRotasPorBarco() {
-        System.out.println("Lista de Barcos na Frota:");
-        
-        for (int i = 0; i < diariosDeBordo.size(); i++) {
-            DiarioDeBordo diario = diariosDeBordo.get(i);
+            public String listarRotasPorBarco() {
+                StringBuilder resultado = new StringBuilder();
+                resultado.append("Lista de Barcos na Frota:\n");
             
-            if (diario != null) {
-                Barco barco = diario.getBarcoDoDiario();
-                    System.out.println("Barco-" + (i + 1));
-                    System.out.println("Nome: " + barco.getNOME());
-                    System.out.println("Motorista: " + barco.getMotorista().getNome());
-                    System.out.println("Tipo de barco: " + barco.getTipoDeBarco());
-                    System.out.println("Capacidade de passageiros: " + barco.getTipoDeBarco());
-                    if(!barco.getRotas().isEmpty()){
-                        System.out.println("Rotas associadas: " + barco.getRotas().size());
-                        System.out.println("Rotas já percorridas: " + barco.getQuantRotasPercorridasHj());
-                        System.out.println("Rotas ainda não percorridas: " + (4 - barco.getQuantRotasPercorridasHj()));
-                    }else {
-                        System.out.println("Nenhuma rota associada barco.");
-                    }
-                    
+                for (int i = 0; i < diariosDeBordo.size(); i++) {
+                    DiarioDeBordo diario = diariosDeBordo.get(i);
+            
+                    if (diario != null) {
+                        Barco barco = diario.getBarcoDoDiario();
+                        resultado.append("Barco #").append(i + 1).append("\n");
+                        resultado.append("Nome: ").append(barco.getNOME()).append("\n");
+                        resultado.append("Motorista: ").append(barco.getMotorista().getNome()).append("\n");
+                        resultado.append("Tipo de barco: ").append(barco.getTipoDeBarco()).append("\n");
+                        resultado.append("Capacidade de passageiros: ").append(barco.getCAPACIDADEPASSAGEIROS()).append("\n");
+            
+                        if (!barco.getRotas().isEmpty()) {
+                            resultado.append("Rotas associadas: ").append(barco.getRotas().size()).append("\n");
+                            resultado.append("Rotas já percorridas: ").append(barco.getQuantRotasPercorridasHj()).append("\n");
+                            resultado.append("Rotas ainda não percorridas: ").append(4 - barco.getQuantRotasPercorridasHj()).append("\n");
                         } else {
-                            System.out.println("Não há entradas no diário de bordo.");
+                            resultado.append("Nenhuma rota associada ao barco.\n");
                         }
-                        System.out.println();
+            
+                    } else {
+                        resultado.append("Não há entradas no diário de bordo.\n");
+                    }
+                    resultado.append("\n");
                 }
+            
+                return resultado.toString();
             }
+            
 
             public String listarCarontesPorNivel(int nivelDesejado) {
                 StringBuilder resultado = new StringBuilder();
