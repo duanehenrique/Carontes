@@ -297,7 +297,7 @@ public class Frota implements Normalizador {
                 return listaBarcosParaRotas;
             }
     
-       public void listarRotasPorBarco() {
+       public String listarRotasPorBarco() {
         System.out.println("Lista de Barcos na Frota:");
         
         for (int i = 0; i < diariosDeBordo.size(); i++) {
@@ -323,6 +323,27 @@ public class Frota implements Normalizador {
                         }
                         System.out.println();
                 }
+            }
+
+            public String listarCarontesPorNivel(int nivelDesejado) {
+                StringBuilder resultado = new StringBuilder();
+                resultado.append("--- Carontes no Nível ").append(nivelDesejado).append("----\n");
+                int contagem = 0;
+                for (DiarioDeBordo diario : diariosDeBordo) {
+                    Barco barco = diario.getBarcoDoDiario();
+        
+                    if (barco != null) {
+                        Caronte motorista = barco.getMotorista();
+        
+                        if (motorista != null && motorista.getNivel() == nivelDesejado) {
+                            resultado.append("Barco #").append(contagem + 1).append(": ").append(barco.getNOME()).append("\n");
+                            resultado.append("Caronte: ").append(motorista.getNome()).append("\n");
+                            resultado.append("Nível: ").append(motorista.getNivel()).append("\n");                        }
+                    }
+                    contagem++;
+                }
+        
+                return resultado.toString();
             }
 
     /**
