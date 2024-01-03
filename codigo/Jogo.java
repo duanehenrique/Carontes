@@ -8,12 +8,6 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
 
-import Barcos.Barcos.Barcos.Balsa;
-import Barcos.Barcos.Barcos.Barco;
-import Barcos.Barcos.Barcos.Cruzeiro;
-import Barcos.Barcos.Barcos.Gondola;
-import Barcos.Barcos.Barcos.Navio;
-
 /**
  * Classe App que serve como ponto de entrada do sistema de gerenciamento de
  * frotas.
@@ -57,7 +51,7 @@ public class Jogo implements Normalizador{
      */
     private static void separador() {
         String linha = new String(new char[75]).replace('\0', '-');
-        System.out.println(linha);
+        System.out.println(linha + "\n");
     }
 
     // Mantém um registro das placas já geradas para evitar duplicação
@@ -70,23 +64,6 @@ public class Jogo implements Normalizador{
      * 
      * @return Uma string representando a placa única gerada.
      */
-    private static String gerarPlacaUnica() {
-        String letras = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        String placa;
-        do {
-            StringBuilder placaBuilder = new StringBuilder();
-            for (int i = 0; i < 3; i++) {
-                placaBuilder.append(letras.charAt(random.nextInt(letras.length())));
-            }
-            for (int i = 0; i < 4; i++) {
-                placaBuilder.append(random.nextInt(10));
-            }
-            placa = placaBuilder.toString();
-        } while (placasGeradas.contains(placa)); // Continua até gerar uma placa única
-
-        placasGeradas.add(normalizar(placa)); // Adiciona a nova placa ao conjunto para rastreamento
-        return placa;
-    }
 
 
 private static void cranio(){
@@ -125,7 +102,7 @@ private static void cranio(){
         System.err.println("Carontes podem fazer até " + MAX_ROTAS_DIA + " viagens por dia.");
         System.err.println("Nenhum deles pode percorrer mais de " + MAX_ROTAS_DIA + " rotas em um mesmo dia");
         System.err.println("É algo do sindicato. Melhor não mexer nisso.");
-        esperarEnter();
+        pausa();
         exibirTodasMultas();
         exibirRotas();
         System.err.println("Carontes têm nível de experiência. Alguns têm mais anos de firma.");
@@ -152,15 +129,7 @@ private static void esperarInicio() {
         System.err.println("ainda é trazer 444 almas penitentes para o fundo do Tártaro.");
         separador();
         System.err.println("Estamos prontos para trazer almas mortais e conquistarmos a vaga de Diretor Regional?");
-        esperarEnter();
-        }
-
-        private static void esperarEnter(){
-            String enter;
-            System.err.println("Pressione Enter para começar.");
-            while(!enter.equals("\n")){
-            teclado.next();
-            }
+        pausa();
         }
 
     /**
@@ -181,25 +150,82 @@ private static void esperarInicio() {
     /**
      * Exibe o menu principal do sistema com as opções disponíveis para o usuário.
      */
-    private static void mostrarMenu() {
-        exibirDia();
+
+        private static void mostrarMenuPrincipal() {
+        int opcao;
+        do {
         exibirAlmas();
-        System.out.println("\t\t  Sistema de Gerenciamento de Frotas");
-        separador();
-        System.out.println("1. Cadastrar novo veículo na frota");
-        System.out.println("2. Exibir relatório completo da frota");
-        System.out.println("3. Registrar rota para veículo");
-        System.out.println("4. Abastecer veículo");
-        System.out.println("5. Registrar multa para motorista");
-        System.out.println("6. Pagar multa do motorista");
-        System.out.println("7. Verificar necessidade de manutenção dos veículos");
-        System.out.println("8. Listar rotas não percorridas de um veículo");
-        System.out.println("9. Percorrer rota específica de um veículo");
-        System.out.println("10. Realizar manutenção de um veículo");
-        System.out.println("11. Exibir relatório de rotas de um veículo");
-        System.out.println("12. Encerrar o programa");
+        exibirRelatorioFrota();
+        System.out.println("--- Menu ---");
+        System.out.println("1. Barcos da Frota");
+        System.out.println("2. Carontes da Frota");
+        System.out.println("3. Rotas de Coleta de Almas");
+        System.out.println("4. Setor de Aquisições do Submundo");
+        System.out.println("5. Relatório Completo da Frota");
+        System.out.println("6. Encerrar Dia");
         separador();
         System.out.print("Selecione uma opção: ");
+        
+        opcao = teclado.nextInt();
+        teclado.nextLine();
+        switch (opcao) {
+            case 1:
+                menuBarcos();
+                break;
+            case 2:
+                menuCarontes();
+                break;
+            case 3:
+                menuRotas();
+                break;
+            case 4:
+                menuAquisicoes();
+                break;
+            case 5:
+                relatorioCompletoFrota();
+                break;
+            case 6:
+                encerrarDia();
+                break;
+            default:
+                System.out.println("Opção inválida. Tente novamente.");
+        }
+    }while(opcao != 6);
+}
+
+    private void mostrarMenuBarcos() {
+        int opcao;
+        do {
+            System.out.println("\n--- Barcos ---");
+            System.out.println("1. Listar Barcos por Tipo");
+            System.out.println("2. Abastecer Barcos");
+            System.out.println("3. Realizar Manutenção Em Barcos");
+            System.out.println("4. Mostrar Barco com Maior Quilometragem Total");
+            System.out.println("5. Voltar ao Menu Principal");
+            System.out.print("Digite a opção desejada: ");
+            opcao = teclado.nextInt();
+            teclado.nextLine(); // Limpar o buffer
+
+            switch (opcao) {
+                case 1:
+                    listarBarcosPorTipo();
+                    break;
+                case 2:
+                    menuAbastecer();
+                    break;
+                case 3:
+                    menuManutencao();
+                    break;
+                case 4:
+                    mostrarBarcoComMaiorQuilometragemTotal();
+                    break;
+                case 0:
+                    System.out.println("Voltando ao Menu Principal.");
+                    break;
+                default:
+                    System.out.println("Opção inválida. Tente novamente.");
+            }
+        } while (opcao != 0);
     }
 
     /**
@@ -337,8 +363,10 @@ private static void esperarInicio() {
      * Exibe um relatório detalhado da frota, incluindo informações de cada veículo
      * cadastrado.
      */
-    private static void exibirRelatorioFrota() {
-        separador();
+    private static String exibirRelatorioFrota() {
+        StringBuilder resultado = new StringBuilder();
+        resultado.append(separador()).append("\n")
+        resultado.append("---- Barcos da Frota ").append(" ----\n");separador();
         System.out.println(frota.relatorioFrota());
         separador();
     }

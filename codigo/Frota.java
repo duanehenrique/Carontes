@@ -62,7 +62,7 @@ public class Frota implements Normalizador {
     }
     
     
-    public void addExcluirPorIndex(int posicao, Rota rotaNova) {
+    public void excluirRotaPorIndex(int posicao, Rota rotaNova) {
         DiarioDeBordo diarioRota = localizarDiarioPorIndex(posicao);
     
         if (diarioRota != null) {
@@ -73,7 +73,7 @@ public class Frota implements Normalizador {
         }
     }
 
-    public void addExcluirPorNome(String nome, Rota rotaExcluida) {
+    public void excluirRotaPorNome(String nome, Rota rotaExcluida) {
         DiarioDeBordo diarioRota = localizarDiarioPorNome(nome);
     
         if (diarioRota != null) {
@@ -101,6 +101,33 @@ public class Frota implements Normalizador {
             System.out.println("Os barcos selecionados não fazem parte da sua frota.");
         }
     }
+
+    public double abastecerBarcoPorIndex(int posicao, double qtdCombustivel) {
+        DiarioDeBordo diario = localizarDiarioPorIndex(posicao);
+        if (diario != null) {
+            Barco barco = diario.getBarcoDoDiario();
+            if (barco instanceof BarcoComTanque) {
+                return ((BarcoComTanque) barco).abastecer(qtdCombustivel);
+            } else {
+                throw new IllegalArgumentException("Você tentou abastecer uma gôndola com combstível, mas elas são movidas pelaa força dos Carontes.\n As leis trabalhistas daqui são estranhas.");
+            }
+        } else {
+            throw new IllegalArgumentException("Os barcos selecionados não fazem parte da sua frota.");
+        }    }
+    
+    public void abastecerBarcoPorNome(String nome, double qtdCombustivel) {
+                DiarioDeBordo diario = localizarDiarioPorIndex(posicao);
+        if (diario != null) {
+            Barco barco = diario.getBarcoDoDiario();
+            if (barco instanceof BarcoComTanque) {
+                return ((BarcoComTanque) barco).abastecer(qtdCombustivel);
+            } else {
+                throw new IllegalArgumentException("Você tentou abastecer uma gôndola com combstível, mas elas são movidas pelaa força dos Carontes.\n As leis trabalhistas daqui são estranhas.");
+            }
+        } else {
+            throw new IllegalArgumentException("Os barcos selecionados não fazem parte da sua frota.");
+        }    }
+    
 
     public int pagarCursoDeEspecializacaoPorNome(String nome){
         Caronte motorista= localizarMotoristaPorNome(nome);
