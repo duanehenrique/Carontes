@@ -131,7 +131,38 @@ public class Frota implements Normalizador {
           totalGasto = abastecerBarcoDoDiario(diario, Double.MAX_VALUE);
     }
     return totalGasto;
-}
+    }
+    
+    public double pagarMultaDoCarontePorIndex(int posicao, int posicaoMulta) {
+        Caronte caronte = localizarMotoristaPorIndex(posicao);
+        return caronte.pagarMulta(posicaoMulta);
+    }
+    
+    public double pagarMultaDoCarontePorNome(String nome, int posicaoMulta) {
+        Caronte caronte = localizarMotoristaPorNome(nome);
+        return caronte.pagarMulta(posicaoMulta);
+    }
+
+        public double pagarTodasMultasDoCarontePorIndex(int posicao, int posicaoMulta) {
+        Caronte caronte = localizarMotoristaPorIndex(posicao);
+        return caronte.pagarTodasMultas();
+    }
+    
+    public double pagarTodasMultasDoCarontePorNome(String nome, int posicaoMulta) {
+        Caronte caronte = localizarMotoristaPorNome(nome);
+        return caronte.pagarTodasMultas();
+    }
+    
+    public double pagarTodasMultasDoTodosCarontes(int posicaoMulta) {
+        double totalPago = 0;
+        int i = 0;
+         for (DiarioDeBordo diario : diariosDeBordo) {
+            Caronte motorista = localizarMotoristaPorIndex(i);
+            totalPago += motorista.pagarTodasMultas();
+            i++;
+            }
+        return totalPago;
+    }
     
 
     public int pagarCursoDeEspecializacaoPorNome(String nome){
@@ -242,6 +273,7 @@ public class Frota implements Normalizador {
                     relatorio.append("Motorista: ").append(motorista.getNome()).append("\n");
                     relatorio.append("Barco: ").append(barco.getNOME()).append("\n");
                     relatorio.append("Nível: ").append(motorista.getNivel()).append("\n");
+                    relatorio.append("Carteira suspensa: ").append(motorista.getNivel()).append("\n");
 
                     List<Multa> multas = motorista.getCarteira().listarMultas();
                     if(!multas.isEmpty()){
