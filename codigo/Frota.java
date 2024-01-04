@@ -102,31 +102,36 @@ public class Frota implements Normalizador {
         }
     }
 
+    private double abastecerBarcoDoDiario(DiarioDeBordo diario, double qtdCombustivel){
+        
+        if (diario != null) {
+            Barco barco = diario.getBarcoDoDiario();
+                if (barco instanceof BarcoComTanque) {
+                 return ((BarcoComTanque) barco).abastecer(qtdCombustivel);
+            } else {
+                throw new IllegalArgumentException("Você tentou abastecer uma gôndola com combstível, mas elas são movidas pelaa força dos Carontes.\n As leis trabalhistas daqui são estranhas.");
+            }
+
+            } else {
+            throw new IllegalArgumentException("O barco selecionado não faz parte da sua frota.");
+        } 
+    } 
+
     public double abastecerBarcoPorIndex(int posicao, double qtdCombustivel) {
         DiarioDeBordo diario = localizarDiarioPorIndex(posicao);
-        if (diario != null) {
-            Barco barco = diario.getBarcoDoDiario();
-            if (barco instanceof BarcoComTanque) {
-                return ((BarcoComTanque) barco).abastecer(qtdCombustivel);
-            } else {
-                throw new IllegalArgumentException("Você tentou abastecer uma gôndola com combstível, mas elas são movidas pelaa força dos Carontes.\n As leis trabalhistas daqui são estranhas.");
-            }
-        } else {
-            throw new IllegalArgumentException("Os barcos selecionados não fazem parte da sua frota.");
-        }    }
+        return abastecerBarcoDoDiario(diario, qtdCombustivel);}
     
-    public void abastecerBarcoPorNome(String nome, double qtdCombustivel) {
-                DiarioDeBordo diario = localizarDiarioPorIndex(posicao);
-        if (diario != null) {
-            Barco barco = diario.getBarcoDoDiario();
-            if (barco instanceof BarcoComTanque) {
-                return ((BarcoComTanque) barco).abastecer(qtdCombustivel);
-            } else {
-                throw new IllegalArgumentException("Você tentou abastecer uma gôndola com combstível, mas elas são movidas pelaa força dos Carontes.\n As leis trabalhistas daqui são estranhas.");
-            }
-        } else {
-            throw new IllegalArgumentException("Os barcos selecionados não fazem parte da sua frota.");
-        }    }
+    public double abastecerBarcoPorNome(String nome, double qtdCombustivel) {
+                DiarioDeBordo diario = localizarDiarioPorNome(nome);
+        return abastecerBarcoDoDiario(diario, qtdCombustivel);}
+
+    public double abastecerTodosBarcos(){
+        double totalGasto = 0;
+        for (DiarioDeBordo diario : diariosDeBordo) {
+          totalGasto = abastecerBarcoDoDiario(diario, Double.MAX_VALUE);
+    }
+    return totalGasto;
+}
     
 
     public int pagarCursoDeEspecializacaoPorNome(String nome){

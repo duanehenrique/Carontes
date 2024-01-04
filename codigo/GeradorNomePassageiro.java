@@ -6,7 +6,7 @@ public class GeradorNomePassageiro {
             "Lucas", "Isabela", "Miguel", "Sophia", "Enzo", "Larissa", "Pedro", "Julia", "Matheus", "Felipe",
             "Gabriel", "Lara", "Arthur", "Valentina", "Heitor", "Alice", "Davi", "Isadora", "Bernardo", "Manuela",
             "Sócrates", "Vladimir", "Pôncio", "Amanda", "Diego", "Vitor", "Muhammad", "Elijah", "Daniel", "Lawrence",
-            "Dave", "Djimon ", "Alec", "Pierre", "Aristóteles", "Pepino", "Virgílio", "Dante", "Beatriz", "Galileu",
+            "Dave", "Djimon ", "Alec", "Pierre", "Aristóteles", "Pepino", "Virgílio", "Dante", "Beatrice", "Galileu",
             "Li", "Kaori", "Doritos", "Jin", "Ying ", "Priscila", "Francis", "Bruce", "Pietro", "Maria Eugênia",
             "Minho", "Yeonhee", "Ahmed", "Aisha", "Tadashi ", "Terrance Williams", "Sakura ", "Wanda", "Cosmo", "Duane",
             "Faust", "Nikolas", "Hiromu", "Akira", "Jung-kook", "Zelda", "Giuseppe", "Vincent", "Nefertiti", "Orfeu,",

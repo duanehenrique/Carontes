@@ -6,10 +6,10 @@ import java.util.Random;
 
 public class GeradorNomesBarcos {
         private static final String[] nomes = {
-                "Pescador de Ilusões", "Banana Boat", "Jacaré Panguá", "Olha a Onda", "",
+                "Pescador de Ilusões", "Banana Boat", "Jacaré Panguá", "Olha a Onda", "Pedro Álvares Cabral",
                 "Barqueta Furacão", "Titaníquel", "Tubarão (1975)", "Holandês Aviador", "Pérola Branca",
                 "Ama Deus", "Nãotilus", "Centennial Hawk", "Aprilflower", "Moby Duck",
-                "SS Norman Die", "Mellow Submarine", "Mississipi Queen Bee", "USS Exitprise", "Paraíso Tropical",
+                "SS Norman Die", "Mellow Submarine", "Descobridor dos Cinco Rios", "USS Exitprise", "Paraíso Tropical",
                 "Príncipe do Mar", "Rei dos Rios", "Domingueiro", "Pilotado Por Mim, Guiado Por Hades", "Apaixonado por Água",
                 "Águas de Fortaleza", "Cervejinha e Carne Boa", "Nossa Senhora Aparecida", "O Ciúme da Patroa", "Três Marias",
                 "Peixe-Espada", "Pula Onda", "Marca de Noé", "Saúde e Alegria", "Meus Filhos Tão Sem Pensão Por Esse Barco"
