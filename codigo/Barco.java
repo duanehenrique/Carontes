@@ -71,13 +71,18 @@ public abstract class Barco implements Relatorio{
                 {
                     podeAdd = false;
                    throw new IllegalStateException(
-                   "Manutenção do veículo em atraso. Realize manutenção antes de adicionar rota.");
+                   "Barco já realizou seu limite de viagens do dia. Agora ele é obrigado pela lei trabalhista a voltar para a garagem");
+                }
+
+                 if(motorista.getViagensRestantes() <= 0)
+                 {
+                    System.err.println("O Caronte que trabalha neste barco já chegou ao seu limite de viagens.\nEle é obrigado pela lei trabalhista a descansar até amanhã\nA rota selecionada será associada ao barco, mas só será possível percorrê-la se outro Caronte conduzir o barco.");
                 }
     
                 if (!manutencao.getManutencaoEmDia()) {
                     podeAdd = false;
                     throw new IllegalStateException(
-                            "Manutenção do veículo em atraso. Realize manutenção antes de adicionar rota.");
+                            "Manutenção do barco em atraso. Realize manutenção antes de adicionar rota.");
                 }
     
                 if (!motorista.getCarteiraValida()) {
@@ -166,6 +171,12 @@ public int percorrerRota(Rota rota) {
                 podePercorrer = false;
                    throw new IllegalStateException(
                    "Manutenção do veículo em atraso. Realize manutenção antes de adicionar rota.");
+                }
+                
+                if(motorista.getViagensRestantes() <= 0)
+                {
+                 throw new IllegalStateException(
+                "O Caronte que conduz o barco já realizou seu limite de viagens do dia. Agora ele é obrigado pela lei trabalhista a descansar até amanhã");
                 }
     
                 if (!manutencao.getManutencaoEmDia()) {

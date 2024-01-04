@@ -49,6 +49,12 @@ public abstract class BarcoComTanque extends Barco{
                    "Manutenção do veículo em atraso. Realize manutenção antes de adicionar rota.");
                 }
     
+                if(motorista.getViagensRestantes() <= 0)
+                {
+                 throw new IllegalStateException(
+                "O Caronte que conduz o barco já realizou seu limite de viagens do dia. Agora ele é obrigado pela lei trabalhista a descansar até amanhã");
+                }
+
                 if (!manutencao.getManutencaoEmDia()) {
                     podePercorrer = false;
                     throw new IllegalStateException(
