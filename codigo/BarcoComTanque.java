@@ -35,23 +35,46 @@ public abstract class BarcoComTanque extends Barco{
     @Override
     public int percorrerRota(Rota rota) {
         int totalAlmas = 0;
+        boolean podePercorrer = true;
         try {
-            if (rota.getRotaPercorrida()) {
-                throw new IllegalArgumentException("A rota já foi percorrida. Escolha outra rota para percorrer");
-            }
+            if (rotas.contains(rota)) {
+                podePercorrer = false;
+                throw new IllegalArgumentException("A rota já existe na lista de rotas.");
+                }
     
-            if (rota.getQuilometragem() <= autonomiaAtual()) {
+                if(rotas.size() >= MAX_ROTAS_DIA)
+                {
+                podePercorrer = false;
+                   throw new IllegalStateException(
+                   "Manutenção do veículo em atraso. Realize manutenção antes de adicionar rota.");
+                }
+    
+                if (!manutencao.getManutencaoEmDia()) {
+                    podePercorrer = false;
+                    throw new IllegalStateException(
+                            "Manutenção do veículo em atraso. Realize manutenção antes de adicionar rota.");
+                }
+    
+                if (!motorista.getCarteiraValida()) {
+                    podePercorrer = false;
+                    throw new IllegalStateException(
+                            "Carteira de motorista invalidada por multas.Pague as multas do Caronte antes de adicionar a rota.");
+                }
+    
+                if (!(rota.getQuilometragem() <= autonomiaAtual())) {
+                    podePercorrer = false;
+                    throw new IllegalStateException("Quilometragem da rota excede a autonomia atual da embarcação. Reabasteça antes de percorrer rota");
+                }
+                if(podePercorrer){              
                 totalAlmas = rota.percorrerRota(CAPACIDADEPASSAGEIROS);
                 tanque.consumir(rota.getQuilometragem());
                 kmDesdeUltimaManutencao(rota);
                 addDespesaSalario(motorista.getSalario());
                 System.out.println("Rota percorrida com sucesso!");
+                }
                 return totalAlmas;
-            } else {
-                throw new IllegalStateException("Quilometragem da rota excede a autonomia atual da embarcação. Reabasteça antes de percorrer rota");
-            }
         } catch (IllegalArgumentException | IllegalStateException e) {
-            System.err.println("Erro ao percorrer rota: " + e.getMessage());
+            System.err.println("Erro ao adicionar rota: " + e.getMessage());
             return totalAlmas;
         }
     }
@@ -90,32 +113,39 @@ public abstract class BarcoComTanque extends Barco{
 
     @Override
 public void addRota(Rota rota) {
+    boolean podeAdd = true;
 try {
     if (rotas.contains(rota)) {
+        podeAdd = false;
     throw new IllegalArgumentException("A rota já existe na lista de rotas.");
     }
 
     if (rota.getQuilometragem() > autonomiaMaxima()) {
+        podeAdd = false;
         throw new IllegalArgumentException(
                 "Distância da rota excede a autonomia máxima do veículo. Escolha outro veículo para adicionar a rota.");
     }
     
     if (rota.getQuilometragem() > autonomiaAtual()) {
+        podeAdd = false;
         throw new IllegalArgumentException(
                 "Autonomia insuficiente para realizar a rota. Abasteça o veículo antes de adicionar a rota.");
     }
 
     if (!manutencao.getManutencaoEmDia()) {
+        podeAdd = false;
         throw new IllegalStateException(
                 "Manutenção do veículo em atraso. Realize manutenção antes de adicionar rota.");
     }
 
     if (!motorista.getCarteiraValida()) {
+        podeAdd = false;
         throw new IllegalStateException(
                 "Carteira de motorista invalidada por multas. Espere o vencimento dos pontos da carteira antes de adicionar a rota.");
     }
-
+    if(podeAdd){
     rotas.add(rota);
+    }
     System.err.println("Rota adicionada ao veículo de placa " + getNOME() + " com sucesso!");
 } catch (IllegalArgumentException | IllegalStateException e) {
     System.out.println("Erro ao adicionar rota: " + e.getMessage());

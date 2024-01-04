@@ -60,28 +60,35 @@ public abstract class Barco implements Relatorio{
      */
 
     public void addRota(Rota rota) {
+        boolean podeAdd = true;
         try {
             if (rotas.contains(rota)) {
-            throw new IllegalArgumentException("A rota já existe na lista de rotas.");
-            }
+                podeAdd = false;
+                throw new IllegalArgumentException("A rota já existe na lista de rotas.");
+                }
+    
+                if(rotas.size() >= MAX_ROTAS_DIA)
+                {
+                    podeAdd = false;
+                   throw new IllegalStateException(
+                   "Manutenção do veículo em atraso. Realize manutenção antes de adicionar rota.");
+                }
+    
+                if (!manutencao.getManutencaoEmDia()) {
+                    podeAdd = false;
+                    throw new IllegalStateException(
+                            "Manutenção do veículo em atraso. Realize manutenção antes de adicionar rota.");
+                }
+    
+                if (!motorista.getCarteiraValida()) {
+                    podeAdd = false;
+                    throw new IllegalStateException(
+                            "Carteira de motorista invalidada por multas.Pague as multas do Caronte antes de adicionar a rota.");
+                }
+                if(podeAdd){              
+                rotas.add(rota);
 
-            if(rotas.size() >= MAX_ROTAS_DIA)
-            {
-                        throw new IllegalStateException(
-                        "Manutenção do veículo em atraso. Realize manutenção antes de adicionar rota.");
-            }
-
-            if (!manutencao.getManutencaoEmDia()) {
-                throw new IllegalStateException(
-                        "Manutenção do veículo em atraso. Realize manutenção antes de adicionar rota.");
-            }
-
-            if (!motorista.getCarteiraValida()) {
-                throw new IllegalStateException(
-                        "Carteira de motorista invalidada por multas.Pague as multas do Caronte antes de adicionar a rota.");
-            }
-
-            rotas.add(rota);
+                }
             System.err.println("Rota adicionada ao veículo de placa " + getNOME() + " com sucesso!");
         } catch (IllegalArgumentException | IllegalStateException e) {
             System.out.println("Erro ao adicionar rota: " + e.getMessage());
@@ -146,13 +153,41 @@ public abstract class Barco implements Relatorio{
  * @throws IllegalStateException    Se a quilometragem da rota excede a autonomia atual do veículo.
  */
 public int percorrerRota(Rota rota) {
-        if (rota.getRotaPercorrida()) {
-            throw new IllegalArgumentException("A rota já foi percorrida. Escolha outra rota para percorrer");
-        }else{
-            int totalAlmas = rota.percorrerRota(CAPACIDADEPASSAGEIROS);
+    int totalAlmas =0;
+        boolean podePercorrer = true;
+        try {
+            if (rotas.contains(rota)) {
+                podePercorrer = false;
+                throw new IllegalArgumentException("A rota já existe na lista de rotas.");
+                }
+    
+                if(rotas.size() >= MAX_ROTAS_DIA)
+                {
+                podePercorrer = false;
+                   throw new IllegalStateException(
+                   "Manutenção do veículo em atraso. Realize manutenção antes de adicionar rota.");
+                }
+    
+                if (!manutencao.getManutencaoEmDia()) {
+                    podePercorrer = false;
+                    throw new IllegalStateException(
+                            "Manutenção do veículo em atraso. Realize manutenção antes de adicionar rota.");
+                }
+    
+                if (!motorista.getCarteiraValida()) {
+                    podePercorrer = false;
+                    throw new IllegalStateException(
+                            "Carteira de motorista invalidada por multas.Pague as multas do Caronte antes de adicionar a rota.");
+                }
+            if(podePercorrer){
+            totalAlmas = rota.percorrerRota(CAPACIDADEPASSAGEIROS);
             kmDesdeUltimaManutencao(rota);
             addDespesaSalario(motorista.getSalario());
             System.out.println("Rota percorrida com sucesso! Almas mortais coletadas.");
+            }
+            return totalAlmas;
+        }catch (IllegalArgumentException | IllegalStateException e) {
+            System.err.println("Erro ao percorrer rota: " + e.getMessage());
             return totalAlmas;
         }
 }
