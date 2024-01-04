@@ -331,7 +331,7 @@ public class Frota implements Normalizador {
 
     public String listarTodasMultas(){
         StringBuilder relatorio = new StringBuilder();
-        relatorio.append("---- Multas na sua frota ----");
+        relatorio.append("---- Barcos na sua frota com multas pendentes ----");
 
 
         for (int i = 0; i < diariosDeBordo.size(); i++) {
@@ -359,6 +359,42 @@ public class Frota implements Normalizador {
         return relatorio.toString();
     }
 
+    public String listarTodasManutencoes(){
+        StringBuilder relatorio = new StringBuilder();
+        relatorio.append("---- Barcos na sua frota com manutenção pendente ----");
+
+
+        for (int i = 0; i < diariosDeBordo.size(); i++) {
+            DiarioDeBordo diario = diariosDeBordo.get(i);
+            Barco barco = diario.getBarcoDoDiario();
+            if (barco != null) {
+                if(!barco.getManutencao().getManutencaoEmDia()){
+                    relatorio.append("Barco #").append(i + 1).append("\n");
+                    relatorio.append(barco.relatorio()).append("\n");
+            }
+        }
+    }
+        return relatorio.toString();
+    }
+
+    public String listarTodosParaAbastecer(){
+        StringBuilder relatorio = new StringBuilder();
+        relatorio.append("---- Barcos na sua frota com tanque para abastecer ----");
+
+
+        for (int i = 0; i < diariosDeBordo.size(); i++) {
+            DiarioDeBordo diario = diariosDeBordo.get(i);
+            Barco barco = diario.getBarcoDoDiario();
+            if (barco != null) {
+                if(barco instanceof BarcoComTanque)
+                {
+                    relatorio.append("Barco #").append(i + 1).append("\n");
+                    relatorio.append(barco.relatorio()).append("\n");
+                }
+            }
+        }
+        return relatorio.toString();
+    }
 
     public List<String> listarBarcosParaRotas() {
     List<String> listaBarcosParaRotas = new ArrayList<>();
