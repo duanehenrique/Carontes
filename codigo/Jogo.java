@@ -7,6 +7,8 @@ import java.util.InputMismatchException;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 /**
  * Classe App que serve como ponto de entrada do sistema de gerenciamento de
@@ -111,6 +113,7 @@ private static void cranio(){
         System.err.println("Nós não queremos multas. Se o Caronte tiver uma multa pendente, ele não pode entrar em uma rota.");
         System.err.println("A legislação do Submundo é bem rígida quanto a isso");
         System.err.println("Multas custam. E isso sai do nosso bolso. Do que ganhamos no dia.");
+        // executarTransacao(frota -> (Double) frota.abastecerBarcoPorIndex(MAX_ROTAS_DIA, MAX_ROTAS_DIA));
     
 
 
@@ -308,8 +311,7 @@ private static void esperarInicio() {
      private static Barco gerarGondola(Caronte motorista) {    
         Gondola gondola = new Gondola(motorista, nomesBarcos.gerarNome(), MAX_ROTAS_DIA);
         return gondola;
-    }
-    
+    } 
 
     private static double calcularCustoManutencao(String tipoVeiculo) {
         // Usando um HashMap para determinar o custo de manutenção
@@ -410,6 +412,15 @@ private static void esperarInicio() {
         
     }
     
+    public static void executarTransacao(Function<Frota, Double> funcao) {
+        Frota copiaFrota = this.frota; 
+        double resultado = funcao.apply(copiaFrota);
+        if (resultado <= jogador.getAlmas()) {
+            jogador.consumirAlmas(funcao.apply(this.frota));
+        } else {
+            throw new IllegalArgumentException("Você não tem almas suficientes para realizar essa transação.");
+        }
+    }
 
     /**
      * Permite ao sistema abastecer um veículo específico da frota.
