@@ -372,64 +372,72 @@ public class Frota implements Normalizador {
         return relatorio.toString();
     }
 
-    public String listarTodasMultas(){
-        StringBuilder relatorio = new StringBuilder();
+    public List<String> listarTodasMultas() {
+        List<String> relatorio = new ArrayList<>();
         boolean temLista = false;
-        relatorio.append("---- Barcos na sua frota com multas pendentes ----");
-
-
+    
+        relatorio.add("---- Barcos na sua frota com multas pendentes ----");
+    
         for (int i = 0; i < diariosDeBordo.size(); i++) {
             DiarioDeBordo diario = diariosDeBordo.get(i);
             Barco barco = diario.getBarcoDoDiario();
+    
             if (barco != null) {
                 Caronte motorista = barco.getMotorista();
                 List<Multa> multas = motorista.getCarteira().listarMultas();
-                if(!multas.isEmpty()){
-                if (motorista != null) {
-                    temLista=true;
-                    relatorio.append("Barco #").append(i + 1).append("\n");
-                    relatorio.append("Tipo de Barco: ").append(barco.getTipoDeBarco()).append("\n");
-                    relatorio.append("Motorista: ").append(motorista.getNome()).append("\n");
-                    relatorio.append("Barco: ").append(barco.getNOME()).append("\n");
-                    relatorio.append("Nível: ").append(motorista.getNivel()).append("\n");
-                    relatorio.append("Multas: ").append("\n");
-                    for (int j = 0; j < diariosDeBordo.size(); j++) {
+    
+                if (!multas.isEmpty()) {
+                    temLista = true;
+                    StringBuilder relatorioBarco = new StringBuilder();
+                    relatorioBarco.append("Barco #").append(i + 1).append("\n");
+                    relatorioBarco.append("Tipo de Barco: ").append(barco.getTipoDeBarco()).append("\n");
+                    relatorioBarco.append("Motorista: ").append(motorista.getNome()).append("\n");
+                    relatorioBarco.append("Barco: ").append(barco.getNOME()).append("\n");
+                    relatorioBarco.append("Nível: ").append(motorista.getNivel()).append("\n");
+                    relatorioBarco.append("Multas: ").append("\n");
+    
+                    for (int j = 0; j < multas.size(); j++) {
                         Multa multa = multas.get(j);
-                        relatorio.append(multa.relatorio()).append("\n");
+                        relatorioBarco.append(multa.relatorio()).append("\n");
                     }
+    
+                    relatorio.add(relatorioBarco.toString());
                 }
             }
         }
+    
+        if (!temLista) {
+            relatorio.add("Não há barcos que atendem a esse critério na sua Frota");
+        }
+    
+        return relatorio;
     }
-        if(!temLista)
-    {
-       relatorio.append("Não há barcos que atendem a esse critério na sua Frota");
-    }
-        return relatorio.toString();
-    }
-
-    public String listarTodasManutencoes(){
-        StringBuilder relatorio = new StringBuilder();
-        relatorio.append("---- Barcos na sua frota com manutenção pendente ----");
+    
+    public List<String> listarTodasManutencoes() {
+        List<String> relatorio = new ArrayList<>();
+        relatorio.add("---- Barcos na sua frota com manutenção pendente ----");
         boolean temLista = false;
-
+    
         for (int i = 0; i < diariosDeBordo.size(); i++) {
             DiarioDeBordo diario = diariosDeBordo.get(i);
             Barco barco = diario.getBarcoDoDiario();
-            if (barco != null) {
-                if(!barco.getManutencao().getManutencaoEmDia()){
-                    temLista=true;
-                    relatorio.append("Barco #").append(i + 1).append("\n");
-                    relatorio.append(barco.relatorio()).append("\n");
+    
+            if (barco != null && !barco.getManutencao().getManutencaoEmDia()) {
+                temLista = true;
+                relatorio.add("Barco #" + (i + 1));
+                relatorio.add(barco.relatorio());
             }
         }
+    
+        if (!temLista) {
+            relatorio.add("Não há barcos que atendem a esse critério na sua Frota");
+        }
+    
+        return relatorio;
     }
-        if(!temLista)
-    {
-       relatorio.append("Não há barcos que atendem a esse critério na sua Frota");
-    }
-        return relatorio.toString();
-    }
+    
+    // Os outros métodos seguiriam uma lógica semelhante
+    
 
     public String listarTodosParaAbastecer(){
         StringBuilder relatorio = new StringBuilder();
@@ -477,6 +485,7 @@ public class Frota implements Normalizador {
         return relatorio.toString();
     }
 
+
     public List<String> listarBarcosParaRotas() {
     List<String> listaBarcosParaRotas = new ArrayList<>();
     boolean temLista = false;
@@ -518,94 +527,95 @@ public class Frota implements Normalizador {
                 return listaBarcosParaRotas;
             }
     
-            public String listarRotasPorBarco() {
-                StringBuilder resultado = new StringBuilder();
-                resultado.append("Lista de Barcos na Frota:\n");
+            public List<String> listarRotasPorBarco() {
+                List<String> resultado = new ArrayList<>();
+                resultado.add("Lista de Barcos na Frota:");
             
                 for (int i = 0; i < diariosDeBordo.size(); i++) {
                     DiarioDeBordo diario = diariosDeBordo.get(i);
             
                     if (diario != null) {
                         Barco barco = diario.getBarcoDoDiario();
-                        resultado.append("Barco #").append(i + 1).append("\n");
-                        resultado.append("Tipo de Barco: ").append(barco.getTipoDeBarco()).append("\n");
-                        resultado.append("Nome: ").append(barco.getNOME()).append("\n");
-                        resultado.append("Motorista: ").append(barco.getMotorista().getNome()).append("\n");
-                        resultado.append("Tipo de barco: ").append(barco.getTipoDeBarco()).append("\n");
-                        resultado.append("Capacidade de passageiros: ").append(barco.getCAPACIDADEPASSAGEIROS()).append("\n");
+                        resultado.add("Barco #" + (i + 1));
+                        resultado.add("Tipo de Barco: " + barco.getTipoDeBarco());
+                        resultado.add("Nome: " + barco.getNOME());
+                        resultado.add("Motorista: " + barco.getMotorista().getNome());
+                        resultado.add("Tipo de barco: " + barco.getTipoDeBarco());
+                        resultado.add("Capacidade de passageiros: " + barco.getCAPACIDADEPASSAGEIROS());
             
                         if (!barco.getRotas().isEmpty()) {
-                            resultado.append("Rotas associadas: ").append(barco.getRotas().size()).append("\n");
-                            resultado.append("Rotas já percorridas: ").append(barco.getQuantRotasPercorridasHj()).append("\n");
-                            resultado.append("Rotas ainda não percorridas: ").append(4 - barco.getQuantRotasPercorridasHj()).append("\n");
+                            resultado.add("Rotas associadas: " + barco.getRotas().size());
+                            resultado.add("Rotas já percorridas: " + barco.getQuantRotasPercorridasHj());
+                            resultado.add("Rotas ainda não percorridas: " + (4 - barco.getQuantRotasPercorridasHj()));
                         } else {
-                            resultado.append("Nenhuma rota associada ao barco.\n");
+                            resultado.add("Nenhuma rota associada ao barco.");
                         }
-            
                     } else {
-                        resultado.append("Não há entradas no diário de bordo.\n");
+                        resultado.add("Não há entradas no diário de bordo.");
                     }
-                    resultado.append("\n");
+                    resultado.add("");
                 }
             
-                return resultado.toString();
+                return resultado;
             }
             
-
-            public String listarCarontesPorNivel(int nivelDesejado) {
-                StringBuilder resultado = new StringBuilder();
-                resultado.append("--- Carontes no Nível ").append(nivelDesejado).append("----\n");
+            public List<String> listarCarontesPorNivel(int nivelDesejado) {
+                List<String> resultado = new ArrayList<>();
+                resultado.add("--- Carontes no Nível " + nivelDesejado + "----");
                 int contagem = 0;
+            
                 for (DiarioDeBordo diario : diariosDeBordo) {
                     Barco barco = diario.getBarcoDoDiario();
-        
+            
                     if (barco != null) {
                         Caronte motorista = barco.getMotorista();
-        
+            
                         if (motorista != null && motorista.getNivel() == nivelDesejado) {
-                            resultado.append("---- Barco #").append(contagem + 1).append("----").append("\n");
-                            resultado.append("Nome: ").append(barco.getNOME()).append("\n");
-                            resultado.append("Tipo de Barco: ").append(barco.getTipoDeBarco()).append("\n");
-                            resultado.append(motorista.relatorio()).append("\n");
-                      }
+                            resultado.add("---- Barco #" + (contagem + 1) + "----");
+                            resultado.add("Nome: " + barco.getNOME());
+                            resultado.add("Tipo de Barco: " + barco.getTipoDeBarco());
+                            resultado.add(motorista.relatorio());
+                        }
                     }
                     contagem++;
                 }
-        
-                return resultado.toString();
+            
+                return resultado;
             }
-
-            public String listarBarcosPorTipo(String tipo) {
-                StringBuilder resultado = new StringBuilder();
-                if(normalizar(tipo).equals("GONDOLA") || normalizar(tipo).equals("BALSA")
-                || normalizar(tipo).equals("NAVIO") || normalizar(tipo).equals("CRUZEIRO")){
-    	        resultado.append("---- Lista de ").append(tipo).append(" ----\n");
             
-                for (int i = 0; i < diariosDeBordo.size(); i++) {
-                    DiarioDeBordo diario = diariosDeBordo.get(i);
+            public List<String> listarBarcosPorTipo(String tipo) {
+                List<String> resultado = new ArrayList<>();
+                
+                if (normalizar(tipo).equals("GONDOLA") || normalizar(tipo).equals("BALSA")
+                        || normalizar(tipo).equals("NAVIO") || normalizar(tipo).equals("CRUZEIRO")) {
+                    resultado.add("---- Lista de " + tipo + " ----");
             
-                    if (diario != null) {
-                        Barco barco = diario.getBarcoDoDiario();
+                    for (int i = 0; i < diariosDeBordo.size(); i++) {
+                        DiarioDeBordo diario = diariosDeBordo.get(i);
             
-                        if (barco != null && normalizar(tipo).equals(normalizar(barco.getTipoDeBarco()))) {
-                            resultado.append(barco.relatorio());
+                        if (diario != null) {
+                            Barco barco = diario.getBarcoDoDiario();
             
-                            if (!barco.getRotas().isEmpty()) {
-                                resultado.append(barco.relatorioRotas());
-                            } else {
-                                resultado.append("Nenhuma rota associada ao barco hoje.\n");
+                            if (barco != null && normalizar(tipo).equals(normalizar(barco.getTipoDeBarco()))) {
+                                resultado.add(barco.relatorio());
+            
+                                if (!barco.getRotas().isEmpty()) {
+                                    resultado.add(barco.relatorioRotas());
+                                } else {
+                                    resultado.add("Nenhuma rota associada ao barco hoje.");
+                                }
+            
+                                resultado.add("");
                             }
-            
-                            resultado.append("\n");
                         }
-                        }
+                    }
+                } else {
+                    throw new IllegalArgumentException("Isso não é um tipo de barco. Você está com criatividade demais.");
                 }
             
-                return resultado.toString();
-                }else{
-                throw new IllegalArgumentException("Isso não é um tipo de barco. Você está com criatividade demais.");
-                }
+                return resultado;
             }
+            
 
             /**
      * Localiza um veículo na frota pela placa.

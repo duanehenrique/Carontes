@@ -114,7 +114,6 @@ private static void cranio(){
         System.err.println("Nós não queremos multas. Se o Caronte tiver uma multa pendente, ele não pode entrar em uma rota.");
         System.err.println("A legislação do Submundo é bem rígida quanto a isso");
         System.err.println("Multas custam. E isso sai do nosso bolso. Do que ganhamos no dia.");
-        // executarTransacao(frota -> (Double) frota.abastecerBarcoPorIndex(MAX_ROTAS_DIA, MAX_ROTAS_DIA));
     
 
 
@@ -150,6 +149,11 @@ private static void esperarInicio() {
             Barco Gondola = gerarGondola(motorista); 
         }
     }
+    
+    public double executarAcaoNaFrotaComAlmas(Function<Frota, Double> funcao) {
+        return custos.executarTransacao(funcao, frota, jogador);
+    }
+    
 
     /**
      * Exibe o menu principal do sistema com as opções disponíveis para o usuário.

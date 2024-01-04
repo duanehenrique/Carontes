@@ -52,7 +52,7 @@ public class Custos {
         return 0;
     }
 }
-        public static double executarTransacao(Function<Frota, Double> funcao, Frota frota, Frota frotaEspelho, Jogador jogador) {
+        public double executarTransacao(Function<Frota, Double> funcao, Frota frota, Jogador jogador) {
             try {
                 Frota frotaClone = clonarFrota(frota);
                 double custoTotal = funcao.apply(frotaClone);
