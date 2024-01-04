@@ -13,10 +13,45 @@ public class DiarioDeBordo implements Relatorio {
         this.barcoDoDiario = barco;
     }
 
-        public void encerrarDia(LocalDate data){
-            barcoDoDiario.encerrarDia();
-            diarioPorDia.put(data, barcoDoDiario);
+    public DiarioDeBordo(DiarioDeBordo outroDiario) {
+        this.barcoDoDiario = criarCopiaBarco(outroDiario.getBarcoDoDiario());
+        this.diarioPorDia = copiarDiarioPorDia(outroDiario.diarioPorDia);
+    }
+
+    public void encerrarDia(LocalDate data) {
+        Barco copiaBarco = criarCopiaBarco(barcoDoDiario);
+        barcoDoDiario.encerrarDia();
+        diarioPorDia.put(data, copiaBarco);
+    }
+
+    private Barco criarCopiaBarco(Barco barcoExistente) {
+        Caronte caronteNovo = new Caronte(barcoExistente.getMotorista());
+
+        if (barcoExistente instanceof Gondola) {
+            return new Gondola((Gondola) barcoExistente);
+        } else if (barcoExistente instanceof Balsa) {
+            return new Balsa((Balsa) barcoExistente);
+        } else if (barcoExistente instanceof Navio) {
+            return new Navio((Navio) barcoExistente);
+        } else if (barcoExistente instanceof Cruzeiro) {
+            return new Cruzeiro((Cruzeiro) barcoExistente);
+        }else{
+            return null;
+        }        
+    }
+
+    private Map<LocalDate, Barco> copiarDiarioPorDia(Map<LocalDate, Barco> diarioExistente) {
+        Map<LocalDate, Barco> novoDiario = new HashMap<>(diarioExistente.size());
+
+        for (Map.Entry<LocalDate, Barco> entry : diarioExistente.entrySet()) {
+            Barco barcoExistente = entry.getValue();
+            Barco barcoNovo = criarCopiaBarco(barcoExistente);
+            novoDiario.put(entry.getKey(), barcoNovo);
         }
+
+        return novoDiario;
+    }
+    
 
         public void iniciarDiario(){
             barcoDoDiario.iniciarDia();

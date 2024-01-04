@@ -1,5 +1,6 @@
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,6 +29,14 @@ public class Rota implements Relatorio{
         this.rotaPercorrida = false;
         this.passageiros = passageiros;
     }
+
+    public Rota(Rota outraRota) {
+        this.quilometragem = outraRota.quilometragem;
+        this.passageiros = new ArrayList<>(outraRota.passageiros);
+        this.qtdPassageirosLevados = outraRota.qtdPassageirosLevados;
+        this.rotaPercorrida = outraRota.rotaPercorrida;
+    }
+
 
     // #endregion
     // #region Métodos

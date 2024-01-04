@@ -22,6 +22,17 @@ public class Frota implements Normalizador {
         this.dataAtual = dataInicial;
     }
 
+    public Frota(Frota outraFrota) {
+        this.dataInicial = outraFrota.dataInicial;
+        this.dataAtual = outraFrota.dataAtual;
+
+        // Copiando os diários de bordo
+        this.diariosDeBordo = new ArrayList<>();
+        for (DiarioDeBordo diario : outraFrota.diariosDeBordo) {
+            this.diariosDeBordo.add(new DiarioDeBordo(diario));
+        }
+    }
+
     // #endregion
 
     // #region Métodos

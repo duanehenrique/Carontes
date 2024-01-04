@@ -7,17 +7,14 @@ public abstract class Barco implements Relatorio{
     protected final String NOME;
     protected List<Rota> rotas;
     protected final int MAX_ROTAS_DIA;
-    protected DiarioDeBordo diarioDesteBarco;
     protected final int CAPACIDADEPASSAGEIROS;
     protected static int PRECOCUSTO;
-    protected double totalReabastecido;
     protected Caronte motorista;
-    protected double despesaCombustivel;
     protected double despesaMulta;
     protected double despesaManutencao;
     protected double despesaSalario;
     protected Manutencao manutencao;
-    protected int totalAlmasColetadasDia;
+    protected double totalAlmasColetadasDia;
     
 
     // #endregion
@@ -37,9 +34,9 @@ public abstract class Barco implements Relatorio{
         MAX_ROTAS_DIA = qtdRotas;
         PRECOCUSTO = preco;
         this.rotas = new ArrayList<>();
-        this.totalReabastecido = 0;
-
     }
+
+
 
 
     // #endregion
@@ -62,6 +59,10 @@ public abstract class Barco implements Relatorio{
     public void addRota(Rota rota) {
         boolean podeAdd = true;
         try {
+            if(rota.getRotaPercorrida())
+            {
+            rotas.add(rota);
+            }else{
             if (rotas.contains(rota)) {
                 podeAdd = false;
                 throw new IllegalArgumentException("A rota já existe na lista de rotas.");
@@ -95,6 +96,7 @@ public abstract class Barco implements Relatorio{
 
                 }
             System.err.println("Rota adicionada ao veículo de placa " + getNOME() + " com sucesso!");
+            }
         } catch (IllegalArgumentException | IllegalStateException e) {
             System.out.println("Erro ao adicionar rota: " + e.getMessage());
         }
@@ -212,7 +214,6 @@ public void encerrarDia() {
 }
 
 public void iniciarDia(){
-    this.despesaCombustivel = 0;
     this.despesaManutencao = 0;
     this.despesaMulta = 0;
     this.despesaSalario = 0;
@@ -345,14 +346,6 @@ public String relatorioRotas() {
         this.motorista.adicionarMulta(multa);
         return this.motorista.multaMaisRecente();
     }
-  /**
-     * Adiciona a despesa de combustível da rota à despesa total.
-     * 
-     * @param rota A rota a ser adicionada.
-     */
-    protected void addDespesaCombustivel(double despesaCombustivel) {
-        this.despesaCombustivel += despesaCombustivel;
-    }
 
     /**
      * Adiciona a despesa de uma multa à despesa total.
@@ -377,7 +370,17 @@ public String relatorioRotas() {
     }
 
     public double getDespesaTotal(){
-        return (despesaCombustivel + despesaManutencao + despesaMulta + despesaSalario);
+        return (despesaManutencao + despesaMulta + despesaSalario);
+    }
+
+        public double getDespesaManutencao(){
+        return (despesaManutencao);
+    }
+        public double getDespesaMulta(){
+        return (despesaMulta);
+    }
+        public double getDespesaSalario(){
+        return (despesaSalario);
     }
 
     public double getTotalAlmasColetadasDia(){
@@ -441,15 +444,6 @@ public String relatorioRotas() {
         return motorista;
     }
 
-    /**
-     * Retorna o total reabastecido.
-     * 
-     * @return O total reabastecido.
-     */
-    public double getTotalReabastecido() {
-        return totalReabastecido;
-    }
-
 
     /**
      * Retorna a manutenção do veículo.
@@ -470,6 +464,15 @@ public String relatorioRotas() {
 
     public double getKmAteProximaManutencao(){
        return manutencao.getKmAteProximaManutencao();
+    }
+
+    public int getMAX_ROTAS_DIA(){
+        return MAX_ROTAS_DIA;
+    }
+
+    protected Caronte clonarMotorista(){
+        Caronte clone = new Caronte(motorista);
+        return clone;
     }
 
     // #endregion

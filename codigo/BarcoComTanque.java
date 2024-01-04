@@ -1,7 +1,7 @@
 public abstract class BarcoComTanque extends Barco{
 
     protected Tanque tanque;
-
+    protected double despesaCombustivel;
     public BarcoComTanque(Caronte motorista, String nomeBarco,  String tipoCombustivel, int capacidadeTanque, int capacidade, int preco, int qtdRotas) {
         super(motorista, nomeBarco, capacidade, preco, qtdRotas);
         this.tanque = new Tanque(capacidadeTanque, tipoCombustivel);
@@ -116,6 +116,18 @@ public abstract class BarcoComTanque extends Barco{
         relatorio.append("Despesa total: " + String.format("%.2f", (getDespesaTotal()) + " almas.\n"));
         relatorio.append("Arrecadação total: " + String.format("%.2f", (getTotalAlmasColetadasDia()) + " almas.\n"));   return relatorio.toString();
     }
+@Override
+public double getDespesaTotal(){
+    return (despesaCombustivel + despesaManutencao + despesaMulta + despesaSalario);
+}
+
+public double getDespesaCombustivel(){
+    return (despesaCombustivel);
+}
+
+    protected void addDespesaCombustivel(double despesaCombustivel) {
+    this.despesaCombustivel += despesaCombustivel;
+}
 
     @Override
 public void addRota(Rota rota) {
@@ -157,6 +169,18 @@ try {
     System.out.println("Erro ao adicionar rota: " + e.getMessage());
 }
 }
+
+@Override
+public void iniciarDia(){
+this.despesaCombustivel = 0;
+this.despesaManutencao = 0;
+this.despesaMulta = 0;
+this.despesaSalario = 0;
+this.totalAlmasColetadasDia = 0;
+rotas.clear();
+motorista.iniciarDia();
+}
+
 
 public int getAdicionalPrecoVenda(){
 return tanque.getAdicionalPrecoVenda();

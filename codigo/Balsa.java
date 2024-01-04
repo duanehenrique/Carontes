@@ -4,7 +4,7 @@
 public class Balsa extends BarcoComTanque{
 
     // #region Atributos
-    private static final double TANQUE_MAX = 60;
+    private static final int TANQUE_MAX = 60;
     private static final int TOTAL_PASSAGEIROS = 10;
     private static final int CUSTO_COMPRA = 30;
 
@@ -24,4 +24,12 @@ public class Balsa extends BarcoComTanque{
         this.tanque = new Tanque(TANQUE_MAX, tipoCombustivel);
         this.manutencao = new Manutencao(this);
     }
+
+    public Balsa(Balsa outraBalsa) {
+        super(outraBalsa.clonarMotorista(), outraBalsa.getNOME(), outraBalsa.getTanque().getTipo().getTipo(), outraBalsa.getTanque().getCapacidadeMaxima(), outraBalsa.getCAPACIDADEPASSAGEIROS(), outraBalsa.getPRECOCUSTO(), outraBalsa.MAX_ROTAS_DIA);
+        
+        this.tanque = new Tanque(outraBalsa.tanque.getCapacidadeMaxima(), outraBalsa.getTanque().getTipo().getTipo());        
+        this.manutencao = new Manutencao(outraBalsa.getManutencao());
+    }
+    
 }

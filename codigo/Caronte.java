@@ -27,6 +27,18 @@ public class Caronte implements Relatorio{
         this.MAX_ROTAS_DIA = qtdRotas;
         this.viagensRestantes = qtdRotas;
     }
+    
+        // Construtor de cópia
+        public Caronte(Caronte outroCaronte) {
+            this.nome = outroCaronte.nome;
+            this.carteira = new CarteiraMotorista(outroCaronte.carteira); // Supondo que CarteiraMotorista tenha um construtor de cópia
+            this.experiencia = outroCaronte.experiencia; // Supondo que Experiencia tenha um construtor de cópia
+            this.MAX_ROTAS_DIA = outroCaronte.MAX_ROTAS_DIA;
+            this.viagensRestantes = outroCaronte.viagensRestantes;
+        }
+    
+        // Outros membros da classe...
+    
 
     private Experiencia criarExperiencia(int nivelExperiencia) {
         for (Experiencia experiencia : Experiencia.values()) {

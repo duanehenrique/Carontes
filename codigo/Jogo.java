@@ -24,6 +24,7 @@ public class Jogo implements Normalizador{
     static Frota frota;
     static int MAX_ROTAS_DIA = 4;
     static Jogador jogador;
+    static Custos custos;
     static GeradorNomesCarontes nomesCarontes;
     static GeradorNomesBarcos nomesBarcos;
     static Scanner teclado = new Scanner(System.in);   

@@ -5,13 +5,14 @@ public enum TipoCombustivel {
 
     // #region Tipos de Combustível
 
-    ALCOOL(1, 6, 0),
-    GASOLINA(2, 2, 20),
-    DIESEL(3, 1, 40);
+    ALCOOL("Álcool", 1, 6, 0),
+    GASOLINA("Gasolina", 2, 2, 20),
+    DIESEL("Diesel", 3, 1, 40);
 
     // #endregion
 
     // #region Atributos
+    private final String tipo;
     private final int custo;
     private final int consumoMedio;
     private final int adicionalPrecoVenda;
@@ -24,7 +25,8 @@ public enum TipoCombustivel {
      * @param preco O preço médio do combustível.
      * @param consumoMedio O consumo médio do combustível em km/l.
      */
-    TipoCombustivel(int custo, int consumoMedio, int adicionalPrecoVenda){
+    TipoCombustivel(String tipo, int custo, int consumoMedio, int adicionalPrecoVenda){
+        this.tipo = tipo;
         this.custo = custo;
         this.consumoMedio = consumoMedio;
         this.adicionalPrecoVenda = adicionalPrecoVenda;
@@ -54,5 +56,8 @@ public enum TipoCombustivel {
         return adicionalPrecoVenda;
     }
 
+    public String getTipo(){
+        return tipo;
+    }
     // #endregion
 }

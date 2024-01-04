@@ -20,6 +20,10 @@ public class CarteiraMotorista implements Relatorio{
     public CarteiraMotorista() {
         this.multas = new ArrayList<>();
     }
+
+    public CarteiraMotorista(CarteiraMotorista outraCarteiraMotorista) {
+        this.multas = new ArrayList<>(outraCarteiraMotorista.multas);
+    }
     // #endregion
 
     /**

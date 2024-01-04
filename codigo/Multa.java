@@ -37,7 +37,7 @@ public enum Multa implements Relatorio{
         this.custo = custo;
         this.dataDeEmissao = LocalDate.now();
     }
-
+    
     // #endregion
 
     // #region Métodos

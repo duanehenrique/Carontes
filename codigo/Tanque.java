@@ -2,7 +2,7 @@ import java.text.Normalizer;
 
 public class Tanque implements Normalizador{
     // #region Atributos
-    private final double CAPACIDADEMAXIMA;
+    private final int CAPACIDADEMAXIMA;
     private double capacidadeAtual;
     private final TipoCombustivel tipoCombustivel;
     // #endregion
@@ -14,7 +14,7 @@ public class Tanque implements Normalizador{
      * @param capacidadeAtual  Quantidade inicial de combustível no tanque.
      * @param CAPACIDADEMAXIMA Capacidade máxima do tanque.
      */
-    Tanque(double capacidadeMaxima, String tipo) {
+    Tanque(int capacidadeMaxima, String tipo) {
         this.capacidadeAtual = 0;
         this.CAPACIDADEMAXIMA = capacidadeMaxima;
         switch (normalizar(tipo)) {
@@ -118,7 +118,7 @@ public class Tanque implements Normalizador{
     /***
      * @return Retorna a capacidade maxima.
      */
-    public double getCapacidadeMaxima() {
+    public int getCapacidadeMaxima() {
         return CAPACIDADEMAXIMA;
     }
 

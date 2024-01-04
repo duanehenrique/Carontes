@@ -37,6 +37,14 @@ public class Manutencao {
         }
     }
 
+    public Manutencao(Manutencao outraManutencao) {
+        this.manutencaoPeriodicaEmDia = outraManutencao.manutencaoPeriodicaEmDia;
+        this.manutencaoPecasEmDia = outraManutencao.manutencaoPecasEmDia;
+        this.kmDesdeUltimaManutencao = outraManutencao.kmDesdeUltimaManutencao;
+        this.totalDespesasManutencao = outraManutencao.totalDespesasManutencao;
+        this.km = outraManutencao.km;
+    }
+
     // #endregion
 
     // #region Métodos
