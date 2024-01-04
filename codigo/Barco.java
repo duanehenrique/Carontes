@@ -322,15 +322,16 @@ public String relatorioRotas() {
      * 
      * @throws Exception Se o veículo não necessitar de manutenção.
      */
-    public void fazerManutencao() {
-        double custoManutencao;
+    public int fazerManutencao() {
+        int custoManutencao;
         if (!this.manutencao.getManutencaoPeriodicaEmDia()) {
             custoManutencao = this.manutencao.realizarManutencaoPeriodica();
             addDespesaManutencao(custoManutencao);
             System.out.println("Manutenção periódica realizada com sucesso no barco " + getNOME() + ".\n");
+            return custoManutencao;
         } else {
-            System.out.println("O barco está com a papelada em dia e não precisa de manutenção! Apenas "
-                    + this.manutencao.getKmDesdeUltimaManutencao() + "km foram rodados.");
+            throw new IllegalArgumentException("O barco está com a papelada em dia e não precisa de manutenção! Apenas \"\r\n" + //
+                    "                    + this.manutencao.getKmDesdeUltimaManutencao() + \"km foram rodados.");
         }
     }
 

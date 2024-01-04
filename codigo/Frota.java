@@ -119,19 +119,23 @@ public class Frota implements Normalizador {
 
     public double abastecerBarcoPorIndex(int posicao, double qtdCombustivel) {
         DiarioDeBordo diario = localizarDiarioPorIndex(posicao);
-        return abastecerBarcoDoDiario(diario, qtdCombustivel);}
+        return abastecerBarcoDoDiario(diario, qtdCombustivel);
+    }
     
     public double abastecerBarcoPorNome(String nome, double qtdCombustivel) {
                 DiarioDeBordo diario = localizarDiarioPorNome(nome);
-        return abastecerBarcoDoDiario(diario, qtdCombustivel);}
+        return abastecerBarcoDoDiario(diario, qtdCombustivel);
+    }
 
     public double abastecerBarcoCompletoPorIndex(int posicao) {
         DiarioDeBordo diario = localizarDiarioPorIndex(posicao);
-        return abastecerBarcoDoDiario(diario, Double.MAX_VALUE);}
+        return abastecerBarcoDoDiario(diario, Double.MAX_VALUE);
+    }
     
     public double abastecerBarcoCompletoPorNome(String nome) {
                 DiarioDeBordo diario = localizarDiarioPorNome(nome);
-        return abastecerBarcoDoDiario(diario, Double.MAX_VALUE);}
+        return abastecerBarcoDoDiario(diario, Double.MAX_VALUE);
+    }
 
     public double abastecerTodosBarcos(){
         double totalGasto = 0;
@@ -140,7 +144,39 @@ public class Frota implements Normalizador {
     }
     return totalGasto;
     }
+
+    private int fazerManutencaoBarcoDoDiario(DiarioDeBordo diario){
+        
+        if (diario != null) {
+            Barco barco = diario.getBarcoDoDiario();
+                if (barco != null) {
+                 return barco.fazerManutencao();
+                } else {
+                throw new IllegalArgumentException("O barco selecionado não faz parte da sua frota.");
+            }
+        }else {
+            throw new IllegalArgumentException("O barco selecionado não faz parte da sua frota.");
+    } 
+}
+
+    public int fazerManutencaoBarcoPorIndex(int posicao, double qtdCombustivel) {
+        DiarioDeBordo diario = localizarDiarioPorIndex(posicao);
+        return fazerManutencaoBarcoDoDiario(diario);
+    }
     
+    public int fazerManutencaoPorNome(String nome, double qtdCombustivel) {
+        DiarioDeBordo diario = localizarDiarioPorNome(nome);
+        return fazerManutencaoBarcoDoDiario(diario);
+    }
+
+     public int fazerManutencaoTodosBarcos(){
+        int totalGasto = 0;
+        for (DiarioDeBordo diario : diariosDeBordo) {
+          totalGasto = fazerManutencaoBarcoDoDiario(diario);
+    }  
+    return totalGasto;
+}
+
     public double pagarMultaDoCarontePorIndex(int posicao, int posicaoMulta) {
         Caronte caronte = localizarMotoristaPorIndex(posicao);
         return caronte.pagarMulta(posicaoMulta);
