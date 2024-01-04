@@ -135,6 +135,8 @@ public class CarteiraMotorista implements Relatorio{
                 relatorio.append((i + 1) + ". " + multas.get(i).relatorio() + "\n");
             }
         }
+        relatorio.append("Pontos na Carteira: "). append(calcularTotalPontos()).append("\n");
+        relatorio.append(carteiraValida() ? "Carteira Válida. Caronte habilitado para dirigir" : "Carteira Suspensa. Caronte impedido de dirigir até que multas sejam pagas").append("\n");
         return relatorio.toString();
     }
     //#endregion

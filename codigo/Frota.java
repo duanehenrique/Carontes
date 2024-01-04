@@ -268,24 +268,7 @@ public class Frota implements Normalizador {
                 Caronte motorista = barco.getMotorista();
 
                 if (motorista != null) {
-                    relatorio.append("Barco #").append(i + 1).append("\n");
-                    relatorio.append("Tipo de Barco: ").append(barco.getTipoDeBarco()).append("\n");
-                    relatorio.append("Motorista: ").append(motorista.getNome()).append("\n");
-                    relatorio.append("Barco: ").append(barco.getNOME()).append("\n");
-                    relatorio.append("Nível: ").append(motorista.getNivel()).append("\n");
-                    relatorio.append("Carteira suspensa: ").append(motorista.getNivel()).append("\n");
-
-                    List<Multa> multas = motorista.getCarteira().listarMultas();
-                    if(!multas.isEmpty()){
-                    relatorio.append("Multas: ").append("\n");
-                    for (int j = 0; j < diariosDeBordo.size(); j++) {
-                        Multa multa = multas.get(j);
-                        relatorio.append(multa.relatorio()).append("\n");
-                    }
-                    }else{
-                        relatorio.append("Caronte não tem multas ativas");
-                    }
-                    
+                    relatorio.append(motorista.relatorio()).append("\n");                    
                 }else{
                 relatorio.append("Barco sem motorista\n");
                 }
