@@ -413,10 +413,10 @@ private static void esperarInicio() {
     }
     
     public static void executarTransacao(Function<Frota, Double> funcao) {
-        Frota copiaFrota = this.frota; 
+        Frota copiaFrota = frota; 
         double resultado = funcao.apply(copiaFrota);
         if (resultado <= jogador.getAlmas()) {
-            jogador.consumirAlmas(funcao.apply(this.frota));
+            jogador.consumirAlmas(funcao.apply(frota));
         } else {
             throw new IllegalArgumentException("Você não tem almas suficientes para realizar essa transação.");
         }
