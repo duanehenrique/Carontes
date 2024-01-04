@@ -37,7 +37,8 @@ public class GeradorNomePassageiro {
             "Harrison", "Indiana", "Jimothy", "Michael", "Stanley", "Yuki", "Amelia", "Elena", "Mila", "Santiago",
             "Adão", "Eva", "Caim", "Abel", "Hiroshi", "Maya", "Khaled", "Sven", "Zara", "Asuna", 
             "Kai", "Nikita", "Omar", "Danilo", "Viviane", "Shrek", "Fiona", "Lily", "Tasha", "Uniqua",
-            "Tyrone", "Leila", "Samir", "Arjun", "Cyrus", "Péricles", "Bilu", "Boudicca", "Xerxes", "Leônidas"
+            "Tyrone", "Leila", "Samir", "Arjun", "Cyrus", "Péricles", "Bilu", "Boudicca", "Xerxes", "Leônidas",
+            "Aang", "Korra", "Lindolfo", "Tristão", "Isolda", "Leif Eriksson", "Björn", "Álvaro", "Sara", "Américo"
 
     };
 
