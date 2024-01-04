@@ -9,6 +9,7 @@ public class Caronte implements Relatorio{
     private CarteiraMotorista carteira;
     private Experiencia experiencia;
     private int viagensRestantes;
+    private boolean salarioEmDia;
     private final int MAX_ROTAS_DIA;
     // #endregion
 
@@ -26,6 +27,7 @@ public class Caronte implements Relatorio{
         this.experiencia = criarExperiencia(nivel);
         this.MAX_ROTAS_DIA = qtdRotas;
         this.viagensRestantes = qtdRotas;
+        this.salarioEmDia = true;
     }
     
         // Construtor de cópia
@@ -158,6 +160,20 @@ public class Caronte implements Relatorio{
         this.carteira.adicionarMulta(multa);
     }
 
+    public int pagarSalario(){
+        if(!getSalarioEmDia()){
+        salarioEmDia = true;
+        return experiencia.getSalario();
+        }else {
+            throw new IllegalArgumentException("Salário do motorista já está em dia.\n" + relatorio());
+        }
+    }
+
+    public int cobrarSalario(){
+        salarioEmDia = false;
+        return experiencia.getSalario();
+    }
+
     /**
      * Verifica se a carteira do Caronte é válida.
      *
@@ -181,6 +197,10 @@ public class Caronte implements Relatorio{
 
     public int getViagensRestantes(){
         return viagensRestantes;
+    }
+
+    public boolean getSalarioEmDia(){
+        return salarioEmDia;
     }
 
     // #endregion

@@ -216,7 +216,7 @@ public class Frota implements Normalizador {
         return caronte.pagarTodasMultas();
     }
     
-    public double pagarTodasMultasDoTodosCarontes(int posicaoMulta) {
+    public double pagarTodasMultasDeTodosCarontes(int posicaoMulta) {
         double totalPago = 0;
         int i = 0;
          for (DiarioDeBordo diario : diariosDeBordo) {
@@ -239,6 +239,38 @@ public class Frota implements Normalizador {
         int custoCurso = motorista.fazerCursoDeEspecializacao();
         return custoCurso;
     }
+
+    public int pagarSalarioMotoristaPorIndex(int posicao) {
+        DiarioDeBordo diario = localizarDiarioPorIndex(posicao);
+        return pagarSalarioMotoristaDoBarco(diario);
+    }
+
+    public int pagarSalarioMotoristaPorNome(String nome) {
+        DiarioDeBordo diario = localizarDiarioPorNome(nome);
+        return pagarSalarioMotoristaDoBarco(diario);
+    }
+
+    public int pagarSalarioTodosMotoristas() {
+        int totalDespesaSalarios = 0;
+
+        for (DiarioDeBordo diario : diariosDeBordo) {
+            totalDespesaSalarios += pagarSalarioMotoristaDoBarco(diario);
+        }
+
+        return totalDespesaSalarios;
+    }
+
+    private int pagarSalarioMotoristaDoBarco(DiarioDeBordo diario) {
+        Barco barco = diario.getBarcoDoDiario();
+            if (barco.getMotorista() != null) {
+                int despesaSalario = barco.pagarSalarioMotorista();
+                return despesaSalario;
+            } else{
+            throw new IllegalArgumentException("Caronte informado não está empregado na frota.");
+            }
+    }
+    
+
     /**
      * Gera um relatório da frota.
      * 
@@ -342,6 +374,7 @@ public class Frota implements Normalizador {
 
     public String listarTodasMultas(){
         StringBuilder relatorio = new StringBuilder();
+        boolean temLista = false;
         relatorio.append("---- Barcos na sua frota com multas pendentes ----");
 
 
@@ -353,6 +386,7 @@ public class Frota implements Normalizador {
                 List<Multa> multas = motorista.getCarteira().listarMultas();
                 if(!multas.isEmpty()){
                 if (motorista != null) {
+                    temLista=true;
                     relatorio.append("Barco #").append(i + 1).append("\n");
                     relatorio.append("Tipo de Barco: ").append(barco.getTipoDeBarco()).append("\n");
                     relatorio.append("Motorista: ").append(motorista.getNome()).append("\n");
@@ -367,23 +401,32 @@ public class Frota implements Normalizador {
             }
         }
     }
+        if(!temLista)
+    {
+       relatorio.append("Não há barcos que atendem a esse critério na sua Frota");
+    }
         return relatorio.toString();
     }
 
     public String listarTodasManutencoes(){
         StringBuilder relatorio = new StringBuilder();
         relatorio.append("---- Barcos na sua frota com manutenção pendente ----");
-
+        boolean temLista = false;
 
         for (int i = 0; i < diariosDeBordo.size(); i++) {
             DiarioDeBordo diario = diariosDeBordo.get(i);
             Barco barco = diario.getBarcoDoDiario();
             if (barco != null) {
                 if(!barco.getManutencao().getManutencaoEmDia()){
+                    temLista=true;
                     relatorio.append("Barco #").append(i + 1).append("\n");
                     relatorio.append(barco.relatorio()).append("\n");
             }
         }
+    }
+        if(!temLista)
+    {
+       relatorio.append("Não há barcos que atendem a esse critério na sua Frota");
     }
         return relatorio.toString();
     }
@@ -407,42 +450,71 @@ public class Frota implements Normalizador {
         return relatorio.toString();
     }
 
+    public String listarTodosSalariosParaPagar(){
+        StringBuilder relatorio = new StringBuilder();
+        relatorio.append("---- Barcos na sua frota com Carontes com salários pendentes ----");
+        boolean temLista = false;
+
+        for (int i = 0; i < diariosDeBordo.size(); i++) {
+            DiarioDeBordo diario = diariosDeBordo.get(i);
+            Barco barco = diario.getBarcoDoDiario();
+            if (barco != null) {
+                Caronte motorista = barco.getMotorista();
+                if(!motorista.getSalarioEmDia()){
+                if (motorista != null) {
+                    temLista = true;
+                    relatorio.append("Barco #").append(i + 1).append("\n");
+                    relatorio.append(barco.relatorio()).append("\n");
+                    }
+
+            }
+        }
+    }
+    if(!temLista)
+    {
+       relatorio.append("Não há barcos que atendem a esse critério na sua Frota");
+    }
+        return relatorio.toString();
+    }
+
     public List<String> listarBarcosParaRotas() {
     List<String> listaBarcosParaRotas = new ArrayList<>();
+    boolean temLista = false;
+    boolean temRotaParaPercorrer = false;
         for (int i = 0; i < diariosDeBordo.size(); i++) {
             DiarioDeBordo diario = diariosDeBordo.get(i);
             
             if (diario != null) {
                 Barco barco = diario.getBarcoDoDiario();
                 StringBuilder textoBarco = new StringBuilder();
+                List <Rota> rotasBarco = barco.getRotas();
+                if(!barco.getRotas().isEmpty()){
+                        for (Rota rota : rotasBarco) {
+                    if(!rota.getRotaPercorrida()){
+                        temRotaParaPercorrer = true;
+                    }
+                }
+                if(temRotaParaPercorrer){
+                    temLista = true;
                 textoBarco.append("Barco #" + (i + 1));
                 textoBarco.append("\n");
-                textoBarco.append("Tipo de Barco: ").append(barco.getTipoDeBarco());
-                textoBarco.append("\n");
-                textoBarco.append("Nome: " + barco.getNOME());
-                textoBarco.append("\n");
-                textoBarco.append("Motorista: " + barco.getMotorista().getNome());
-                textoBarco.append("\n");
-                textoBarco.append("Tipo de barco: " + barco.getTipoDeBarco());
-                textoBarco.append("\n");
-                textoBarco.append("Capacidade de passageiros: " + barco.getTipoDeBarco());
-                textoBarco.append("\n");
-                    if(!barco.getRotas().isEmpty()){
+                textoBarco.append(barco.relatorio());
                         textoBarco.append("Rotas associadas: " + barco.getRotas().size());
                         textoBarco.append("\n");
                         textoBarco.append("Rotas já percorridas: " + barco.getQuantRotasPercorridasHj());
                         textoBarco.append("\n");
                         textoBarco.append("Rotas ainda não percorridas: " + (4 - barco.getQuantRotasPercorridasHj()));
                     listaBarcosParaRotas.add(textoBarco.toString());
-                    }else {
-                        textoBarco.append("Nenhuma rota associada barco ainda.");
-                        listaBarcosParaRotas.add(textoBarco.toString());
-                    }                    
+                    }}                   
                         } else {
                             throw new IllegalArgumentException("Diário de bordo #" + i +" não pertence a um barco.");
                         }
                          
                 }
+                if(!temLista)
+    {
+       listaBarcosParaRotas.add("Não há barcos que atendem a esse critério na sua Frota");
+    }
                 return listaBarcosParaRotas;
             }
     

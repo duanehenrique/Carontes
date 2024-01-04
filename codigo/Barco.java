@@ -89,8 +89,15 @@ public abstract class Barco implements Relatorio{
                 if (!motorista.getCarteiraValida()) {
                     podeAdd = false;
                     throw new IllegalStateException(
-                            "Carteira de motorista invalidada por multas.Pague as multas do Caronte antes de adicionar a rota.");
+                            "Carteira de motorista invalidada por multas. Pague as multas do Caronte antes de adicionar a rota.");
                 }
+
+                if (!motorista.getSalarioEmDia()) {
+                    podeAdd = false;
+                    throw new IllegalStateException(
+                            "O Caronte está de greve, porque seu salário está atrasado. Regularize seu pagamento para tê-lo de volta na frota.");
+                }
+
                 if(podeAdd){              
                 rotas.add(rota);
 
@@ -149,10 +156,14 @@ public abstract class Barco implements Relatorio{
     public boolean pagarTodasMultas() {
         double despesaMulta =  this.motorista.pagarTodasMultas();
         addDespesaMulta(despesaMulta);
-   
-   
     return true;
-    
+}
+public void receberCobrancaSalario(){
+    addDespesaSalario(motorista.cobrarSalario());
+}
+public int pagarSalarioMotorista(){
+    despesaSalario = 0;
+    return motorista.pagarSalario();
 }
  /*
  * @param rota A rota a ser percorrida.
@@ -195,7 +206,6 @@ public int percorrerRota(Rota rota) {
             if(podePercorrer){
             totalAlmas = rota.percorrerRota(CAPACIDADEPASSAGEIROS);
             kmDesdeUltimaManutencao(rota);
-            addDespesaSalario(motorista.getSalario());
             System.out.println("Rota percorrida com sucesso! Almas mortais coletadas.");
             }
             return totalAlmas;
@@ -211,12 +221,12 @@ public void encerrarDia() {
                 this.totalAlmasColetadasDia += rota.percorrerRota(CAPACIDADEPASSAGEIROS);
             }
         } 
+receberCobrancaSalario();
 }
 
 public void iniciarDia(){
     this.despesaManutencao = 0;
     this.despesaMulta = 0;
-    this.despesaSalario = 0;
     this.totalAlmasColetadasDia = 0;
     rotas.clear();
     motorista.iniciarDia();

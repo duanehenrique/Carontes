@@ -16,7 +16,7 @@ public enum Experiencia {
         this.custoCurso = custoCurso;
     }
 
-    public double getSalario() {
+    public int getSalario() {
         return salario;
     }
 
