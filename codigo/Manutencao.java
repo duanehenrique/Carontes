@@ -19,7 +19,7 @@ public class Manutencao {
      * @param tipoVeiculo O tipo de veículo.
      * @param custo       O custo da manutenção.
      */
-    public Manutencao(Barco barco, double custo) {
+    public Manutencao(Barco barco) {
         this.manutencaoPeriodicaEmDia = true;
         this.manutencaoPecasEmDia = true;
         this.kmDesdeUltimaManutencao = 0;
@@ -120,13 +120,13 @@ public class Manutencao {
      *
      * @return O custo da manutenção.
      */
-    public double realizarManutencaoPeriodica() {
+    public int realizarManutencaoPeriodica() {
         if (!manutencaoPeriodicaEmDia) {
             manutencaoPeriodicaEmDia = true;
             kmDesdeUltimaManutencao = 0;
-            return km.getManutencaoPeriodica();
+            return km.getCustoManutencao();
         } else{
-            throw new IllegalArgumentException("O barco está a papelada em dia e não precisa realizar manutenção.");
+            throw new IllegalArgumentException("O barco está com a papelada em dia e não precisa realizar manutenção.");
         }
     }
 

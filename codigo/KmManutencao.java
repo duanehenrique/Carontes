@@ -4,14 +4,15 @@
  */
 public enum KmManutencao {
     // #region Definição dos tipos de veículos
-    GONDOLA(500), 
-    BALSA(1000), 
-    NAVIO(1000), 
-    CRUZEIRO(1500); 
+    GONDOLA(250, 5), 
+    BALSA(500, 10), 
+    NAVIO(500, 15), 
+    CRUZEIRO(750, 20); 
     // #endregion
 
     // #region Atributos
     private final int manutencaoPeriodica; 
+    private final int custoManutencao;
     // #endregion
 
     // #region Construtor
@@ -24,8 +25,9 @@ public enum KmManutencao {
      * @param manutencaoPecas     A quilometragem necessária para manutenção para
      *                            troca de peças.
      */
-    KmManutencao(int manutencaoPeriodica) {
+    KmManutencao(int manutencaoPeriodica, int custoManutencao) {
         this.manutencaoPeriodica = manutencaoPeriodica;
+        this.custoManutencao = custoManutencao;
     }
     // #endregion
 
@@ -36,8 +38,12 @@ public enum KmManutencao {
      *
      * @return A quilometragem necessária para manutenção periódica.
      */
-    public double getManutencaoPeriodica() {
+    public int getManutencaoPeriodica() {
         return manutencaoPeriodica;
+    }
+
+    public int getCustoManutencao(){
+        return custoManutencao;
     }
     // #endregion
 }

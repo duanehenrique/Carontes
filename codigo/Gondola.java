@@ -7,7 +7,6 @@ public class Gondola extends Barco {
     // #region Atributos
     private static final int TOTAL_PASSAGEIROS = 4;
     private static final int CUSTO_COMPRA = 10;
-    private static final int CUSTO_MANUTENCAO = 5;
     private static final int AUTONOMIA = 10;
 
     // #endregion
@@ -24,7 +23,7 @@ public class Gondola extends Barco {
      */
     public Gondola(Caronte motorista, String nome, int qtdRotas) {
         super(motorista, nome, TOTAL_PASSAGEIROS, CUSTO_COMPRA, qtdRotas);
-        this.manutencao = new Manutencao(this, CUSTO_MANUTENCAO);
+        this.manutencao = new Manutencao(this);
     }
 
 
