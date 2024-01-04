@@ -125,6 +125,14 @@ public class Frota implements Normalizador {
                 DiarioDeBordo diario = localizarDiarioPorNome(nome);
         return abastecerBarcoDoDiario(diario, qtdCombustivel);}
 
+    public double abastecerBarcoCompletoPorIndex(int posicao) {
+        DiarioDeBordo diario = localizarDiarioPorIndex(posicao);
+        return abastecerBarcoDoDiario(diario, Double.MAX_VALUE);}
+    
+    public double abastecerBarcoCompletoPorNome(String nome) {
+                DiarioDeBordo diario = localizarDiarioPorNome(nome);
+        return abastecerBarcoDoDiario(diario, Double.MAX_VALUE);}
+
     public double abastecerTodosBarcos(){
         double totalGasto = 0;
         for (DiarioDeBordo diario : diariosDeBordo) {

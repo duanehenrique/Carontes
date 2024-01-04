@@ -44,18 +44,25 @@ public class Tanque implements Normalizador{
      */
     public double abastecer(double litros) {
         if (capacidadeAtual == CAPACIDADEMAXIMA) {
-            System.err.println("Tanque do veículo está cheio.");
+            System.err.println("Tanque do barco está cheio e não pode ser abastecido.\nTanque com " + capacidadeAtual + " de " + CAPACIDADEMAXIMA + " litros.\n");
             return 0;
-        } else if((capacidadeAtual + litros) > CAPACIDADEMAXIMA) {
+        } else if(litros == Double.MAX_VALUE) {
             
                 double totalReabastecido = CAPACIDADEMAXIMA - capacidadeAtual;
                 capacidadeAtual = CAPACIDADEMAXIMA;
-                System.err.println("Abastecido pedido excede a capacidade do tanque. Veículo foi abastecido até o máximo possível.");
-                return totalReabastecido;
+                System.err.println("Tanque do barco foi abastecido até estar cheio.\nTanque com " + capacidadeAtual + " de " + CAPACIDADEMAXIMA + " litros.\n");
+                return totalReabastecido * tipoCombustivel.getCusto();
+            }else if((capacidadeAtual + litros) > CAPACIDADEMAXIMA) {
+            
+                double totalReabastecido = CAPACIDADEMAXIMA - capacidadeAtual;
+                capacidadeAtual = CAPACIDADEMAXIMA;
+                System.err.println("Abastecimento solicitado à garagem excede a capacidade do tanque. Barco foi abastecido até o máximo possível.\nTanque com " + capacidadeAtual + " de " + CAPACIDADEMAXIMA + " litros.\n");
+                return totalReabastecido * tipoCombustivel.getCusto();
             }
          else {
             capacidadeAtual += litros;
-            return litros;
+            System.err.println("Barco foi abastecido com " + litros + " litros.\nTanque com " + capacidadeAtual + " de " + CAPACIDADEMAXIMA + " litros.\n");
+            return litros * tipoCombustivel.getCusto();
          }
             
         }
