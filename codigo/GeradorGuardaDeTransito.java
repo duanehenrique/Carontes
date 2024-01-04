@@ -1,6 +1,6 @@
 import java.util.Random;
 
-public class GuardaDeTransito {
+public class GeradorGuardaDeTransito {
 
     public Multa verificarMulta(Barco barco, Rota rota) {
         double chanceBase = barco.getMotorista().getProbabilidade();
