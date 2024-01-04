@@ -140,10 +140,16 @@ public class Frota implements Normalizador {
     public double abastecerTodosBarcos(){
         double totalGasto = 0;
         for (DiarioDeBordo diario : diariosDeBordo) {
+        BarcoComTanque barco = ((BarcoComTanque) diario.getBarcoDoDiario());
+            if(barco instanceof BarcoComTanque){
+        if(barco.getTanque().getCapacidadeAtual() != barco.getTanque().getCapacidadeMaxima()){
           totalGasto = abastecerBarcoDoDiario(diario, Double.MAX_VALUE);
-    }
+        }
+       }
+        }
     return totalGasto;
     }
+
 
     private int fazerManutencaoBarcoDoDiario(DiarioDeBordo diario){
         
@@ -172,7 +178,9 @@ public class Frota implements Normalizador {
      public int fazerManutencaoTodosBarcos(){
         int totalGasto = 0;
         for (DiarioDeBordo diario : diariosDeBordo) {
+            if(!diario.getBarcoDoDiario().getManutencao().getManutencaoEmDia()){
           totalGasto = fazerManutencaoBarcoDoDiario(diario);
+        }
     }  
     return totalGasto;
 }

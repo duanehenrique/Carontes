@@ -471,6 +471,6 @@ public String relatorioRotas() {
     public double getKmAteProximaManutencao(){
        return manutencao.getKmAteProximaManutencao();
     }
-    
+
     // #endregion
 }
