@@ -92,7 +92,7 @@ public abstract class Barco implements Relatorio{
                             "Carteira de motorista invalidada por multas. Pague as multas do Caronte antes de adicionar a rota.");
                 }
 
-                if (!   	.getSalarioEmDia()) {
+                if (!motorista.getSalarioEmDia()) {
                     podeAdd = false;
                     throw new IllegalStateException(
                             "O Caronte está de greve, porque seu salário está atrasado. Regularize seu pagamento para tê-lo de volta na frota.");
