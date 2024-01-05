@@ -33,7 +33,7 @@ public class GeradorNomesBarcos {
         random = new Random();
         int iteracao = Integer.MIN_VALUE; 
         while(iteracao < Integer.MAX_VALUE){
-        int posicaoNome = random.nextInt(35);
+        int posicaoNome = random.nextInt(nomes.length);
         StringBuilder nome = new StringBuilder();
         nome.append(nomes[posicaoNome]);
         for(int i = 0; i < 4; i++){
