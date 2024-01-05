@@ -38,7 +38,17 @@ public class GeradorNomePassageiro {
             "Adão", "Eva", "Caim", "Abel", "Hiroshi", "Maya", "Khaled", "Sven", "Zara", "Asuna", 
             "Kai", "Nikita", "Omar", "Danilo", "Viviane", "Shrek", "Fiona", "Lily", "Tasha", "Uniqua",
             "Tyrone", "Leila", "Samir", "Arjun", "Cyrus", "Péricles", "Bilu", "Boudicca", "Xerxes", "Leônidas",
-            "Aang", "Korra", "Lindolfo", "Tristão", "Isolda", "Leif Eriksson", "Björn", "Álvaro", "Sara", "Américo"
+            "Aang", "Korra", "Lindolfo", "Tristão", "Isolda", "Leif Eriksson", "Björn", "Álvaro", "Sara", "Américo",
+            "Ebenezer", "Ezequiel", "Clint", "Nikolaj", "Usain", "Verônica", "Carrie", "Sigourney", "Valentina", "Hermione",
+            "Otis", "Owen", "Nora", "Odette", "Sófocles", "Luna", "Luma", "Stephanie", "Bonnie", "Clyde",
+            "Kimberly", "Kim", "Guy", "Drake", "Marianna", "Dora", "Martha", "Martinho", "Ivan", "Judi",
+            "Wren", "Gilgamesh", "Enkidu", "Samara", "Sadako", "Rivaldo", "Leslie", "Winston", "Farah", "Pharrell",
+            "Gillian", "Melvin", "Octavia", "Otto", "Jéssica", "Tracy", "Carlo", "Sunita", "Samuel", "Rosa",
+            "Spencer", "Timóteo", "Cristóvão", "Mary Jane", "Ren", "Gwen", "Fatu", "Nádia", "Eunice",
+            "Mônica", "Ross", "Rachel", "Chandler", "Phoebe", "Jane", "Kramer", "Laís", "Aquiles", "Pandora", 
+            "Jocasta", "Geraldine", "Shiro", "Benjamim", "Hamilton", "Ramon", "Valéria", "Sean", "Oren", "Taiga",
+            "Édipo", "Heinrich", "Valesca", "Wagner", "Wolfgang", "Ludwig", " Cynthia", "Sabine", "Sabrina", "Sasha"
+
 
     };
 
