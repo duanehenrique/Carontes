@@ -41,77 +41,159 @@ public class Frota implements Normalizador {
      * 
      * @param veiculo O veículo a ser adicionado.
      */
-    public void addBarco(Barco barco) {
+    public String addBarco(Barco barco) {
         if (diariosDeBordo.stream().anyMatch(diario -> normalizar(diario.getBarcoDoDiario().getNOME()).equals(normalizar(barco.getNOME())))) {
             throw new IllegalArgumentException("O barco já faz parte da frota de Carontes");
-        }
+        }else{
         DiarioDeBordo diario = new DiarioDeBordo(barco);
         diariosDeBordo.add(diario);
+        StringBuilder mensagem = new StringBuilder();           
+        mensagem.append("Barco  " + barco.getNOME() + " agora faz parte da sua frota.");
+        return mensagem.toString();
+        }
     }
 
-    public void addRotaPorNome(String nome, Rota rotaNova) {
-        DiarioDeBordo diarioRota = localizarDiarioPorNome(nome);
+    public String addRotaPorNome(String nomeBarco, Rota rotaNova) {
+        DiarioDeBordo diarioRota = localizarDiarioPorNome(nomeBarco);
     
         if (diarioRota != null) {
             diarioRota.addRota(rotaNova);
             int posicao = diariosDeBordo.indexOf(diarioRota);
             diariosDeBordo.set(posicao, diarioRota);
+            StringBuilder mensagem = new StringBuilder();           
+            mensagem.append("Rota associada ao barco " + diarioRota.getBarcoDoDiario().getNOME() + ".");
+            return mensagem.toString();
         } else {
-           throw new IllegalArgumentException("Diário de bordo do barco " + nome +" não pertence a um barco.");
+           throw new IllegalArgumentException("Diário de bordo do barco " + nomeBarco +" não pertence a um barco.");
         }
     }
 
-        public void addRotaPorIndex(int posicao, Rota rotaNova) {
-        DiarioDeBordo diarioRota = localizarDiarioPorIndex(posicao);
+        public String addRotaPorIndex(int posicaoBarco, Rota rotaNova) {
+        DiarioDeBordo diarioRota = localizarDiarioPorIndex(posicaoBarco);
     
         if (diarioRota != null) {
             diarioRota.addRota(rotaNova);
-            diariosDeBordo.set(posicao, diarioRota);
+            diariosDeBordo.set(posicaoBarco, diarioRota);
+            StringBuilder mensagem = new StringBuilder();           
+            mensagem.append("Rota associada ao barco " + diarioRota.getBarcoDoDiario().getNOME() + ".");
+            return mensagem.toString();
         } else {
-           throw new IllegalArgumentException("Diário de bordo #" + posicao +" não pertence a um barco.");
+           throw new IllegalArgumentException("Diário de bordo #" + posicaoBarco +" não pertence a um barco.");
         }
     }
     
     
-    public void excluirRotaPorIndex(int posicao, Rota rotaNova) {
-        DiarioDeBordo diarioRota = localizarDiarioPorIndex(posicao);
+    public String excluirRotaPorIndex(int posicaoBarco, int posicaoRotaExcluida) {
+        DiarioDeBordo diarioRota = localizarDiarioPorIndex(posicaoBarco);
     
         if (diarioRota != null) {
-            diarioRota.excluirRota(rotaNova);
-            diariosDeBordo.set(posicao, diarioRota);
-        } else {
-           throw new IllegalArgumentException("Diário de bordo #" + posicao +" não pertence a um barco.");
-        }
-    }
-
-    public void excluirRotaPorNome(String nome, Rota rotaExcluida) {
-        DiarioDeBordo diarioRota = localizarDiarioPorNome(nome);
-    
-        if (diarioRota != null) {
+            Rota rotaExcluida = localizarRotasPorIndex(diarioRota, posicaoRotaExcluida);
             diarioRota.excluirRota(rotaExcluida);
             int posicao = diariosDeBordo.indexOf(diarioRota);
             diariosDeBordo.set(posicao, diarioRota);
+            StringBuilder mensagem = new StringBuilder();           
+            mensagem.append("Rota excluída do barco " + diarioRota.getBarcoDoDiario().getNOME() + ".");
+                return mensagem.toString();
         } else {
-           throw new IllegalArgumentException("Diário de bordo #" + nome +" não pertence a um barco.");
+           throw new IllegalArgumentException("Diário de bordo #" + posicaoBarco +" não pertence a um barco.");
         }
     }
 
-    public void trocarCarontes(Barco barco1, Barco barco2) {
-        if (barco1 != null && barco2 != null) {
-            Caronte caronteBarco1 = barco1.getMotorista();
-            Caronte caronteBarco2 = barco2.getMotorista();
+    public String excluirRotaPorNome(String nomeBarco, int posicaoRotaExcluida) {
+        DiarioDeBordo diarioRota = localizarDiarioPorNome(nomeBarco);
     
-            if (caronteBarco1 != null && caronteBarco2 != null) {
-                // Troca os Carontes entre os barcos
-                barco1.atribuirMotorista(caronteBarco2);
-                barco2.atribuirMotorista(caronteBarco1);
-                relatorioBarcoPorNome(barco1.getNOME());
-                relatorioBarcoPorNome(barco2.getNOME());
-                } 
+        if (diarioRota != null) {
+            Rota rotaExcluida = localizarRotasPorIndex(diarioRota, posicaoRotaExcluida);
+            diarioRota.excluirRota(rotaExcluida);
+            int posicao = diariosDeBordo.indexOf(diarioRota);
+            diariosDeBordo.set(posicao, diarioRota);
+            StringBuilder mensagem = new StringBuilder();           
+            mensagem.append("Rota excluída do barco " + diarioRota.getBarcoDoDiario().getNOME() + ".");
+                return mensagem.toString();
         } else {
-            System.out.println("Os barcos selecionados não fazem parte da sua frota.");
+           throw new IllegalArgumentException("Diário de bordo #" + nomeBarco +" não pertence a um barco.");
         }
     }
+
+    public String trocarRotasPorNome(String nomeBarco1, int posicaoRota1, String nomeBarco2, int posicaoRota2) {
+            DiarioDeBordo diarioRota1 = localizarDiarioPorNome(nomeBarco1);
+            DiarioDeBordo diarioRota2 = localizarDiarioPorNome(nomeBarco2);
+
+            if (diarioRota1 != null || diarioRota2 != null) {
+                Rota rota1 = diarioRota1.localizarRota(posicaoRota1);
+                Rota rota2 = diarioRota2.localizarRota(posicaoRota1);
+                diarioRota1.excluirRota(rota1);
+                diarioRota2.excluirRota(rota2);
+                diarioRota1.addRota(rota2);
+                diarioRota1.addRota(rota1);
+                StringBuilder mensagem = new StringBuilder();
+                mensagem.append("Barco " + diarioRota1.getBarcoDoDiario().getNOME() + "e barco " + diarioRota2.getBarcoDoDiario().getNOME() + " tiveram suas rotas trocadas.");
+                return mensagem.toString();
+            } else {
+            throw new IllegalArgumentException("Ao menos um dos barcos selecionados não fazem parte da sua frota. Não foi possível trocar os Carontes de barco.");
+        }
+    }
+
+        public String trocarRotasPorIndex(int posicaoBarco1, int posicaoRota1, int posicaoBarco2, int posicaoRota2) {
+            DiarioDeBordo diarioRota1 = localizarDiarioPorIndex(posicaoBarco1);
+            DiarioDeBordo diarioRota2 = localizarDiarioPorIndex(posicaoBarco2);
+
+            if (diarioRota1 != null || diarioRota2 != null) {
+                Rota rota1 = diarioRota1.localizarRota(posicaoRota1);
+                Rota rota2 = diarioRota2.localizarRota(posicaoRota1);
+                diarioRota1.excluirRota(rota1);
+                diarioRota2.excluirRota(rota2);
+                diarioRota1.addRota(rota2);
+                diarioRota1.addRota(rota1);
+                StringBuilder mensagem = new StringBuilder();
+                mensagem.append("Barco " + diarioRota1.getBarcoDoDiario().getNOME() + "e barco " + diarioRota2.getBarcoDoDiario().getNOME() + " tiveram suas rotas trocadas.");
+                return mensagem.toString();
+            } else {
+            throw new IllegalArgumentException("Ao menos um dos barcos selecionados não fazem parte da sua frota. Não foi possível trocar os Carontes de barco.");
+        }
+    }
+
+    public String trocarCarontesPorNome(String nomeCaronte1,String nomeCaronte2) {
+            Caronte caronte1 = localizarMotoristaPorNome(nomeCaronte1);
+            Caronte caronte2 = localizarMotoristaPorNome(nomeCaronte2);
+            Barco barco1 = localizarBarcoPorMotorista(caronte1);
+            Barco barco2 = localizarBarcoPorMotorista(caronte2);
+
+            if (barco1 != null && barco2 != null) {
+                barco1.atribuirMotorista(caronte2);
+                barco2.atribuirMotorista(caronte1);
+                relatorioBarcoPorNome(barco1.getNOME());
+                relatorioBarcoPorNome(barco2.getNOME());
+                StringBuilder mensagem = new StringBuilder();
+                mensagem.append("Caronte " + caronte1.getNome() + " agora conduz o barco " + barco2.getNOME() + ".");
+                mensagem.append("Caronte " + caronte2.getNome() + " agora conduz o barco " + barco1.getNOME() + ".");
+                return mensagem.toString();
+            } else {
+            throw new IllegalArgumentException("Ao menos um dos barcos selecionados não fazem parte da sua frota. Não foi possível trocar os Carontes de barco.");
+        }
+    }
+
+    public String trocarCarontesPorIndex(int posicaoCaronte1, int posicaoCaronte2) {
+            Caronte caronte1 = localizarMotoristaPorIndex(posicaoCaronte1);
+            Caronte caronte2 = localizarMotoristaPorIndex(posicaoCaronte2);
+            Barco barco1 = localizarBarcoPorMotorista(caronte1);
+            Barco barco2 = localizarBarcoPorMotorista(caronte2);
+
+            if (barco1 != null && barco2 != null) {
+                // Troca os Carontes entre os barcos
+                barco1.atribuirMotorista(caronte2);
+                barco2.atribuirMotorista(caronte1);
+                relatorioBarcoPorNome(barco1.getNOME());
+                relatorioBarcoPorNome(barco2.getNOME());
+                StringBuilder mensagem = new StringBuilder();
+                mensagem.append("Caronte " + caronte1.getNome() + " agora conduz o barco " + barco2.getNOME() + ".");
+                mensagem.append("Caronte " + caronte2.getNome() + " agora conduz o barco " + barco1.getNOME() + ".");
+                return mensagem.toString();
+            } else {
+            throw new IllegalArgumentException("Ao menos um dos barcos selecionados não fazem parte da sua frota. Não foi possível trocar os Carontes de barco.");
+        }
+    }
+    
 
     private double abastecerBarcoDoDiario(DiarioDeBordo diario, double qtdCombustivel){
         
@@ -679,23 +761,36 @@ public class Frota implements Normalizador {
         }
         }
 
-        public List<Rota> localizarRotasPorIndex(int posicao) {
-            DiarioDeBordo diarioPorIndex;
+        public Barco localizarBarcoPorMotorista(Caronte motorista) {
+            if ((motorista != null)) {
+            String nomeMotoristaSelecionado = motorista.getNome();
+            for (DiarioDeBordo diarioDeBordo : diariosDeBordo) {
+                String nomeMotoristaDiario = diarioDeBordo.getBarcoDoDiario().getMotorista().getNome();
+                if(nomeMotoristaSelecionado.equals(nomeMotoristaDiario)){
+                    return diarioDeBordo.getBarcoDoDiario();
+                }
+            }
+            }else{
+            throw new IllegalArgumentException("O Caronte selecionado não existe.");
+            }
+            throw new IllegalArgumentException("O Caronte " + motorista.getNome() + "não está empregado na sua frota");
+        }
+
+        public Rota localizarRotasPorIndex(DiarioDeBordo diario, int posicao) {
             if(posicao < diariosDeBordo.size()){
                 if(posicao > 1){
-                    diarioPorIndex = diariosDeBordo.get(posicao-1);
-                }else{
+                if (diario != null) {
+                return diario.localizarRota(posicao);
+            }else{
+                throw new IllegalArgumentException("Barco não faz parte da frota.");
+            }                }else{
                     throw new IllegalArgumentException("Posição informada menor que 1.");
                 }
             }else{
                 throw new IllegalArgumentException("Posição informada excede a quantidade atual de Carontes. Quantidade atual: " + diariosDeBordo.size());
             }
            
-        if (diarioPorIndex != null) {
-            return diarioPorIndex.getBarcoDoDiario().getRotas();
-        }else{
-            throw new IllegalArgumentException("Caronte informado não está empregado na frota.");
-        }
+        
         }
     
     /**
@@ -770,16 +865,13 @@ public class Frota implements Normalizador {
      * 
      * @return true se o mês virou, false caso contrário.
      */
-    public double encerrarDia() {
+    public void encerrarDia() {
         dataAtual = dataAtual.plusDays(1);
-        double totalAlmasColetadasDia = 0;
     
         // Percorre a lista de diários e chama o método fecharDiario para cada um
         for (DiarioDeBordo diario : diariosDeBordo) {
             diario.encerrarDia(dataAtual);
-            totalAlmasColetadasDia += diario.balancoTotalDeOntem();
         }
-        return totalAlmasColetadasDia;
     }
 
     public void iniciarDia() {

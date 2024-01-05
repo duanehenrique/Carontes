@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
@@ -153,7 +154,27 @@ private static void esperarInicio() {
     public double executarAcaoNaFrotaComAlmas(Function<Frota, Double> funcao) {
         return custos.executarTransacao(funcao, frota, jogador);
     }
+
+        public void executarAcaoNaFrotaDeListar(Function<Frota, List<String>> funcao) {
+        List<String> lista = funcao.apply(frota);
+        for (String string : lista) {
+            separador();
+            System.out.println(string);
+        }
+        separador();
+        fogo();
+        pausa();
+    }
+
     
+        public void executarAcaoNaFrotaDeImprimir(Function<Frota, Void> funcao) {
+            funcao.apply(frota);
+        }
+
+        public void executarAcaoNaFrotaDeControle(Function<Frota, String> funcao) {
+        String mensagem = funcao.apply(frota);
+        System.out.println(mensagem);
+        }
 
     /**
      * Exibe o menu principal do sistema com as opções disponíveis para o usuário.

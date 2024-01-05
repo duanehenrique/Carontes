@@ -65,6 +65,14 @@ public class DiarioDeBordo implements Relatorio {
         barcoDoDiario.excluirRota(rota);
         }
 
+         public Rota localizarRota(int posicao) {
+            if((posicao - 1) > 0 && posicao < barcoDoDiario.getMAX_ROTAS_DIA()){
+            return barcoDoDiario.getRotas().get(posicao -1);
+            }else{
+            throw new IllegalArgumentException("Posição inválida. \nTente novamente com outro número, entre 1 e 5.");
+            }
+        }
+
         public double balancoTotalPorDia(LocalDate dataDoDiario) {
             Barco barco = diarioPorDia.get(dataDoDiario);  
             
