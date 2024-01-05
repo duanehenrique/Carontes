@@ -14,19 +14,19 @@ public class GeradorNomesCarontes {
                 "Raimundo Do Nato", "Romário", "Ronaldinho Potiguar", "Waldomiro Bolo", "Humberto",
                 "Uberaldo", "Uberlando", "João Boticatubas", "Getúlio Vagas", "Juscelino Cobre-Cheque"
         };
-    private Map<String, List<Boolean>> nomesDisponíveis;
+    private List<List <Boolean>> nomesDisponiveis;
+
+
     Random random;
 
      public GeradorNomesCarontes() {
-        this.nomesDisponíveis = new HashMap<>();
-        for (String nome : nomes) {
-            List<Boolean> descendencia = new ArrayList<>();
             for(int i = 0; i < 4; i++){
-                descendencia.add(false);
+                List <Boolean> lista = nomesDisponiveis.get(i);
+            for(int j = 0; j < nomes.length; i++){
+                lista.add(false);
             }
-            nomesDisponíveis.put(nome, descendencia);
+            }
         }
-    }
 
     public String gerarNome(){
         random = new Random();
@@ -34,24 +34,74 @@ public class GeradorNomesCarontes {
         while(iteracao < Integer.MAX_VALUE){
         int posicaoNome = random.nextInt(35);
         StringBuilder nome = new StringBuilder();
-        nome.append((String) nomesDisponíveis.keySet().toArray()[posicaoNome]);
-
-        List<Boolean> listaBooleanos = nomesDisponíveis.get(nome.toString());
+        nome.append(nomes[posicaoNome]);
         for(int i = 0; i < 4; i++){
-        if (!listaBooleanos.get(i)) {
-            listaBooleanos.set(i, true);
-            nomesDisponíveis.replace(nome.toString(), listaBooleanos);
-            if(i == 1){
-                nome.append(" Jr.");
-            }else if(i == 2){
-                nome.append(" Neto");
-            }else if(i == 3){
-                nome.append(" IV");
-            }
+        List <Boolean> listaDisponiveis = nomesDisponiveis.get(i);
+        nome.append(nomes[posicaoNome]);
+            if (!listaDisponiveis.get(posicaoNome)) {
+            if(i == 0){
+            marcarBoolean(posicaoNome, i);
             return nome.toString();
+            }
+            if(i == 1){
+            nome.append(" Jr.");
+            marcarBoolean(posicaoNome, i);
+            return nome.toString();
+            }else if(i == 2){
+            nome.append(" Neto");
+            marcarBoolean(posicaoNome, i);
+            return nome.toString();
+            }else if(i == 3){
+            nome.append(" IV");
+            marcarBoolean(posicaoNome, i);
+            return nome.toString();
+            }
         }
-        iteracao++;
-        } 
-    }
+      }
+    } 
     throw new IllegalArgumentException("Todos os Carontes do Tártaro já estão empregados em sua frota. Se contente com o que tem.");       
-    }}
+    }
+    
+    public void marcarNomeUtilizado(Caronte caronte) {
+        String nomeCaronte = caronte.getNome();
+        boolean contemNome = false;
+        int posicaoNome;
+        int ultimoEspaco = nomeCaronte.lastIndexOf(" ");
+
+        if (ultimoEspaco == -1) {
+         for (int i = 0; i < nomes.length; i++) {
+          if (nomes[i].equals(nomeCaronte)) {
+          marcarBoolean(i, 0);
+          }
+        }
+        }else{
+            String primeiroNome = nomeCaronte.substring(0, ultimoEspaco);
+            String ultimaParte = nomeCaronte.substring(ultimoEspaco + 1);
+        for (int i = 0; i < nomes.length; i++) {
+          if (nomes[i].equals(primeiroNome)) {
+            posicaoNome = i;
+          }else{
+            throw new IllegalArgumentException("Caronte não registrado no cartório.");
+          }
+
+            if (ultimaParte.equals("Jr.")) {
+                marcarBoolean(posicaoNome, 1);
+            }else if(ultimaParte.equals("Neto")) {
+                marcarBoolean(posicaoNome, 2);
+            }else if(ultimaParte.equals("IV")){
+            marcarBoolean(posicaoNome, 3);
+            }else{
+                throw new IllegalArgumentException("Caronte não registrado no cartório.");
+            }
+        }
+    }
+}
+
+    private void marcarBoolean(int posicaoNome, int qualLista) {
+        if(qualLista <= nomesDisponiveis.size())
+        {
+        List <Boolean> listaDisponiveis = nomesDisponiveis.get(qualLista);
+        listaDisponiveis.set(posicaoNome, true); 
+        }
+        }
+    }
