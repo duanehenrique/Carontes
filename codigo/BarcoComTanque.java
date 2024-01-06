@@ -32,6 +32,9 @@ public abstract class BarcoComTanque extends Barco{
 
     }
 
+    public void instalarTanque(String tipo){
+        this.tanque.instalarTanque(tipo);
+    }
     @Override
     public int percorrerRota(Rota rota) {
         int totalAlmas = 0;
@@ -89,6 +92,15 @@ public abstract class BarcoComTanque extends Barco{
         return tanque;
     }
 
+    public String getTipoCombustivel(){
+        return getTanque().getTipo().getTipo();
+    }
+
+    public int getCapacidadeTanque(){
+        return getTanque().getCapacidadeMaxima();
+    }
+    
+
     public boolean podeRealizarRota(Rota rota) {
         return autonomiaAtual() >= rota.getQuilometragem();
     }
@@ -99,6 +111,8 @@ public abstract class BarcoComTanque extends Barco{
      * 
      * @return Uma string representando o veículo.
      */
+
+     @Override
     public String relatorio() {
         StringBuilder relatorio = new StringBuilder();
         relatorio.append(getNOME() + ":\n");
@@ -109,7 +123,7 @@ public abstract class BarcoComTanque extends Barco{
         relatorio.append("Viagens restante por hoje: " + (MAX_ROTAS_DIA - rotas.size()) + " km\n");
         relatorio.append("Km Total: " + kmTotal() + " km\n");
         relatorio.append("Autonomia do veiculo: " + autonomiaAtual() + " km\n");
-        relatorio.append("Tanque abastecido com: " + getTanque().getCapacidadeAtual() + " almas de "+ getTanque().getTipo() +  "\n");
+        relatorio.append("Tanque abastecido com: " + getTanque().getCapacidadeAtual() + " almas de "+ getTipoCombustivel() +  "\n");
         relatorio.append("Despesas com combustível: " + String.format("%.2f", despesaCombustivel) + " almas.\n");
         relatorio.append("Despesas com multas: " + String.format("%.2f", despesaMulta) + " almas.\n");
         relatorio.append("Despesas com manutenção: " + String.format("%.2f", despesaManutencao) + " almas.\n");

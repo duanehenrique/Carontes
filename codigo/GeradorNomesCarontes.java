@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 public class GeradorNomesCarontes {
@@ -24,6 +21,18 @@ public class GeradorNomesCarontes {
                 List <Boolean> lista = nomesDisponiveis.get(i);
             for(int j = 0; j < nomes.length; i++){
                 lista.add(false);
+            }
+            }
+        }
+
+        public GeradorNomesCarontes(GeradorNomesCarontes gerador) {
+            for(int i = 0; i < 4; i++){
+                List <Boolean> lista = nomesDisponiveis.get(i);
+                List <Boolean> listaOriginal = gerador.nomesDisponiveis.get(i);
+            for(int j = 0; j < nomes.length; i++){
+                if(listaOriginal.get(i)){
+                lista.add(true);
+                } lista.add(false);
             }
             }
         }
@@ -64,7 +73,6 @@ public class GeradorNomesCarontes {
     
     public void marcarNomeUtilizado(Caronte caronte) {
         String nomeCaronte = caronte.getNome();
-        boolean contemNome = false;
         int posicaoNome;
         int ultimoEspaco = nomeCaronte.lastIndexOf(" ");
 

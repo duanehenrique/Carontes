@@ -20,8 +20,8 @@ public class Cruzeiro extends BarcoComTanque{
      * @param tipoCombustivel O tipo de combustível que o caminhão usa.
      * @param custoManutencao O custo de manutenção do caminhão.
      */
-    public Cruzeiro(Caronte motorista, String nome, String tipoCombustivel, int capacidadeTanque, int capacidade, int preco, int qtdRotas) {
-        super(motorista, nome, tipoCombustivel, capacidadeTanque, capacidade, preco, qtdRotas);
+    public Cruzeiro(Caronte motorista, String nome, String tipoCombustivel, int qtdRotas) {
+        super(motorista, nome, tipoCombustivel, TANQUE_MAX, TOTAL_PASSAGEIROS, CUSTO_COMPRA, qtdRotas);
         this.tanque = new Tanque(TANQUE_MAX, tipoCombustivel);
         this.manutencao = new Manutencao(this);
 }

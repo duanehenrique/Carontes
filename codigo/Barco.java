@@ -1,7 +1,8 @@
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Barco implements Relatorio{
+public abstract class Barco implements Relatorio, Normalizador{
 
     // #region Atributos
     protected final String NOME;
@@ -127,6 +128,14 @@ public abstract class Barco implements Relatorio{
     }
     public void atribuirMotorista(Caronte caronte){
         this.motorista = caronte;
+    }
+
+    protected boolean verificarSeMotoristaReal(){
+        if(normalizar(motorista.getNome()) == normalizar("Teste")){
+            return false;
+        }else{
+            return true;
+        }
     }
 
     /**
@@ -485,5 +494,32 @@ public String relatorioRotas() {
         return clone;
     }
 
+    private static String normalizar(String texto) {
+        String normalizado = Normalizer.normalize(texto, Normalizer.Form.NFD)
+                .replaceAll("[^\\p{ASCII}]", "");
+        normalizado = normalizado.toUpperCase();
+
+        return normalizado;
+    }
+
+
+    public String relatorio() {
+        StringBuilder relatorio = new StringBuilder();
+        relatorio.append(getNOME() + ":\n");
+        relatorio.append("Caronte: " + motorista.getNome() + "\n");
+        relatorio.append("Nível de Experiência do Caronte: " + motorista.getNivel() + "\n");           
+        relatorio.append("Tipo de Barco: ").append(getTipoDeBarco());
+        relatorio.append("Capacidade máxima do barco: " + CAPACIDADEPASSAGEIROS + "\n");
+        relatorio.append("Viagens restante por hoje: " + (MAX_ROTAS_DIA - rotas.size()) + " km\n");
+        relatorio.append("Km Total: " + kmTotal() + " km\n");
+        relatorio.append("Km até próxima manutenção periódica: " + getKmAteProximaManutencao() + " km\n");
+        relatorio.append("Tanque abastecido: Veículo sem tanque.\n");
+        relatorio.append("Despesas com combustível: Veículo não consume combustível.\n");
+        relatorio.append("Despesas com multas: " + String.format("%.2f", despesaMulta) + " almas.\n");
+        relatorio.append("Despesas com manutenção: " + String.format("%.2f", despesaManutencao) + " almas.\n");
+        relatorio.append("Despesa total: " + String.format("%.2f", (getDespesaTotal()) + " almas.\n"));
+        relatorio.append("Arrecadação total: " + String.format("%.2f", (getTotalAlmasColetadasDia()) + " almas.\n"));
+        return relatorio.toString();
+    }
     // #endregion
 }

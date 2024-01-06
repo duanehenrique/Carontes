@@ -4,7 +4,7 @@ public class Tanque implements Normalizador{
     // #region Atributos
     private final int CAPACIDADEMAXIMA;
     private double capacidadeAtual;
-    private final TipoCombustivel tipoCombustivel;
+    private TipoCombustivel tipoCombustivel;
     // #endregion
 
     // #region Construtores
@@ -15,21 +15,8 @@ public class Tanque implements Normalizador{
      * @param CAPACIDADEMAXIMA Capacidade máxima do tanque.
      */
     Tanque(int capacidadeMaxima, String tipo) {
-        this.capacidadeAtual = 0;
         this.CAPACIDADEMAXIMA = capacidadeMaxima;
-        switch (normalizar(tipo)) {
-            case "ALCOOL":
-                tipoCombustivel = TipoCombustivel.ALCOOL;
-                break;
-            case "GASOLINA":
-                tipoCombustivel = TipoCombustivel.GASOLINA;
-                break;
-            case "DIESEL":
-                tipoCombustivel = TipoCombustivel.DIESEL;
-                break;
-            default:
-                throw new IllegalArgumentException("Barco não pôde ser fabricado. Tipo de combustível desconhecido: " + tipo);
-        }
+        instalarTanque(tipo);
     }
     // #endregion
 
@@ -75,6 +62,22 @@ public class Tanque implements Normalizador{
             }
         }
     
+public void instalarTanque(String tipo){
+switch (normalizar(tipo)) {
+            case "ALCOOL":
+                tipoCombustivel = TipoCombustivel.ALCOOL;
+                break;
+            case "GASOLINA":
+                tipoCombustivel = TipoCombustivel.GASOLINA;
+                break;
+            case "DIESEL":
+                tipoCombustivel = TipoCombustivel.DIESEL;
+                break;
+            default:
+                throw new IllegalArgumentException("Hefesto não pôde fabricar o barco desejado. Tipo de combustível desconhecido: " + tipo);
+        }
+    capacidadeAtual = 0;
+    }
 
     // #endregion
 

@@ -193,7 +193,6 @@ public class Frota implements Normalizador {
             throw new IllegalArgumentException("Ao menos um dos barcos selecionados não fazem parte da sua frota. Não foi possível trocar os Carontes de barco.");
         }
     }
-    
 
     private double abastecerBarcoDoDiario(DiarioDeBordo diario, double qtdCombustivel){
         
@@ -201,6 +200,32 @@ public class Frota implements Normalizador {
             Barco barco = diario.getBarcoDoDiario();
                 if (barco instanceof BarcoComTanque) {
                  return ((BarcoComTanque) barco).abastecer(qtdCombustivel);
+            } else {
+                throw new IllegalArgumentException("Você tentou abastecer uma gôndola com combstível, mas elas são movidas pelaa força dos Carontes.\n As leis trabalhistas daqui são estranhas.");
+            }
+
+            } else {
+            throw new IllegalArgumentException("O barco selecionado não faz parte da sua frota.");
+        } 
+    } 
+
+    public String instalarTanquePorIndex(int posicao, String tipo) {
+        DiarioDeBordo diario = localizarDiarioPorIndex(posicao);
+        return instalarTanqueBarcoDoDiario(diario, tipo);
+    }
+    
+    public String instalarTanquePorNome(String nome,  String tipo) {
+                DiarioDeBordo diario = localizarDiarioPorNome(nome);
+        return instalarTanqueBarcoDoDiario(diario, tipo);
+    }
+
+    private String instalarTanqueBarcoDoDiario(DiarioDeBordo diario, String tipo){
+        
+        if (diario != null) {
+            Barco barco = diario.getBarcoDoDiario();
+                if (barco instanceof BarcoComTanque) {
+                 ((BarcoComTanque) barco).instalarTanque(tipo);
+                 return ((BarcoComTanque)barco).getTipoCombustivel();
             } else {
                 throw new IllegalArgumentException("Você tentou abastecer uma gôndola com combstível, mas elas são movidas pelaa força dos Carontes.\n As leis trabalhistas daqui são estranhas.");
             }

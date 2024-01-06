@@ -1,6 +1,8 @@
 import java.io.IOException;
 import java.text.Normalizer;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.InputMismatchException;
@@ -97,6 +99,44 @@ private static void cranio(){
                 System.out.println("⠀⠀⠀⠀⠈⠛⢷⣦⣄⣉⠉⢉⣠⣤⣶⡿⠟⠉");
                 System.out.println("⠀⠀⠀⠀⠀⠀⠀⠈⠉⠛⠿⠿⠛⠋⠉");
             }
+
+    private static void exibirDia(){
+        separador();;
+        System.err.println("---- " + frota.getDataAtual() + " ----");
+        System.err.println("------ Dia "+ frota.getDiaDoDesafio() + "------");
+        separador();
+    }
+
+        private static void exibirAlmas(){
+        separador();;
+        System.err.println("---- Almas em Estoque:" + jogador.getAlmas() + " ----");
+        System.err.println("---- Almas coletadas hoje: "+ jogador.getAlmasDeHoje() + "----");
+        separador();
+    }
+
+        private static void exibirRotas(){
+        separador();
+        System.out.println(frota.relatorioCarontes());
+        separador();
+        }
+
+    /**
+     * Exibe um relatório detalhado da frota, incluindo informações de cada veículo
+     * cadastrado.
+     */
+    private static String exibirRelatorioFrota() {
+        StringBuilder resultado = new StringBuilder();
+        resultado.append(separador()).append("\n")
+        resultado.append("---- Barcos da Frota ").append(" ----\n");separador();
+        System.out.println(frota.relatorioFrota());
+        separador();
+    }
+
+    private static void exibirTodasMultas() {
+        separador();
+        System.out.println(frota.relatorioTodasMultas());
+        separador();
+    }
                 
     private static void tutorial(){
         exibirDia();
@@ -147,10 +187,17 @@ private static void esperarInicio() {
         for (int i = 0; i < 4; i++) {
             String nomeMotorista = nomesCarontes.gerarNome();
             Caronte motorista = new Caronte(nomeMotorista, 1, MAX_ROTAS_DIA);
-            Barco Gondola = gerarGondola(motorista); 
+            Barco gondola = gerarGondola(motorista); 
+            addBarcoFrota(gondola);
         }
     }
-    
+ 
+    public static void addBarcoFrota(Barco barco){
+        nomesBarcos.marcarNomeUtilizado(barco);
+        nomesCarontes.marcarNomeUtilizado(barco.getMotorista());
+        frota.addBarco(barco);
+    }    
+
     public double executarAcaoNaFrotaComAlmas(Function<Frota, Double> funcao) {
         return custos.executarTransacao(funcao, frota, jogador);
     }
@@ -257,6 +304,77 @@ private static void esperarInicio() {
         } while (opcao != 0);
     }
 
+
+    private static BarcoComTanque menuCombustivel(BarcoComTanque barco){
+        List<BarcoComTanque> barcosParaCombustivel = new ArrayList<>();
+            BarcoComTanque barcoCopia, barcoNovo;
+        for(int i = 0; i < 2; i++){
+            barcosParaCombustivel.add(barcoCopia);
+                if (barco instanceof Balsa) {
+                barcoNovo = new Balsa((Balsa) barcoCopia);
+            } else if (barco instanceof Navio) {
+                barcoNovo = new Navio((Navio) barcoCopia);
+            } else if (barcoNovo instanceof Cruzeiro) {
+                barcoNovo = new Cruzeiro((Cruzeiro) barcoCopia);    	    barcosParaCombustivel.set(i, barcoCopia);
+            }
+            switch (barcoCopia.getTanque().getTipo().getTipo()) {
+                case normalizar("Álcool"):
+                    barcoCopia.instalarTanque("Gasolina");
+                    break;
+                case normalizar("Gasolina"):
+                    barcoCopia.instalarTanque("Diesel");
+                    break;
+                case normalizar("Diesel"):
+                    barcoCopia.instalarTanque("Álcool");
+                    break;
+                    barcoCopia = barcoNovo;
+            }
+        }
+        boolean confirmacao = false;
+        while(!confirmacao){
+            for(int j = 0; j < 2; j++){
+            BarcoComTanque barcoTanque = barcosParaCombustivel.get(j);
+                System.err.println("Tanque #" + j + ":" + barcoTanque.getTipoCombustivel());
+                System.err.println("Preço adicional pelo combustível " + barcoTanque.getTipoCombustivel() + ": " + barcoTanque.getAdicionalPrecoVenda() + " almas.");
+                System.err.println("Preço do litro de " + barcoTanque.getTipoCombustivel() + ": " + barcoTanque.getAdicionalPrecoVenda() + " almas.");
+        }
+            System.err.println("Qual tipo de combustível deseja que o barco utilize:");
+            int escolha = menuEscolhaNumeros(1, 3);
+            barcoCopia = barcosParaCombustivel.get(escolha);
+            confirmacao = confirmacao();
+    }
+    return barcoCopia;
+
+    }
+    private static boolean confirmacao(){
+        boolean confirmacao = false;
+        String teste;
+        while(!confirmacao){
+        System.err.println("Digite Sim ou Não:");
+         teste = teclado.nextLine();
+        if(normalizar(teste).equals(normalizar("Sim")))
+        {
+          return true;
+        } else if(normalizar(teste).equals(normalizar("Não")))  {
+                      return false;
+        }else{
+        System.err.println("Resposta inválida. Tente novamente.");
+        }
+        }
+    }
+   
+        private static int menuEscolhaNumeros(int primeiro, int ultimo){
+        System.out.print("Selecione um opção (" + primeiro + "-" + ultimo + "): ");
+        int escolha = teclado.nextInt();
+
+        // Verificar se a escolha é válida
+        while(escolha < primeiro || escolha > ultimo) {
+            System.out.println("Não há uma opção referente a esse número. Tente novamente com números entre " + primeiro + "-" + ultimo + ".");
+            pausa();
+            escolha = teclado.nextInt();
+        }
+        return escolha;
+        }
     /**
      * Interage com o sistema para cadastrar um novo veículo na frota.
      * Solicita ao usuário informações como, placa, tipo de veículo
@@ -264,62 +382,116 @@ private static void esperarInicio() {
      * Valida as entradas e, se bem-sucedido, adiciona o
      * veículo à frota.
      */
-    private static Barco cadastrarVeiculo(Scanner teclado) {
-        // Solicita ao usuário que digite o tipo de veículo
-        String tipoVeiculo;
-        boolean veiculoValido;
-        do{
-            System.out.print("Digite o tipo de veículo (Carro, Van, Furgao, Caminhao):");
-        tipoVeiculo = normalizar(teclado.next());
+    private static void comprarBarco() {
+        String tipoCombustivel;
+        exibirAlmas();
+        System.out.print("Digite o tipo de combustível desejado para o barco: ");
+        tipoCombustivel = normalizar(teclado.next());
         teclado.nextLine();
-        veiculoValido = ((tipoVeiculo.equals("CARRO")) || (tipoVeiculo.equals("VAN")) || (tipoVeiculo.equals("FURGAO"))|| (tipoVeiculo.equals("CAMINHAO")));
-        if(!veiculoValido){
-            System.err.println("Tipo de veículo inválido. Tente novamente com alguma das opções disponíveis.");
-        }    
+
+        List<Caronte> motoristas = new ArrayList<>();
+        for (int i = 0; i < 4; i++) {
+        Caronte motorista;
+        motoristas.add(motorista);
         }
-        while(!veiculoValido);
+
+        List<String> opcoesCombustivel = new ArrayList<>();
+        opcoesCombustivel.add("Álcool");
+        opcoesCombustivel.add("Gasolina");
+        opcoesCombustivel.add("Diesel");
+
+        Collections.shuffle(opcoesCombustivel);   
+
+        List<Barco> barcosParaVenda = new ArrayList<>();
+        // Gerar Gôndola, Balsa, Navio e Cruzeiro
+        Gondola gondola = gerarGondola(motoristas.get(1));
+        barcosParaVenda.add(gondola);
+        Balsa balsa = (Balsa) gerarBarcoComTanque(motoristas.get(1), opcoesCombustivel.get(0), "Balsa");
+        barcosParaVenda.add(balsa);
+        Navio navio = (Navio) gerarBarcoComTanque(motoristas.get(1), opcoesCombustivel.get(1), "Navio");
+        barcosParaVenda.add(navio); 
+        Cruzeiro cruzeiro = (Cruzeiro) gerarBarcoComTanque(motoristas.get(1), opcoesCombustivel.get(2), "Cruzeiro");
+        barcosParaVenda.add(cruzeiro);
+        // Imprimir o relatório
+        Barco barcoEscolhido;
+        boolean confirmacao = false;
+        while(!confirmacao){
+          System.err.println("Selecione o barco de sua escolha:");
+        for (int i = 1; i <= barcosParaVenda.size(); i++) {
+            Barco barco = barcosParaVenda.get(i - 1); // Obtém o barco correspondente ao índice
         
-
-        // Solicita ao usuário que digite o nome do motorista
-        System.out.print("Digite o nome do motorista:");
-        String nomeMotorista = teclado.next();
-        teclado.nextLine();
-
-        // Solicita ao usuário que digite o CPF do motorista
-        System.out.print("Digite o CPF do motorista:");
-        String cpfMotorista = teclado.next();
-        teclado.nextLine();
-
-        // Cria o motorista
-        Caronte motorista = new Caronte(nomeMotorista, cpfMotorista);
-
-        // Solicita ao usuário que digite a placa do veículo
-        System.out.print("Digite a placa do veículo:");
-        String placa = normalizar(teclado.next());
-        teclado.nextLine();
-
-        // Solicita ao usuário que digite o tipo de combustível
-        System.out.print("Digite o tipo de combustível (Alcool, Gasolina, Diesel):");
-        String tipoCombustivel = normalizar(teclado.next());
-        teclado.nextLine();
-
-        // Separa com uma linha
-        separador();
-
-        // Calcula o custo de manutenção com base no tipo de veículo
-        double custoManutencao = calcularCustoManutencao(tipoVeiculo);
-
-        // Cria o veículo com base no tipo
-        Barco veiculo = criarVeiculo(tipoVeiculo, motorista, placa, tipoCombustivel, custoManutencao);
-
-        // Adiciona o veículo à frota se ele foi criado com sucesso
-        if (veiculo != null) {
-            frota.adicionarVeiculo(veiculo);
-            System.out.println("Veículo do tipo " + tipoVeiculo + " cadastrado com sucesso! Placa: " + placa);
-        } else {
-            System.out.println("Não foi possível cadastrar o veículo.");
+            System.out.println("Barco #" + i);
+            System.out.println("Nome: " + barco.getNOME());
+            System.out.println("Tipo de Barco: " + barco.getTipoDeBarco());
+            System.out.println("Capacidade máxima do barco: " + barco.getCAPACIDADEPASSAGEIROS() + "\n");        
+            if (barco instanceof BarcoComTanque) {
+              System.out.println("Capacidade máxima do tanque: " + ((BarcoComTanque)barco).getCapacidadeTanque() + "\n");                      
+                System.err.println("Preço adicional pelo combustível " + ((BarcoComTanque) barco).getTipoCombustivel() + ": " + ((BarcoComTanque) barco).getAdicionalPrecoVenda() + " almas.");
+                System.err.println("Preço do litro de " + ((BarcoComTanque) barco).getTipoCombustivel() + ": " + ((BarcoComTanque) barco).getAdicionalPrecoVenda() + " almas.");
+                System.err.println("Preço: " + barco.getPRECOCUSTO() + " almas.");
+            } else {
+                System.err.println("Preço: " + barco.getPRECOCUSTO() + " almas.");
+            }
         }
-        return veiculo;
+
+           int escolha = menuEscolhaNumeros(1, 4);
+
+            barcoEscolhido = barcosParaVenda.get(escolha);
+            System.out.println("Você selecionou o Barco #" + escolha);
+            System.out.println("Nome: " + barcoEscolhido.getNOME());
+            System.out.println("Tipo de Barco: " + barcoEscolhido.getTipoDeBarco()); 
+            System.out.println("Tem certeza de que deseja adquirir este barco?");
+            confirmacao = confirmacao();
+    }
+     pausa();    
+    if (barcoEscolhido instanceof BarcoComTanque) {
+        confirmacao = false;
+        while (!confirmacao) {
+            System.out.println("Deseja manter o barco com o tipo de combustível pré-definido para ele?");
+            System.out.println("Digite 1 para Sim e 0 para Não");
+            confirmacao();
+            if(!confirmacao){
+                barcoEscolhido = menuCombustivel((BarcoComTanque)  barcoEscolhido);
+            }
+
+        }
+        
+    }
+
+}
+        List<Caronte> motoristas = new ArrayList<>();
+        for (int i = 0; i < 4; i++) {
+        Caronte motorista = new Caronte(cloneNomesCarontes.gerarNome(), 1, MAX_ROTAS_DIA);
+        motoristas.add(motorista);
+        }
+        // Enviar o barco selecionado e a instância de Jogador para o método comprarBarco da classe Custos
+        Barco barcoSelecionado = null;
+        switch (escolha) {
+            case 1:
+                barcoSelecionado = gondola;
+                break;
+            case 2:
+                barcoSelecionado = balsa;
+                break;
+            case 3:
+                barcoSelecionado = navio;
+                break;
+            case 4:
+                barcoSelecionado = cruzeiro;
+                break;
+        }
+
+        // Chamada do método comprarBarco da classe Custos
+        custos.comprarBarco(barcoSelecionado, jogador);
+
+        // Adicionar o barco selecionado à frota
+        frota.addBarco(barcoSelecionado);
+
+        // Marcar o nome do Caronte associado ao barco como utilizado
+        geradorNomesCarontes.marcarNomeUtilizado(barcoSelecionado.getCaronte());
+
+        return barcoSelecionado;
+    }
     }
 
     /**
@@ -328,343 +500,35 @@ private static void esperarInicio() {
      * @param placa A placa única do veículo a ser cadastrado.
      * @return O veículo cadastrado ou null se não for possível criar o veículo.
      */
-    private static Barco gerarBarcoComTanque(Caronte motorista, String tipo) {    
-        String nomeBarco = nomesBarcos.gerarNome();
+    private static Barco gerarBarcoComTanque(Caronte motorista, String tipoCombustivel, String tipoBarco) {    
+        GeradorNomesBarcos cloneNomesBarco = new GeradorNomesBarcos(nomesBarcos);
+        String nomeBarco = cloneNomesBarco.gerarNome();
+        Barco barco;
+        switch(normalizar(tipoBarco)){
+            case "BALSA":
+                 barco = new Balsa(motorista, nomeBarco, tipoCombustivel, MAX_ROTAS_DIA);
+            break;
+            case "NAVIO":
+                 barco = new Navio(motorista, nomeBarco, tipoCombustivel, MAX_ROTAS_DIA);
+            break;
+            case "CRUZEIRO":
+                 barco = new Cruzeiro(motorista, nomeBarco, tipoCombustivel, MAX_ROTAS_DIA);
+            break;
+            default:
+                    throw new IllegalArgumentException("Este barco não existe e seus senhores não estão contentes.");
+            }  
                 return barco;
-        }
     }
     
-     private static Barco gerarGondola(Caronte motorista) {    
-        Gondola gondola = new Gondola(motorista, nomesBarcos.gerarNome(), MAX_ROTAS_DIA);
+     private static Gondola gerarGondola(Caronte motorista) {  
+        GeradorNomesBarcos cloneNomesBarco = new GeradorNomesBarcos(nomesBarcos);
+        String nomeBarco = cloneNomesBarco.gerarNome();  
+        Gondola gondola = new Gondola(motorista, nomeBarco, MAX_ROTAS_DIA);
         return gondola;
     } 
 
-    private static double calcularCustoManutencao(String tipoVeiculo) {
-        // Usando um HashMap para determinar o custo de manutenção
-        HashMap<String, Double> custosManutencao = new HashMap<>();
-        custosManutencao.put("CARRO", 500.0);
-        custosManutencao.put("VAN", 750.0);
-        custosManutencao.put("FURGAO", 1000.0);
-        custosManutencao.put("CAMINHAO", 1500.0);
 
-        return custosManutencao.getOrDefault(normalizar(tipoVeiculo), 0.0);
-    }
-
-    private static Barco criarVeiculo(String tipoVeiculo, Caronte motorista, String placa, String tipoCombustivel,
-            double custoManutencao) {
-        switch (normalizar(tipoVeiculo)) {
-            case "CARRO":
-                return new Carro(motorista, normalizar(placa), normalizar(tipoCombustivel), custoManutencao);
-            case "VAN":
-                return new Balsa(motorista, normalizar(placa), normalizar(tipoCombustivel), custoManutencao);
-            case "FURGAO":
-                return new Navio(motorista, normalizar(placa), normalizar(tipoCombustivel), custoManutencao);
-            case "CAMINHAO":
-                return new Cruzeiro(motorista, normalizar(placa), normalizar(tipoCombustivel), custoManutencao);
-            default:
-                System.out.println("Tipo de veículo desconhecido.");
-                return null;
-        }
-    }
-
-    private static void exibirDia(){
-        separador();;
-        System.err.println("---- " + frota.getDataAtual() + " ----");
-        System.err.println("------ Dia "+ frota.getDiaDoDesafio() + "------");
-        separador();
-    }
-
-        private static void exibirAlmas(){
-        separador();;
-        System.err.println("---- Almas em Estoque:" + jogador.getAlmas() + " ----");
-        System.err.println("---- Almas coletadas hoje: "+ jogador.getAlmasDeHoje() + "----");
-        separador();
-    }
-
-        private static void exibirRotas(){
-        separador();
-        System.out.println(frota.relatorioCarontes());
-        separador();
-        }
-
-    /**
-     * Exibe um relatório detalhado da frota, incluindo informações de cada veículo
-     * cadastrado.
-     */
-    private static String exibirRelatorioFrota() {
-        StringBuilder resultado = new StringBuilder();
-        resultado.append(separador()).append("\n")
-        resultado.append("---- Barcos da Frota ").append(" ----\n");separador();
-        System.out.println(frota.relatorioFrota());
-        separador();
-    }
-
-    private static void exibirTodasMultas() {
-        separador();
-        System.out.println(frota.relatorioTodasMultas());
-        separador();
-    }
-
-    /**
-     * Permite ao sistema registrar uma rota para um veículo específico.
-     * Gera aleatoriamente a placa do veículo e a quilometragem da rota a ser
-     * registrada.
-     */
-     private static void registrarRota() {
-        // Solicita a placa e tenta registrar a rota, capturando exceções de entrada
-        // inválida
-         
-        try {
-            System.out.print("Digite a placa do veículo para a rota: ");
-            String placaRota = normalizar(teclado.next());
-            Barco veiculoRota = frota.localizarVeiculo(placaRota);
-            // Verifica se o veículo foi encontrado
-            teclado.nextLine();
-            if (veiculoRota != null) {
-                System.out.print("Digite a quilometragem da rota: ");
-                double kmRota = teclado.nextDouble();
-                // teclado.nextLine(); // Limpa o buffer do teclado
-                Rota rota = new Rota(LocalDate.now(), kmRota);
-                // Tenta adicionar a rota ao veículo
-                veiculoRota.addRota(rota);
-            } else {
-                System.out.println("Veículo não encontrado.");
-            }
-        } catch (InputMismatchException e) {
-            System.out
-                    .println("Entrada inválida. Por favor, digite um número válido para a quilometragem.");
-            teclado.nextLine();
-        }
-        
-    }
-
-    /**
-     * Permite ao sistema abastecer um veículo específico da frota.
-     * Gera aleatoriamente a placa do veículo e a quantidade de combustível para
-     * abastecimento.
-     */
-    private static void abastecerVeiculo(Scanner teclado) {
-        System.out.print("Digite a placa do veículo para abastecer: ");
-        String placaAbastecer = normalizar(teclado.next());
-        teclado.nextLine();
-
-        Barco veiculoAbastecer = frota.localizarVeiculo(placaAbastecer);
-
-        if (veiculoAbastecer != null) {
-            System.out.println("Digite a quantidade de combustível para abastecer (em litros): ");
-            double litros = teclado.nextDouble();
-            teclado.nextLine(); // Limpa o scanner após ler um número
-
-            double litrosAbastecidos = veiculoAbastecer.abastecer(litros);
-            System.out.println("Veículo de placa " + placaAbastecer + " abastecido com " + litrosAbastecidos + " litros.");
-            System.out.println("Capacidade atual: " + veiculoAbastecer.getTanque().getCapacidadeAtual() + " litros.");
-            System.out.println("Capacidade máxima: " + veiculoAbastecer.getTanque().getCapacidadeMaxima() + " litros.");
-
-        } else {
-            System.out.println("Veículo não encontrado.");
-        }
-    }
-
-    /**
-     * Permite ao sistema registrar uma multa para um motorista específico.
-     * Gera aleatoriamente a placa do veículo e o tipo de multa para registro.
-     */
-    private static void registrarMulta(Scanner teclado) {
-        System.out.print("Digite a placa do veículo que recebeu a multa: ");
-        String placa = normalizar(teclado.next());
-        teclado.nextLine();
-
-        Barco veiculo = frota.localizarVeiculo(placa);
-
-        if (veiculo != null) {
-            System.out.println("Selecione o tipo de multa:");
-            System.out.println("1. Leve");
-            System.out.println("2. Média");
-            System.out.println("3. Grave");
-            System.out.println("4. Gravíssima");
-            int escolhaMulta = teclado.nextInt();
-            teclado.nextLine();; // Limpa o buffer do Scanner
-
-            String tipoMulta = normalizar(convertEscolhaParaGravidade(escolhaMulta));
-            if (!tipoMulta.isEmpty()) {
-                veiculo.addMultaAoMotorista(tipoMulta);
-                System.out
-                        .println("Multa do tipo " + tipoMulta + " registrada com sucesso no veículo de placa " + normalizar(placa));
-            } else {
-                System.out.println("Tipo de multa inválido.");
-            }
-        } else {
-            System.out.println("Veículo não encontrado.");
-        }
-    }
-
-    private static String convertEscolhaParaGravidade(int escolha) {
-        switch (escolha) {
-            case 1:
-                return "LEVE";
-            case 2:
-                return "MEDIA";
-            case 3:
-                return "GRAVE";
-            case 4:
-                return "GRAVISSIMA";
-            default:
-                return "";
-        }
-    }
-
-    /**
-     * Permite ao sistema processar o pagamento de uma multa de um motorista
-     * específico.
-     * Solicita ao usuário o CPF do motorista e realiza o pagamento da multa
-     * associada.
-     */
-    private static void pagarMulta(Scanner teclado) {
-        System.out.print("Digite o CPF do motorista para pagar a multa: ");
-        String cpf = teclado.next();
-
-        for (Barco veiculo : frota.getVeiculos()) {
-            Caronte motorista = veiculo.getMotorista();
-            if (motorista.getCpf().equals(cpf)) {
-                boolean sucesso = veiculo.pagarTodasMultas();
-                if (sucesso) {
-                    System.out.println("Multa paga com sucesso para o motorista com CPF: " + cpf);
-                } else {
-                    System.out.println("Não foi possível pagar a multa. O motorista não tem multas ou já estão pagas.");
-                }
-                return;
-            }
-        }
-
-        System.out.println("Motorista com CPF " + cpf + " não encontrado.");
-    }
-
-    /**
-     * Verifica o estado de manutenção de todos os veículos da frota.
-     * Percorre os veículos e relata se algum precisa de manutenção.
-     */
-    private static void verificarManutencaoVeiculos() {
-        try {
-            boolean manutencaoNecessaria = false;
-            // Itera sobre cada veículo na frota
-            for (Barco veiculo : frota.getVeiculos()) {
-                if (veiculo != null) {
-                    // Obtém o objeto de manutenção do veículo
-                    Manutencao manutencao = veiculo.getManutencao();
-                    // Verifica se a manutenção está em dia
-                    if (!manutencao.getManutencaoEmDia()) {
-                        System.out.println("Veículo de placa " + veiculo.getPlaca() + " precisa de manutenção.");
-                        manutencaoNecessaria = true;
-                    }
-                }
-            }
-            // Se nenhum veículo precisa de manutenção, informa que todos estão em dia
-            if (!manutencaoNecessaria) {
-                System.out.println("Todos os veículos estão com a manutenção em dia.");
-            }
-        } catch (Exception e) {
-            System.out.println("Ocorreu um erro ao verificar a manutenção dos veículos: " + e.getMessage());
-        }
-    }
-    
-
-    /**
-     * Lista as rotas não percorridas de um veículo específico.
-     * Solicita ao usuário a placa do veículo e exibe as rotas disponíveis que ainda
-     * não foram percorridas.
-     */
-    private static void listarRotasNaoPercorridas(Scanner teclado) {
-        System.out.print("Digite a placa do veículo para listar rotas não percorridas: ");
-        String placa = normalizar(teclado.next());
-        teclado.nextLine();
-
-        Barco veiculo = frota.localizarVeiculo(normalizar(placa));
-
-        if (veiculo != null) {
-            try {
-                veiculo.listarRotasNaoPercorridas();
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-            }
-        } else {
-            System.out.println("Veículo não encontrado.");
-        }
-    }
-
-    /**
-     * Permite ao usuário selecionar e percorrer uma rota específica de um veículo.
-     * Solicita a placa do veículo e o número da rota a ser percorrida.
-     */
-    private static void percorrerRotaEspecifica(Scanner teclado) {
-        System.out.print("Digite a placa do veículo para percorrer uma rota: ");
-        String placa = normalizar(teclado.next());
-        teclado.nextLine();
-
-        Barco veiculo = frota.localizarVeiculo(placa);
-
-        if (veiculo != null) {
-            if(veiculo.getQuantRotas() == 0){
-                System.out.println("Não existe uma rota cadastrada nesse veiculo");
-            }else{
-                veiculo.listarRotasNaoPercorridas(); // Lista as rotas não percorridas
-                System.out.print("Escolha o número da rota para percorrer: ");
-                int numeroRota = teclado.nextInt();
-                teclado.nextLine();
-                try {
-                    veiculo.percorrerRotaPorLista(numeroRota);
-                } catch (Exception e) {
-                    System.out.println(e.getMessage());
-                }  
-            }
-        }
-        
-        else {
-            System.out.println("Veículo não encontrado.");
-        }
-    }
-
-    /**
-     * Permite ao usuário realizar a manutenção de um veículo específico.
-     * Solicita a placa do veículo e executa o procedimento de manutenção, se
-     * necessário.
-     */
-    private static void realizarManutencaoVeiculo(Scanner teclado) {
-        System.out.println("Digite a placa do veículo para realizar manutenção:");
-        String placa = normalizar(teclado.next());
-        teclado.nextLine();
-
-        boolean veiculoEncontrado = false;
-
-        for (Barco veiculo : frota.getVeiculos()) {
-            if (veiculo != null && veiculo.getPlaca().equalsIgnoreCase(placa)) {
-                veiculoEncontrado = true;
-                
-                    veiculo.fazerManutencao();   
-               
-            }
-        }
-
-        if (!veiculoEncontrado) {
-            System.out.println("Veículo com placa " + normalizar(placa) + " não encontrado.");
-        }
-    }
-
-    /**
-     * Exibe um relatório detalhado das rotas percorridas por um veículo específico.
-     * Solicita ao usuário a placa do veículo e exibe o relatório das rotas.
-     */
-    private static void exibirRelatorioRotasVeiculo() {
-        frota.exibirRelatorioRotas();
-    }
-
-        /**
-        * Normaliza a string fornecida, removendo acentos e cedilha, e transformando
-        * todos os caracteres para caixa alta.
-        * 
-        * @param input A string a ser normalizada.
-        * @return A string normalizada.
-        */
-        private static String normalizar(String texto) {
+    private static String normalizar(String texto) {
         String normalizado = Normalizer.normalize(texto, Normalizer.Form.NFD)
                 .replaceAll("[^\\p{ASCII}]", "");
         normalizado = normalizado.toUpperCase();
@@ -688,7 +552,7 @@ private static void esperarInicio() {
      */
     public static void main(String[] args) {
         Scanner teclado = new Scanner(System.in);
-
+        
         System.out.println("");
         inicializarFrota();
         separador();

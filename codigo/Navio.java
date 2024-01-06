@@ -15,8 +15,8 @@ public class Navio extends BarcoComTanque{
          * @param tipoCombustivel O tipo de combustível do furgão.
          * @param custoManutencao O custo de manutenção do furgão.
          */
-        public Navio(Caronte motorista, String nome, String tipoCombustivel, int capacidadeTanque, int capacidade, int preco, int qtdRotas) {
-            super(motorista, nome, tipoCombustivel, capacidadeTanque, capacidade, preco, qtdRotas);
+        public Navio(Caronte motorista, String nome, String tipoCombustivel, int qtdRotas) {
+            super(motorista, nome, tipoCombustivel, TANQUE_MAX, TOTAL_PASSAGEIROS, CUSTO_COMPRA, qtdRotas);
             this.tanque = new Tanque(TANQUE_MAX, tipoCombustivel);
             this.manutencao = new Manutencao(this);
     }
