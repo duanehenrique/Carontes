@@ -306,16 +306,22 @@ private static void esperarInicio() {
 
 
     private static BarcoComTanque menuCombustivel(BarcoComTanque barco){
+        boolean confirmacao = false;
+        while (!confirmacao) {
+            System.out.println("O barco " + barco.getNOME() + " é movido a " + barco.getTipoCombustivel());
+            System.out.println("Deseja que o barco permaneça com esse tipo de combustível?");
+            confirmacao = confirmacao();
+            if(!confirmacao){
         List<BarcoComTanque> barcosParaCombustivel = new ArrayList<>();
             BarcoComTanque barcoCopia, barcoNovo;
-        for(int i = 0; i < 2; i++){
+        for(int i = 1; i <= 2; i++){
             barcosParaCombustivel.add(barcoCopia);
                 if (barco instanceof Balsa) {
                 barcoNovo = new Balsa((Balsa) barcoCopia);
             } else if (barco instanceof Navio) {
                 barcoNovo = new Navio((Navio) barcoCopia);
             } else if (barcoNovo instanceof Cruzeiro) {
-                barcoNovo = new Cruzeiro((Cruzeiro) barcoCopia);    	    barcosParaCombustivel.set(i, barcoCopia);
+                barcoNovo = new Cruzeiro((Cruzeiro) barcoCopia); 
             }
             switch (barcoCopia.getTanque().getTipo().getTipo()) {
                 case normalizar("Álcool"):
@@ -330,9 +336,8 @@ private static void esperarInicio() {
                     barcoCopia = barcoNovo;
             }
         }
-        boolean confirmacao = false;
         while(!confirmacao){
-            for(int j = 0; j < 2; j++){
+            for(int j = 1; j <= 2; j++){
             BarcoComTanque barcoTanque = barcosParaCombustivel.get(j);
                 System.err.println("Tanque #" + j + ":" + barcoTanque.getTipoCombustivel());
                 System.err.println("Preço adicional pelo combustível " + barcoTanque.getTipoCombustivel() + ": " + barcoTanque.getAdicionalPrecoVenda() + " almas.");
@@ -341,11 +346,45 @@ private static void esperarInicio() {
             System.err.println("Qual tipo de combustível deseja que o barco utilize:");
             int escolha = menuEscolhaNumeros(1, 3);
             barcoCopia = barcosParaCombustivel.get(escolha);
-            confirmacao = confirmacao();
     }
     return barcoCopia;
-
+            }
+        }
     }
+
+    private static Caronte menuContratarCaronte() {
+        List<Caronte> carontesDisponiveis = new ArrayList<>();
+        boolean confirmacao = false;
+        Caronte caronteEscolhido;
+        while (!confirmacao) {
+            separador();
+        System.err.println("Lista do Setor de Aquisições de barcos disponíveis:");
+            separador();
+        for (int i = 1; i <= 4; i++) {
+            Caronte caronte = new Caronte(nomesCarontes.gerarNome(), i, MAX_ROTAS_DIA);
+            carontesDisponiveis.add(caronte);
+    
+            System.out.println("Caronte #" + i);
+            System.err.println("Nome: " + caronte.getNome());
+            System.err.println("Nivel de Experiência: " + caronte.getNivel());
+            System.err.println("Salário por Dia: " + caronte.getSalario());
+            System.err.println("Probabilidade de Cometer Infrações: " + caronte.getProbabilidade() + "\n");            System.out.println();
+        }
+            separador();
+        System.out.println("Qual Caronte você deseja contratar?");
+        int escolhaCaronte = menuEscolhaNumeros(1, 4);
+        caronteEscolhido = carontesDisponiveis.get(escolhaCaronte-1);
+        System.out.println("Você deseja contratar o Caronte ");  
+        System.err.println("Nome: " + caronteEscolhido.getNome());
+        System.err.println("Nivel de Experiência: " + caronteEscolhido.getNivel());
+        System.err.println("Salário por Dia: " + caronteEscolhido.getSalario());
+        System.err.println("Probabilidade de Cometer Infrações: " + caronteEscolhido.getProbabilidade() + "\n");   
+       confirmacao = confirmacao();
+        }
+        return caronteEscolhido;
+    }
+    
+
     private static boolean confirmacao(){
         boolean confirmacao = false;
         String teste;
@@ -358,13 +397,13 @@ private static void esperarInicio() {
         } else if(normalizar(teste).equals(normalizar("Não")))  {
                       return false;
         }else{
-        System.err.println("Resposta inválida. Tente novamente.");
+        System.err.println("Resposta inválida. Responda com Sim ou Não.");
         }
         }
     }
    
         private static int menuEscolhaNumeros(int primeiro, int ultimo){
-        System.out.print("Selecione um opção (" + primeiro + "-" + ultimo + "): ");
+        System.out.print("Selecione um opção (Entre " + primeiro + "-" + ultimo + "): ");
         int escolha = teclado.nextInt();
 
         // Verificar se a escolha é válida
@@ -385,12 +424,9 @@ private static void esperarInicio() {
     private static void comprarBarco() {
         String tipoCombustivel;
         exibirAlmas();
-        System.out.print("Digite o tipo de combustível desejado para o barco: ");
-        tipoCombustivel = normalizar(teclado.next());
-        teclado.nextLine();
 
         List<Caronte> motoristas = new ArrayList<>();
-        for (int i = 0; i < 4; i++) {
+        for (int i = 1; i <= 4; i++) {
         Caronte motorista;
         motoristas.add(motorista);
         }
@@ -415,8 +451,10 @@ private static void esperarInicio() {
         // Imprimir o relatório
         Barco barcoEscolhido;
         boolean confirmacao = false;
+                        separador();
         while(!confirmacao){
-          System.err.println("Selecione o barco de sua escolha:");
+          System.err.println("Lista do Setor de Aquisições de barcos disponíveis:");
+                      separador();
         for (int i = 1; i <= barcosParaVenda.size(); i++) {
             Barco barco = barcosParaVenda.get(i - 1); // Obtém o barco correspondente ao índice
         
@@ -428,11 +466,13 @@ private static void esperarInicio() {
               System.out.println("Capacidade máxima do tanque: " + ((BarcoComTanque)barco).getCapacidadeTanque() + "\n");                      
                 System.err.println("Preço adicional pelo combustível " + ((BarcoComTanque) barco).getTipoCombustivel() + ": " + ((BarcoComTanque) barco).getAdicionalPrecoVenda() + " almas.");
                 System.err.println("Preço do litro de " + ((BarcoComTanque) barco).getTipoCombustivel() + ": " + ((BarcoComTanque) barco).getAdicionalPrecoVenda() + " almas.");
-                System.err.println("Preço: " + barco.getPRECOCUSTO() + " almas.");
+                System.err.println("Preço base do barco: " + barco.getPRECOCUSTO() + " almas.");
+                System.err.println("Preço total do barco: " + ((BarcoComTanque) barco).getPrecoTotal() + " almas.");
             } else {
                 System.err.println("Preço: " + barco.getPRECOCUSTO() + " almas.");
             }
         }
+          System.err.println("Qual barco você deseja incluir no seu pedido ao Setor de Aquisições:");
 
            int escolha = menuEscolhaNumeros(1, 4);
 
@@ -442,57 +482,38 @@ private static void esperarInicio() {
             System.out.println("Tipo de Barco: " + barcoEscolhido.getTipoDeBarco()); 
             System.out.println("Tem certeza de que deseja adquirir este barco?");
             confirmacao = confirmacao();
-    }
-     pausa();    
     if (barcoEscolhido instanceof BarcoComTanque) {
-        confirmacao = false;
-        while (!confirmacao) {
-            System.out.println("Deseja manter o barco com o tipo de combustível pré-definido para ele?");
-            System.out.println("Digite 1 para Sim e 0 para Não");
-            confirmacao();
-            if(!confirmacao){
                 barcoEscolhido = menuCombustivel((BarcoComTanque)  barcoEscolhido);
             }
-
+            Caronte caronte = menuContratarCaronte();
+            barcoEscolhido.atribuirMotorista(caronte);
+            separador();
+            System.out.println("Você está fazendo o seguinte pedido ao Setor de Aquisições:");
+            separador();
+            System.out.println("Barco a ser adquirido: " + barcoEscolhido.getNOME());
+            System.out.println("Tipo de Barco: " + barcoEscolhido.getTipoDeBarco());
+            System.out.println("Capacidade máxima do barco: " + barcoEscolhido.getCAPACIDADEPASSAGEIROS() + "\n");        
+            if (barcoEscolhido instanceof BarcoComTanque) {
+              System.out.println("Capacidade máxima do tanque: " + ((BarcoComTanque)barcoEscolhido).getCapacidadeTanque() + "\n");                      
+                System.err.println("Preço adicional pelo combustível " + ((BarcoComTanque) barcoEscolhido).getTipoCombustivel() + ": " + ((BarcoComTanque) barco).getAdicionalPrecoVenda() + " almas.");
+                System.err.println("Preço do litro de " + ((BarcoComTanque) barcoEscolhido).getTipoCombustivel() + ": " + ((BarcoComTanque) barco).getAdicionalPrecoVenda() + " almas.");
+                System.err.println("Preço base do barco: " + barcoEscolhido.getPRECOCUSTO() + " almas.");
+                System.err.println("Preço total do barco: " + ((BarcoComTanque) barcoEscolhido).getPrecoTotal() + " almas.");            
+            }else{
+                System.err.println("Preço: " + barcoEscolhido.getPRECOCUSTO() + " almas.");
+            }
+            separador();
+            System.err.println("Caronte a ser contratado: " + caronte.getNome());
+            System.err.println("Nivel de Experiência: " + caronte.getNivel());
+            System.err.println("Salário por Dia: " + caronte.getSalario());
+            System.err.println("Probabilidade de Cometer Infrações: " + caronte.getProbabilidade() + "\n");   
+            separador();
+            System.out.println("Você tem certeza de que gostaria de fazer este pedido?");
+            confirmacao = confirmacao();
         }
-        
+            custos.comprarBarco(barcoEscolhido, jogador);
     }
 
-}
-        List<Caronte> motoristas = new ArrayList<>();
-        for (int i = 0; i < 4; i++) {
-        Caronte motorista = new Caronte(cloneNomesCarontes.gerarNome(), 1, MAX_ROTAS_DIA);
-        motoristas.add(motorista);
-        }
-        // Enviar o barco selecionado e a instância de Jogador para o método comprarBarco da classe Custos
-        Barco barcoSelecionado = null;
-        switch (escolha) {
-            case 1:
-                barcoSelecionado = gondola;
-                break;
-            case 2:
-                barcoSelecionado = balsa;
-                break;
-            case 3:
-                barcoSelecionado = navio;
-                break;
-            case 4:
-                barcoSelecionado = cruzeiro;
-                break;
-        }
-
-        // Chamada do método comprarBarco da classe Custos
-        custos.comprarBarco(barcoSelecionado, jogador);
-
-        // Adicionar o barco selecionado à frota
-        frota.addBarco(barcoSelecionado);
-
-        // Marcar o nome do Caronte associado ao barco como utilizado
-        geradorNomesCarontes.marcarNomeUtilizado(barcoSelecionado.getCaronte());
-
-        return barcoSelecionado;
-    }
-    }
 
     /**
      * Cadastra um veículo automaticamente com informações aleatórias.
