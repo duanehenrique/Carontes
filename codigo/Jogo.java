@@ -114,7 +114,14 @@ private static void cranio(){
         System.err.println("---- Almas coletadas hoje: "+ jogador.getAlmasDeHoje() + "----");
         separador();
     }
-
+        private static void exibirCustoTotal(double custoDeCompra){
+        if(custoDeCompra > 0){
+        separador();
+        System.err.println("Almas consumidas com a transação: " + custoDeCompra);
+        separador();
+        pausa();
+        }
+        }
         private static void exibirRotas(){
         separador();
         System.out.println(frota.relatorioCarontes());
@@ -190,7 +197,16 @@ private static void cranio(){
         pausa();
         System.err.println("Quanto maior a rota que o Caronte for cruzar, maior a chance dele cometer alguma imprudência.");
         System.err.println("Além disso, se o barco estiver com superlotação, o Caronte pode não conseguir guiá-lo direito.");
-        System.err.println("");
+        System.err.println("Imagine o peso do barco super cheio! Difícil demais de conduzir.");
+        System.err.println("Sem falar no caos que deve ser tem esse tanto de gente gritando e pedindo clemência para não ser levado ao submundo.");
+        System.err.println("Os burocráticos consideram como superlotação uma carga de mais 80% da capacidade do barco. Gente demais de uma vez, apenas.");
+        System.err.println("Por outro lado, quanto maior a rota, maior a quantidade de passageiros.");
+        System.err.println("E quanto mais passageiros maior a chance de você lucrar. Mais passageiros são mais almas e mais almas significam que o chefe está contente.");
+        System.err.println("Mas lembre-se de que trajetos longos implicam em maior gasto com combustível.");
+        System.out.println("Gôndolas são movidas pela força bruta dos Carontes. As leis trabalhistas por aqui sao confusas.");
+        System.out.println("Mas barcos maiores consomem combustível e isso requer almas. Sem combustível o barco não consegue viajar, mas sem almas não se pode fazer nada. Equilibrio é tudo.");
+
+
 
 
     
@@ -394,13 +410,14 @@ private static void esperarInicio() {
     private static Caronte menuContratarCaronte() {
         List<Caronte> carontesDisponiveis = new ArrayList<>();
         boolean confirmacao = false;
+        GeradorNomesCarontes gerador = new GeradorNomesCarontes(nomesCarontes);
         Caronte caronteEscolhido = null;
         while (!confirmacao) {
             separador();
         System.err.println("Lista do Setor de Aquisições de barcos disponíveis:");
             separador();
         for (int i = 1; i <= 4; i++) {
-            Caronte caronte = new Caronte(nomesCarontes.gerarNome(), i, MAX_ROTAS_DIA);
+            Caronte caronte = new Caronte(gerador.gerarNome(), i, MAX_ROTAS_DIA);
             carontesDisponiveis.add(caronte);
     
             System.out.println("Caronte #" + i);
@@ -420,6 +437,7 @@ private static void esperarInicio() {
         System.err.println("Probabilidade de Cometer Infrações: " + caronteEscolhido.getProbabilidade() + "\n");   
        confirmacao = confirmacao();
         }
+
             return caronteEscolhido;
  
     }
@@ -462,10 +480,9 @@ private static void esperarInicio() {
      * Valida as entradas e, se bem-sucedido, adiciona o
      * veículo à frota.
      */
-    private static void menuComprarBarco() {
+    private static double menuComprarBarco() {
         String tipoCombustivel;
         exibirAlmas();
-
         List<Caronte> motoristas = new ArrayList<>();
         for (int i = 1; i <= 4; i++) {
         Caronte motorista;
@@ -480,7 +497,7 @@ private static void esperarInicio() {
         Collections.shuffle(opcoesCombustivel);   
 
         List<Barco> barcosParaVenda = new ArrayList<>();
-        // Gerar Gôndola, Balsa, Navio e Cruzeiro
+
         Gondola gondola = gerarGondola(motoristas.get(1));
         barcosParaVenda.add(gondola);
         Balsa balsa = (Balsa) gerarBarcoComTanque(motoristas.get(1), opcoesCombustivel.get(0), "Balsa");
@@ -489,7 +506,6 @@ private static void esperarInicio() {
         barcosParaVenda.add(navio); 
         Cruzeiro cruzeiro = (Cruzeiro) gerarBarcoComTanque(motoristas.get(1), opcoesCombustivel.get(2), "Cruzeiro");
         barcosParaVenda.add(cruzeiro);
-        // Imprimir o relatório
         Barco barcoEscolhido;
         boolean confirmacao = false;
                         separador();
@@ -556,7 +572,12 @@ private static void esperarInicio() {
             System.out.println("Você tem certeza de que gostaria de fazer este pedido?");
             confirmacao = confirmacao();
         }
-        custos.comprarBarco(barcoEscolhido, jogador);
+        double custoDeCompra = custos.comprarBarco(barcoEscolhido, jogador);
+        if(custoDeCompra > 0){
+        nomesCarontes.marcarNomeUtilizado(barcoEscolhido.getMotorista());
+        nomesBarcos.marcarNomeUtilizado(barcoEscolhido);
+        }
+        return custoDeCompra;
     }
 
 
