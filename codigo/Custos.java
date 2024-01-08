@@ -13,28 +13,21 @@ public class Custos {
     }
 
 
-    public double getAlmas() {
+    public double getAlmasDeHoje() {
         return almas;
     }
 
-    public double getAlmasDeHoje(){
-       return almasPorDia.get((almasPorDia.size() -1));
-    }
-
     public void coletarAlmas(double almas){
-        addAlmasAoDia(almas);
         almas += almas;
     }
 
-    public void addAlmasAoDia(double almas){
-        almasPorDia.add((almasPorDia.size() -1), almas);
-    }
-
     public void encerrarDia(){
+        almasPorDia.add((almasPorDia.size() - 1), almas);
         almasPorDia.add(almasPorDia.size(), 0.0);
+        almas = 0;
     }   
     
-    public static double comprarBarco(Barco barco, Jogador jogador) {
+    public double comprarBarco(Barco barco, Jogador jogador) {
          try {
         double custoTotal = barco.getPRECOCUSTO();
         double almasJogador = jogador.getAlmas();
@@ -42,6 +35,8 @@ public class Custos {
             if (barco instanceof BarcoComTanque) {
             custoTotal += ((BarcoComTanque) barco).getTanque().getAdicionalPrecoVenda();
             }
+            jogador.consumirAlmas(custoTotal);
+            coletarAlmas(custoTotal);
             return custoTotal;
         }else {
             throw new IllegalArgumentException("A frota do gerente " + jogador.getNomePersonagem() +
@@ -59,6 +54,8 @@ public class Custos {
                 if (custoTotal <= jogador.getAlmas()) {
                     custoTotal = funcao.apply(frota);
                     jogador.consumirAlmas(custoTotal);
+                    coletarAlmas(custoTotal);
+                    System.err.println("Gasto da frota do gerente " + jogador.getNomePersonagem() + " com a transação: " + custoTotal + " almas.");
                     return custoTotal;
                 } else {
                     frotaClone = null;
@@ -69,9 +66,8 @@ public class Custos {
             }
         } 
 
-    private static Frota clonarFrota(Frota frotaOriginal){
+    private Frota clonarFrota(Frota frotaOriginal){
         Frota frotaClone = new Frota(frotaOriginal);
         return frotaClone;
     }
-               
 }

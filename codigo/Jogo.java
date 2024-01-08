@@ -109,6 +109,7 @@ private static void cranio(){
 
         private static void exibirAlmas(){
         separador();;
+        System.err.println("---- Almas da frota do gerente " + jogador.getNomePersonagem() + " ----");
         System.err.println("---- Almas em Estoque:" + jogador.getAlmas() + " ----");
         System.err.println("---- Almas coletadas hoje: "+ jogador.getAlmasDeHoje() + "----");
         separador();
@@ -124,12 +125,20 @@ private static void cranio(){
      * Exibe um relatório detalhado da frota, incluindo informações de cada veículo
      * cadastrado.
      */
-    private static String exibirRelatorioFrota() {
+    private static void exibirRelatorioFrota() {
         StringBuilder resultado = new StringBuilder();
-        resultado.append(separador()).append("\n")
-        resultado.append("---- Barcos da Frota ").append(" ----\n");separador();
+        separador();
+        resultado.append("---- Barcos da Frota do Gerente ").append(" ----\n");
+        separador();
         System.out.println(frota.relatorioFrota());
         separador();
+    }
+
+    private static void exibirRelatorioCarontes(){
+        separador();
+        System.err.println("---- Carontes da Frota do Gerente ");
+        separador();
+        System.err.println(frota.relatorioCarontes());
     }
 
     private static void exibirTodasMultas() {
@@ -137,24 +146,53 @@ private static void cranio(){
         System.out.println(frota.relatorioTodasMultas());
         separador();
     }
-                
+
+    private static void encerrarDia(){
+        jogador.encerrarDia();
+        frota.encerrarDia();
+        custos.encerrarDia();
+    }
+
+        private static void iniciarDia(){
+        frota.iniciarDia();
+        System.err.println(frota.relatorioFrotaDeOntem());
+    }
+
     private static void tutorial(){
         exibirDia();
         System.err.println("Sua frota não é grande, mas tem potencial.");
-        System.err.println("Esses são os seus barcos e seus Carontes disponíveis:");
+        System.err.println("Esses são os seus barcos e seus Carontes disponíveis no momento:");
         exibirRelatorioFrota();
         System.err.println("Carontes podem fazer até " + MAX_ROTAS_DIA + " viagens por dia.");
         System.err.println("Nenhum deles pode percorrer mais de " + MAX_ROTAS_DIA + " rotas em um mesmo dia");
         System.err.println("É algo do sindicato. Melhor não mexer nisso.");
         pausa();
-        exibirTodasMultas();
         exibirRotas();
+        System.err.println("Não é possível ter um barco na frota sem um Caronte e vice versa. Regras são regras.");
         System.err.println("Carontes têm nível de experiência. Alguns têm mais anos de firma.");
         System.err.println("Aqueles que começaram há pouco tempo não são muito prudentes e tem mais chance de cometer infrações.");
         System.err.println("Quanto mais experiente, menor a chance do guarda costeiro acabar aplicando uma multa.");
-        System.err.println("Nós não queremos multas. Se o Caronte tiver uma multa pendente, ele não pode entrar em uma rota.");
+        System.err.println("E, mesmo que ele acabe fazendo um desleixo, provavelmente será algo leve.");
+        System.err.println("Mas quanto mais experiente, maior será seu salário. Devemos respeitar o piso salarial.");
+        System.err.println("Veja os Carontes empregados na sua frota:");
+        exibirRelatorioCarontes();
+        System.err.println("No momento, todos os Carontes contratados são de nível 1");
+        System.err.println("Mas você pode sempre contratar outros quando for adquirir mais barcos. Claro, por um preço.");
+        pausa();
+        System.err.println("Vale a pena contratar Carontes mais experientes? Bom, nós não queremos nossos Carontes recebendo multas.");
+        System.err.println("Se o Caronte tiver uma multa pendente, ele não pode entrar em uma rota.");
         System.err.println("A legislação do Submundo é bem rígida quanto a isso");
         System.err.println("Multas custam. E isso sai do nosso bolso. Do que ganhamos no dia.");
+        System.err.println("Veja como estão as carteiras de motorista dos Carontes empregados por você:");
+        exibirTodasMultas();
+        System.err.println("No momento, nenhum Caronte da sua frota tem uma multa na carteira, mas tome cuidado.");
+        System.err.println("Melhor evitar que multas sejam aplicadas. E há formas de fazer isso.");
+        pausa();
+        System.err.println("Quanto maior a rota que o Caronte for cruzar, maior a chance dele cometer alguma imprudência.");
+        System.err.println("Além disso, se o barco estiver com superlotação, o Caronte pode não conseguir guiá-lo direito.");
+        System.err.println("");
+
+
     
 
 
@@ -307,36 +345,37 @@ private static void esperarInicio() {
 
     private static BarcoComTanque menuCombustivel(BarcoComTanque barco){
         boolean confirmacao = false;
+        BarcoComTanque barcoCopia = ((BarcoComTanque) barco);
         while (!confirmacao) {
             System.out.println("O barco " + barco.getNOME() + " é movido a " + barco.getTipoCombustivel());
             System.out.println("Deseja que o barco permaneça com esse tipo de combustível?");
             confirmacao = confirmacao();
             if(!confirmacao){
         List<BarcoComTanque> barcosParaCombustivel = new ArrayList<>();
-            BarcoComTanque barcoCopia, barcoNovo;
-        for(int i = 1; i <= 2; i++){
-            barcosParaCombustivel.add(barcoCopia);
-                if (barco instanceof Balsa) {
-                barcoNovo = new Balsa((Balsa) barcoCopia);
+        for (int i = 1; i <= 2; i++) { 
+            barcosParaCombustivel.add(barcoCopia);       
+            if (barco instanceof Balsa) {
+                barcoCopia = new Balsa((Balsa) barco);
             } else if (barco instanceof Navio) {
-                barcoNovo = new Navio((Navio) barcoCopia);
-            } else if (barcoNovo instanceof Cruzeiro) {
-                barcoNovo = new Cruzeiro((Cruzeiro) barcoCopia); 
+                barcoCopia = new Navio((Navio) barco);
+            } else if (barco instanceof Cruzeiro) {
+                barcoCopia = new Cruzeiro((Cruzeiro) barco);
+            } else {
+                throw new IllegalArgumentException("Barco selecionado não existe.");
             }
+        
             switch (barcoCopia.getTanque().getTipo().getTipo()) {
-                case normalizar("Álcool"):
+                case "ALCOOL":
                     barcoCopia.instalarTanque("Gasolina");
                     break;
-                case normalizar("Gasolina"):
+                case "GASOLINA":
                     barcoCopia.instalarTanque("Diesel");
                     break;
-                case normalizar("Diesel"):
+                case "DIESEL":
                     barcoCopia.instalarTanque("Álcool");
                     break;
-                    barcoCopia = barcoNovo;
             }
-        }
-        while(!confirmacao){
+            while(!confirmacao){
             for(int j = 1; j <= 2; j++){
             BarcoComTanque barcoTanque = barcosParaCombustivel.get(j);
                 System.err.println("Tanque #" + j + ":" + barcoTanque.getTipoCombustivel());
@@ -347,7 +386,7 @@ private static void esperarInicio() {
             int escolha = menuEscolhaNumeros(1, 3);
             barcoCopia = barcosParaCombustivel.get(escolha);
     }
-    return barcoCopia;
+    return (BarcoComTanque) barcoCopia;
             }
         }
     }
@@ -355,7 +394,7 @@ private static void esperarInicio() {
     private static Caronte menuContratarCaronte() {
         List<Caronte> carontesDisponiveis = new ArrayList<>();
         boolean confirmacao = false;
-        Caronte caronteEscolhido;
+        Caronte caronteEscolhido = null;
         while (!confirmacao) {
             separador();
         System.err.println("Lista do Setor de Aquisições de barcos disponíveis:");
@@ -381,7 +420,8 @@ private static void esperarInicio() {
         System.err.println("Probabilidade de Cometer Infrações: " + caronteEscolhido.getProbabilidade() + "\n");   
        confirmacao = confirmacao();
         }
-        return caronteEscolhido;
+            return caronteEscolhido;
+ 
     }
     
 
@@ -398,8 +438,9 @@ private static void esperarInicio() {
                       return false;
         }else{
         System.err.println("Resposta inválida. Responda com Sim ou Não.");
+        confirmacao = false;
         }
-        }
+        }return false;
     }
    
         private static int menuEscolhaNumeros(int primeiro, int ultimo){
@@ -421,7 +462,7 @@ private static void esperarInicio() {
      * Valida as entradas e, se bem-sucedido, adiciona o
      * veículo à frota.
      */
-    private static void comprarBarco() {
+    private static void menuComprarBarco() {
         String tipoCombustivel;
         exibirAlmas();
 
@@ -453,6 +494,7 @@ private static void esperarInicio() {
         boolean confirmacao = false;
                         separador();
         while(!confirmacao){
+          System.out.println("O Setor de Aquisições dá as boas-vindas ao gerente " + jogador.getNomePersonagem() + "!");
           System.err.println("Lista do Setor de Aquisições de barcos disponíveis:");
                       separador();
         for (int i = 1; i <= barcosParaVenda.size(); i++) {
@@ -490,6 +532,7 @@ private static void esperarInicio() {
             separador();
             System.out.println("Você está fazendo o seguinte pedido ao Setor de Aquisições:");
             separador();
+            System.out.println("Pedido do gerente " + jogador.getNomePersonagem());
             System.out.println("Barco a ser adquirido: " + barcoEscolhido.getNOME());
             System.out.println("Tipo de Barco: " + barcoEscolhido.getTipoDeBarco());
             System.out.println("Capacidade máxima do barco: " + barcoEscolhido.getCAPACIDADEPASSAGEIROS() + "\n");        
@@ -508,10 +551,12 @@ private static void esperarInicio() {
             System.err.println("Salário por Dia: " + caronte.getSalario());
             System.err.println("Probabilidade de Cometer Infrações: " + caronte.getProbabilidade() + "\n");   
             separador();
+            exibirAlmas();
+            separador();
             System.out.println("Você tem certeza de que gostaria de fazer este pedido?");
             confirmacao = confirmacao();
         }
-            custos.comprarBarco(barcoEscolhido, jogador);
+        custos.comprarBarco(barcoEscolhido, jogador);
     }
 
 
