@@ -424,7 +424,7 @@ private static void exibirExemploPassageiro() {
         imprimirLista(mensagens);
         }
     }
-        private void imprimirLista(List<String> mensagens){
+        private static void imprimirLista(List<String> mensagens){
              for (String string : mensagens) {
             separador();
             System.out.println(string);
@@ -1047,8 +1047,7 @@ private static void exibirExemploPassageiro() {
         System.out.println("4. Cruzeiro");
         System.out.println("5. Todos");        
 
-        System.out.print("Qual o tipo de barco desejado?");
-        String tipo = teclado.nextLine().toUpperCase();
+        String tipo = (String) receberString("o tipo de barco desejado");
     
         if (tipo.equals("0")) {
             System.out.println("Voltando ao Menu de Barcos.");
@@ -1073,9 +1072,11 @@ private static void exibirExemploPassageiro() {
             }
         try {
             List<String> relatorioBarcos = frota.listarBarcosPorTipo(tipo);
-    
+                separador();
+                System.out.println("---- LISTA DE " + tipo + "S ----");
+                separador();
             if (!relatorioBarcos.isEmpty()) {
-                System.out.println("\n" + String.join("\n", relatorioBarcos));
+                imprimirLista(relatorioBarcos);
             } else {
                 System.out.println("Não há barcos do tipo " + tipo + " selecionado na frota.");
             }
@@ -1085,9 +1086,12 @@ private static void exibirExemploPassageiro() {
         }else{
         try {
             List<String> relatorioBarcos = frota.listarBarcosPorTipo(tipo);
-    
+                separador();
+                System.out.println("---- Lista de " + tipo + "s ----");
+                separador();
             if (!relatorioBarcos.isEmpty()) {
-                System.out.println("\n" + String.join("\n", relatorioBarcos));
+                imprimirLista(relatorioBarcos);
+;
             } else {
                 System.out.println("Não há barcos do tipo " + tipo + " selecionado na frota.");
             }
