@@ -494,7 +494,7 @@ private static void exibirExemploPassageiro() {
 
             switch (opcao) {
                 case 1:
-                    executarAcaoNaFrotaDeImprimir();
+                listarBarcosPorTipo();
                     break;
                 case 2:
                     menuAbastecer();
@@ -662,7 +662,33 @@ private static void exibirExemploPassageiro() {
         } while (opcao != 0);
     }
     
-
+    private static void menuManutencao() {
+        int opcao;
+        do {
+            System.out.println("\n--- Manutenção de Barcos ---");
+            System.out.println("1. Fazer Manutenção em Barco por Índice");
+            System.out.println("2. Fazer Manutenção em Barco por Nome");
+            System.out.println("0. Voltar ao Menu de Barcos");
+            System.out.print("Digite a opção desejada: ");
+            
+            opcao = teclado.nextInt();
+            teclado.nextLine(); // Limpar o buffer
+        
+            switch (opcao) {
+                case 1:
+                    fazerManutencaoBarcoPorIndex();
+                    break;
+                case 2:
+                    fazerManutencaoPorNome();
+                    break;
+                case 0:
+                    System.out.println("Voltando ao Menu de Barcos.");
+                    break;
+                default:
+                    System.out.println("Opção inválida. Tente novamente.");
+            }
+        } while (opcao != 0);
+    }
     private void menuAbastecer() {
         int opcao;
         do {
@@ -1021,7 +1047,7 @@ private static void exibirExemploPassageiro() {
         System.out.println("4. Cruzeiro");
         System.out.println("5. Todos");        
 
-        System.out.print("Digite o tipo de barco desejado ou 0 para voltar: ");
+        System.out.print("Qual o tipo de barco desejado?");
         String tipo = teclado.nextLine().toUpperCase();
     
         if (tipo.equals("0")) {
@@ -1071,58 +1097,82 @@ private static void exibirExemploPassageiro() {
     }
 }
 
-    private static String receberString() {
-        String texto = null;
-        
-        while (true) {
-            System.out.println("Digite um texto:");
+private static Object receberString(String enunciado) {
+    System.out.println("Digite " + enunciado + ":");
+    System.out.println("(Digite 0 para voltar)");
+
+    Object objeto = teclado.nextLine();
+
+    if (normalizar((String) objeto).equals(normalizar("Voltar"))) {
+        throw new IllegalArgumentException("Voltando ao menu anterior.");
+    }
+
+    return objeto;
+}
+
+    private static Object receberNumero(String enunciado) {
+        Object numero = null;
+        boolean teste = false;
+
+        while (!teste) {
+            System.out.println("Digite " + enunciado + ":");
+            System.out.println("(Digite 0 para voltar)");
+
             Object objeto = teclado.nextLine();
 
-            if (objeto instanceof String) {
-                texto = (String) objeto;
-                break;
+            if (normalizar((String) objeto).equals(normalizar("Voltar"))) {
+                throw new IllegalArgumentException("Voltando ao menu anterior.");
             } else {
-                System.out.println("Por favor, insira um texto válido.");
-            }
-        }
-
-        return texto;
-    }
-
-private static double receberInt(String texto) {
-        double numero = 0;
-
-        while (true) {
-            try {
-                System.out.println("Digite "+ texto+ ":");
-                numero = teclado.nextInt();
-                break;
-            } catch (InputMismatchException e) {
-                teclado.nextLine(); // Limpar o buffer do scanner
-                System.out.println("Por favor, insira um número inteiro válido.");
+                try {
+                    // Tenta converter a entrada para Integer
+                    numero = Integer.parseInt((String) objeto);
+                    teste = true;
+                } catch (NumberFormatException e) {
+                    teclado.nextLine();
+                    System.out.println("Por favor, insira um número válido.");
+                }
             }
         }
 
         return numero;
     }
-
-    private static double receberDouble(String texto) {
-        double numero = 0;
-
-        while (true) {
-            try {
-                System.out.println("Digite "+ texto+ ":");
-                numero = teclado.nextDouble();
-                break;
-            } catch (InputMismatchException e) {
-                teclado.nextLine(); // Limpar o buffer do scanner
-                System.out.println("Por favor, insira um número válido.");
+    
+        private static Object receberDouble(String enunciado) {
+            Object numero = null;
+            boolean teste = false;
+    
+            while (!teste) {
+                System.out.println("Digite " + enunciado + ":");
+                System.out.println("(Digite 0 para voltar)");
+    
+                Object objeto = teclado.nextLine();
+    
+                if (normalizar((String) objeto).equals(normalizar("Voltar"))) {
+                    throw new IllegalArgumentException("Voltando ao menu anterior.");
+                } else {
+                    try {
+                        // Tenta converter a entrada para Double
+                        numero = Double.parseDouble((String) objeto);
+                        teste = true;
+                    } catch (NumberFormatException e) {
+                        teclado.nextLine();
+                        System.out.println("Por favor, insira um número válido.");
+                    }
+                }
             }
+    
+            return numero;
         }
+    
 
-        return numero;
+
+    private static String normalizar(String texto) {
+        String normalizado = Normalizer.normalize(texto, Normalizer.Form.NFD)
+                .replaceAll("[^\\p{ASCII}]", "");
+        normalizado = normalizado.toUpperCase();
+
+        return normalizado;
     }
-
     /**
      * Método principal que atua como ponto de entrada do sistema de gerenciamento
      * de frotas.
