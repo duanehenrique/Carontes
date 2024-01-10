@@ -4,8 +4,7 @@
 public class Manutencao {
     // #region Atributos
 
-    private boolean manutencaoPeriodicaEmDia;
-    private boolean manutencaoPecasEmDia;
+    private boolean manutencaoEmDia;
     private double kmDesdeUltimaManutencao;
     private double totalDespesasManutencao;
     private final KmManutencao km;
@@ -20,8 +19,7 @@ public class Manutencao {
      * @param custo       O custo da manutenção.
      */
     public Manutencao(Barco barco) {
-        this.manutencaoPeriodicaEmDia = true;
-        this.manutencaoPecasEmDia = true;
+        this.manutencaoEmDia = true;
         this.kmDesdeUltimaManutencao = 0;
         if(barco instanceof Gondola){
         km = KmManutencao.GONDOLA;
@@ -38,8 +36,7 @@ public class Manutencao {
     }
 
     public Manutencao(Manutencao outraManutencao) {
-        this.manutencaoPeriodicaEmDia = outraManutencao.manutencaoPeriodicaEmDia;
-        this.manutencaoPecasEmDia = outraManutencao.manutencaoPecasEmDia;
+        this.manutencaoEmDia = outraManutencao.manutencaoEmDia;
         this.kmDesdeUltimaManutencao = outraManutencao.kmDesdeUltimaManutencao;
         this.totalDespesasManutencao = outraManutencao.totalDespesasManutencao;
         this.km = outraManutencao.km;
@@ -64,27 +61,7 @@ public class Manutencao {
      * @return Verdadeiro se a manutenção está em dia, falso caso contrário.
      */
     public boolean getManutencaoEmDia() {
-        return (manutencaoPeriodicaEmDia && manutencaoPecasEmDia);
-    }
-
-    /**
-     * Verifica se a manutenção periódica está em dia.
-     *
-     * @return Verdadeiro se a manutenção periódica está em dia, falso caso
-     *         contrário.
-     */
-    public boolean getManutencaoPeriodicaEmDia() {
-        return manutencaoPeriodicaEmDia;
-    }
-
-    /**
-     * Verifica se a manutenção de peças está em dia.
-     *
-     * @return Verdadeiro se a manutenção de peças está em dia, falso caso
-     *         contrário.
-     */
-    public boolean getManutencaoPecasEmDia() {
-        return manutencaoPecasEmDia;
+        return (manutencaoEmDia);
     }
 
     /**
@@ -102,7 +79,7 @@ public class Manutencao {
      */
     private void manutencaoEstaEmDia() {
         if (kmDesdeUltimaManutencao >= km.getManutencaoPeriodica()) {
-            this.manutencaoPeriodicaEmDia = false;
+            this.manutencaoEmDia = false;
         }
     }
 
@@ -128,9 +105,9 @@ public class Manutencao {
      *
      * @return O custo da manutenção.
      */
-    public int realizarManutencaoPeriodica() {
-        if (!manutencaoPeriodicaEmDia) {
-            manutencaoPeriodicaEmDia = true;
+    public int realizarManutencao() {
+        if (!manutencaoEmDia) {
+            manutencaoEmDia = true;
             kmDesdeUltimaManutencao = 0;
             return km.getCustoManutencao();
         } else{

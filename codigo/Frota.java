@@ -477,18 +477,46 @@ public class Frota implements Normalizador {
     public List<String> listarTodosParaAbastecer() {
         List<String> relatorio = new ArrayList<>();
         relatorio.add("---- Barcos na sua frota com tanque para abastecer ----");
-    
+        boolean existeBarco = false;
         for (int i = 0; i < diariosDeBordo.size(); i++) {
             DiarioDeBordo diario = diariosDeBordo.get(i);
             Barco barco = diario.getBarcoDoDiario();
             if (barco != null && barco instanceof BarcoComTanque) {
+                BarcoComTanque barcoComTanque = (BarcoComTanque) barco;
+                if(barcoComTanque.getTanque().getCapacidadeAtual() < barcoComTanque.getTanque().getCapacidadeMaxima()){
+                existeBarco = true;
                 relatorio.add("Barco #" + (i + 1));
                 relatorio.add(barco.relatorio());
             }
+            }
+        }
+        if(!existeBarco){
+            relatorio.add("Não há barcos para abastecer na sua Frota.");
         }
         return relatorio;
     }
     
+        public List<String> listarTodosParaManutencao() {
+        List<String> relatorio = new ArrayList<>();
+        relatorio.add("---- Barcos na sua frota para fazer manutenção ----");
+        boolean existeBarco = false;
+        for (int i = 0; i < diariosDeBordo.size(); i++) {
+            DiarioDeBordo diario = diariosDeBordo.get(i);
+            Barco barco = diario.getBarcoDoDiario();
+            if (barco != null) {
+                if(!barco.getManutencao().getManutencaoEmDia()){
+                existeBarco = true;
+                relatorio.add("Barco #" + (i + 1));
+                relatorio.add(barco.relatorio());
+            }
+            }
+        }
+        if(!existeBarco){
+            relatorio.add("Todos os barcos da frota estão com a manutenção em dia!");
+        }
+        return relatorio;
+    }
+
     public List<String> listarTodosSalariosParaPagar() {
         List<String> relatorio = new ArrayList<>();
         relatorio.add("---- Barcos na sua frota com Carontes com salários pendentes ----");
@@ -508,7 +536,7 @@ public class Frota implements Normalizador {
         }
     
         if (!temLista) {
-            relatorio.add("Não há barcos que atendem a esse critério na sua Frota");
+            relatorio.add("Não há Carontes com o salário atrasado na sua Frota!");
         }
         return relatorio;
     }

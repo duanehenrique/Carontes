@@ -344,8 +344,8 @@ public String relatorioRotas() {
      */
     public int fazerManutencao() {
         int custoManutencao;
-        if (!this.manutencao.getManutencaoPeriodicaEmDia()) {
-            custoManutencao = this.manutencao.realizarManutencaoPeriodica();
+        if (!this.manutencao.getManutencaoEmDia()) {
+            custoManutencao = this.manutencao.realizarManutencao();
             addDespesaManutencao(custoManutencao);
             System.out.println("Manutenção periódica realizada com sucesso no barco " + getNOME() + ".\n");
             return custoManutencao;

@@ -376,7 +376,7 @@ private static void exibirExemploPassageiro() {
 
     public static void executarAcaoNaFrotaComAlmasEspecifica(List<Object> objetos, int funcao) {
         try {
-        if(funcao >= 1 && funcao <= 17){
+        if(funcao >= 1 && funcao <= 14){
         double custoTotal = custos.executarTransacaoEspecifica(objetos, funcao, frota, jogador);
         System.err.println("Gasto da frota do gerente " + jogador.getNomePersonagem() + " com a transação: " + custoTotal + " almas.");
         separador();
@@ -387,9 +387,9 @@ private static void exibirExemploPassageiro() {
         }
         }
 
-        public static void executarAcaoNaFrotaComAlmasGeral(List<Object> objetos, int funcao) {
+        public static void executarAcaoNaFrotaComAlmasGeral(int funcao) {
          try {
-        if(funcao >= 18 && funcao <= 23){
+        if(funcao >= 15 && funcao <= 18){
         double custoTotal = custos.executarTransacaoGeral(funcao, frota, jogador);
         System.err.println("Gasto da frota do gerente " + jogador.getNomePersonagem() + " com a transação: " + custoTotal + " almas.");
         separador();
@@ -403,7 +403,7 @@ private static void exibirExemploPassageiro() {
     
         public static void executarAcaoNaFrotaDeControle(List<Object> objetos, int funcao) {
         Executor executor = new Executor();
-        if(funcao >= 24 && funcao <= 31){
+        if(funcao >= 19 && funcao <= 26){
         List<String> mensagem = (List<String>) executor.executarAcaoNaFrotaDeControle(frota, funcao, objetos);   
         System.out.println(mensagem);
         }
@@ -411,7 +411,7 @@ private static void exibirExemploPassageiro() {
 
         public static void executarAcaoNaFrotaDeListarEspecifico(List<Object> objetos, int funcao) {
         Executor executor = new Executor();
-        if(funcao >= 32 && funcao <= 37){
+        if(funcao >= 27 && funcao <= 31){
         List<String> mensagens = (List<String>) executor.executarAcaoNaFrotaDeListarEspecifico(frota, funcao, objetos);
         imprimirLista(mensagens);
         }
@@ -486,8 +486,7 @@ private static void exibirExemploPassageiro() {
             System.out.println("1. Listar Barcos por Tipo");
             System.out.println("2. Abastecer Barcos");
             System.out.println("3. Realizar Manutenção Em Barcos");
-            System.out.println("4. Mostrar Barco com Maior Quilometragem Total");
-            System.out.println("5. Voltar ao Menu Principal");
+            System.out.println("0. Voltar ao Menu Principal");
             System.out.print("Digite a opção desejada: ");
             opcao = menuEscolhaNumeros(0, 3);
             teclado.nextLine(); // Limpar o buffer
@@ -515,48 +514,24 @@ private static void exibirExemploPassageiro() {
         int opcao;
         do {
             System.out.println("\n--- Carontes ---");
-            System.out.println("1. Pagar Multa do Caronte por Índice");
-            System.out.println("2. Pagar Multa do Caronte por Nome");
-            System.out.println("3. Pagar Todas as Multas do Caronte por Índice");
-            System.out.println("4. Pagar Todas as Multas do Caronte por Nome");
-            System.out.println("5. Pagar Todas as Multas de Todos os Carontes");
-            System.out.println("6. Pagar Curso de Especialização por Nome");
-            System.out.println("7. Pagar Curso de Especialização por Índice");
-            System.out.println("8. Pagar Salário do Motorista por Índice");
-            System.out.println("9. Pagar Salário do Motorista por Nome");
+            System.out.println("1. Pagar Multa de Carontes");
+            System.out.println("2. Pagar Curso de Especialização para Carontes");
+            System.out.println("3. Pagar Salário em Atraso de Carontes");
             System.out.println("0. Voltar ao Menu Principal");
             System.out.print("Digite a opção desejada: ");
             
-            opcao = teclado.nextInt();
+            opcao = menuEscolhaNumeros(0, 4);
             teclado.nextLine(); // Limpar o buffer
     
             switch (opcao) {
                 case 1:
-                    pagarMultaDoCarontePorIndex();
+                    menuMultas();
                     break;
                 case 2:
-                    pagarMultaDoCarontePorNome();
+                    menuCursos();
                     break;
                 case 3:
-                    pagarTodasMultasDoCarontePorIndex();
-                    break;
-                case 4:
-                    pagarTodasMultasDoCarontePorNome();
-                    break;
-                case 5:
-                    pagarTodasMultasDeTodosCarontes();
-                    break;
-                case 6:
-                    pagarCursoDeEspecializacaoPorNome();
-                    break;
-                case 7:
-                    pagarCursoDeEspecializacaoPorIndex();
-                    break;
-                case 8:
-                    pagarSalarioMotoristaPorIndex();
-                    break;
-                case 9:
-                    pagarSalarioMotoristaPorNome();
+                    menuSalarios();
                     break;
                 case 0:
                     System.out.println("Voltando ao Menu Principal.");
@@ -663,6 +638,7 @@ private static void exibirExemploPassageiro() {
         int opcao;
         do {
             System.out.println("\n--- Manutenção de Barcos ---");
+            executarAcaoNaFrotaDeListarGeral(37);
             System.out.println("1. Fazer Manutenção em Barco por Índice");
             System.out.println("2. Fazer Manutenção em Barco por Nome");
             System.out.println("0. Voltar ao Menu de Barcos");
@@ -689,10 +665,11 @@ private static void exibirExemploPassageiro() {
             }
         } while (opcao != 0);
     }
-    private void menuAbastecer() {
+    private static void menuAbastecer() {
         int opcao;
         do {
             System.out.println("\n--- Abastecimento de Barcos ---");
+            executarAcaoNaFrotaDeListarGeral(35);
             System.out.println("1. Abastecer Barco por Índice");
             System.out.println("2. Abastecer Barco por Nome");
             System.out.println("3. Abastecer Barco Completo por Índice");
@@ -701,7 +678,7 @@ private static void exibirExemploPassageiro() {
             System.out.println("0. Voltar ao Menu de Barcos");
             System.out.print("Digite a opção desejada: ");
             
-            opcao = teclado.nextInt();
+            opcao = menuEscolhaNumeros(0, 5);
             teclado.nextLine(); // Limpar o buffer
     
             switch (opcao) {
@@ -728,6 +705,7 @@ private static void exibirExemploPassageiro() {
             }
         } while (opcao != 0);
     }
+    
     
 
     private static BarcoComTanque menuCombustivel(BarcoComTanque barco){
@@ -773,9 +751,9 @@ private static void exibirExemploPassageiro() {
             int escolha = menuEscolhaNumeros(1, 3);
             barcoCopia = barcosParaCombustivel.get(escolha);
     }
-    return (BarcoComTanque) barcoCopia;
             }
         }
+    }    return (BarcoComTanque) barcoCopia;
     }
 
     private static Caronte menuContratarCaronte() {
@@ -852,11 +830,11 @@ private static void exibirExemploPassageiro() {
      * veículo à frota.
      */
     private static double menuComprarBarco() {
-        String tipoCombustivel;
+        double custoDeCompra = 0;
         exibirAlmas();
         List<Caronte> motoristas = new ArrayList<>();
         for (int i = 1; i <= 4; i++) {
-        Caronte motorista;
+        Caronte motorista = null;
         motoristas.add(motorista);
         }
 
@@ -902,9 +880,10 @@ private static void exibirExemploPassageiro() {
             }
         }
           System.err.println("Qual barco você deseja incluir no seu pedido ao Setor de Aquisições:");
+          System.err.println("(Digite 0 para desistir do pedido)");
 
-           int escolha = menuEscolhaNumeros(1, 4);
-
+           int escolha = menuEscolhaNumeros(0, 4);
+            if(!(escolha == 0)){
             barcoEscolhido = barcosParaVenda.get(escolha);
             System.out.println("Você selecionou o Barco #" + escolha);
             System.out.println("Nome: " + barcoEscolhido.getNOME());
@@ -924,11 +903,12 @@ private static void exibirExemploPassageiro() {
             System.out.println("Tipo de Barco: " + barcoEscolhido.getTipoDeBarco());
             System.out.println("Capacidade máxima do barco: " + barcoEscolhido.getCAPACIDADEPASSAGEIROS() + "\n");        
             if (barcoEscolhido instanceof BarcoComTanque) {
-              System.out.println("Capacidade máxima do tanque: " + ((BarcoComTanque)barcoEscolhido).getCapacidadeTanque() + "\n");                      
-                System.err.println("Preço adicional pelo combustível " + ((BarcoComTanque) barcoEscolhido).getTipoCombustivel() + ": " + ((BarcoComTanque) barco).getAdicionalPrecoVenda() + " almas.");
-                System.err.println("Preço do litro de " + ((BarcoComTanque) barcoEscolhido).getTipoCombustivel() + ": " + ((BarcoComTanque) barco).getAdicionalPrecoVenda() + " almas.");
-                System.err.println("Preço base do barco: " + barcoEscolhido.getPRECOCUSTO() + " almas.");
-                System.err.println("Preço total do barco: " + ((BarcoComTanque) barcoEscolhido).getPrecoTotal() + " almas.");            
+              BarcoComTanque barcoComTanque = (BarcoComTanque) barcoEscolhido;
+                System.out.println("Capacidade máxima do tanque: " + barcoComTanque.getCapacidadeTanque() + "\n");                      
+                System.err.println("Preço adicional pelo combustível " + barcoComTanque.getTipoCombustivel() + ": " + barcoComTanque.getAdicionalPrecoVenda() + " almas.");
+                System.err.println("Preço do litro de " + barcoComTanque.getTipoCombustivel() + ": " + barcoComTanque.getAdicionalPrecoVenda() + " almas.");
+                System.err.println("Preço base do barco: " + barcoComTanque.getPRECOCUSTO() + " almas.");
+                System.err.println("Preço total do barco: " + barcoComTanque.getPrecoTotal() + " almas.");            
             }else{
                 System.err.println("Preço: " + barcoEscolhido.getPRECOCUSTO() + " almas.");
             }
@@ -942,12 +922,17 @@ private static void exibirExemploPassageiro() {
             separador();
             System.out.println("Você tem certeza de que gostaria de fazer este pedido?");
             confirmacao = confirmacao();
+            
+        }else{
+        throw new IllegalArgumentException("Você desistiu da compra. Talvez outro gerente tenha ficado com o barco, mas nunca se sabe. Se mudar de ideia, volte aqui.");
         }
-        double custoDeCompra = custos.comprarBarco(barcoEscolhido, jogador);
+        custoDeCompra = custos.comprarBarco(barcoEscolhido, jogador);
         if(custoDeCompra > 0){
         nomesCarontes.marcarNomeUtilizado(barcoEscolhido.getMotorista());
         nomesBarcos.marcarNomeUtilizado(barcoEscolhido);
         }
+    }
+
         return custoDeCompra;
     }
 
@@ -985,56 +970,183 @@ private static void exibirExemploPassageiro() {
         return gondola;
     } 
 
-    private void abastecerBarcoPorIndex() {
-        System.out.print("Digite o índice do barco que deseja abastecer: ");
-        int index = teclado.nextInt();
-        teclado.nextLine(); // Limpar o buffer
+    private static void abastecerBarcoPorIndex() {
+        try {
+            System.out.println("--- Abastecer Barco por Número ---");
     
-        System.out.print("Digite a quantidade de combustível desejada: ");
-        double quantidade = teclado.nextDouble();
-        teclado.nextLine(); // Limpar o buffer
+            // Recebe a entrada do usuário para o índice do barco
+            int indiceBarco = (int) receberNumero("o número do barco");
+    
+            double qtdCombustivel = (double) receberDouble("quantos litros de combustível deseja abastecer");
+    
+            int funcao = 1;  
+
+            // Parâmetros necessários para a execução da ação
+            List<Object> parametros = new ArrayList<>();
+            parametros.add(indiceBarco);
+            parametros.add(qtdCombustivel);
+    
+            // Chama o método correspondente na classe Executor
+            executarAcaoNaFrotaComAlmasEspecifica(parametros, funcao);
+    
+            separador();
+        } catch (Exception e) {
+            System.out.println("Erro ao abastecer barco por índice: " + e.getMessage());
+        }
     }
 
-    private void abastecerBarcoPorNome() {
-        System.out.print("Digite o nome do barco que deseja abastecer: ");
-        String nome = teclado.nextLine();
+    private static void abastecerBarcoPorNome() {
+        try {
+            System.out.println("--- Abastecer Barco por Nome ---");
     
-        System.out.print("Digite a quantidade de combustível desejada: ");
-        double quantidade = teclado.nextDouble();
-        teclado.nextLine(); // Limpar o buffer
+            // Recebe a entrada do usuário para o nome do barco
+            String nomeBarco = (String) receberString("o nome do barco");
     
-        double gasto = custos.executarTransacaoNomeDouble(
-            Frota::abastecerBarcoCompletoPorNome,
-            frota,
-            jogador,
-            nome,
-            quantidade
-        );
+            double qtdCombustivel = (double) receberDouble("quantos litros de combustível deseja abastecer");
+
+            // Obtém a função correspondente
+            int funcao = 2;  
     
-        if (gasto > 0) {
-            System.out.println("Abastecimento concluído. Gasto: " + gasto);
-        } else {
-            System.out.println("Não foi possível realizar o abastecimento. Verifique os dados informados.");
+            // Parâmetros necessários para a execução da ação
+            List<Object> parametros = new ArrayList<>();
+            parametros.add(nomeBarco);
+            parametros.add(qtdCombustivel);
+
+            // Chama o método correspondente na classe Executor
+            executarAcaoNaFrotaComAlmasEspecifica(parametros, funcao);
+    
+            separador();
+        } catch (Exception e) {
+            System.out.println("Erro ao abastecer barco por nome: " + e.getMessage());
         }
     }
 
     
 
-    private void abastecerBarcoCompletoPorIndex() {
-    System.out.print("Digite o índice do barco que deseja abastecer completamente: ");
-    int index = teclado.nextInt();
-    teclado.nextLine(); // Limpar o buffer
+    private static void abastecerBarcoCompletoPorIndex() {
+        try {
+            System.out.println("--- Abastecer Barco Completo por Número ---");
+    
+            // Recebe a entrada do usuário para o índice do barco
+            int indiceBarco = (int) receberNumero("o número do barco");
+    
+            int funcao = 3;  
+    
+            // Parâmetros necessários para a execução da ação
+            List<Object> parametros = new ArrayList<>();
+            parametros.add(indiceBarco);
+    
+            // Chama o método correspondente na classe Executor
+            executarAcaoNaFrotaComAlmasEspecifica(parametros, funcao);
+    
+            separador();
+        } catch (Exception e) {
+            System.out.println("Erro ao abastecer barco completo por índice: " + e.getMessage());
+        }
+    }
 
-    double gasto = executarTransacao(index);
+    private static void abastecerBarcoCompletoPorNome() {
+        try {
+            System.out.println("--- Abastecer Barco Completo por Nome ---");
+    
+            // Recebe a entrada do usuário para o nome do barco
+            String nomeBarco = (String) receberString("o nome do barco");
+    
+            // Obtém a função correspondente
+            int funcao = 4;  
+    
+            // Parâmetros necessários para a execução da ação
+            List<Object> parametros = new ArrayList<>();
+            parametros.add(nomeBarco);
+    
+            // Chama o método correspondente na classe Executor
+            executarAcaoNaFrotaComAlmasEspecifica(parametros, funcao);
+    
+            separador();
+        } catch (Exception e) {
+            System.out.println("Erro ao abastecer barco completo por nome: " + e.getMessage());
+        }
+    }    
+ 
+    private static void abastecerTodosBarcos() {
+        try {
+            System.out.println("--- Abastecer Todos os Barcos ---");
+    
+            // Obtém a função correspondente
+            int funcao = 16;  
+    
+            // Chama o método correspondente na classe Executor
+            executarAcaoNaFrotaComAlmasGeral(funcao);
+    
+            separador();
+        } catch (Exception e) {
+            System.out.println("Erro ao abastecer todos os barcos: " + e.getMessage());
+        }
+    }
 
 
-    if (gasto > 0) {
-        System.out.println("Abastecimento completo concluído. Gasto: " + gasto);
-    } else {
-        System.out.println("Não foi possível realizar o abastecimento. Verifique os dados informados.");
+private static void fazerManutencaoBarcoPorIndex() {
+    try {
+        System.out.println("--- Fazer Manutenção em Barco por número ---");
+
+        // Recebe a entrada do usuário para o índice do barco
+        int indiceBarco = (int) receberNumero("o número do barco");
+
+        // Obtém a função correspondente
+        int funcao = 3;  
+
+        // Parâmetros necessários para a execução da ação
+        List<Object> parametros = new ArrayList<>();
+        parametros.add(indiceBarco);
+        separador();
+        // Chama o método correspondente na classe Executor
+        executarAcaoNaFrotaComAlmasEspecifica(parametros, funcao);
+
+        separador();
+    } catch (Exception e) {
+        System.out.println("Erro ao fazer manutenção em barco por índice: " + e.getMessage());
     }
 }
-      
+
+private static void fazerManutencaoPorNome() {
+    try {
+        System.out.println("--- Fazer Manutenção em Barco por Nome ---");
+
+        // Recebe a entrada do usuário para o nome do barco
+        String nomeBarco = (String) receberString("o nome do barco");
+
+        // Obtém a função correspondente
+        int funcao = 6;  // Atualize conforme necessário
+
+        // Parâmetros necessários para a execução da ação
+        List<Object> parametros = new ArrayList<>();
+        parametros.add(nomeBarco);
+
+        // Chama o método correspondente na classe Executor
+        executarAcaoNaFrotaComAlmasEspecifica(parametros, funcao);
+
+        separador();
+    } catch (Exception e) {
+        System.out.println("Erro ao fazer manutenção em barco por nome: " + e.getMessage());
+    }
+}
+
+private static void fazerManutencaoTodosBarcos() {
+    try {
+        System.out.println("--- Fazer Manutenção em Todos os Barcos ---");
+
+        int funcao = 17;  
+
+        List<Object> parametros = new ArrayList<>();
+
+        executarAcaoNaFrotaComAlmasGeral(funcao);
+
+        separador();
+    } catch (Exception e) {
+        System.out.println("Erro ao fazer manutenção em todos os barcos: " + e.getMessage());
+    }
+}
+
 
 
     private static void listarBarcosPorTipo(){
@@ -1074,7 +1186,7 @@ private static void exibirExemploPassageiro() {
         try {
                 separador();
                 System.out.println("---- LISTA DE " + tipo + "S ----");
-                executarAcaoNaFrotaDeListarEspecifico(lista, 32);
+                executarAcaoNaFrotaDeListarEspecifico(lista, 31);
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
         }            
@@ -1082,7 +1194,7 @@ private static void exibirExemploPassageiro() {
         try {
                 separador();
                 System.out.println("---- LISTA DE " + tipo + "S ----");
-                executarAcaoNaFrotaDeListarEspecifico(lista, 32);
+                executarAcaoNaFrotaDeListarEspecifico(lista, 31);
 
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
@@ -1191,7 +1303,7 @@ private static Object receberString(String enunciado) {
 
         boolean continuar = true;
         while (continuar) {
-            mostrarMenu();
+            mostrarMenuPrincipal();
             try {
                 int opcao = teclado.nextInt();
                 separador();
