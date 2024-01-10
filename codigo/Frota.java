@@ -440,16 +440,17 @@ public class Frota implements Normalizador {
     
     public List<String> listarBarcosPorTipo(String tipo) {
         List<String> resultado = new ArrayList<>();
-    
+        boolean existeBarco = false;
         String tipoNormalizado = normalizar(tipo);
     
-        if (tipoNormalizado.equals(normalizar("Gôndola")) || tipoNormalizado.equals(normalizar("BALSA"))
-                || tipoNormalizado.equals(normalizar("NAVIO")) || tipoNormalizado.equals(normalizar("CRUZEIRO"))) {    
+        if (tipoNormalizado.equals(normalizar("Gôndola")) || tipoNormalizado.equals(normalizar("Balsa"))
+                || tipoNormalizado.equals(normalizar("Navio")) || tipoNormalizado.equals(normalizar("Cruzeiro"))) {    
             for (DiarioDeBordo diario : diariosDeBordo) {
                 if (diario != null) {
                     Barco barco = diario.getBarcoDoDiario();
     
                     if (barco != null && normalizar(barco.getTipoDeBarco()).equals(tipoNormalizado)) {
+                        existeBarco = true;
                         resultado.add(barco.relatorio());
     
                         if (!barco.getRotas().isEmpty()) {
@@ -461,6 +462,9 @@ public class Frota implements Normalizador {
                         resultado.add("");
                     }
                 }
+            }
+            if(!existeBarco){
+               resultado.add("Não há barcos do tipo " + tipo + " selecionado na frota."); 
             }
         } else {
             throw new IllegalArgumentException(tipoNormalizado + " não é um tipo de barco. Você está com criatividade demais.");

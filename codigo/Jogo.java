@@ -374,7 +374,7 @@ private static void exibirExemploPassageiro() {
         frota.addBarco(barco);
     }    
 
-    public void executarAcaoNaFrotaComAlmasEspecifica(List<Object> objetos, int funcao) {
+    public static void executarAcaoNaFrotaComAlmasEspecifica(List<Object> objetos, int funcao) {
         try {
         if(funcao >= 1 && funcao <= 17){
         double custoTotal = custos.executarTransacaoEspecifica(objetos, funcao, frota, jogador);
@@ -387,7 +387,7 @@ private static void exibirExemploPassageiro() {
         }
         }
 
-        public void executarAcaoNaFrotaComAlmasGeral(List<Object> objetos, int funcao) {
+        public static void executarAcaoNaFrotaComAlmasGeral(List<Object> objetos, int funcao) {
          try {
         if(funcao >= 18 && funcao <= 23){
         double custoTotal = custos.executarTransacaoGeral(funcao, frota, jogador);
@@ -401,7 +401,7 @@ private static void exibirExemploPassageiro() {
     }
 
     
-        public void executarAcaoNaFrotaDeControle(List<Object> objetos, int funcao) {
+        public static void executarAcaoNaFrotaDeControle(List<Object> objetos, int funcao) {
         Executor executor = new Executor();
         if(funcao >= 24 && funcao <= 31){
         List<String> mensagem = (List<String>) executor.executarAcaoNaFrotaDeControle(frota, funcao, objetos);   
@@ -409,7 +409,7 @@ private static void exibirExemploPassageiro() {
         }
         }
 
-        public void executarAcaoNaFrotaDeListarEspecifico(List<Object> objetos, int funcao) {
+        public static void executarAcaoNaFrotaDeListarEspecifico(List<Object> objetos, int funcao) {
         Executor executor = new Executor();
         if(funcao >= 32 && funcao <= 37){
         List<String> mensagens = (List<String>) executor.executarAcaoNaFrotaDeListarEspecifico(frota, funcao, objetos);
@@ -417,7 +417,7 @@ private static void exibirExemploPassageiro() {
         }
     }
 
-         public void executarAcaoNaFrotaDeListarGeral(int funcao) {
+         public static void executarAcaoNaFrotaDeListarGeral(int funcao) {
         Executor executor = new Executor();
         if(funcao >= 32 && funcao <= 37){
         List<String> mensagens = (List<String>) executor.executarAcaoNaFrotaDeListarGeral(frota, funcao, objetos);
@@ -489,7 +489,7 @@ private static void exibirExemploPassageiro() {
             System.out.println("4. Mostrar Barco com Maior Quilometragem Total");
             System.out.println("5. Voltar ao Menu Principal");
             System.out.print("Digite a opção desejada: ");
-            opcao = teclado.nextInt();
+            opcao = menuEscolhaNumeros(0, 3);
             teclado.nextLine(); // Limpar o buffer
 
             switch (opcao) {
@@ -501,9 +501,6 @@ private static void exibirExemploPassageiro() {
                     break;
                 case 3:
                     menuManutencao();
-                    break;
-                case 4:
-                    mostrarBarcoComMaiorQuilometragemTotal();
                     break;
                 case 0:
                     System.out.println("Voltando ao Menu Principal.");
@@ -671,7 +668,7 @@ private static void exibirExemploPassageiro() {
             System.out.println("0. Voltar ao Menu de Barcos");
             System.out.print("Digite a opção desejada: ");
             
-            opcao = teclado.nextInt();
+            opcao = menuEscolhaNumeros(0, 3);
             teclado.nextLine(); // Limpar o buffer
         
             switch (opcao) {
@@ -681,6 +678,9 @@ private static void exibirExemploPassageiro() {
                 case 2:
                     fazerManutencaoPorNome();
                     break;
+                case 3:
+                    fazerManutencaoTodosBarcos();
+                break;
                 case 0:
                     System.out.println("Voltando ao Menu de Barcos.");
                     break;
@@ -1048,7 +1048,8 @@ private static void exibirExemploPassageiro() {
         System.out.println("5. Todos");        
 
         String tipo = (String) receberString("o tipo de barco desejado");
-    
+        List<Object> lista = new ArrayList();
+        lista.add((tipo));
         if (tipo.equals("0")) {
             System.out.println("Voltando ao Menu de Barcos.");
             return;
@@ -1071,30 +1072,18 @@ private static void exibirExemploPassageiro() {
                 }
             }
         try {
-            List<String> relatorioBarcos = frota.listarBarcosPorTipo(tipo);
                 separador();
                 System.out.println("---- LISTA DE " + tipo + "S ----");
-                separador();
-            if (!relatorioBarcos.isEmpty()) {
-                imprimirLista(relatorioBarcos);
-            } else {
-                System.out.println("Não há barcos do tipo " + tipo + " selecionado na frota.");
-            }
+                executarAcaoNaFrotaDeListarEspecifico(lista, 32);
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
         }            
         }else{
         try {
-            List<String> relatorioBarcos = frota.listarBarcosPorTipo(tipo);
                 separador();
-                System.out.println("---- Lista de " + tipo + "s ----");
-                separador();
-            if (!relatorioBarcos.isEmpty()) {
-                imprimirLista(relatorioBarcos);
-;
-            } else {
-                System.out.println("Não há barcos do tipo " + tipo + " selecionado na frota.");
-            }
+                System.out.println("---- LISTA DE " + tipo + "S ----");
+                executarAcaoNaFrotaDeListarEspecifico(lista, 32);
+
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
         }
