@@ -1,6 +1,6 @@
 import java.text.Normalizer;
 
-public class Passageiro implements Normalizador{
+public class Passageiro implements Normalizador, Relatorio{
     private String nome;
     private Pecado pecado;
 
@@ -36,5 +36,15 @@ public class Passageiro implements Normalizador{
         normalizado = normalizado.toUpperCase();
 
         return normalizado;
+    }
+
+    public String relatorio(){
+        StringBuilder relatorio = new StringBuilder();
+            relatorio.append(". Nome: ").append(getNome())
+                .append("/nPecado: ").append(getPecado())
+                .append("/nValor do Pecado: ").append(getAlmas()).append("\n");
+
+                return relatorio.toString();
+
     }
 }

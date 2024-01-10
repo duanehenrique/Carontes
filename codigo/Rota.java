@@ -103,9 +103,7 @@ public class Rota implements Relatorio{
             relatorio.append("   Passageiros na Rota: \n");
             int numeroPassageiro = 1;
             for (Passageiro passageiro : passageiros) {
-                relatorio.append(numeroPassageiro).append(". Nome: ").append(passageiro.getNome())
-                    .append("/nPecado: ").append(passageiro.getPecado())
-                    .append("/nValor do Pecado: ").append(passageiro.getAlmas()).append("\n");
+                relatorio.append(numeroPassageiro).append(passageiro.relatorio()).append("\n");
                 numeroPassageiro++;
             }
         }

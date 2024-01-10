@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
+import java.util.function.BiFunction;
+
 
 public class Custos {
     private List<Double> almasPorDia;
@@ -31,10 +33,10 @@ public class Custos {
          try {
         double custoTotal = barco.getPRECOCUSTO();
         double almasJogador = jogador.getAlmas();
-        if(custoTotal <= almasJogador){
-            if (barco instanceof BarcoComTanque) {
+        if (barco instanceof BarcoComTanque) {
             custoTotal += ((BarcoComTanque) barco).getTanque().getAdicionalPrecoVenda();
-            }
+        }
+        if(custoTotal <= almasJogador){
             jogador.consumirAlmas(custoTotal);
             coletarAlmas(custoTotal);
             return custoTotal;
@@ -47,27 +49,54 @@ public class Custos {
         return 0;
     }
 }
-        public double executarTransacao(Function<Frota, Double> funcao, Frota frota, Jogador jogador) {
-            try {
-                Frota frotaClone = clonarFrota(frota);
-                double custoTotal = funcao.apply(frotaClone);
-                if (custoTotal <= jogador.getAlmas()) {
-                    custoTotal = funcao.apply(frota);
-                    jogador.consumirAlmas(custoTotal);
-                    coletarAlmas(custoTotal);
-                    System.err.println("Gasto da frota do gerente " + jogador.getNomePersonagem() + " com a transação: " + custoTotal + " almas.");
-                    return custoTotal;
-                } else {
-                    frotaClone = null;
-                    throw new IllegalArgumentException("Você não tem almas suficientes para realizar essa transação.");
-                }
-            } catch (Exception e) {
-                                    return 0;
-            }
-        } 
 
+    public double executarTransacaoEspecifica(List<Object> objetos, int funcao, Frota frota, Jogador jogador) {
+                try {
+        Frota frotaClone = clonarFrota(frota);
+        Executor executor = new Executor();
+       double custoTotal = (Double) executor.executarAcaoComAlmasEspecifica(frotaClone, funcao, objetos);
+
+        if (custoTotal <= jogador.getAlmas()) {
+            executor.executarAcaoComAlmasEspecifica(frota, funcao, objetos);
+            jogador.consumirAlmas(custoTotal);
+            coletarAlmas(custoTotal);
+            return custoTotal;
+        } else {
+            frotaClone = null;
+            throw new IllegalArgumentException("Você não tem almas suficientes para realizar essa transação. Almas em estoque: " + jogador.getAlmas());
+        }
+    } catch (Exception e) {
+        return 0;
+    }
+}
+
+
+    public double executarTransacaoGeral(int funcao, Frota frota, Jogador jogador) {
+                try {
+        Frota frotaClone = clonarFrota(frota);
+        Executor executor = new Executor();
+       double custoTotal = (Double) executor.executarAcaoComAlmasGeral(frotaClone, funcao);
+
+        if (custoTotal <= jogador.getAlmas()) {
+            executor.executarAcaoComAlmasGeral(frota, funcao);
+            jogador.consumirAlmas(custoTotal);
+            coletarAlmas(custoTotal);
+            return custoTotal;
+        } else {
+            frotaClone = null;
+            throw new IllegalArgumentException("Você não tem almas suficientes para realizar essa transação. Almas em estoque: " + jogador.getAlmas());
+        }
+    } catch (Exception e) {
+        return 0;
+    }
+}
     private Frota clonarFrota(Frota frotaOriginal){
         Frota frotaClone = new Frota(frotaOriginal);
         return frotaClone;
     }
+
+
 }
+
+
+
