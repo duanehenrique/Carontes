@@ -297,13 +297,11 @@ public class Frota implements Normalizador {
         return caronte.pagarTodasMultas();
     }
     
-    public double pagarTodasMultasDeTodosCarontes(int posicaoMulta) {
+    public double pagarTodasMultasDeTodosCarontes() {
         double totalPago = 0;
-        int i = 0;
-         for (DiarioDeBordo diario : diariosDeBordo) {
+         for (int i = 0; i < getDiariosdeBordo().size(); i++) {
             Caronte motorista = localizarMotoristaPorIndex(i);
             totalPago += motorista.pagarTodasMultas();
-            i++;
             }
         return totalPago;
     }
@@ -438,6 +436,37 @@ public class Frota implements Normalizador {
             }
         }
         return relatorio;
+    }
+    
+    public List<String> listarBarcosPorTipo(String tipo) {
+        List<String> resultado = new ArrayList<>();
+    
+        String tipoNormalizado = normalizar(tipo);
+    
+        if (tipoNormalizado.equals(normalizar("Gôndola")) || tipoNormalizado.equals(normalizar("BALSA"))
+                || tipoNormalizado.equals(normalizar("NAVIO")) || tipoNormalizado.equals(normalizar("CRUZEIRO"))) {    
+            for (DiarioDeBordo diario : diariosDeBordo) {
+                if (diario != null) {
+                    Barco barco = diario.getBarcoDoDiario();
+    
+                    if (barco != null && normalizar(barco.getTipoDeBarco()).equals(tipoNormalizado)) {
+                        resultado.add(barco.relatorio());
+    
+                        if (!barco.getRotas().isEmpty()) {
+                            resultado.add(barco.relatorioRotas());
+                        } else {
+                            resultado.add("Nenhuma rota associada ao barco hoje.");
+                        }
+    
+                        resultado.add("");
+                    }
+                }
+            }
+        } else {
+            throw new IllegalArgumentException(tipoNormalizado + " não é um tipo de barco. Você está com criatividade demais.");
+        }
+    
+        return resultado;
     }
     
 
