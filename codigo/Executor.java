@@ -107,6 +107,8 @@ public class Executor {
                 return (List<String>) frota.listarTodosSalariosParaPagar();
             case 37:
                 return (List<String>) frota.listarTodosParaManutencao();
+             case 38:
+                return (List<String>) frota.listarTodasMultas();
             default:
                 throw new IllegalArgumentException("Operação inválida");            
         }

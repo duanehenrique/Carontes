@@ -171,13 +171,16 @@ private static void desenharCaronte(){
         resultado.append("---- Carontes da Frota do Gerente ").append(jogador.getNomePersonagem()).append(" ----\n");
         System.err.println(resultado.toString());
         separador();
-        resultado.append(frota.relatorioCarontes());
+        executarAcaoNaFrotaDeListarGeral(34);
     }
 
     private static void exibirTodasMultas() {
+        StringBuilder resultado = new StringBuilder();
         separador();
-        System.out.println(frota.relatorioTodasMultas());
+        resultado.append("---- Carontes da Frota do Gerente ").append(jogador.getNomePersonagem()).append(" Com Multas----\n");
+        System.err.println(resultado.toString());
         separador();
+        executarAcaoNaFrotaDeListarGeral(38);
     }
 
     private static void encerrarDia(){
@@ -420,7 +423,7 @@ private static void exibirExemploPassageiro() {
          public static void executarAcaoNaFrotaDeListarGeral(int funcao) {
         Executor executor = new Executor();
         if(funcao >= 32 && funcao <= 37){
-        List<String> mensagens = (List<String>) executor.executarAcaoNaFrotaDeListarGeral(frota, funcao, objetos);
+        List<String> mensagens = (List<String>) executor.executarAcaoNaFrotaDeListarGeral(frota, funcao);
         imprimirLista(mensagens);
         }
     }
@@ -442,13 +445,13 @@ private static void exibirExemploPassageiro() {
         do {
         exibirAlmas();
         exibirRelatorioFrota();
+        executarAcaoNaFrotaDeListarGeral(32);
         System.out.println("--- Menu ---");
         System.out.println("1. Barcos da Frota");
         System.out.println("2. Carontes da Frota");
         System.out.println("3. Rotas de Coleta de Almas");
         System.out.println("4. Setor de Aquisições do Submundo");
-        System.out.println("5. Relatório Completo da Frota");
-        System.out.println("6. Encerrar Dia");
+        System.out.println("5. Encerrar Dia");
         separador();
         System.out.print("Selecione uma opção: ");
         
@@ -468,9 +471,6 @@ private static void exibirExemploPassageiro() {
                 menuAquisicoes();
                 break;
             case 5:
-                relatorioCompletoFrota();
-                break;
-            case 6:
                 encerrarDia();
                 break;
             default:
@@ -633,7 +633,322 @@ private static void exibirExemploPassageiro() {
             }
         } while (opcao != 0);
     }
+
+    private static void menuMultas() {
+        int opcao;
+        do {
+            System.out.println("\n--- Multas de Carontes ---");
+            executarAcaoNaFrotaDeListarGeral(37);
+            System.out.println("1. Pagar multa pendente de um Caronte pelo número do barco");
+            System.out.println("2. Pagar multa pendente de um Caronte pelo nome");
+            System.out.println("3. Pagar todas as multas pendentes de um Caronte pelo número do barco");
+            System.out.println("4. Pagar todas as multas pendentes de um Caronte pelo nome");
+            System.out.println("5. Pagar todas as multas pendentes de todos os Carontes");
+            System.out.println("0. Voltar ao Menu Carontes");
+            System.out.print("Digite a opção desejada: ");
+            
+            opcao = menuEscolhaNumeros(0, 3);
+            teclado.nextLine(); // Limpar o buffer
     
+            switch (opcao) {
+                case 1:
+                    pagarMultaCaronteIndex();
+                    break;
+                case 2:
+                    pagarMultaCaronteNome();
+                    break;
+                case 3:
+                    pagarTodasMultasCaronteIndex();
+                    break;
+                case 4:
+                    pagarTodasMultasCaronteNome();
+                    break;
+                case 5:
+                    pagarTodasMultasTodosCarontes();
+                    break;
+                case 0:
+                    System.out.println("Voltando ao Menu Carontes.");
+                    break;
+                default:
+                    System.out.println("Opção inválida. Tente novamente.");
+            }
+        } while (opcao != 0);
+    }
+    
+    private static void menuCursos() {
+        int opcao;
+        do {
+            System.out.println("\n--- Pagar Curso de Especialização para Carontes ---");
+            executarAcaoNaFrotaDeListarGeral(34);
+            System.out.println("1. Pagar Curso por Índice de Caronte");
+            System.out.println("2. Pagar Curso por Nome de Caronte");
+            System.out.println("0. Voltar ao Menu Carontes");
+            System.out.print("Digite a opção desejada: ");
+            
+            opcao = menuEscolhaNumeros(0, 2);
+            teclado.nextLine(); // Limpar o buffer
+    
+            switch (opcao) {
+                case 1:
+                    pagarCursoPorIndex();
+                    break;
+                case 2:
+                    pagarCursoPorNome();
+                    break;
+                case 0:
+                    System.out.println("Voltando ao Menu Carontes.");
+                    break;
+                default:
+                    System.out.println("Opção inválida. Tente novamente.");
+            }
+        } while (opcao != 0);
+    }
+    
+    private static void menuSalarios() {
+        int opcao;
+        do {
+            System.out.println("\n--- Pagar Salário em Atraso de Carontes ---");
+            executarAcaoNaFrotaDeListarGeral(36);
+            System.out.println("1. Pagar salário atrasado pelo número do barco de Caronte");
+            System.out.println("2. Pagar salário atrasadospelo nome de Caronte");
+            System.out.println("3. Pagar todos os salários atrasados");
+            System.out.println("0. Voltar ao Menu Carontes");
+            System.out.print("Digite a opção desejada: ");
+            
+            opcao = menuEscolhaNumeros(0, 2);
+            teclado.nextLine(); // Limpar o buffer
+    
+            switch (opcao) {
+                case 1:
+                    pagarSalarioPorIndex();
+                    break;
+                case 2:
+                    pagarSalarioPorNome();
+                    break;
+                 case 3:
+                    pagarTodosSalarios();
+                    break;                   
+                case 0:
+                    System.out.println("Voltando ao Menu Carontes.");
+                    break;
+                default:
+                    System.out.println("Opção inválida. Tente novamente.");
+            }
+        } while (opcao != 0);
+    }
+    
+    private static void pagarMultaCaronteIndex() {
+        try {
+            System.out.println("--- Pagar multa pendente de um Caronte pelo número do barco ---");
+    
+            // Recebe a entrada do usuário para o índice do Caronte
+            int indiceCaronte = (int) receberNumero("o índice do Caronte");
+    
+            // Obtém a função correspondente
+            int funcao = 7;
+    
+            // Parâmetros necessários para a execução da ação
+            List<Object> parametros = new ArrayList<>();
+            parametros.add(indiceCaronte);
+    
+            // Chama o método correspondente na classe Executor
+            executarAcaoNaFrotaComAlmasEspecifica(parametros, funcao);
+    
+            separador();
+        } catch (Exception e) {
+            System.out.println("Erro ao pagar multa pendente de Caronte pelo número do barco: " + e.getMessage());
+        }
+    }
+    
+    private static void pagarMultaCaronteNome() {
+        try {
+            System.out.println("--- Pagar multa pendente de um Caronte pelo nome ---");
+    
+            // Recebe a entrada do usuário para o nome do Caronte
+            String nomeCaronte = (String) receberString("o nome do Caronte");
+    
+            // Obtém a função correspondente
+            int funcao = 8;
+    
+            // Parâmetros necessários para a execução da ação
+            List<Object> parametros = new ArrayList<>();
+            parametros.add(nomeCaronte);
+    
+            // Chama o método correspondente na classe Executor
+            executarAcaoNaFrotaComAlmasEspecifica(parametros, funcao);
+    
+            separador();
+        } catch (Exception e) {
+            System.out.println("Erro ao pagar multa pendente de Caronte pelo nome: " + e.getMessage());
+        }
+    }
+    
+    private static void pagarTodasMultasCaronteIndex() {
+        try {
+            System.out.println("--- Pagar todas as multas pendentes de um Caronte pelo número do barco ---");
+    
+            // Recebe a entrada do usuário para o índice do Caronte
+            int indiceCaronte = (int) receberNumero("o índice do Caronte");
+    
+            // Obtém a função correspondente
+            int funcao = 9;
+    
+            // Parâmetros necessários para a execução da ação
+            List<Object> parametros = new ArrayList<>();
+            parametros.add(indiceCaronte);
+    
+            // Chama o método correspondente na classe Executor
+            executarAcaoNaFrotaComAlmasEspecifica(parametros, funcao);
+    
+            separador();
+        } catch (Exception e) {
+            System.out.println("Erro ao pagar todas as multas pendentes de Caronte pelo número do barco: " + e.getMessage());
+        }
+    }
+    
+    private static void pagarTodasMultasCaronteNome() {
+        try {
+            System.out.println("--- Pagar todas as multas pendentes de um Caronte pelo nome ---");
+    
+            // Recebe a entrada do usuário para o nome do Caronte
+            String nomeCaronte = (String) receberString("o nome do Caronte");
+    
+            // Obtém a função correspondente
+            int funcao = 9;
+    
+            // Parâmetros necessários para a execução da ação
+            List<Object> parametros = new ArrayList<>();
+            parametros.add(nomeCaronte);
+    
+            // Chama o método correspondente na classe Executor
+            executarAcaoNaFrotaComAlmasEspecifica(parametros, funcao);
+    
+            separador();
+        } catch (Exception e) {
+            System.out.println("Erro ao pagar todas as multas pendentes de Caronte pelo nome: " + e.getMessage());
+        }
+    }
+    
+    private static void pagarTodasMultasTodosCarontes() {
+        try {
+            System.out.println("--- Pagar todas as multas pendentes de todos os Carontes ---");
+    
+            int funcao = 18;
+    
+            executarAcaoNaFrotaComAlmasGeral(funcao);
+    
+            separador();
+        } catch (Exception e) {
+            System.out.println("Erro ao pagar todas as multas pendentes de todos os Carontes: " + e.getMessage());
+        }
+    }    
+    
+    private static void pagarCursoPorIndex() {
+        try {
+            System.out.println("--- Pagar Curso por Índice de Caronte ---");
+    
+            // Recebe a entrada do usuário para o índice do Caronte
+            int indiceCaronte = (int) receberNumero("o índice do Caronte");
+    
+            // Obtém a função correspondente
+            int funcao = 12;
+    
+            // Parâmetros necessários para a execução da ação
+            List<Object> parametros = new ArrayList<>();
+            parametros.add(indiceCaronte);
+    
+            // Chama o método correspondente na classe Executor
+            executarAcaoNaFrotaComAlmasEspecifica(parametros, funcao);
+    
+            separador();
+        } catch (Exception e) {
+            System.out.println("Erro ao pagar curso por índice de Caronte: " + e.getMessage());
+        }
+    }
+    
+    private static void pagarCursoPorNome() {
+        try {
+            System.out.println("--- Pagar Curso por Nome de Caronte ---");
+    
+            // Recebe a entrada do usuário para o nome do Caronte
+            String nomeCaronte = (String) receberString("o nome do Caronte");
+    
+            // Obtém a função correspondente
+            int funcao = 11;
+    
+            // Parâmetros necessários para a execução da ação
+            List<Object> parametros = new ArrayList<>();
+            parametros.add(nomeCaronte);
+    
+            // Chama o método correspondente na classe Executor
+            executarAcaoNaFrotaComAlmasEspecifica(parametros, funcao);
+    
+            separador();
+        } catch (Exception e) {
+            System.out.println("Erro ao pagar curso por nome de Caronte: " + e.getMessage());
+        }
+    }
+    
+    private static void pagarSalarioPorIndex() {
+        try {
+            System.out.println("--- Pagar salário atrasado pelo número do barco de Caronte ---");
+    
+            // Recebe a entrada do usuário para o índice do Caronte
+            int indiceCaronte = (int) receberNumero("o índice do Caronte");
+    
+            // Obtém a função correspondente
+            int funcao = 13;
+    
+            // Parâmetros necessários para a execução da ação
+            List<Object> parametros = new ArrayList<>();
+            parametros.add(indiceCaronte);
+    
+            // Chama o método correspondente na classe Executor
+            executarAcaoNaFrotaComAlmasEspecifica(parametros, funcao);
+    
+            separador();
+        } catch (Exception e) {
+            System.out.println("Erro ao pagar salário atrasado pelo número do barco de Caronte: " + e.getMessage());
+        }
+    }
+    
+    private static void pagarSalarioPorNome() {
+        try {
+            System.out.println("--- Pagar salário atrasado pelo nome de Caronte ---");
+    
+            // Recebe a entrada do usuário para o nome do Caronte
+            String nomeCaronte = (String) receberString("o nome do Caronte");
+    
+            // Obtém a função correspondente
+            int funcao = 14;
+    
+            // Parâmetros necessários para a execução da ação
+            List<Object> parametros = new ArrayList<>();
+            parametros.add(nomeCaronte);
+    
+            // Chama o método correspondente na classe Executor
+            executarAcaoNaFrotaComAlmasEspecifica(parametros, funcao);
+    
+            separador();
+        } catch (Exception e) {
+            System.out.println("Erro ao pagar salário atrasado pelo nome de Caronte: " + e.getMessage());
+        }
+    }
+    
+    private static void pagarTodosSalarios() {
+        try {
+            System.out.println("--- Pagar todos os salários atrasados ---");
+            int funcao = 15;
+    
+            executarAcaoNaFrotaComAlmasGeral(funcao);
+    
+            separador();
+        } catch (Exception e) {
+            System.out.println("Erro ao pagar todos os salários atrasados: " + e.getMessage());
+        }
+    }
+        
+
     private static void menuManutencao() {
         int opcao;
         do {
@@ -1303,64 +1618,8 @@ private static Object receberString(String enunciado) {
 
         boolean continuar = true;
         while (continuar) {
-            mostrarMenuPrincipal();
             try {
-                int opcao = teclado.nextInt();
-                separador();
-                switch (opcao) {
-                    case 1:
-                        cadastrarVeiculo(teclado);
-                        separador();
-                        break;
-                    case 2:
-                        exibirRelatorioFrota();
-                        separador();
-                        break;
-                    case 3:
-                        registrarRota();
-                        separador();
-                        break;
-                    case 4:
-                        abastecerVeiculo(teclado);
-                        separador();
-                        break;
-                    case 5:
-                        registrarMulta(teclado);
-                        separador();
-                        break;
-                    case 6:
-                        pagarMulta(teclado);
-                        separador();
-                        break;
-                    case 7:
-                        verificarManutencaoVeiculos();
-                        separador();
-                        break;
-                    case 8:
-                        listarRotasNaoPercorridas(teclado);
-                        separador();
-                        break;
-                    case 9:
-                        percorrerRotaEspecifica(teclado);
-                        separador();
-                        break;
-                    case 10:
-                        realizarManutencaoVeiculo(teclado);
-                        separador();
-                        break;
-                    case 11:
-                        exibirRelatorioRotasVeiculo();
-                        separador();
-                        break;
-                    case 12:
-                        continuar = false; // Sai do loop e encerra o programa.
-                        System.out.println("Até logo ;)");
-                        break;
-                    default:
-                        System.out.println("Opção inválida! Digite opção presente no menu. :)");
-                        break;
-                }
-                // Aguarda um tempo antes de executar a próxima ação
+                mostrarMenuPrincipal();
                 pausa();
                 limparTela();
             } catch (Exception e) {

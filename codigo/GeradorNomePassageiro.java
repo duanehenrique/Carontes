@@ -28,7 +28,7 @@ public class GeradorNomePassageiro {
             "Svetlana", "Nikolai", "Anastasia", "Lourdes", "Myrna", "Wes", "Kanye", "Hans", "Fitzgerald", "Flynn",
             "Fulano", "Cicrano", "Beltrano", "Troy", "Borat", "Elsa", "Dylan", "Sharpay", "Hansel", "Gretel",
             "Tony", "Gaylord", "Angus", "Dougal", "Ruairidh", "Saoirse", "Siobhan", "Scheherazade", "Crystal", "Misty",
-            "Joelma", "Graciane", "Mario", "Luigi", "Wario", "Waluigi", "Kevin", "James", "Homero", "Perseu",
+            "Joelma", "Graciane", "Mario", "Luigi", "Wario", "Waluigi", "Keslley", "Cindy", "Homero", "Perseu",
             "Héracles", "Cassandra", "Cibelle", "Jasão", "Pablo", "Saddam", "Idi Amin", "Klaus", "Steve", "Cláudia",
             "Ken", "Daisy", "Lucinda", "Rosalina", "Luma", "Anya", "Shigeru", "Masashi", "Minerva", "Morgana",
             "Miika", "Percival", "Gusttavo", "Luan", "Simaria", "Simon", "Mariah", "Celine", "Britney", "Jennifer",
@@ -48,7 +48,10 @@ public class GeradorNomePassageiro {
             "Mônica", "Ross", "Rachel", "Chandler", "Phoebe", "Jane", "Kramer", "Laís", "Aquiles", "Pandora", 
             "Jocasta", "Geraldine", "Shiro", "Benjamim", "Hamilton", "Ramon", "Valéria", "Sean", "Oren", "Taiga",
             "Édipo", "Heinrich", "Valesca", "Wagner", "Wolfgang", "Ludwig", " Cynthia", "Sabine", "Sabrina", "Sasha",
-            "Brandum", "Eduardo", "Drauzio", "Sonya", "Ariel", "Cássia", "Mia", "Simão", "Junpei", "Shinnichi"
+            "Brandum", "Eduardo", "Drauzio", "Sonya", "Ariel", "Cássia", "Mia", "Simão", "Junpei", "Shinnichi",
+            "Glinda", "Glenda", "Quincy", "Stanford", "Karl", "Nick", "Joe", "Kevin", "James", "Mariya",
+            "Harley", "Hurley", "Benjamim", "Alba", "Hector", "Richter", "Ramon", "Arnold", "Helga", "Ramona",
+            "Mac", "Maximiliano", "Zack", "Cody", "London", "Glória", "Maria", "Hannah", "Claudiane", "Magali"
 
 
     };

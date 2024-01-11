@@ -541,7 +541,29 @@ public class Frota implements Normalizador {
         return relatorio;
     }
     
-            
+        public List<String> listarTodasMultas() {
+        List<String> relatorio = new ArrayList<>();
+        relatorio.add("---- Barcos na sua frota com Carontes com Multas ----");
+        boolean temLista = false;
+    
+        for (int i = 0; i < diariosDeBordo.size(); i++) {
+            DiarioDeBordo diario = diariosDeBordo.get(i);
+            Barco barco = diario.getBarcoDoDiario();
+            if (barco != null) {
+                Caronte motorista = barco.getMotorista();
+                if (motorista != null && !(motorista.getCarteira().carteiraValida())) {
+                    temLista = true;
+                    relatorio.add("Barco #" + (i + 1));
+                    relatorio.add(barco.relatorio());
+                }
+            }
+        }
+    
+        if (!temLista) {
+            relatorio.add("Não há Carontes com Multas em sua Frota!");
+        }
+        return relatorio;
+    }        
 
             /**
      * Localiza um veículo na frota pela placa.
