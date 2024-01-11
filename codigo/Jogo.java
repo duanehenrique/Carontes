@@ -151,19 +151,16 @@ private static void desenharCaronte(){
         return rotas;
         }
 
-        private static List<Rota> listarRotasDisponiveis() {
+        private static void listarRotasDisponiveis(List<Rota> rotasDisponiveis) {
                 separador();
-                System.out.println("\n--- Rotas Disponíveis para Escolha---");
+                List<String> lista = new ArrayList<>();
+                lista.add("\n--- Rotas Disponíveis para Escolha---\n");
                 separador();
-                // Chama o método para gerar as rotas disponíveis
-                List<Rota> rotasDisponiveis = gerarRotas();
         
-                // Exibe as informações de cada rota na tela
                 for (Rota rota : rotasDisponiveis) {
-                    rota.relatorio();
-                    separador();
+                    lista.add(rota.relatorio());
                 }
-                return rotasDisponiveis;
+                imprimirLista(lista);
             }
         
 
@@ -228,7 +225,7 @@ private static void desenharCaronte(){
         System.out.println("Gôndolas são movidas pela força bruta dos Carontes. As leis trabalhistas por aqui sao confusas.");
         System.out.println("Mas barcos maiores consomem combustível e isso requer almas. Sem combustível o barco não consegue viajar, mas sem almas não se pode fazer nada. Equilibrio é tudo.");
         System.out.println("Veja exemplos de rotas:");
-        listarRotasDisponiveis();
+        listarRotasDisponiveis(gerarRotas());
         pausa();
         System.out.println("As rotas de coleta têm um número definido de passageiros a serem recolhidos. Esse número pode variar bastante.");
         System.out.println("E pode até ultrapassar a capacidade máxima do barco. Nesse caso, o Caronte vai lotar seu barco e deixar alguns para trás.");        
@@ -615,6 +612,7 @@ private static void exibirExemploPassageiro() {
     
     private static void menuRotas() {
         int opcao;
+        List<Rota> rotasDisponíveis = gerarRotas();
         do {
             System.out.println("\n--- Rotas de Coleta de Almas ---");
             executarAcaoNaFrotaDeListarGeral(7);           
@@ -632,10 +630,10 @@ private static void exibirExemploPassageiro() {
     
             switch (opcao) {
                 case 1:
-                    adicionarRotaPorNome();
+                   rotasDisponíveis = adicionarRotaPorNome(rotasDisponíveis);
                     break;
                 case 2:
-                    adicionarRotaPorIndex();
+                    rotasDisponíveis = adicionarRotaPorIndex(rotasDisponíveis);
                     break;
                 case 3:
                     excluirRotaPorIndex();
@@ -804,10 +802,10 @@ private static void exibirExemploPassageiro() {
         } while (opcao != 0);
     }
   
-    private static void adicionarRotaPorNome() {
+    private static List<Rota> adicionarRotaPorNome(List<Rota> rotasdisponíveis) {
         try {
             System.out.println("--- Adicionar Rota pelo Nome do Barco ---");
-                List<Rota> rotasdisponíveis = listarRotasDisponiveis();
+            listarRotasDisponiveis(rotasdisponíveis);
             executarAcaoNaFrotaDeListarGeral(8);
             // Recebe a entrada do usuário para o nome da Rota
             String nomeRota = (String) receberString("o nome do Barco");
@@ -825,18 +823,22 @@ private static void exibirExemploPassageiro() {
     
             // Chama o método correspondente na classe Executor
             executarAcaoNaFrotaDeControle(parametros, funcao);
-    
+            rotasdisponíveis.remove(indexRota-1);
             separador();
+            return rotasdisponíveis;
             }
+            return rotasdisponíveis;
         } catch (Exception e) {
             System.out.println("Erro ao adicionar Rota por nome: " + e.getMessage());
+                    return rotasdisponíveis;
+
         }
     }
     
-    private static void adicionarRotaPorIndex() {
+    private static List<Rota> adicionarRotaPorIndex(List<Rota> rotasdisponíveis) {
         try {
             System.out.println("--- Adicionar Rota pelo Nome do Barco ---");
-                List<Rota> rotasdisponíveis = listarRotasDisponiveis();
+            listarRotasDisponiveis(rotasdisponíveis);
             executarAcaoNaFrotaDeListarGeral(8);
             // Recebe a entrada do usuário para o nome da Rota
             int indexBarco = (int) receberNumero("o número do Barco");
@@ -854,11 +856,13 @@ private static void exibirExemploPassageiro() {
     
             // Chama o método correspondente na classe Executor
             executarAcaoNaFrotaDeControle(parametros, funcao);
-    
             separador();
+            rotasdisponíveis.remove(indexRota-1);
+            return rotasdisponíveis;
             }
         } catch (Exception e) {
             System.out.println("Erro ao adicionar Rota por nome: " + e.getMessage());
+                    return rotasdisponíveis;
         }
     }
     
