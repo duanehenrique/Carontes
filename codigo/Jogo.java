@@ -510,7 +510,7 @@ private static void exibirExemploPassageiro() {
             System.out.println("0. Voltar ao Menu Principal");
             System.out.print("Digite a opção desejada: ");
             
-            opcao = menuEscolhaNumeros(0, 4);
+            opcao = menuEscolhaNumeros(0, 5);
             teclado.nextLine(); // Limpar o buffer
     
             switch (opcao) {
@@ -526,7 +526,7 @@ private static void exibirExemploPassageiro() {
                 case 4:
                     trocarCarontesNome();
                     break;
-                case 3:
+                case 5:
                     trocarCarontesIndex();
                     break;
                 case 0:
@@ -633,6 +633,7 @@ private static void exibirExemploPassageiro() {
             System.out.println("3. Pagar todas as multas pendentes de um Caronte pelo número do barco do Caronte");
             System.out.println("4. Pagar todas as multas pendentes de um Caronte pelo nome do Caronte");
             System.out.println("5. Pagar todas as multas pendentes de todos os Carontes");
+            System.out.println("6. Listar todos os Carontes com a carteira detida");
             System.out.println("0. Voltar ao Menu Carontes");
             System.out.print("Digite a opção desejada: ");
             
@@ -655,6 +656,8 @@ private static void exibirExemploPassageiro() {
                 case 5:
                     pagarTodasMultasTodosCarontes();
                     break;
+                case 6:
+                    executarAcaoNaFrotaDeListarGeral("Barcos com Carontes com mais multas que o regulamento permite", 10);
                 case 0:
                     System.out.println("Voltando ao Menu Carontes.");
                     break;
