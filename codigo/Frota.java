@@ -287,12 +287,12 @@ public class Frota implements Normalizador {
         return caronte.pagarMulta(posicaoMulta);
     }
 
-        public double pagarTodasMultasDoCarontePorIndex(int posicao, int posicaoMulta) {
+        public double pagarTodasMultasDoCarontePorIndex(int posicao) {
         Caronte caronte = localizarMotoristaPorIndex(posicao);
         return caronte.pagarTodasMultas();
     }
     
-    public double pagarTodasMultasDoCarontePorNome(String nome, int posicaoMulta) {
+    public double pagarTodasMultasDoCarontePorNome(String nome) {
         Caronte caronte = localizarMotoristaPorNome(nome);
         return caronte.pagarTodasMultas();
     }
@@ -564,6 +564,60 @@ public class Frota implements Normalizador {
         }
         return relatorio;
     }        
+
+    public List<String> listarBarcosParaRotas() {
+       List<String> relatorio = new ArrayList<>();
+        relatorio.add("---- Barcos na sua frota que podem receber rotas ----");
+        boolean temLista = false;
+    
+        for (int i = 0; i < diariosDeBordo.size(); i++) {
+            DiarioDeBordo diario = diariosDeBordo.get(i);
+            Barco barco = diario.getBarcoDoDiario();
+            if (barco != null) {
+                List<Rota> rotas = barco.getRotas();
+                if (!(rotas.isEmpty())) {
+                    for (Rota rota : rotas) {
+                      if(rota.getRotaPercorrida()){
+                    temLista = true;
+                    relatorio.add("Barco #" + (i + 1));
+                    relatorio.add(barco.relatorio());
+                }   
+                    }
+                }
+            }
+        }
+        if (!temLista) {
+            relatorio.add("Todos os barcos da sua frota já estão tem o máximo de rotas do dia!");
+        }
+        return relatorio;
+    }
+
+    public List<String> listarBarcosComRotas() {
+        List<String> relatorio = new ArrayList<>();
+        relatorio.add("---- Barcos na sua frota com rotas não percorridas ----");
+        boolean temLista = false;
+    
+        for (int i = 0; i < diariosDeBordo.size(); i++) {
+            DiarioDeBordo diario = diariosDeBordo.get(i);
+            Barco barco = diario.getBarcoDoDiario();
+            if (barco != null) {
+                List<Rota> rotas = barco.getRotas();
+                if (!(rotas.isEmpty())) {
+                    for (Rota rota : rotas) {
+                      if(!rota.getRotaPercorrida()){
+                    temLista = true;
+                    relatorio.add("Barco #" + (i + 1));
+                    relatorio.add(barco.relatorio());
+                }   
+                    }
+                }
+            }
+        }
+        if (!temLista) {
+            relatorio.add("Não há barcos com rotas na sua frota!");
+        }
+        return relatorio;
+    }
 
             /**
      * Localiza um veículo na frota pela placa.

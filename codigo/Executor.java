@@ -21,9 +21,9 @@ public class Executor {
             case 8:
                 return (Double) frota.pagarMultaDoCarontePorNome((String) parametros.get(0), (int) parametros.get(1));
             case 9:
-                return (Double) frota.pagarTodasMultasDoCarontePorIndex((int) parametros.get(0), (int) parametros.get(1));
+                return (Double) frota.pagarTodasMultasDoCarontePorIndex((int) parametros.get(0));
             case 10:
-                return (Double) frota.pagarTodasMultasDoCarontePorNome((String) parametros.get(0), (int) parametros.get(1));
+                return (Double) frota.pagarTodasMultasDoCarontePorNome((String) parametros.get(0));
             case 11:
                 return (Double) frota.pagarCursoDeEspecializacaoPorNome((String) parametros.get(0));
             case 12:
@@ -107,9 +107,11 @@ public class Executor {
                 return (List<String>) frota.listarTodosSalariosParaPagar();
             case 37:
                 return (List<String>) frota.listarTodosParaManutencao();
-             case 38:
-                return (List<String>) frota.listarTodasMultas();
-            default:
+             case 39:
+                return (List<String>) frota.listarBarcosComRotas();
+             case 40:
+                return (List<String>) frota.listarBarcosParaRotas();
+                default:
                 throw new IllegalArgumentException("Operação inválida");            
         }
     }

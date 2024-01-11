@@ -513,7 +513,6 @@ public String relatorioRotas() {
         relatorio.append("Viagens restante por hoje: " + (MAX_ROTAS_DIA - rotas.size()) + " km\n");
         relatorio.append("Km Total: " + kmTotal() + " km\n");
         relatorio.append("Km até próxima manutenção periódica: " + getKmAteProximaManutencao() + " km\n");
-        relatorio.append("Tanque abastecido: Veículo sem tanque.\n");
         relatorio.append("Despesas com combustível: Veículo não consume combustível.\n");
         relatorio.append("Despesas com multas: " + String.format("%.2f", despesaMulta) + " almas.\n");
         relatorio.append("Despesas com manutenção: " + String.format("%.2f", despesaManutencao) + " almas.\n");

@@ -151,6 +151,8 @@ private static void desenharCaronte(){
         return rotas;
         }
 
+        
+
     /**
      * Exibe um relatório detalhado da frota, incluindo informações de cada veículo
      * cadastrado.
@@ -483,6 +485,7 @@ private static void exibirExemploPassageiro() {
         int opcao;
         do {
             System.out.println("\n--- Barcos ---");
+
             System.out.println("1. Listar Barcos por Tipo");
             System.out.println("2. Abastecer Barcos");
             System.out.println("3. Realizar Manutenção Em Barcos");
@@ -514,9 +517,12 @@ private static void exibirExemploPassageiro() {
         int opcao;
         do {
             System.out.println("\n--- Carontes ---");
+            executarAcaoNaFrotaDeListarGeral(34);
             System.out.println("1. Pagar Multa de Carontes");
             System.out.println("2. Pagar Curso de Especialização para Carontes");
             System.out.println("3. Pagar Salário em Atraso de Carontes");
+            System.out.println("5. Trocar Carontes pelo Nome do Caronte");
+            System.out.println("6. Trocar Carontes pelo Número do Barco do Caronte");
             System.out.println("0. Voltar ao Menu Principal");
             System.out.print("Digite a opção desejada: ");
             
@@ -533,6 +539,12 @@ private static void exibirExemploPassageiro() {
                 case 3:
                     menuSalarios();
                     break;
+                case 4:
+                    trocarCarontesNome();
+                    break;
+                case 3:
+                    trocarCarontesIndex();
+                    break;
                 case 0:
                     System.out.println("Voltando ao Menu Principal.");
                     break;
@@ -546,44 +558,37 @@ private static void exibirExemploPassageiro() {
         int opcao;
         do {
             System.out.println("\n--- Rotas de Coleta de Almas ---");
-            System.out.println("1. Adicionar Barco à Frota");
-            System.out.println("2. Adicionar Rota por Nome");
-            System.out.println("3. Adicionar Rota por Índice");
-            System.out.println("4. Excluir Rota por Índice");
-            System.out.println("5. Excluir Rota por Nome");
-            System.out.println("6. Trocar Rotas por Nome");
-            System.out.println("7. Trocar Rotas por Índice");
-            System.out.println("8. Trocar Carontes por Nome");
+            executarAcaoNaFrotaDeListarGeral(32);           
+            System.out.println("1. Adicionar Rota ao Barco pelo Nome do Barco");
+            System.out.println("2. Adicionar Rota ao Barco pelo Número do Barco");
+            System.out.println("3. Excluir Rota ao Barco pelo Nome do Barco");
+            System.out.println("4. Excluir Rota ao Barco pelo Número do Barco");
+            System.out.println("5. Trocar Rotas de Barcos pelo Números dos Barcos");
+            System.out.println("6. Trocar Rotas de Barcos pelos Números dos Barcos");
             System.out.println("0. Voltar ao Menu Principal");
             System.out.print("Digite a opção desejada: ");
             
-            opcao = teclado.nextInt();
+            opcao = menuEscolhaNumeros(0, 6);
             teclado.nextLine(); // Limpar o buffer
     
             switch (opcao) {
                 case 1:
-                    adicionarBarcoAFrota();
-                    break;
-                case 2:
                     adicionarRotaPorNome();
                     break;
-                case 3:
+                case 2:
                     adicionarRotaPorIndex();
                     break;
-                case 4:
+                case 3:
                     excluirRotaPorIndex();
                     break;
-                case 5:
+                case 4:
                     excluirRotaPorNome();
                     break;
-                case 6:
+                case 5:
                     trocarRotasPorNome();
                     break;
-                case 7:
+                case 6:
                     trocarRotasPorIndex();
-                    break;
-                case 8:
-                    trocarCarontesPorNome();
                     break;
                 case 0:
                     System.out.println("Voltando ao Menu Principal.");
@@ -639,15 +644,15 @@ private static void exibirExemploPassageiro() {
         do {
             System.out.println("\n--- Multas de Carontes ---");
             executarAcaoNaFrotaDeListarGeral(37);
-            System.out.println("1. Pagar multa pendente de um Caronte pelo número do barco");
-            System.out.println("2. Pagar multa pendente de um Caronte pelo nome");
-            System.out.println("3. Pagar todas as multas pendentes de um Caronte pelo número do barco");
-            System.out.println("4. Pagar todas as multas pendentes de um Caronte pelo nome");
+            System.out.println("1. Pagar multa pendente de um Caronte pelo número do barco do caronte");
+            System.out.println("2. Pagar multa pendente de um Caronte pelo nome do Caronte");
+            System.out.println("3. Pagar todas as multas pendentes de um Caronte pelo número do barco do Caronte");
+            System.out.println("4. Pagar todas as multas pendentes de um Caronte pelo nome do Caronte");
             System.out.println("5. Pagar todas as multas pendentes de todos os Carontes");
             System.out.println("0. Voltar ao Menu Carontes");
             System.out.print("Digite a opção desejada: ");
             
-            opcao = menuEscolhaNumeros(0, 3);
+            opcao = menuEscolhaNumeros(0, 5);
             teclado.nextLine(); // Limpar o buffer
     
             switch (opcao) {
@@ -680,8 +685,8 @@ private static void exibirExemploPassageiro() {
         do {
             System.out.println("\n--- Pagar Curso de Especialização para Carontes ---");
             executarAcaoNaFrotaDeListarGeral(34);
-            System.out.println("1. Pagar Curso por Índice de Caronte");
-            System.out.println("2. Pagar Curso por Nome de Caronte");
+            System.out.println("1. Pagar Curso para Caronte pelo número do Barco de Caronte");
+            System.out.println("2. Pagar Curso para Caronte pelo Nome de Caronte");
             System.out.println("0. Voltar ao Menu Carontes");
             System.out.print("Digite a opção desejada: ");
             
@@ -715,7 +720,7 @@ private static void exibirExemploPassageiro() {
             System.out.println("0. Voltar ao Menu Carontes");
             System.out.print("Digite a opção desejada: ");
             
-            opcao = menuEscolhaNumeros(0, 2);
+            opcao = menuEscolhaNumeros(0, 3);
             teclado.nextLine(); // Limpar o buffer
     
             switch (opcao) {
@@ -736,21 +741,163 @@ private static void exibirExemploPassageiro() {
             }
         } while (opcao != 0);
     }
+  
+    private static void adicionarRotaPorNome() {
+        try {
+            
+            System.out.println("--- Adicionar Rota pelo Nome do Barco ---");
     
+            // Recebe a entrada do usuário para o nome da Rota
+            String nomeRota = (String) receberString("o nome do Barco");
+    
+            // Obtém a função correspondente
+            int funcao = 72;
+    
+            // Parâmetros necessários para a execução da ação
+            List<Object> parametros = new ArrayList<>();
+            parametros.add(nomeRota);
+    
+            // Chama o método correspondente na classe Executor
+            executarAcaoNaFrotaDeControle(parametros, funcao);
+    
+            separador();
+        } catch (Exception e) {
+            System.out.println("Erro ao adicionar Rota por nome: " + e.getMessage());
+        }
+    }
+    
+    private static void adicionarRotaPorIndex() {
+        try {
+            System.out.println("--- Adicionar Rota por Índice ---");
+    
+            // Recebe a entrada do usuário para o índice da Rota
+            int indiceRota = (int) receberNumero("o índice da Rota");
+    
+            // Obtém a função correspondente
+            int funcao = 74;
+    
+            // Parâmetros necessários para a execução da ação
+            List<Object> parametros = new ArrayList<>();
+            parametros.add(indiceRota);
+    
+            // Chama o método correspondente na classe Executor
+            executarAcaoNaFrotaDeControle(parametros, funcao);
+    
+            separador();
+        } catch (Exception e) {
+            System.out.println("Erro ao adicionar Rota por índice: " + e.getMessage());
+        }
+    }
+    
+    private static void excluirRotaPorIndex() {
+        try {
+            System.out.println("--- Excluir Rota por Índice ---");
+    
+            // Recebe a entrada do usuário para o índice da Rota
+            int indiceRota = (int) receberNumero("o índice da Rota");
+    
+            // Obtém a função correspondente
+            int funcao = 76;
+    
+            // Parâmetros necessários para a execução da ação
+            List<Object> parametros = new ArrayList<>();
+            parametros.add(indiceRota);
+    
+            // Chama o método correspondente na classe Executor
+            executarAcaoNaFrotaDeControle(parametros, funcao);
+    
+            separador();
+        } catch (Exception e) {
+            System.out.println("Erro ao excluir Rota por índice: " + e.getMessage());
+        }
+    }
+    
+    private static void excluirRotaPorNome() {
+        try {
+            System.out.println("--- Excluir Rota por Nome ---");
+    
+            // Recebe a entrada do usuário para o nome da Rota
+            String nomeRota = (String) receberString("o nome da Rota");
+    
+            // Obtém a função correspondente
+            int funcao = 78;
+    
+            // Parâmetros necessários para a execução da ação
+            List<Object> parametros = new ArrayList<>();
+            parametros.add(nomeRota);
+    
+            // Chama o método correspondente na classe Executor
+            executarAcaoNaFrotaDeControle(parametros, funcao);
+    
+            separador();
+        } catch (Exception e) {
+            System.out.println("Erro ao excluir Rota por nome: " + e.getMessage());
+        }
+    }
+    
+    private static void trocarRotasPorNome() {
+        try {
+            System.out.println("--- Trocar Rotas por Nome ---");
+    
+            // Recebe a entrada do usuário para o nome da Rota
+            String nomeRota = (String) receberString("o nome da Rota");
+    
+            // Obtém a função correspondente
+            int funcao = 80;
+    
+            // Parâmetros necessários para a execução da ação
+            List<Object> parametros = new ArrayList<>();
+            parametros.add(nomeRota);
+    
+            // Chama o método correspondente na classe Executor
+            executarAcaoNaFrotaDeControle(parametros, funcao);
+    
+            separador();
+        } catch (Exception e) {
+            System.out.println("Erro ao trocar Rotas por nome: " + e.getMessage());
+        }
+    }
+    
+    private static void trocarRotasPorIndex() {
+        try {
+            System.out.println("--- Trocar Rotas por Índice ---");
+    
+            // Recebe a entrada do usuário para o índice da Rota
+            int indiceRota = (int) receberNumero("o índice da Rota");
+    
+            // Obtém a função correspondente
+            int funcao = 82;
+    
+            // Parâmetros necessários para a execução da ação
+            List<Object> parametros = new ArrayList<>();
+            parametros.add(indiceRota);
+    
+            // Chama o método correspondente na classe Executor
+            executarAcaoNaFrotaDeControle(parametros, funcao);
+    
+            separador();
+        } catch (Exception e) {
+            System.out.println("Erro ao trocar Rotas por índice: " + e.getMessage());
+        }
+    }
+    
+
     private static void pagarMultaCaronteIndex() {
         try {
             System.out.println("--- Pagar multa pendente de um Caronte pelo número do barco ---");
     
             // Recebe a entrada do usuário para o índice do Caronte
-            int indiceCaronte = (int) receberNumero("o índice do Caronte");
-    
+            int indiceCaronte = (int) receberNumero("o número do Caronte");
+            int indiceMulta = (int) receberNumero("o número da multa Caronte");
+
             // Obtém a função correspondente
             int funcao = 7;
     
             // Parâmetros necessários para a execução da ação
             List<Object> parametros = new ArrayList<>();
             parametros.add(indiceCaronte);
-    
+            parametros.add(indiceMulta);
+
             // Chama o método correspondente na classe Executor
             executarAcaoNaFrotaComAlmasEspecifica(parametros, funcao);
     
@@ -766,6 +913,7 @@ private static void exibirExemploPassageiro() {
     
             // Recebe a entrada do usuário para o nome do Caronte
             String nomeCaronte = (String) receberString("o nome do Caronte");
+            int indiceMulta = (int) receberNumero("o número da multa Caronte");
     
             // Obtém a função correspondente
             int funcao = 8;
@@ -773,6 +921,7 @@ private static void exibirExemploPassageiro() {
             // Parâmetros necessários para a execução da ação
             List<Object> parametros = new ArrayList<>();
             parametros.add(nomeCaronte);
+            parametros.add(indiceMulta);
     
             // Chama o método correspondente na classe Executor
             executarAcaoNaFrotaComAlmasEspecifica(parametros, funcao);
@@ -947,7 +1096,52 @@ private static void exibirExemploPassageiro() {
             System.out.println("Erro ao pagar todos os salários atrasados: " + e.getMessage());
         }
     }
-        
+    
+    private static void trocarCarontesNome() {
+        try {
+            System.out.println("--- Trocar Carontes pelo Nome do Caronte ---");
+    
+            String nomeCaronte1 = (String) receberString("o nome do primeiro Caronte");
+             String nomeCaronte2 = (String) receberString("o nome do segundo Caronte");
+                int funcao = 26;
+    
+            List<Object> parametros = new ArrayList<>();
+            parametros.add(nomeCaronte1);
+            parametros.add(nomeCaronte2);
+    
+            executarAcaoNaFrotaDeControle(parametros, funcao);
+    
+            separador();
+        } catch (Exception e) {
+            System.out.println("Erro ao trocar Carontes pelo nome do Caronte: " + e.getMessage());
+        }
+    }
+    
+    private static void trocarCarontesIndex() {
+        try {
+            System.out.println("--- Trocar Carontes pelo Número do Barco do Caronte ---");
+    
+            // Recebe a entrada do usuário para o índice do Caronte
+            int indiceCaronte1 = (int) receberNumero("o número do Barco do primeiro Caronte");
+            int indiceCaronte2 = (int) receberNumero("o número do Barco do segundo Caronte");
+
+            // Obtém a função correspondente
+            int funcao = 25;
+    
+            // Parâmetros necessários para a execução da ação
+            List<Object> parametros = new ArrayList<>();
+            parametros.add(indiceCaronte1);
+            parametros.add(indiceCaronte2);
+    
+            // Chama o método correspondente na classe Executor
+            executarAcaoNaFrotaDeControle(parametros, funcao);
+    
+            separador();
+        } catch (Exception e) {
+            System.out.println("Erro ao trocar Carontes pelo número do barco do Caronte: " + e.getMessage());
+        }
+    }
+    
 
     private static void menuManutencao() {
         int opcao;
@@ -956,6 +1150,7 @@ private static void exibirExemploPassageiro() {
             executarAcaoNaFrotaDeListarGeral(37);
             System.out.println("1. Fazer Manutenção em Barco por Índice");
             System.out.println("2. Fazer Manutenção em Barco por Nome");
+            System.out.println("3. Fazer Manutenção em Todos os Barco");
             System.out.println("0. Voltar ao Menu de Barcos");
             System.out.print("Digite a opção desejada: ");
             
