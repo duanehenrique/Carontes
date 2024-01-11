@@ -202,17 +202,17 @@ private static void desenharCaronte(){
         System.out.println("E, mesmo que ele acabe fazendo um desleixo, provavelmente será algo leve.");
         System.out.println("Mas quanto mais experiente, maior será seu salário. Devemos respeitar o piso salarial.");
         System.out.println("Veja os Carontes empregados na sua frota:");
-        exibirRelatorioCarontes();
+        executarAcaoNaFrotaDeListarGeral("Carontes", 3);
         System.out.println("No momento, todos os Carontes contratados são de nível 1.");
         System.out.println("Mas você pode sempre contratar outros quando for adquirir mais barcos. Claro, por um preço.");
         System.out.println("E, como um bom gerente, você pode pagar um bom curso de especialização para seus Carontes. Estamos sempre em uma jornada de crescimento!");    
         pausa();
         System.out.println("Vale a pena contratar Carontes mais experientes? Bom, nós não queremos nossos Carontes recebendo multas.");
-        System.out.println("Se o Caronte tiver uma multa pendente, ele não pode entrar em uma rota.");
+        System.out.println("Se o Caronte tiver muitas multas pendentes, ele não pode entrar em uma rota.");
         System.out.println("A legislação do Submundo é bem rígida quanto a isso");
         System.out.println("Multas custam. E isso sai do nosso bolso. Do que ganhamos no dia.");
         System.out.println("Veja como estão as carteiras de motorista dos Carontes empregados por você:");
-        exibirTodasMultas();
+        executarAcaoNaFrotaDeListarGeral("Barcos com Carontes multados", 9);
         System.out.println("No momento, nenhum Caronte da sua frota tem uma multa na carteira, mas tome cuidado.");
         System.out.println("Melhor evitar que multas sejam aplicadas. E há formas de fazer isso.");
         pausa();
@@ -247,9 +247,10 @@ private static void desenharCaronte(){
         System.out.println("O chefe pode ser carruncudo, mas ele sabe que nem todo dia é fartura. Às vezes um leve empurrãozinho é do que sua frota precisa.");
         pausa();
         desenharBarco();
-        exibirRelatorioFrota();       
+        executarAcaoNaFrotaDeListarGeral("Barcos com manutenção pendente", 6);
         System.out.println("Todo barco precisa de manutenção de tempos em tempos. E elas custam, então é bom se prevenir.");
         System.out.println("Cada tipo de barco precisa de ir para a oficina depois de uma certa quilometragem percorrida diferentes, mas todos precisam. É uma lei, pela nossa própria segurança.");
+        System.out.println("No momento, todos os barcos da sua frots são 0 km. Novíssimos de fábrica! Então não precisam de manutenção... por enquanto.");
         System.out.println("Barcos que precisam de combustível tem um custo adicional de acordo com o tipo de combustível.");
         System.out.println("Cada tipo de combustível tem um custo para instalar o tanque. Os mecânicos do submundo são terceirizados e querem pagamento imediato.");
         System.out.println("Da mesma forma, cada combustível tem um custo diferente para abastecer. Os postos são traiçoeiros, mas ao menos têm preços tabelados.");
@@ -431,7 +432,7 @@ private static void exibirExemploPassageiro() {
         int opcao;
         do {
         exibirAlmas();
-        exibirRelatorioFrota();
+        executarAcaoNaFrotaDeListarGeral("Barcos", 1);
         System.out.println("--- Menu ---");
         System.out.println("1. Barcos da Frota");
         System.out.println("2. Carontes da Frota");
