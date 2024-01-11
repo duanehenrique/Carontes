@@ -165,9 +165,12 @@ private static void desenharCaronte(){
         
 
     private static void encerrarDia(){
+        boolean confirmacao = confirmacao();
+        if(confirmacao){
         jogador.encerrarDia();
         frota.encerrarDia();
         custos.encerrarDia();
+        }
     }
 
         private static void iniciarDia(){
@@ -510,16 +513,16 @@ private static void exibirExemploPassageiro() {
         do {
         exibirAlmas();
         executarAcaoNaFrotaDeListarGeral(1);
-        System.out.println("--- Menu ---");
+        System.out.println("--- Sala de do Gerente " + jogador.getNomePersonagem() + " ---");
         System.out.println("1. Oficina do Tártaro");
         System.out.println("2. Sala de Descanso de Carontes");
         System.out.println("3. Catálogo de Rotas de Coleta de Almas Penitentes");
         System.out.println("4. Setor de Aquisições do Submundo");
         System.out.println("5. Encerrar Dia");
         separador();
-        System.out.print("Selecione uma opção: ");
+        System.out.print("Selecione a opção desejada.S");
         
-        opcao = teclado.nextInt();
+        opcao = menuEscolhaNumeros(1, 5);
         teclado.nextLine();
         switch (opcao) {
             case 1:
@@ -546,13 +549,14 @@ private static void exibirExemploPassageiro() {
     private static void menuBarcos() {
         int opcao;
         do {
+            desenharBarco();
+            separador();
             System.out.println("\n--- Oficina do Tártaro ---");
-
             System.out.println("1. Listar Barcos por Tipo");
             System.out.println("2. Abastecer Barcos");
             System.out.println("3. Realizar Manutenção Em Barcos");
             System.out.println("0. Voltar ao Menu Principal");
-            System.out.print("Digite a opção desejada: ");
+            System.out.print("Digite a opção desejada. ");
             opcao = menuEscolhaNumeros(0, 3);
             teclado.nextLine(); // Limpar o buffer
 
@@ -578,6 +582,8 @@ private static void exibirExemploPassageiro() {
     private static void menuCarontes() {
         int opcao;
         do {
+            desenharCaronte();
+            separador();
             System.out.println("\n--- Sala de Descanso de Carontes ---");
             executarAcaoNaFrotaDeListarGeral(3);
             System.out.println("1. Pagar Multa de Carontes");
@@ -586,7 +592,7 @@ private static void exibirExemploPassageiro() {
             System.out.println("5. Trocar Carontes pelo Nome do Caronte");
             System.out.println("6. Trocar Carontes pelo Número do Barco do Caronte");
             System.out.println("0. Voltar ao Menu Principal");
-            System.out.print("Digite a opção desejada: ");
+            System.out.print("Digite a opção desejada. ");
             
             opcao = menuEscolhaNumeros(0, 5);
             teclado.nextLine(); // Limpar o buffer
@@ -620,6 +626,8 @@ private static void exibirExemploPassageiro() {
         int opcao;
         List<Rota> rotasDisponíveis = gerarRotas();
         do {
+            desenharAlma();
+            separador();
             System.out.println("\n--- Catálogo de Rotas de Coleta de Almas Penitentes ---");
             executarAcaoNaFrotaDeListarGeral(7);           
             System.out.println("1. Adicionar Rota ao Barco pelo Nome do Barco");
@@ -629,7 +637,7 @@ private static void exibirExemploPassageiro() {
             System.out.println("5. Trocar Rotas de Barcos pelo Números dos Barcos");
             System.out.println("6. Trocar Rotas de Barcos pelos Números dos Barcos");
             System.out.println("0. Voltar ao Menu Principal");
-            System.out.print("Digite a opção desejada: ");
+            System.out.print("Digite a opção desejada. ");
             
             opcao = menuEscolhaNumeros(0, 6);
             teclado.nextLine(); // Limpar o buffer
@@ -665,30 +673,19 @@ private static void exibirExemploPassageiro() {
     private static void menuAquisicoes() {
         int opcao;
         do {
+            desenharBarco();
+            separador();
             System.out.println("\n--- Setor de Aquisições do Submundo ---");
-            System.out.println("4. Listar Todos para Abastecer");
-            System.out.println("5. Listar Todos os Salários para Pagar");
+            System.out.println("1. Fazer Pedido para Aquisição de Novo Barco");
             System.out.println("0. Voltar ao Menu Principal");
-            System.out.print("Digite a opção desejada: ");
-            
-            opcao = teclado.nextInt();
+            System.out.print("Digite a opção desejada. ");
+
+            opcao = menuEscolhaNumeros(0, 1);
             teclado.nextLine(); // Limpar o buffer
     
             switch (opcao) {
                 case 1:
-                    listarCarontes();
-                    break;
-                case 2:
-                    relatorioFrota();
-                    break;
-                case 3:
-                    relatorioFrotaDeOntem();
-                    break;
-                case 4:
-                    listarTodosParaAbastecer();
-                    break;
-                case 5:
-                    listarTodosSalariosParaPagar();
+                    menuComprarBarco();
                     break;
                 case 0:
                     System.out.println("Voltando ao Menu Principal.");
@@ -702,6 +699,8 @@ private static void exibirExemploPassageiro() {
     private static void menuMultas() {
         int opcao;
         do {
+            desenharBarco();
+            separador();
             System.out.println("\n--- Multas de Carontes ---");
             executarAcaoNaFrotaDeListarGeral(9);
             System.out.println("1. Pagar multa pendente de um Caronte pelo número do barco do caronte");
@@ -711,7 +710,7 @@ private static void exibirExemploPassageiro() {
             System.out.println("5. Pagar todas as multas pendentes de todos os Carontes");
             System.out.println("6. Listar todos os Carontes com a carteira detida");
             System.out.println("0. Voltar ao Menu Carontes");
-            System.out.print("Digite a opção desejada: ");
+            System.out.print("Digite a opção desejada. ");
             
             opcao = menuEscolhaNumeros(0, 5);
             teclado.nextLine(); // Limpar o buffer
@@ -746,12 +745,14 @@ private static void exibirExemploPassageiro() {
     private static void menuCursos() {
         int opcao;
         do {
+            desenharCaronte();
+            separador();
             System.out.println("\n--- Pagar Curso de Especialização para Carontes ---");
             executarAcaoNaFrotaDeListarGeral(3);
             System.out.println("1. Pagar Curso para Caronte pelo número do Barco de Caronte");
             System.out.println("2. Pagar Curso para Caronte pelo Nome de Caronte");
             System.out.println("0. Voltar ao Menu Carontes");
-            System.out.print("Digite a opção desejada: ");
+            System.out.print("Digite a opção desejada. ");
             
             opcao = menuEscolhaNumeros(0, 2);
             teclado.nextLine(); // Limpar o buffer
@@ -775,13 +776,15 @@ private static void exibirExemploPassageiro() {
     private static void menuSalarios() {
         int opcao;
         do {
+            desenharAlma();
+            separador();
             System.out.println("\n--- Pagar Salário em Atraso de Carontes ---");
             executarAcaoNaFrotaDeListarGeral(5);
             System.out.println("1. Pagar salário atrasado pelo número do barco de Caronte");
             System.out.println("2. Pagar salário atrasadospelo nome de Caronte");
             System.out.println("3. Pagar todos os salários atrasados");
             System.out.println("0. Voltar ao Menu Carontes");
-            System.out.print("Digite a opção desejada: ");
+            System.out.print("Digite a opção desejada. ");
             
             opcao = menuEscolhaNumeros(0, 3);
             teclado.nextLine(); // Limpar o buffer
@@ -1232,13 +1235,15 @@ private static void exibirExemploPassageiro() {
     private static void menuManutencao() {
         int opcao;
         do {
+            desenharBarco();
+            separador();
             System.out.println("\n--- Manutenção de Barcos ---");
             executarAcaoNaFrotaDeListarGeral(6);
             System.out.println("1. Fazer Manutenção em Barco por Índice");
             System.out.println("2. Fazer Manutenção em Barco por Nome");
             System.out.println("3. Fazer Manutenção em Todos os Barco");
             System.out.println("0. Voltar ao Menu de Barcos");
-            System.out.print("Digite a opção desejada: ");
+            System.out.print("Digite a opção desejada. ");
             
             opcao = menuEscolhaNumeros(0, 3);
             teclado.nextLine(); // Limpar o buffer
@@ -1264,6 +1269,8 @@ private static void exibirExemploPassageiro() {
     private static void menuAbastecer() {
         int opcao;
         do {
+            desenharAlma();
+            separador();
             System.out.println("\n--- Abastecimento de Barcos ---");
             executarAcaoNaFrotaDeListarGeral(4);
             System.out.println("1. Abastecer Barco por Índice");
@@ -1272,7 +1279,7 @@ private static void exibirExemploPassageiro() {
             System.out.println("4. Abastecer Barco Completo por Nome");
             System.out.println("5. Abastecer Todos os Barcos");
             System.out.println("0. Voltar ao Menu de Barcos");
-            System.out.print("Digite a opção desejada: ");
+            System.out.print("Digite a opção desejada. ");
             
             opcao = menuEscolhaNumeros(0, 5);
             teclado.nextLine(); // Limpar o buffer
