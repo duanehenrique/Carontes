@@ -272,7 +272,7 @@ private static void definirJogador(){
         desenharCaronte();
         separador();
         System.out.println("Olá, gerente! Seja bem-vindo ao submundo!");
-        System.out.println("Eu sou o novo chefe de Recursos Inumanos do inferno e estou aqui para te ajudar.");
+        System.out.println("Eu sou o novo chefe de Recursos Inumanos do Inferno e estou aqui para te ajudar.");
         System.out.println("Imagino que suas férias tenham sido ótimas. Mas agora é hora de voltarmos ao trabalho.");
         System.out.println("Muita coisa mudou desde que você saiu de férias.");
         System.out.println("Tem pouco tempo que trabalho aqui, então não conheço todos os gerentes. Qual é seu nome?");
@@ -363,6 +363,7 @@ private static void exibirExemploPassageiro() {
         try {
         if(funcao >= 1 && funcao <= 14){
         double custoTotal = custos.executarTransacaoEspecifica(objetos, funcao, frota, jogador);
+        separador();
         System.err.println("Gasto da frota do gerente " + jogador.getNomePersonagem() + " com a transação: " + custoTotal + " almas.");
         separador();
         desenharAlma();
@@ -376,6 +377,7 @@ private static void exibirExemploPassageiro() {
          try {
         if(funcao >= 15 && funcao <= 18){
         double custoTotal = custos.executarTransacaoGeral(funcao, frota, jogador);
+        separador();
         System.err.println("Gasto da frota do gerente " + jogador.getNomePersonagem() + " com a transação: " + custoTotal + " almas.");
         separador();
         desenharAlma();
@@ -390,7 +392,9 @@ private static void exibirExemploPassageiro() {
         try {
         Executor executor = new Executor();
         List<String> mensagem = (List<String>) executor.executarAcaoNaFrotaDeControle(frota, funcao, objetos);   
+        separador();
         System.out.println(mensagem);
+        separador();
         }catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -440,6 +444,7 @@ private static void exibirExemploPassageiro() {
         List<String> mensagens = (List<String>) executor.executarAcaoNaFrotaDeListarEspecifico(frota, funcao, objetos);
         separador();
         System.out.println("\n--- " + enunciado + " da frota do gerente " + jogador.getNomePersonagem() + " ---");
+        separador();
         imprimirLista(mensagens);
         }
 
@@ -484,6 +489,7 @@ private static void exibirExemploPassageiro() {
         List<String> mensagens = (List<String>) executor.executarAcaoNaFrotaDeListarGeral(frota, funcao);
         separador();
         System.out.println("\n--- " + enunciado + " da frota do gerente " + jogador.getNomePersonagem() + " ---");
+        separador();
         imprimirLista(mensagens);
     }
         private static void imprimirLista(List<String> mensagens){
@@ -505,9 +511,9 @@ private static void exibirExemploPassageiro() {
         exibirAlmas();
         executarAcaoNaFrotaDeListarGeral(1);
         System.out.println("--- Menu ---");
-        System.out.println("1. Barcos da Frota");
-        System.out.println("2. Carontes da Frota");
-        System.out.println("3. Rotas de Coleta de Almas");
+        System.out.println("1. Oficina do Tártaro");
+        System.out.println("2. Sala de Descanso de Carontes");
+        System.out.println("3. Catálogo de Rotas de Coleta de Almas Penitentes");
         System.out.println("4. Setor de Aquisições do Submundo");
         System.out.println("5. Encerrar Dia");
         separador();
@@ -540,7 +546,7 @@ private static void exibirExemploPassageiro() {
     private static void menuBarcos() {
         int opcao;
         do {
-            System.out.println("\n--- Barcos ---");
+            System.out.println("\n--- Oficina do Tártaro ---");
 
             System.out.println("1. Listar Barcos por Tipo");
             System.out.println("2. Abastecer Barcos");
@@ -572,7 +578,7 @@ private static void exibirExemploPassageiro() {
     private static void menuCarontes() {
         int opcao;
         do {
-            System.out.println("\n--- Carontes ---");
+            System.out.println("\n--- Sala de Descanso de Carontes ---");
             executarAcaoNaFrotaDeListarGeral(3);
             System.out.println("1. Pagar Multa de Carontes");
             System.out.println("2. Pagar Curso de Especialização para Carontes");
@@ -614,7 +620,7 @@ private static void exibirExemploPassageiro() {
         int opcao;
         List<Rota> rotasDisponíveis = gerarRotas();
         do {
-            System.out.println("\n--- Rotas de Coleta de Almas ---");
+            System.out.println("\n--- Catálogo de Rotas de Coleta de Almas Penitentes ---");
             executarAcaoNaFrotaDeListarGeral(7);           
             System.out.println("1. Adicionar Rota ao Barco pelo Nome do Barco");
             System.out.println("2. Adicionar Rota ao Barco pelo Número do Barco");
@@ -660,9 +666,6 @@ private static void exibirExemploPassageiro() {
         int opcao;
         do {
             System.out.println("\n--- Setor de Aquisições do Submundo ---");
-            System.out.println("1. Listar Carontes");
-            System.out.println("2. Relatório da Frota");
-            System.out.println("3. Relatório da Frota de Ontem");
             System.out.println("4. Listar Todos para Abastecer");
             System.out.println("5. Listar Todos os Salários para Pagar");
             System.out.println("0. Voltar ao Menu Principal");
@@ -825,7 +828,6 @@ private static void exibirExemploPassageiro() {
             executarAcaoNaFrotaDeControle(parametros, funcao);
             rotasdisponíveis.remove(indexRota-1);
             separador();
-            return rotasdisponíveis;
             }
             return rotasdisponíveis;
         } catch (Exception e) {
@@ -858,11 +860,11 @@ private static void exibirExemploPassageiro() {
             executarAcaoNaFrotaDeControle(parametros, funcao);
             separador();
             rotasdisponíveis.remove(indexRota-1);
-            return rotasdisponíveis;
             }
+            return rotasdisponíveis;
         } catch (Exception e) {
             System.out.println("Erro ao adicionar Rota por nome: " + e.getMessage());
-                    return rotasdisponíveis;
+            return rotasdisponíveis;
         }
     }
     
@@ -872,15 +874,10 @@ private static void exibirExemploPassageiro() {
             int indiceBarco = (int) receberNumero("o número do Barco");
             List<Object> parametros = new ArrayList<>();
             parametros.add(indiceBarco);
-            Barco barco = frota.locali
-            executarAcaoNaFrotaDeListarEspecifico(parametros, 28);
+            executarAcaoNaFrotaDeListarEspecifico(parametros, 7);
 
-            // Obtém a função correspondente
             int funcao = 4;
     
-            // Parâmetros necessários para a execução da ação
-    
-            // Chama o método correspondente na classe Executor
             executarAcaoNaFrotaDeControle(parametros, funcao);
     
             separador();
@@ -896,14 +893,12 @@ private static void exibirExemploPassageiro() {
             // Recebe a entrada do usuário para o nome da Rota
             String nomeRota = (String) receberString("o nome da Rota");
     
-            // Obtém a função correspondente
-            int funcao = 5/;
-    
-            // Parâmetros necessários para a execução da ação
-            List<Object> parametros = new ArrayList<>();
+             List<Object> parametros = new ArrayList<>();
             parametros.add(nomeRota);
+            executarAcaoNaFrotaDeListarEspecifico(parametros, 6);
+
+            int funcao = 5;
     
-            // Chama o método correspondente na classe Executor
             executarAcaoNaFrotaDeControle(parametros, funcao);
     
             separador();
@@ -914,19 +909,26 @@ private static void exibirExemploPassageiro() {
     
     private static void trocarRotasPorNome() {
         try {
-            System.out.println("--- Trocar Rotas por Nome ---");
+            System.out.println("--- Trocar Rotas entre Barcos pelos Nomes dos Barcos ---");
     
             // Recebe a entrada do usuário para o nome da Rota
-            String nomeRota = (String) receberString("o nome da Rota");
-    
-            // Obtém a função correspondente
-            int funcao = 8/;
-    
+            String nomeBarco1 = (String) receberString("o nome do primeiro Barco");
+            String nomeBarco2 = (String) receberString("o nome do segundo Barco");
+            List<Object> nome1 = new ArrayList<>();
+            nome1.add(nomeBarco1);
+            List<Object> nome2 = new ArrayList<>();
+            nome2.add(nomeBarco2);
+            int funcao = 6;
+            executarAcaoNaFrotaDeListarEspecifico(nome1, funcao);
+            executarAcaoNaFrotaDeListarEspecifico(nome2, funcao);
             // Parâmetros necessários para a execução da ação
             List<Object> parametros = new ArrayList<>();
-            parametros.add(nomeRota);
-    
-            // Chama o método correspondente na classe Executor
+            parametros.add(nome1.get(0));
+            parametros.add(nome2.get(0));
+             int indiceRota1 = (int) receberNumero("o número da Rota desejada do primeiro Barco");
+            parametros.add(indiceRota1);
+            int indiceRota2 = (int) receberNumero("o número da Rota desejada do segundo Barco");
+            parametros.add(indiceRota2);
             executarAcaoNaFrotaDeControle(parametros, funcao);
     
             separador();
@@ -937,19 +939,26 @@ private static void exibirExemploPassageiro() {
     
     private static void trocarRotasPorIndex() {
         try {
-            System.out.println("--- Trocar Rotas por Número do Barco ---");
+            System.out.println("--- Trocar Rotas entre Barcos pelos Nomes dos Barcos ---");
     
-            // Recebe a entrada do usuário para o índice da Rota
-            int indiceRota = (int) receberNumero("o índice da Rota");
-    
-            // Obtém a função correspondente
-            int funcao = 7/;
-    
+            // Recebe a entrada do usuário para o nome da Rota
+            int indexBarco1 = (int) receberNumero("o número do primeiro Barco");
+            int indexBarco2 = (int) receberNumero("o número do segundo Barco");
+            List<Object> index1 = new ArrayList<>();
+            index1.add(indexBarco1);
+            List<Object> index2 = new ArrayList<>();
+            index2.add(indexBarco2);
+            int funcao = 6;
+            executarAcaoNaFrotaDeListarEspecifico(index1, funcao);
+            executarAcaoNaFrotaDeListarEspecifico(index2, funcao);
             // Parâmetros necessários para a execução da ação
             List<Object> parametros = new ArrayList<>();
-            parametros.add(indiceRota);
-    
-            // Chama o método correspondente na classe Executor
+            parametros.add(index1.get(0));
+            parametros.add(index2.get(0));
+             int indiceRota1 = (int) receberNumero("o número da Rota desejada do primeiro Barco");
+            parametros.add(indiceRota1);
+            int indiceRota2 = (int) receberNumero("o número da Rota desejada do segundo Barco");
+            parametros.add(indiceRota2);
             executarAcaoNaFrotaDeControle(parametros, funcao);
     
             separador();
