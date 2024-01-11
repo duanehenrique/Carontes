@@ -247,10 +247,10 @@ public void iniciarDia(){
  *
  * @throws IllegalStateException Se o vetor de rotas estiver vazio ou se não houver rotas não percorridas.
  */
-public void listarRotasNaoPercorridas() {
-    if (rotas.size() == 0) {
+public List<String> listarRotasNaoPercorridas() {
+    if (rotas.isEmpty()) {
         throw new IllegalStateException("Não há rotas associadas ao veículo.");
-    }
+    }else{
 
     int numeroRota = 1;
     boolean encontrouRotaNaoPercorrida = false;
@@ -264,14 +264,20 @@ public void listarRotasNaoPercorridas() {
         throw new IllegalStateException("Não há rotas não percorridas associados ao veículo.");
     }else{
         System.out.println("Rotas não percorridas:");
+        List<String> relatorios = new ArrayList<>();
         for (Rota rota : rotas) {
             if (rota != null && !rota.getRotaPercorrida()) {
                 encontrouRotaNaoPercorrida = true;
-                System.out.println(numeroRota + ". " + rota);
+                StringBuilder relatorio = new StringBuilder();
+                relatorio.append(numeroRota + "#").append("\n");
+                relatorio.append(rota.relatorio());
+                relatorios.add(relatorio.toString());
                 numeroRota++;
             }
         }
-    }   
+        return relatorios;
+    }  
+    } 
 }
 
 /**

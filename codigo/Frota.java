@@ -709,9 +709,68 @@ public class Frota implements Normalizador {
             }else{
                 throw new IllegalArgumentException("Posição informada excede a quantidade atual de Carontes. Quantidade atual: " + diariosDeBordo.size());
             }
-           
-        
         }
+
+        public List<String> rotasBarcoParaImprimirPorIndex(int posicao) {
+                DiarioDeBordo diarioEscolhido = localizarDiarioPorIndex(posicao);        
+                if (diarioEscolhido != null) {
+                   Barco barco = diarioEscolhido.getBarcoDoDiario();
+                        StringBuilder relatorio = new StringBuilder();
+                        relatorio.append("Nome do Barco: ").append(barco.getNOME()).append("\n");
+                        relatorio.append("Rotas:\n");
+                    List <String> resultado = new ArrayList<>();
+                    resultado.add(relatorio.toString());
+                    List<Rota> rotas = barco.getRotas();
+                    List <String> rotasNaoPercorridas = barco.listarRotasNaoPercorridas();
+                    if (rotas != null && !rotas.isEmpty()) {
+                        if(!rotasNaoPercorridas.isEmpty()){
+           
+                            for (String relatorioRota : rotasNaoPercorridas) {
+                                resultado.add(relatorioRota);
+                            }
+        
+                        return resultado;
+                    }else {
+                        throw new IllegalArgumentException("O barco não possui rotas não percorridas.");
+                    }
+                    } else {
+                        throw new IllegalArgumentException("O barco não possui rotas.");
+                    }
+                }
+        
+            throw new IllegalArgumentException("Barco de número '" + posicao + "' não encontrado na frota.");
+        }
+        
+        public List<String> rotasBarcoParaImprimirPorNome( String nomeBarco) {
+            DiarioDeBordo diarioEscolhido = localizarDiarioPorNome(nomeBarco);
+                if (diarioEscolhido != null) {
+                   Barco barco = diarioEscolhido.getBarcoDoDiario();
+                        StringBuilder relatorio = new StringBuilder();
+                        relatorio.append("Nome do Barco: ").append(barco.getNOME()).append("\n");
+                        relatorio.append("Rotas:\n");
+                    List <String> resultado = new ArrayList<>();
+                    resultado.add(relatorio.toString());
+                    List<Rota> rotas = barco.getRotas();
+                    List <String> rotasNaoPercorridas = barco.listarRotasNaoPercorridas();
+                    if (rotas != null && !rotas.isEmpty()) {
+                        if(!rotasNaoPercorridas.isEmpty()){
+           
+                            for (String relatorioRota : rotasNaoPercorridas) {
+                                resultado.add(relatorioRota);
+                            }
+        
+                        return resultado;
+                    }else {
+                        throw new IllegalArgumentException("O barco não possui rotas não percorridas.");
+                    }
+                    } else {
+                        throw new IllegalArgumentException("O barco não possui rotas.");
+                    }
+                }
+        
+            throw new IllegalArgumentException("Barco com nome '" + nomeBarco + "' não encontrado na frota.");
+        }
+        
     
     /**
      * Calcula a quilometragem total da frota.
