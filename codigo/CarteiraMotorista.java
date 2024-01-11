@@ -3,7 +3,6 @@
  * Classe CarteiraMotorista.
  * Esta classe representa uma carteira de motorista no sistema.
  */
-import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -121,7 +120,10 @@ public class CarteiraMotorista implements Relatorio{
         }
         return valorTotalPago;
     }
-
+    
+    public boolean temMulta(){
+        return !multas.isEmpty();
+    }
     
             // #region Relatorio
         /**

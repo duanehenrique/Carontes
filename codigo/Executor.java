@@ -39,13 +39,13 @@ public class Executor {
  
     public double executarAcaoComAlmasGeral(Frota frota, int funcao) {
         switch (funcao) {
-            case 15:
+            case 1:
                 return (Double) frota.pagarSalarioTodosMotoristas();
-            case 16:
+            case 2:
                 return (Double) frota.abastecerTodosBarcos();
-            case 17:
+            case 3:
                 return (Double) frota.fazerManutencaoTodosBarcos();
-            case 18:
+            case 4:
                 return (Double) frota.pagarTodasMultasDeTodosCarontes();
 
             default:
@@ -55,21 +55,21 @@ public class Executor {
 
     public List<String> executarAcaoNaFrotaDeControle(Frota frota, int funcao, List<Object> parametros) {
         switch (funcao) {
-            case 19:
+            case 1:
                 return (List<String>) frota.addBarco((Barco) parametros.get(0));
-            case 20:
+            case 2:
                 return (List<String>) frota.addRotaPorNome((String) parametros.get(0), (Rota) parametros.get(1));
-            case 21:
+            case 3:
                 return (List<String>) frota.addRotaPorIndex((int) parametros.get(0), (Rota) parametros.get(1));
-            case 22:
+            case 4:
                 return (List<String>) frota.excluirRotaPorIndex((int) parametros.get(0), (int) parametros.get(1));
-            case 23:
+            case 5:
                 return (List<String>) frota.excluirRotaPorNome((String) parametros.get(0), (int) parametros.get(1));
-            case 24:
+            case 6:
                 return (List<String>) frota.trocarRotasPorNome((String) parametros.get(0), (int) parametros.get(1), (String) parametros.get(2), (int) parametros.get(3));
-            case 25:
+            case 7:
                 return (List<String>) frota.trocarRotasPorIndex((int) parametros.get(0), (int) parametros.get(1), (int) parametros.get(2), (int) parametros.get(3));
-            case 26:
+            case 8:
                 return (List<String>) frota.trocarCarontesPorNome((String) parametros.get(0), (String) parametros.get(1));
             default:
                 throw new IllegalArgumentException("Operação inválida");
@@ -78,16 +78,20 @@ public class Executor {
 
     public List<String> executarAcaoNaFrotaDeListarEspecifico(Frota frota, int funcao, List<Object> parametros) {
         switch (funcao) {
-            case 27:
+            case 1:
                 return (List<String>) frota.relatorioBarcoPorNome((String) parametros.get(0));
-            case 28:
+            case 2:
                 return (List<String>) frota.relatorioBarcoPorIndex((int) parametros.get(0));
-            case 29:
+            case 3:
                 return (List<String>) frota.relatorioCompletoBarcoPorIndex((int) parametros.get(0));
-            case 30:
+            case 4:
                 return (List<String>) frota.relatorioCompletoBarcoPorNome((String) parametros.get(0));
-            case 31:
+            case 5:
                 return (List<String>) frota.listarBarcosPorTipo((String) parametros.get(0));
+            case 6:
+                return (List<String>) frota.listarRotasParaImprimirPorNome((String) parametros.get(0));
+            case 7:
+                return (List<String>) frota.listarRotasParaImprimirPorIndex((int) parametros.get(0));
             default:
                 throw new IllegalArgumentException("Operação inválida");
         }
@@ -95,23 +99,27 @@ public class Executor {
     
     public List<String> executarAcaoNaFrotaDeListarGeral(Frota frota, int funcao) {
         switch (funcao) {
-            case 32:
+            case 1:
                 return (List<String>) frota.relatorioFrota();
-            case 33:
+            case 2:
                 return (List<String>) frota.relatorioFrotaDeOntem();
-            case 34:
+            case 3:
                 return (List<String>) frota.listarCarontes();
-            case 35:
+            case 4:
                 return (List<String>) frota.listarTodosParaAbastecer();
-            case 36:
+            case 5:
                 return (List<String>) frota.listarTodosSalariosParaPagar();
-            case 37:
+            case 6:
                 return (List<String>) frota.listarTodosParaManutencao();
-             case 39:
+             case 7:
                 return (List<String>) frota.listarBarcosComRotas();
-             case 40:
+             case 8:
                 return (List<String>) frota.listarBarcosParaRotas();
-                default:
+             case 9:
+                return (List<String>) frota.listarTodasMultas();
+            case 10:
+                return (List<String>) frota.listarTodosCarteiraInvalida();
+            default:
                 throw new IllegalArgumentException("Operação inválida");            
         }
     }

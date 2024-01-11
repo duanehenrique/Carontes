@@ -414,8 +414,7 @@ public class Frota implements Normalizador {
 
     public List<String> listarCarontes() {
         List<String> relatorio = new ArrayList<>();
-        relatorio.add("---- Carontes na sua frota ----");
-    
+
         for (int i = 0; i < diariosDeBordo.size(); i++) {
             DiarioDeBordo diario = diariosDeBordo.get(i);
             Barco barco = diario.getBarcoDoDiario();
@@ -476,7 +475,6 @@ public class Frota implements Normalizador {
 
     public List<String> listarTodosParaAbastecer() {
         List<String> relatorio = new ArrayList<>();
-        relatorio.add("---- Barcos na sua frota com tanque para abastecer ----");
         boolean existeBarco = false;
         for (int i = 0; i < diariosDeBordo.size(); i++) {
             DiarioDeBordo diario = diariosDeBordo.get(i);
@@ -498,7 +496,6 @@ public class Frota implements Normalizador {
     
         public List<String> listarTodosParaManutencao() {
         List<String> relatorio = new ArrayList<>();
-        relatorio.add("---- Barcos na sua frota para fazer manutenção ----");
         boolean existeBarco = false;
         for (int i = 0; i < diariosDeBordo.size(); i++) {
             DiarioDeBordo diario = diariosDeBordo.get(i);
@@ -519,7 +516,6 @@ public class Frota implements Normalizador {
 
     public List<String> listarTodosSalariosParaPagar() {
         List<String> relatorio = new ArrayList<>();
-        relatorio.add("---- Barcos na sua frota com Carontes com salários pendentes ----");
         boolean temLista = false;
     
         for (int i = 0; i < diariosDeBordo.size(); i++) {
@@ -543,7 +539,29 @@ public class Frota implements Normalizador {
     
         public List<String> listarTodasMultas() {
         List<String> relatorio = new ArrayList<>();
-        relatorio.add("---- Barcos na sua frota com Carontes com Multas ----");
+        boolean temLista = false;
+    
+        for (int i = 0; i < diariosDeBordo.size(); i++) {
+            DiarioDeBordo diario = diariosDeBordo.get(i);
+            Barco barco = diario.getBarcoDoDiario();
+            if (barco != null) {
+                Caronte motorista = barco.getMotorista();
+                if (motorista != null && (motorista.getCarteira().temMulta())) {
+                    temLista = true;
+                    relatorio.add("Barco #" + (i + 1));
+                    relatorio.add(barco.relatorio());
+                }
+            }
+        }
+    
+        if (!temLista) {
+            relatorio.add("Não há Carontes com Multas em sua Frota!");
+        }
+        return relatorio;
+    }        
+
+            public List<String> listarTodosCarteiraInvalida() {
+        List<String> relatorio = new ArrayList<>();
         boolean temLista = false;
     
         for (int i = 0; i < diariosDeBordo.size(); i++) {
@@ -563,11 +581,9 @@ public class Frota implements Normalizador {
             relatorio.add("Não há Carontes com Multas em sua Frota!");
         }
         return relatorio;
-    }        
-
+    } 
     public List<String> listarBarcosParaRotas() {
        List<String> relatorio = new ArrayList<>();
-        relatorio.add("---- Barcos na sua frota que podem receber rotas ----");
         boolean temLista = false;
     
         for (int i = 0; i < diariosDeBordo.size(); i++) {
@@ -594,7 +610,6 @@ public class Frota implements Normalizador {
 
     public List<String> listarBarcosComRotas() {
         List<String> relatorio = new ArrayList<>();
-        relatorio.add("---- Barcos na sua frota com rotas não percorridas ----");
         boolean temLista = false;
     
         for (int i = 0; i < diariosDeBordo.size(); i++) {
@@ -711,7 +726,7 @@ public class Frota implements Normalizador {
             }
         }
 
-        public List<String> rotasBarcoParaImprimirPorIndex(int posicao) {
+        public List<String> listarRotasParaImprimirPorIndex(int posicao) {
                 DiarioDeBordo diarioEscolhido = localizarDiarioPorIndex(posicao);        
                 if (diarioEscolhido != null) {
                    Barco barco = diarioEscolhido.getBarcoDoDiario();
@@ -741,7 +756,7 @@ public class Frota implements Normalizador {
             throw new IllegalArgumentException("Barco de número '" + posicao + "' não encontrado na frota.");
         }
         
-        public List<String> rotasBarcoParaImprimirPorNome( String nomeBarco) {
+        public List<String> listarRotasParaImprimirPorNome( String nomeBarco) {
             DiarioDeBordo diarioEscolhido = localizarDiarioPorNome(nomeBarco);
                 if (diarioEscolhido != null) {
                    Barco barco = diarioEscolhido.getBarcoDoDiario();
