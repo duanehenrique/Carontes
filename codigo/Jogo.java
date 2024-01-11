@@ -189,7 +189,7 @@ private static void desenharCaronte(){
         System.out.println("Sua frota não é grande, mas tem potencial.");
         System.out.println("Esses são os seus barcos e seus Carontes disponíveis no momento:");
         desenharBarco();
-        executarAcaoNaFrotaDeListarGeral("Barcos",1);;
+        executarAcaoNaFrotaDeListarGeral(1);;
         System.out.println("Carontes podem fazer até " + MAX_ROTAS_DIA + " viagens por dia.");
         System.out.println("Nenhum deles pode percorrer mais de " + MAX_ROTAS_DIA + " rotas em um mesmo dia");
         System.out.println("É algo do sindicato. Melhor não mexer nisso.");
@@ -202,7 +202,7 @@ private static void desenharCaronte(){
         System.out.println("E, mesmo que ele acabe fazendo um desleixo, provavelmente será algo leve.");
         System.out.println("Mas quanto mais experiente, maior será seu salário. Devemos respeitar o piso salarial.");
         System.out.println("Veja os Carontes empregados na sua frota:");
-        executarAcaoNaFrotaDeListarGeral("Carontes", 3);
+        executarAcaoNaFrotaDeListarGeral(3);
         System.out.println("No momento, todos os Carontes contratados são de nível 1.");
         System.out.println("Mas você pode sempre contratar outros quando for adquirir mais barcos. Claro, por um preço.");
         System.out.println("E, como um bom gerente, você pode pagar um bom curso de especialização para seus Carontes. Estamos sempre em uma jornada de crescimento!");    
@@ -212,7 +212,7 @@ private static void desenharCaronte(){
         System.out.println("A legislação do Submundo é bem rígida quanto a isso");
         System.out.println("Multas custam. E isso sai do nosso bolso. Do que ganhamos no dia.");
         System.out.println("Veja como estão as carteiras de motorista dos Carontes empregados por você:");
-        executarAcaoNaFrotaDeListarGeral("Barcos com Carontes multados", 9);
+        executarAcaoNaFrotaDeListarGeral(9);
         System.out.println("No momento, nenhum Caronte da sua frota tem uma multa na carteira, mas tome cuidado.");
         System.out.println("Melhor evitar que multas sejam aplicadas. E há formas de fazer isso.");
         pausa();
@@ -247,7 +247,7 @@ private static void desenharCaronte(){
         System.out.println("O chefe pode ser carruncudo, mas ele sabe que nem todo dia é fartura. Às vezes um leve empurrãozinho é do que sua frota precisa.");
         pausa();
         desenharBarco();
-        executarAcaoNaFrotaDeListarGeral("Barcos com manutenção pendente", 6);
+        executarAcaoNaFrotaDeListarGeral(6);
         System.out.println("Todo barco precisa de manutenção de tempos em tempos. E elas custam, então é bom se prevenir.");
         System.out.println("Cada tipo de barco precisa de ir para a oficina depois de uma certa quilometragem percorrida diferentes, mas todos precisam. É uma lei, pela nossa própria segurança.");
         System.out.println("No momento, todos os barcos da sua frots são 0 km. Novíssimos de fábrica! Então não precisam de manutenção... por enquanto.");
@@ -399,8 +399,47 @@ private static void exibirExemploPassageiro() {
         }
         }
 
-        public static void executarAcaoNaFrotaDeListarEspecifico(String enunciado, List<Object> objetos, int funcao) {
+        public static void executarAcaoNaFrotaDeListarEspecifico(List<Object> objetos, int funcao) {
         Executor executor = new Executor();
+        String enunciado = null;
+        switch (funcao) {
+            case 1:
+                enunciado = ("Relatótio do Barco " + ((String) objetos.get(0)));
+                break;
+            case 2:
+                enunciado = ("Relatótio do Barco " + ((int) objetos.get(0)));
+                break;
+            case 3:
+                enunciado = ("Relatótio Completo do Barco " + ((String) objetos.get(0)));
+                break;
+            case 4:
+                enunciado = ("Relatótio Completo do Barco " + ((int) objetos.get(0)));
+                break;
+            case 5:
+            switch(normalizar((String) objetos.get(0))){
+                
+                case "GONDOLA":
+                    enunciado = "Gôndolas";
+                    break;
+                case "BALSA":
+                    enunciado = "Balsa";
+                    break;
+                case "NAVIO":
+                    enunciado = "Navio";
+                    break;
+                case "CRUZEIRO":
+                    enunciado = "Cruzeiro";
+                    break;
+                    default:
+                throw new IllegalArgumentException("Operação inválida");            
+            }
+            case 6:
+                enunciado = ("Rotas do Barco " + ((String) objetos.get(0)));
+                break;
+             case 7:
+                enunciado = ("Rotas do Barco #" + ((int) objetos.get(0)));
+                break;
+        }
         List<String> mensagens = (List<String>) executor.executarAcaoNaFrotaDeListarEspecifico(frota, funcao, objetos);
         separador();
         System.out.println("\n--- " + enunciado + " da frota do gerente " + jogador.getNomePersonagem() + " ---");
@@ -408,8 +447,43 @@ private static void exibirExemploPassageiro() {
         }
 
 
-         public static void executarAcaoNaFrotaDeListarGeral(String enunciado, int funcao) {
+         public static void executarAcaoNaFrotaDeListarGeral(int funcao) {
         Executor executor = new Executor();
+        String enunciado = null;
+        switch (funcao) {
+            case 1:
+                enunciado = "Barcos";
+                break;
+            case 2:
+                enunciado = "Feitos Heroicos de Ontem dos Barcos";
+                break;
+                case 3:
+                enunciado = "Carontes";
+                break;
+            case 4:
+                enunciado = "Barcos potencialmente sem combustível";
+                break;
+            case 5:
+                enunciado = "Carontes com salário pendente";
+                break;
+            case 6:
+                enunciado = "Barcos com manutenção pendente";
+                break;
+             case 7:
+                enunciado = "Barcos com rotas de coletas de alma";
+                break;
+             case 8:
+                enunciado = "Barcos disponíveis para receber rotas";
+                break;
+             case 9:
+                enunciado = "Barcos com Carontes multados";
+                break;
+            case 10:
+                enunciado = "Barcos com Carontes com a carteira detida";
+                break;
+            default:
+                throw new IllegalArgumentException("Operação inválida");            
+        }
         List<String> mensagens = (List<String>) executor.executarAcaoNaFrotaDeListarGeral(frota, funcao);
         separador();
         System.out.println("\n--- " + enunciado + " da frota do gerente " + jogador.getNomePersonagem() + " ---");
@@ -432,7 +506,7 @@ private static void exibirExemploPassageiro() {
         int opcao;
         do {
         exibirAlmas();
-        executarAcaoNaFrotaDeListarGeral("Barcos", 1);
+        executarAcaoNaFrotaDeListarGeral(1);
         System.out.println("--- Menu ---");
         System.out.println("1. Barcos da Frota");
         System.out.println("2. Carontes da Frota");
@@ -502,7 +576,7 @@ private static void exibirExemploPassageiro() {
         int opcao;
         do {
             System.out.println("\n--- Carontes ---");
-            executarAcaoNaFrotaDeListarGeral("Carontes", 3);
+            executarAcaoNaFrotaDeListarGeral(3);
             System.out.println("1. Pagar Multa de Carontes");
             System.out.println("2. Pagar Curso de Especialização para Carontes");
             System.out.println("3. Pagar Salário em Atraso de Carontes");
@@ -543,7 +617,7 @@ private static void exibirExemploPassageiro() {
         int opcao;
         do {
             System.out.println("\n--- Rotas de Coleta de Almas ---");
-            executarAcaoNaFrotaDeListarGeral("Barcos com rotas de coletas de alma", 7);           
+            executarAcaoNaFrotaDeListarGeral(7);           
             System.out.println("1. Adicionar Rota ao Barco pelo Nome do Barco");
             System.out.println("2. Adicionar Rota ao Barco pelo Número do Barco");
             System.out.println("3. Excluir Rota ao Barco pelo Nome do Barco");
@@ -628,7 +702,7 @@ private static void exibirExemploPassageiro() {
         int opcao;
         do {
             System.out.println("\n--- Multas de Carontes ---");
-            executarAcaoNaFrotaDeListarGeral("Barcos com Carontes multados", 9);
+            executarAcaoNaFrotaDeListarGeral(9);
             System.out.println("1. Pagar multa pendente de um Caronte pelo número do barco do caronte");
             System.out.println("2. Pagar multa pendente de um Caronte pelo nome do Caronte");
             System.out.println("3. Pagar todas as multas pendentes de um Caronte pelo número do barco do Caronte");
@@ -658,7 +732,7 @@ private static void exibirExemploPassageiro() {
                     pagarTodasMultasTodosCarontes();
                     break;
                 case 6:
-                    executarAcaoNaFrotaDeListarGeral("Barcos com Carontes com mais multas que o regulamento permite", 10);
+                    executarAcaoNaFrotaDeListarGeral(10);
                 case 0:
                     System.out.println("Voltando ao Menu Carontes.");
                     break;
@@ -672,7 +746,7 @@ private static void exibirExemploPassageiro() {
         int opcao;
         do {
             System.out.println("\n--- Pagar Curso de Especialização para Carontes ---");
-            executarAcaoNaFrotaDeListarGeral("Carontes",3);
+            executarAcaoNaFrotaDeListarGeral(3);
             System.out.println("1. Pagar Curso para Caronte pelo número do Barco de Caronte");
             System.out.println("2. Pagar Curso para Caronte pelo Nome de Caronte");
             System.out.println("0. Voltar ao Menu Carontes");
@@ -701,7 +775,7 @@ private static void exibirExemploPassageiro() {
         int opcao;
         do {
             System.out.println("\n--- Pagar Salário em Atraso de Carontes ---");
-            executarAcaoNaFrotaDeListarGeral("Carontes com salário pendente", 5);
+            executarAcaoNaFrotaDeListarGeral(5);
             System.out.println("1. Pagar salário atrasado pelo número do barco de Caronte");
             System.out.println("2. Pagar salário atrasadospelo nome de Caronte");
             System.out.println("3. Pagar todos os salários atrasados");
@@ -734,7 +808,7 @@ private static void exibirExemploPassageiro() {
         try {
             System.out.println("--- Adicionar Rota pelo Nome do Barco ---");
                 List<Rota> rotasdisponíveis = listarRotasDisponiveis();
-            executarAcaoNaFrotaDeListarGeral("Barcos disponíveis para rotas",8);
+            executarAcaoNaFrotaDeListarGeral(8);
             // Recebe a entrada do usuário para o nome da Rota
             String nomeRota = (String) receberString("o nome do Barco");
             int indexRota = (int) receberNumero("o número da rota");
@@ -763,7 +837,7 @@ private static void exibirExemploPassageiro() {
         try {
             System.out.println("--- Adicionar Rota pelo Nome do Barco ---");
                 List<Rota> rotasdisponíveis = listarRotasDisponiveis();
-            executarAcaoNaFrotaDeListarGeral("Barcos disponíveis para rotas",8);
+            executarAcaoNaFrotaDeListarGeral(8);
             // Recebe a entrada do usuário para o nome da Rota
             int indexBarco = (int) receberNumero("o número do Barco");
             int indexRota = (int) receberNumero("o número da rota");
@@ -795,7 +869,7 @@ private static void exibirExemploPassageiro() {
             List<Object> parametros = new ArrayList<>();
             parametros.add(indiceBarco);
             Barco barco = frota.locali
-            executarAcaoNaFrotaDeListarEspecifico(("Rotas do Barco " + barco.getNOME()),parametros, 28);
+            executarAcaoNaFrotaDeListarEspecifico(parametros, 28);
 
             // Obtém a função correspondente
             int funcao = 4;
@@ -1146,7 +1220,7 @@ private static void exibirExemploPassageiro() {
         int opcao;
         do {
             System.out.println("\n--- Manutenção de Barcos ---");
-            executarAcaoNaFrotaDeListarGeral("Barcos com manutenção pendente",6);
+            executarAcaoNaFrotaDeListarGeral(6);
             System.out.println("1. Fazer Manutenção em Barco por Índice");
             System.out.println("2. Fazer Manutenção em Barco por Nome");
             System.out.println("3. Fazer Manutenção em Todos os Barco");
@@ -1178,7 +1252,7 @@ private static void exibirExemploPassageiro() {
         int opcao;
         do {
             System.out.println("\n--- Abastecimento de Barcos ---");
-            executarAcaoNaFrotaDeListarGeral("Barcos potencialmente sem combustível", 4);
+            executarAcaoNaFrotaDeListarGeral(4);
             System.out.println("1. Abastecer Barco por Índice");
             System.out.println("2. Abastecer Barco por Nome");
             System.out.println("3. Abastecer Barco Completo por Índice");
@@ -1670,7 +1744,7 @@ private static void fazerManutencaoTodosBarcos() {
         System.out.println("5. Todos");        
 
         String tipo = (String) receberString("o tipo de barco desejado");
-        List<Object> lista = new ArrayList();
+        List<Object> lista = new ArrayList<>();
         lista.add((tipo));
         if (tipo.equals("0")) {
             System.out.println("Voltando ao Menu de Barcos.");
@@ -1695,15 +1769,13 @@ private static void fazerManutencaoTodosBarcos() {
             }
         try {
                 separador();
-                executarAcaoNaFrotaDeListarEspecifico((tipo + "S"),lista, funcao);
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
         }            
         }else{
         try {
                 separador();
-                System.out.println("---- LISTA DE " + tipo + "S ----");
-                executarAcaoNaFrotaDeListarEspecifico((tipo + "S"),lista, funcao);
+                executarAcaoNaFrotaDeListarEspecifico(lista, funcao);
 
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
