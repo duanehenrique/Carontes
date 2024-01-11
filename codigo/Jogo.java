@@ -28,6 +28,7 @@ public class Jogo implements Normalizador{
     static Frota frota;
     static int MAX_ROTAS_DIA = 4;
     static int ALMAS_POR_DIA = 10;
+    static int ALMAS_EXTRAS = 30;
     static int TEMPO_MAX = 13;
     static int META = 444;
     static Jogador jogador;
@@ -1897,13 +1898,43 @@ private static Object receberString(String enunciado) {
         Scanner teclado = new Scanner(System.in);
         
         System.out.println("");
+        separador();
+        definirJogador();
         inicializarFrota();
         separador();
         esperarInicio();
         tutorial();
 
-        boolean continuar = true;
-        while (continuar) {
+        while (frota.getDiaDoDesafio() < 13) {
+            try {
+                mostrarMenuPrincipal();
+                pausa();
+                limparTela();
+                executarAcaoNaFrotaDeListarGeral(2);
+            } catch (Exception e) {
+                System.out.println("Ocorreu um erro: digite um número presente no menu." );
+                teclado.nextLine();
+                pausa();
+                limparTela();
+            }
+        }
+                separador();
+                System.out.println("Olá, seja bem-vindo ao escritório. Eu sou o chefe do Recursos Inumanos. Lembra de mim?" );
+                boolean confirmacao = confirmacao();
+                if(confirmacao){
+                 System.out.println("Ótimo! Positividade comporativa! Beijos de gratiluz para você e sua boa memória." );
+                }else{
+                 System.out.println("Pensei que lembraria dos nossos bons momentos do passado... Quando te perguntei seu nome 12 dias atrás..."); 
+                 System.out.println("Mas tudo bem. Vamos lá. Isso não é nada que vai me fazer chorar no banheiro em breve nem nada do tipo.");
+                }
+                System.out.println("Já é o último dia do desafio! O submundo está em pânico... Muito mais que o normal..." );
+                System.out.println("O chefe está preocupado, então resolveu dar um empurrãozinho a todos os gerente de frota." );
+                System.out.println("Todos os gerente vão ganhar " + ALMAS_EXTRAS + "almas para tentar bater a meta. Você incluso." );
+                System.out.println("Nenhum outro gerente está perto de bater a meta. Sua frota tem grandes chances... Só não pode desistir");
+                System.out.println("Vamos lá pegar ainda mais humanos para torturá-los por toda a eternidade?" );
+                confirmacao();
+                jogador.addAlmasAoDia(ALMAS_EXTRAS);
+                while (frota.getDiaDoDesafio() == 13) {
             try {
                 mostrarMenuPrincipal();
                 pausa();
