@@ -514,16 +514,16 @@ public String relatorioRotas() {
         relatorio.append(getNOME() + ":\n");
         relatorio.append("Caronte: " + motorista.getNome() + "\n");
         relatorio.append("Nível de Experiência do Caronte: " + motorista.getNivel() + "\n");           
-        relatorio.append("Tipo de Barco: ").append(getTipoDeBarco());
+        relatorio.append("Tipo de Barco: ").append(getTipoDeBarco() + "\n");
         relatorio.append("Capacidade máxima do barco: " + CAPACIDADEPASSAGEIROS + "\n");
         relatorio.append("Viagens restante por hoje: " + (MAX_ROTAS_DIA - rotas.size()) + " km\n");
         relatorio.append("Km Total: " + kmTotal() + " km\n");
         relatorio.append("Km até próxima manutenção periódica: " + getKmAteProximaManutencao() + " km\n");
         relatorio.append("Despesas com combustível: Veículo não consume combustível.\n");
-        relatorio.append("Despesas com multas: " + String.format("%.2f", despesaMulta) + " almas.\n");
-        relatorio.append("Despesas com manutenção: " + String.format("%.2f", despesaManutencao) + " almas.\n");
-        relatorio.append("Despesa total: " + String.format("%.2f", (getDespesaTotal()) + " almas.\n"));
-        relatorio.append("Arrecadação total: " + String.format("%.2f", (getTotalAlmasColetadasDia()) + " almas.\n"));
+        relatorio.append("Despesas com multas: " + String.format("%.2f", getDespesaMulta()) + " almas.\n");
+        relatorio.append("Despesas com manutenção: " + String.format("%.2f", getDespesaManutencao()) + " almas.\n");
+        relatorio.append("Despesa total: " + String.format("%.2f", getDespesaTotal()) + " almas.\n");
+        relatorio.append("Arrecadação total: " + String.format("%.2f", getTotalAlmasColetadasDia()) + " almas.\n");
         return relatorio.toString();
     }
     // #endregion

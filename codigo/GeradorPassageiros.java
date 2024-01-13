@@ -26,27 +26,27 @@ public class GeradorPassageiros {
     private String obterTipoPecado(int valorPecado) {
         switch (valorPecado) {
             case 1:
-                return "HEROI";
+                return "Herói nobre livre de pecados. Enviar aos Campos Elíseos.";
             case 2:
-                return "LIMBO";
+                return "Comportamento Digno do Limbo";
             case 3:
-                return "LUXURIA";
+                return "Luxúria";
             case 4:
-                return "GULA";
+                return "Gula";
             case 5:
-                return "AVAREZA";
+                return "Avareza";
             case 6:
-                return "IRA";
+                return "Ira";
             case 7:
-                return "HERESIA";
+                return "Heresia";
             case 8:
-                return "VIOLENCIA";
+                return "Violencia";
             case 9:
-                return "FRAUDE";
+                return "Fraude";
             case 10:
-                return "TRAICAO";
+                return "Traição";
             default:
-                return "TRAICAO";
+                return "Traição";
         }
     }
 }

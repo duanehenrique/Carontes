@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -17,95 +18,110 @@ public class GeradorNomesBarcos {
 
         Random random;       
     
-    public GeradorNomesBarcos() {
-            for(int i = 0; i < 4; i++){
-                List <Boolean> lista = nomesDisponiveis.get(i);
-            for(int j = 0; j < nomes.length; i++){
-                lista.add(false);
-            }
+
+
+        public GeradorNomesBarcos() {
+            random = new Random();
+            nomesDisponiveis = new ArrayList<>();
+        
+            for (int i = 0; i < 4; i++) {
+                List<Boolean> lista = new ArrayList<>();
+                for (int j = 0; j < nomes.length; j++) {
+                    lista.add(false);
+                }
+                nomesDisponiveis.add(lista);
             }
         }
 
         
-        public GeradorNomesBarcos(GeradorNomesBarcos gerador) {
-            for(int i = 0; i < 4; i++){
-                List <Boolean> lista = nomesDisponiveis.get(i);
-                List <Boolean> listaOriginal = gerador.nomesDisponiveis.get(i);
-            for(int j = 0; j < nomes.length; i++){
-                if(listaOriginal.get(i)){
-                lista.add(true);
-                } lista.add(false);
-            }
-            }
-        }
 
-    public String gerarNome(){
+
+    public GeradorNomesBarcos(GeradorNomesBarcos gerador) {
+        nomesDisponiveis = new ArrayList<>();
         random = new Random();
-        int iteracao = Integer.MIN_VALUE; 
-        while(iteracao < Integer.MAX_VALUE){
-        int posicaoNome = random.nextInt(nomes.length);
-        StringBuilder nome = new StringBuilder();
-        nome.append(nomes[posicaoNome]);
-        for(int i = 0; i < 4; i++){
-        List <Boolean> listaDisponiveis = nomesDisponiveis.get(i);
-        nome.append(nomes[posicaoNome]);
-            if (!listaDisponiveis.get(posicaoNome)) {
-            if(i == 0){
-            marcarBoolean(posicaoNome, i);
-            return nome.toString();
+        for (int i = 0; i < 4; i++) {
+            List<Boolean> lista = new ArrayList<>();
+            List<Boolean> listaOriginal = gerador.nomesDisponiveis.get(i);
+            for (int j = 0; j < nomes.length; j++) {
+                if (listaOriginal.get(j)) {
+                    lista.add(true);
+                } else {
+                    lista.add(false);
+                }
             }
-            if(i == 1){
-            nome.append(" II.");
-            marcarBoolean(posicaoNome, i);
-            return nome.toString();
-            }else if(i == 2){
-            nome.append(" III");
-            marcarBoolean(posicaoNome, i);
-            return nome.toString();
-            }else if(i == 3){
-            nome.append(" IV");
-            marcarBoolean(posicaoNome, i);
-            return nome.toString();
-            }
+            nomesDisponiveis.add(lista);
         }
-      }
-    } 
+    }
+
+    public String gerarNome() {
+        int iteracao = 0; // Contador de iterações
+        while (iteracao < Integer.MAX_VALUE) {
+            int posicaoNome = random.nextInt(nomes.length);
+            StringBuilder nome = new StringBuilder();
+            nome.append(nomes[posicaoNome]);
+            
+            for (int i = 0; i < 4; i++) {
+                List<Boolean> listaDisponiveis = nomesDisponiveis.get(i);
+                if (!listaDisponiveis.get(posicaoNome)) {
+                    if (i == 0) {
+                        marcarBoolean(posicaoNome, i);
+                        return nome.toString();
+                    } else if (i == 1) {
+                        nome.append(" II.");
+                        marcarBoolean(posicaoNome, i);
+                        return nome.toString();
+                    } else if (i == 2) {
+                        nome.append(" III");
+                        marcarBoolean(posicaoNome, i);
+                        return nome.toString();
+                    } else if (i == 3) {
+                        nome.append(" IV");
+                        marcarBoolean(posicaoNome, i);
+                        return nome.toString();
+                    }
+                }
+            }
+    
+            iteracao++; // Incrementa o contador de iterações
+        }
     throw new IllegalArgumentException("Todos os barcos do Tártaro já fazem parte da sua frota. Se contente com o que tem.");       
     }
     
     public void marcarNomeUtilizado(Barco barco) {
-        String nomeCaronte = barco.getNOME();
+        String nomeBarco = barco.getNOME();
         int posicaoNome;
-        int ultimoEspaco = nomeCaronte.lastIndexOf(" ");
-
-        if (ultimoEspaco == -1) {
+        int ultimoEspaco = nomeBarco.lastIndexOf(" ");
+ 
          for (int i = 0; i < nomes.length; i++) {
-          if (nomes[i].equals(nomeCaronte)) {
+          if (nomes[i].equals(nomeBarco)) {
           marcarBoolean(i, 0);
+          return;
           }
         }
-        }else{
-            String primeiroNome = nomeCaronte.substring(0, ultimoEspaco);
-            String ultimaParte = nomeCaronte.substring(ultimoEspaco + 1);
+            String primeiroNome = nomeBarco.substring(0, ultimoEspaco);
+            String ultimaParte = nomeBarco.substring(ultimoEspaco + 1);
         for (int i = 0; i < nomes.length; i++) {
           if (nomes[i].equals(primeiroNome)) {
             posicaoNome = i;
-          }else{
-            throw new IllegalArgumentException("Barco não registrado no submundo.");
-          }
+     
 
             if (ultimaParte.equals("II")) {
                 marcarBoolean(posicaoNome, 1);
+                return;
             }else if(ultimaParte.equals("III")) {
                 marcarBoolean(posicaoNome, 2);
+                                return;
             }else if(ultimaParte.equals("IV")){
             marcarBoolean(posicaoNome, 3);
-            }else{
-                throw new IllegalArgumentException("Barco não registrado no submundo.");
+                            return;
+            }
             }
         }
-    }
-}
+                              throw new IllegalArgumentException("Barco não registrado no submundo. " + nomeBarco);
+
+        }
+
+
 
     private void marcarBoolean(int posicaoNome, int qualLista) {
         if(qualLista <= nomesDisponiveis.size())

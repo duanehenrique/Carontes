@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -16,16 +17,23 @@ public class GeradorNomesCarontes {
 
     Random random;
 
-     public GeradorNomesCarontes() {
-            for(int i = 0; i < 4; i++){
-                List <Boolean> lista = nomesDisponiveis.get(i);
-            for(int j = 0; j < nomes.length; i++){
+        public GeradorNomesCarontes() {
+        nomesDisponiveis = new ArrayList<>();
+            random = new Random();
+        // Inicializa as listas internas
+        for (int i = 0; i < 4; i++) {
+            List<Boolean> lista = new ArrayList<>();
+            for (int j = 0; j < nomes.length; j++) {
                 lista.add(false);
             }
-            }
+            nomesDisponiveis.add(lista);
         }
+    }
+
 
         public GeradorNomesCarontes(GeradorNomesCarontes gerador) {
+            nomesDisponiveis = new ArrayList<>();
+            random = new Random();
             for(int i = 0; i < 4; i++){
                 List <Boolean> lista = nomesDisponiveis.get(i);
                 List <Boolean> listaOriginal = gerador.nomesDisponiveis.get(i);
@@ -38,7 +46,6 @@ public class GeradorNomesCarontes {
         }
 
     public String gerarNome(){
-        random = new Random();
         int iteracao = Integer.MIN_VALUE; 
         while(iteracao < Integer.MAX_VALUE){
         int posicaoNome = random.nextInt(nomes.length);
@@ -46,7 +53,6 @@ public class GeradorNomesCarontes {
         nome.append(nomes[posicaoNome]);
         for(int i = 0; i < 4; i++){
         List <Boolean> listaDisponiveis = nomesDisponiveis.get(i);
-        nome.append(nomes[posicaoNome]);
             if (!listaDisponiveis.get(posicaoNome)) {
             if(i == 0){
             marcarBoolean(posicaoNome, i);
@@ -67,6 +73,7 @@ public class GeradorNomesCarontes {
             }
         }
       }
+      iteracao++;
     } 
     throw new IllegalArgumentException("Todos os Carontes do Tártaro já estão empregados em sua frota. Se contente com o que tem.");       
     }
@@ -76,34 +83,35 @@ public class GeradorNomesCarontes {
         int posicaoNome;
         int ultimoEspaco = nomeCaronte.lastIndexOf(" ");
 
-        if (ultimoEspaco == -1) {
+  
          for (int i = 0; i < nomes.length; i++) {
           if (nomes[i].equals(nomeCaronte)) {
           marcarBoolean(i, 0);
+          return;
           }
         }
-        }else{
             String primeiroNome = nomeCaronte.substring(0, ultimoEspaco);
             String ultimaParte = nomeCaronte.substring(ultimoEspaco + 1);
         for (int i = 0; i < nomes.length; i++) {
           if (nomes[i].equals(primeiroNome)) {
             posicaoNome = i;
-          }else{
-            throw new IllegalArgumentException("Caronte não registrado no cartório.");
-          }
+            
 
             if (ultimaParte.equals("Jr.")) {
                 marcarBoolean(posicaoNome, 1);
+                return;
             }else if(ultimaParte.equals("Neto")) {
                 marcarBoolean(posicaoNome, 2);
+                                return;
             }else if(ultimaParte.equals("IV")){
             marcarBoolean(posicaoNome, 3);
-            }else{
-                throw new IllegalArgumentException("Caronte não registrado no cartório.");
+                            return;
+            }
             }
         }
+                        throw new IllegalArgumentException("Caronte não registrado no cartório.2");
     }
-}
+
 
     private void marcarBoolean(int posicaoNome, int qualLista) {
         if(qualLista <= nomesDisponiveis.size())

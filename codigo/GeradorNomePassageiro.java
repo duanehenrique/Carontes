@@ -49,9 +49,10 @@ public class GeradorNomePassageiro {
             "Jocasta", "Geraldine", "Shiro", "Benjamim", "Hamilton", "Ramon", "Valéria", "Sean", "Oren", "Taiga",
             "Édipo", "Heinrich", "Valesca", "Wagner", "Wolfgang", "Ludwig", " Cynthia", "Sabine", "Sabrina", "Sasha",
             "Brandum", "Eduardo", "Drauzio", "Sonya", "Ariel", "Cássia", "Mia", "Simão", "Junpei", "Shinnichi",
-            "Glinda", "Glenda", "Quincy", "Stanford", "Karl", "Nick", "Joe", "Kevin", "James", "Mariya",
+            "Glinda", "Glenda", "Quincy", "Stanford", "Jonas", "Nick", "Joe", "Kevin", "James", "Mariya",
             "Harley", "Hurley", "Benjamim", "Alba", "Hector", "Richter", "Ramon", "Arnold", "Helga", "Ramona",
-            "Mac", "Maximiliano", "Zack", "Cody", "London", "Glória", "Maria", "Hannah", "Claudiane", "Magali"
+            "Mac", "Maximiliano", "Zack", "Cody", "London", "Glória", "Maria", "Hannah", "Claudiane", "Magali",
+            "Karl", "Harrison", "Ford", "Matusalém", "Salomão", "Esaú", "Mabel", "Seung-Hee", "Bong-Soon", "Ciara"
 
 
     };

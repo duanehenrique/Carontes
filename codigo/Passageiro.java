@@ -11,7 +11,7 @@ public class Passageiro implements Normalizador, Relatorio{
 
     private Pecado criarPecado(String tipoPecado) {
         for (Pecado pecado : Pecado.values()) {
-            if (pecado.getPecado().equals(normalizar(tipoPecado))) {
+            if (normalizar(pecado.getPecado()).equals(normalizar(tipoPecado))) {
                 return pecado;
             }
         }

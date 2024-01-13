@@ -50,6 +50,7 @@ public class Frota implements Normalizador {
             diariosDeBordo.add(diario);
             mensagens.add("Barco " + barco.getNOME() + " agora faz parte da sua frota.");
         }
+
         return mensagens;
     }
     
@@ -358,8 +359,10 @@ public class Frota implements Normalizador {
     public List<String> relatorioFrota() {
         List<String> relatorio = new ArrayList<>();
         relatorio.add("Dia " + getDiaDoDesafio());
+        int iteracao = 1;
         for (DiarioDeBordo diario : diariosDeBordo) {
-            relatorio.add(diario.relatorio());
+            relatorio.add("Barco #" + iteracao + ": \n" + diario.relatorio());
+            iteracao++;
         }
         return relatorio;
     }
