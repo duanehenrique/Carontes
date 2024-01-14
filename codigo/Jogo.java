@@ -172,7 +172,7 @@ private static void desenharCaronte(){
             }
         
 
-    private static void encoutarDia(){
+    private static void encerrarDia(){
         boolean confirmacao = confirmacao();
         if(confirmacao){
         jogador.encerrarDia();
@@ -244,7 +244,6 @@ private static void desenharCaronte(){
         System.out.println("Mas barcos maiores consomem combustível e isso requer almas. Sem combustível o barco não consegue viajar, mas sem almas não se pode fazer nada. Equilibrio é tudo.");
         System.out.println("Veja exemplos de rotas:");
         listarRotasDisponiveis(gerarRotas());
-        pausa();
         System.out.println("As rotas de coleta têm um número definido de passageiros a serem recolhidos. Esse número pode variar bastante.");
         System.out.println("E pode até ultrapassar a capacidade máxima do barco. Nesse caso, o Caronte vai lotar seu barco e deixar alguns para trás.");        
         System.out.println("É uma pena desperdiçar tantas almas humanas assim, mas é como é.");
@@ -252,7 +251,6 @@ private static void desenharCaronte(){
         System.out.println("Os passageiros a serem recolhidos nas rotas estão sendo levados por vários motivos.");
         System.out.println("Dependendo do motivo, sua alma pode valer mais ou menos.");
         System.out.println("Veja como podem ser as almas que seus Carontes vão coletar:");
-        exibirExemploPassageiro();
         pausa();
         System.out.println("Se você der sorte, seus Carontes levarão apenas pecadores culpados de traição, o mais horrendo dos pecados.");
         System.out.println("Mas, se der azar, você pode ter que gastar horas preenchendo a papelada de heróis com feitos incríveis... Que não nos servem de nada.");
@@ -402,9 +400,9 @@ private static void exibirExemploPassageiro() {
         separador();
         desenharAlma();
         }
-        }catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
+    } catch (IllegalArgumentException e) {
+        throw new RuntimeException("Erro: " + e.getMessage() );
+    }
     }
 
     
@@ -415,9 +413,9 @@ private static void exibirExemploPassageiro() {
         separador();
         System.out.println(mensagem);
         separador();
-        }catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
+    } catch (IllegalArgumentException e) {
+        throw new RuntimeException("Erro: " + e.getMessage() );
+    }
         }
 
         public static void executarAcaoNaFrotaDeListarEspecifico(List<Object> objetos, int funcao) {
@@ -525,43 +523,81 @@ private static void exibirExemploPassageiro() {
      * Exibe o menu principal do sistema com as opções disponíveis para o usuário.
      */
 
-        private static void mostrarMenuPrincipal() {
+     private static void mostrarMenuPrincipal() {
         int opcao;
         do {
-        exibirAlmas();
-        executarAcaoNaFrotaDeListarGeral(1);
-        System.out.println("--- Sala de do Gerente " + jogador.getNomePersonagem() + " ---");
-        System.out.println("1. Oficina do Tártaro");
-        System.out.println("2. Sala de Descanso de Carontes");
-        System.out.println("3. Catálogo de Rotas de Coleta de Almas Penitentes");
-        System.out.println("4. Setor de Aquisições do Submundo");
-        System.out.println("5. Encoutar Dia");
-        separador();
-        System.out.print("Selecione a opção desejada.S");
-        
-        opcao = menuEscolhaNumeros(1, 5);
-        teclado.nextLine();
-        switch (opcao) {
-            case 1:
-                menuBarcos();
-                break;
-            case 2:
-                menuCarontes();
-                break;
-            case 3:
-                menuRotas();
-                break;
-            case 4:
-                menuAquisicoes();
-                break;
-            case 5:
-                encoutarDia();
-                break;
-            default:
-                System.out.println("Opção inválida. Tente novamente.");
-        }
-    }while(opcao != 6);
-}
+            exibirAlmas();
+            try {
+                executarAcaoNaFrotaDeListarGeral(1);
+            } catch (Exception e) {
+                System.out.println("Erro na Sala do Gerente: " + e.getMessage());
+            }
+    
+            System.out.println("--- Sala do Gerente " + jogador.getNomePersonagem() + " ---");
+            System.out.println("1. Oficina do Tártaro");
+            System.out.println("2. Sala de Descanso de Carontes");
+            System.out.println("3. Catálogo de Rotas de Coleta de Almas Penitentes");
+            System.out.println("4. Setor de Aquisições do Submundo");
+            System.out.println("5. Encerrar Dia");
+            separador();
+            System.out.print("Selecione a opção desejada:");
+    
+            opcao = menuEscolhaNumeros(1, 5);
+            teclado.nextLine();
+            try {
+                switch (opcao) {
+                    case 1:
+                        try {
+                            menuBarcos();
+                        } catch (Exception e) {
+                            System.out.println("Ocorreram problemas técnicos na Oficina do Tártaro: " + e.getMessage());
+                            System.out.println("Porfavor, tente novamente.");
+
+                        }
+                        break;
+                    case 2:
+                        try {
+                            menuCarontes();
+                        } catch (Exception e) {
+                            System.out.println("Parece que ocorreu um problema Sala de Descanso de Carontes: " + e.getMessage());
+                            System.out.println("Por favor, tente novamente.");
+
+                        }
+                        break;
+                    case 3:
+                        try {
+                            menuRotas();
+                        } catch (Exception e) {
+                            System.out.println("O pessoal do design errou no Catálogo de Rotas : " + e.getMessage());
+                            System.out.println("Por favor, tente novamente.");
+
+                        }
+                        break;
+                    case 4:
+                        try {
+                            menuAquisicoes();
+                        } catch (Exception e) {
+                            System.out.println("A burocaria do Setor de Aquisições complicou o seu trabalho e não foi possível terminar sua solicitação: " + e.getMessage());
+                            System.out.println("Porfavor, tente novamente.");
+
+                        }
+                        break;
+                    case 5:
+                        try {
+                            encerrarDia();
+                        } catch (Exception e) {
+                            System.out.println("Erro ao Encerrar o Dia: " + e.getMessage());
+                        }
+                        break;
+                    default:
+                        System.out.println("Opção inválida. Tente novamente.");
+                }
+            } catch (Exception e) {
+                System.out.println("Erro na opção " + opcao + ": " + e.getMessage());
+            }
+        } while (opcao != 5);
+    }
+    
 
     private static void menuBarcos() {
         int opcao;
@@ -1430,18 +1466,28 @@ private static void exibirExemploPassageiro() {
         }return false;
     }
    
-        private static int menuEscolhaNumeros(int primeiro, int ultimo){
-        System.out.print("Selecione um opção (Entre " + primeiro + "-" + ultimo + "): ");
-        int escolha = teclado.nextInt();
-
-        // Verificar se a escolha é válida
-        while(escolha < primeiro || escolha > ultimo) {
-            System.out.println("Não há uma opção referente a esse número. Tente novamente com números entre " + primeiro + "-" + ultimo + ".");
+    private static int menuEscolhaNumeros(int primeiro, int ultimo) {
+        try {
+            System.out.print("Selecione uma opção (Entre " + primeiro + "-" + ultimo + "): ");
+            int escolha = teclado.nextInt();
+    
+            // Verificar se a escolha é válida
+            while (escolha < primeiro || escolha > ultimo) {
+                System.out.println("Não há uma opção referente a esse número. Tente novamente com números entre " + primeiro + "-" + ultimo + ".");
+                pausa();
+                System.out.print("Selecione uma opção (Entre " + primeiro + "-" + ultimo + "): ");
+                escolha = teclado.nextInt();
+            }
+    
+            return escolha;
+        } catch (InputMismatchException e) {
+            teclado.nextLine(); 
+            System.out.println("Por favor, insira um número  entre " + primeiro + "-" + ultimo + ".");
             pausa();
-            escolha = teclado.nextInt();
+            return menuEscolhaNumeros(primeiro, ultimo); 
         }
-        return escolha;
-        }
+    }
+    
     /**
      * Interage com o sistema para cadastrar um novo veículo na frota.
      * Solicita ao usuário informações como, placa, tipo de veículo
@@ -1820,6 +1866,11 @@ private static void fazerManutencaoTodosBarcos() {
     }
 }
 
+
+private static boolean chegouUltimoDia(){
+    return (frota.getDiaDoDesafio() < 12);
+}
+
 private static Object receberString(String enunciado) {
     System.out.println("Digite " + enunciado + ":");
     System.out.println("(Digite 0 para voltar)");
@@ -1887,7 +1938,108 @@ private static Object receberString(String enunciado) {
             return numero;
         }
     
+        private static void iniciar() {
+            System.out.println("");
+            separador();
+        
+            boolean encerrou = false;
+        
+            while (!encerrou) {
+                try {
+                    definirJogador();
+                    encerrou = true;
+                } catch (Exception e) {
+                    System.out.println("Erro: " + e.getMessage());
+                    System.out.println("Não entendi o que disse. Vamos recomeçar a nossa conversa sobre o que você perdeu.");
+                }
+            }
+        
+            encerrou = false;
+        
+            while (!encerrou) {
+                try {
+                    inicializarFrota();
+                    encerrou = true;
+                } catch (Exception e) {
+                    System.out.println("Erro: " + e.getMessage());
+                    System.out.println("Não entendi o que disse. Vamos recomeçar a definir sua frota.");
+                }
+            }
+        
+            separador();
+        
+            encerrou = false;
+        
+            while (!encerrou) {
+                try {
+                    esperarInicio();
+                    encerrou = true;
+                } catch (Exception e) {
+                    System.out.println("Erro: " + e.getMessage());
+                    System.out.println("Não entendi o que disse. Vamos recomeçar a explicação sobre  o desejo do chefe.");
+                }
+            }
+        
+            encerrou = false;
+        
+            while (!encerrou) {
+                try {
+                    tutorial();
+                    encerrou = true;
+                } catch (Exception e) {
+                    System.out.println("Ocorreu um erro: " + e.getMessage());
+                    System.out.println("Não entendi o que disse. Vamos recomeçar nossa conversa sobre seu trabalho aqui.");
+                }
+            }
+        }
+        
 
+            private static void dias12(){
+                while (chegouUltimoDia()) {
+                    try {
+                        mostrarMenuPrincipal();
+                        pausa();
+                        limparTela();
+                        executarAcaoNaFrotaDeListarGeral(2);
+                    } catch (Exception e) {
+                        System.out.println("Ocorreu um outo: digite um número presente no menu." );
+                        teclado.nextLine();
+                        pausa();
+                        limparTela();
+                    }
+                }
+            }
+
+            private static void dia13(){
+                separador();
+                System.out.println("Olá, seja bem-vindo ao escritório. Eu sou o chefe do Recursos Inumanos. Lembra de mim?" );
+                boolean confirmacao = confirmacao();
+                if(confirmacao){
+                System.out.println("Ótimo! Positividade comporativa! Beijos de gratiluz para você e sua boa memória." );
+                }else{
+                System.out.println("Pensei que lembraria dos nossos bons momentos do passado... Quando te perguntei seu nome 12 dias atrás..."); 
+                System.out.println("Mas tudo bem. Vamos lá. Isso não é nada que vai me fazer chorar no banheiro em breve nem nada do tipo.");
+                }
+                System.out.println("Já é o último dia do desafio! O submundo está em pânico... Muito mais que o normal..." );
+                System.out.println("O chefe está preocupado, então resolveu dar um empurrãozinho a todos os gerente de frota." );
+                System.out.println("Todos os gerente vão ganhar " + ALMAS_EXTRAS + "almas para tentar bater a meta. Você incluso." );
+                System.out.println("Nenhum outro gerente está perto de bater a meta. Sua frota tem grandes chances... Só não pode desistir");
+                System.out.println("Vamos lá pegar ainda mais humanos para torturá-los por toda a eternidade?" );
+                confirmacao();
+                jogador.addAlmasAoDia(ALMAS_EXTRAS);
+                while (frota.getDiaDoDesafio() == 13) {
+            try {
+                mostrarMenuPrincipal();
+                pausa();
+                limparTela();
+            } catch (Exception e) {
+                System.out.println("Ocorreu um outo: digite um número presente no menu." );
+                teclado.nextLine();
+                pausa();
+                limparTela();
+            }
+            }
+            }
 
     private static String normalizar(String texto) {
         String normalizado = Normalizer.normalize(texto, Normalizer.Form.NFD)
@@ -1916,55 +2068,9 @@ private static Object receberString(String enunciado) {
         custos = new Custos();
         nomesCarontes = new GeradorNomesCarontes();
         nomesBarcos = new GeradorNomesBarcos();
-
-        System.out.println("");
-       separador();
-        definirJogador();
-        inicializarFrota();
-        separador();
-        esperarInicio();
-        tutorial();
-        while (frota.getDiaDoDesafio() < 12) {
-            try {
-                mostrarMenuPrincipal();
-                pausa();
-                limparTela();
-                executarAcaoNaFrotaDeListarGeral(2);
-            } catch (Exception e) {
-                System.out.println("Ocorreu um outo: digite um número presente no menu." );
-                teclado.nextLine();
-                pausa();
-                limparTela();
-            }
-        }
-                separador();
-                System.out.println("Olá, seja bem-vindo ao escritório. Eu sou o chefe do Recursos Inumanos. Lembra de mim?" );
-                boolean confirmacao = confirmacao();
-                if(confirmacao){
-                 System.out.println("Ótimo! Positividade comporativa! Beijos de gratiluz para você e sua boa memória." );
-                }else{
-                 System.out.println("Pensei que lembraria dos nossos bons momentos do passado... Quando te perguntei seu nome 12 dias atrás..."); 
-                 System.out.println("Mas tudo bem. Vamos lá. Isso não é nada que vai me fazer chorar no banheiro em breve nem nada do tipo.");
-                }
-                System.out.println("Já é o último dia do desafio! O submundo está em pânico... Muito mais que o normal..." );
-                System.out.println("O chefe está preocupado, então resolveu dar um empurrãozinho a todos os gerente de frota." );
-                System.out.println("Todos os gerente vão ganhar " + ALMAS_EXTRAS + "almas para tentar bater a meta. Você incluso." );
-                System.out.println("Nenhum outro gerente está perto de bater a meta. Sua frota tem grandes chances... Só não pode desistir");
-                System.out.println("Vamos lá pegar ainda mais humanos para torturá-los por toda a eternidade?" );
-                confirmacao();
-                jogador.addAlmasAoDia(ALMAS_EXTRAS);
-                while (frota.getDiaDoDesafio() == 13) {
-            try {
-                mostrarMenuPrincipal();
-                pausa();
-                limparTela();
-            } catch (Exception e) {
-                System.out.println("Ocorreu um outo: digite um número presente no menu." );
-                teclado.nextLine();
-                pausa();
-                limparTela();
-            }
-        }
+        iniciar();
+        dias12();
+        dia13();
         teclado.close();
     }
 }
