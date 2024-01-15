@@ -29,9 +29,10 @@ public class Custos {
         almas = 0;
     }   
     
-    public double comprarBarco(Barco barco, Jogador jogador) {
-         try {
-        double custoTotal = barco.getPRECOCUSTO();
+    public double comprarBarco(Barco barco, Jogador jogador) throws Exception {
+        double custoTotal = 0; 
+        try {
+         custoTotal += barco.getPRECOCUSTO();
         double almasJogador = jogador.getAlmas();
         if (barco instanceof BarcoComTanque) {
             custoTotal += ((BarcoComTanque) barco).getTanque().getAdicionalPrecoVenda();
@@ -41,12 +42,13 @@ public class Custos {
             coletarAlmas(custoTotal);
             return custoTotal;
         }else {
-            throw new IllegalArgumentException("A frota do gerente " + jogador.getNomePersonagem() +
-                "não tem fundos suficientes\\n" + "para adquirir esse barco. O setor de aquisições sentiu que \nperdeu tempo" +
-                " preenchendo todos os formulários para nada. Vá trabalhar e volte quando tiver " + custoTotal + " almas.");
-            }
-    }catch(Exception e){
-        return 0;
+            throw new Exception("A frota do gerente " + jogador.getNomePersonagem() +
+                    " não tem fundos suficientes.\n" +
+                    "Para adquirir esse barco. O setor de aquisições sentiu que \nperdeu tempo" +
+                    " preenchendo todos os formulários para nada. Vá trabalhar e volte quando tiver " + custoTotal + " almas.");
+        }
+    } catch (Exception e) {
+        throw e;
     }
 }
 

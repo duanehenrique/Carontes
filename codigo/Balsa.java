@@ -26,10 +26,27 @@ public class Balsa extends BarcoComTanque{
     }
 
     public Balsa(Balsa outraBalsa) {
-        super(outraBalsa.clonarMotorista(), outraBalsa.getNOME(), outraBalsa.getTanque().getTipo().getTipo(), outraBalsa.getTanque().getCapacidadeMaxima(), outraBalsa.getCAPACIDADEPASSAGEIROS(), outraBalsa.getPRECOCUSTO(), outraBalsa.MAX_ROTAS_DIA);
-        
-        this.tanque = new Tanque(outraBalsa.tanque.getCapacidadeMaxima(), outraBalsa.getTanque().getTipo().getTipo());        
+        super(outraBalsa.clonarMotorista(), outraBalsa.getNOME(), outraBalsa.getTipoCombustivel(), outraBalsa.getTanque().getCapacidadeMaxima(), outraBalsa.getCAPACIDADEPASSAGEIROS(), outraBalsa.getPRECOCUSTO(), outraBalsa.MAX_ROTAS_DIA);
+
         this.manutencao = new Manutencao(outraBalsa.getManutencao());
+        this.despesaMulta = outraBalsa.getDespesaMulta();
+        this.despesaManutencao = outraBalsa.getDespesaManutencao();
+        this.despesaSalario = outraBalsa.getDespesaSalario();
+        this.totalAlmasColetadasDia = outraBalsa.getTotalAlmasColetadasDia();
+        this.despesaCombustivel = outraBalsa.getDespesaCombustivel();
+    
+        if(!outraBalsa.getRotas().isEmpty()){
+            for (Rota rota : outraBalsa.getRotas()) {
+                outraBalsa.addRota(new Rota(rota));
+                outraBalsa.getMotorista().fazerViagem();     
+        }
     }
+    
+        Caronte motorista = this.getMotorista();
+        for (Multa multa : motorista.listarMultas()) {
+            outraBalsa.getMotorista().adicionarMulta(multa); 
+        }
+    }
+    
     
 }

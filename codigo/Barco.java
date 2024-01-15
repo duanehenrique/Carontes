@@ -9,7 +9,7 @@ public abstract class Barco implements Relatorio, Normalizador{
     protected List<Rota> rotas;
     protected final int MAX_ROTAS_DIA;
     protected final int CAPACIDADEPASSAGEIROS;
-    protected static int PRECOCUSTO;
+    protected final int PRECOCUSTO;
     protected Caronte motorista;
     protected double despesaMulta;
     protected double despesaManutencao;
@@ -496,8 +496,12 @@ public String relatorioRotas() {
     }
 
     protected Caronte clonarMotorista(){
+        if(motorista != null){
         Caronte clone = new Caronte(motorista);
         return clone;
+        }else{
+        return motorista;
+        }
     }
 
     private static String normalizar(String texto) {

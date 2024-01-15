@@ -27,7 +27,7 @@ public class Cruzeiro extends BarcoComTanque{
 }
 
 public Cruzeiro(Cruzeiro outroCruzeiro) {
-    super(outroCruzeiro.clonarMotorista(), outroCruzeiro.getNOME(), outroCruzeiro.getTanque().getTipo().getTipo(), outroCruzeiro.getTanque().getCapacidadeMaxima(), outroCruzeiro.getCAPACIDADEPASSAGEIROS(), outroCruzeiro.getPRECOCUSTO(), outroCruzeiro.MAX_ROTAS_DIA);
+    super(outroCruzeiro.clonarMotorista(), outroCruzeiro.getNOME(), outroCruzeiro.getTipoCombustivel(), outroCruzeiro.getTanque().getCapacidadeMaxima(), outroCruzeiro.getCAPACIDADEPASSAGEIROS(), outroCruzeiro.getPRECOCUSTO(), outroCruzeiro.MAX_ROTAS_DIA);
 
     this.tanque = new Tanque(outroCruzeiro.tanque.getCapacidadeMaxima(), outroCruzeiro.getTanque().getTipo().getTipo());
     this.manutencao = new Manutencao(outroCruzeiro.getManutencao());
@@ -37,11 +37,12 @@ public Cruzeiro(Cruzeiro outroCruzeiro) {
     this.totalAlmasColetadasDia = outroCruzeiro.getTotalAlmasColetadasDia();
     this.despesaCombustivel = outroCruzeiro.getDespesaCombustivel();
 
-    
+    if(!outroCruzeiro.getRotas().isEmpty()){
         for (Rota rota : outroCruzeiro.getRotas()) {
         outroCruzeiro.addRota(new Rota(rota));
         outroCruzeiro.getMotorista().fazerViagem();     
     }
+}
 
     Caronte motorista = this.getMotorista();
     for (Multa multa : motorista.listarMultas()) {

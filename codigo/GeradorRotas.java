@@ -40,9 +40,17 @@ public class GeradorRotas {
         return new Rota(km, listaPassageiros);
     }
 
-    private int calcularPassageiros(int somaCapacidade, int somaNiveis, int tamanhoFrota) {
-        double random = (Math.random() + Math.random()+0.1)*2 ;
-        return (int) (Math.max(1, ((double) somaCapacidade + somaNiveis/ (double) tamanhoFrota * random)));
+    private static int calcularPassageiros(int somaCapacidade, int somaNiveis, int tamanhoFrota) {
+        double pesoCapacidade = 0.4;
+        double pesoNiveis = 0.6;   
+
+        double random = Math.random();
+
+        double resultadoPonderado = (pesoCapacidade * somaCapacidade / tamanhoFrota) +
+                                    (pesoNiveis * somaNiveis / tamanhoFrota) +
+                                    (random * 0.1)*1.75;
+
+        return Math.max(1, (int) resultadoPonderado);
     }
 
     private int calcularKm(int somaCapacidade, int somaNiveis, int tamanhoFrota) {

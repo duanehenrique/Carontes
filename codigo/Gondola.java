@@ -37,10 +37,12 @@ public class Gondola extends Barco {
     this.despesaSalario = outraGondola.getDespesaSalario();
     this.totalAlmasColetadasDia = outraGondola.getTotalAlmasColetadasDia();
     
+    if(!outraGondola.getRotas().isEmpty()){
         for (Rota rota : outraGondola.getRotas()) {
-        outraGondola.addRota(new Rota(rota));
-        outraGondola.getMotorista().fazerViagem();
+            outraGondola.addRota(new Rota(rota));
+        outraGondola.getMotorista().fazerViagem();     
     }
+}
 
     Caronte motorista = this.getMotorista();
     for (Multa multa : motorista.listarMultas()) {

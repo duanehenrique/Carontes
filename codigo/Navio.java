@@ -22,7 +22,7 @@ public class Navio extends BarcoComTanque{
     }
 
     public Navio(Navio outroNavio) {
-        super(outroNavio.clonarMotorista(), outroNavio.getNOME(), outroNavio.getTanque().getTipo().getTipo(), outroNavio.getTanque().getCapacidadeMaxima(), outroNavio.getCAPACIDADEPASSAGEIROS(), outroNavio.getPRECOCUSTO(), outroNavio.MAX_ROTAS_DIA);
+        super(outroNavio.clonarMotorista(), outroNavio.getNOME(),  outroNavio.getTipoCombustivel(), outroNavio.getTanque().getCapacidadeMaxima(), outroNavio.getCAPACIDADEPASSAGEIROS(), outroNavio.getPRECOCUSTO(), outroNavio.MAX_ROTAS_DIA);
     
         this.tanque = new Tanque(outroNavio.tanque.getCapacidadeMaxima(), outroNavio.getTanque().getTipo().getTipo());
         this.manutencao = new Manutencao(outroNavio.getManutencao());
@@ -31,8 +31,9 @@ public class Navio extends BarcoComTanque{
         this.despesaSalario = outroNavio.getDespesaSalario();
         this.totalAlmasColetadasDia = outroNavio.getTotalAlmasColetadasDia();
         this.despesaCombustivel = outroNavio.getDespesaCombustivel();
-    
         
+
+        if(!outroNavio.getRotas().isEmpty()){
             for (Rota rota : outroNavio.getRotas()) {
             outroNavio.addRota(new Rota(rota));
             outroNavio.getMotorista().fazerViagem();     
@@ -42,6 +43,7 @@ public class Navio extends BarcoComTanque{
         for (Multa multa : motorista.listarMultas()) {
             outroNavio.getMotorista().adicionarMulta(multa); 
         }
+    }
    
     }
     

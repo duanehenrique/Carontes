@@ -7,9 +7,9 @@ public class Jogador {
 
     public Jogador (String nomePersonagem){
         this.nomePersonagem = nomePersonagem;
-        List<Double> almasPorDias = new ArrayList<>();
-        almasPorDias.add(0.0); 
+        this.almasPorDia = new ArrayList<>();
         this.almas = 0;
+        almasPorDia.add(almas); 
     }
 
     public String getNomePersonagem() {

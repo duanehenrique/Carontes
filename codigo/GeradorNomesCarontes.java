@@ -34,14 +34,21 @@ public class GeradorNomesCarontes {
         public GeradorNomesCarontes(GeradorNomesCarontes gerador) {
             nomesDisponiveis = new ArrayList<>();
             random = new Random();
+
             for(int i = 0; i < 4; i++){
-                List <Boolean> lista = nomesDisponiveis.get(i);
-                List <Boolean> listaOriginal = gerador.nomesDisponiveis.get(i);
-            for(int j = 0; j < nomes.length; i++){
-                if(listaOriginal.get(i)){
+                List <Boolean> lista = new ArrayList<>();
+                List <Boolean> listaOriginal = new ArrayList<>();
+                listaOriginal = gerador.nomesDisponiveis.get(i);
+
+            for(int j = 0; j < nomes.length; j++){
+                if(listaOriginal.get(j)){
+
                 lista.add(true);
-                } lista.add(false);
+                }else{ 
+                    lista.add(false);
+                }
             }
+            nomesDisponiveis.add(lista);
             }
         }
 
@@ -119,5 +126,9 @@ public class GeradorNomesCarontes {
         List <Boolean> listaDisponiveis = nomesDisponiveis.get(qualLista);
         listaDisponiveis.set(posicaoNome, true); 
         }
+        }
+
+        public List<List <Boolean>> getNomesDisponiveis(){
+            return this.nomesDisponiveis;
         }
     }

@@ -35,6 +35,13 @@ public abstract class BarcoComTanque extends Barco{
     public void instalarTanque(String tipo){
         this.tanque.instalarTanque(tipo);
     }
+
+    public Tanque clonarTanque(){
+        Tanque tanqueClone = new Tanque(getTanque().getCapacidadeMaxima(), getTanque().getTipo().getTipo());{
+            return tanqueClone;
+        }
+
+    }
     @Override
     public int percorrerRota(Rota rota) {
         int totalAlmas = 0;

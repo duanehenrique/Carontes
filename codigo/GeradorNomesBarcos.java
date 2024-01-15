@@ -39,17 +39,21 @@ public class GeradorNomesBarcos {
     public GeradorNomesBarcos(GeradorNomesBarcos gerador) {
         nomesDisponiveis = new ArrayList<>();
         random = new Random();
-        for (int i = 0; i < 4; i++) {
-            List<Boolean> lista = new ArrayList<>();
-            List<Boolean> listaOriginal = gerador.nomesDisponiveis.get(i);
-            for (int j = 0; j < nomes.length; j++) {
-                if (listaOriginal.get(j)) {
-                    lista.add(true);
-                } else {
-                    lista.add(false);
-                }
+
+        for(int i = 0; i < 4; i++){
+            List <Boolean> lista = new ArrayList<>();
+            List <Boolean> listaOriginal = new ArrayList<>();
+            listaOriginal = gerador.nomesDisponiveis.get(i);
+
+        for(int j = 0; j < nomes.length; j++){
+            if(listaOriginal.get(j)){
+
+            lista.add(true);
+            }else{ 
+                lista.add(false);
             }
-            nomesDisponiveis.add(lista);
+        }
+        nomesDisponiveis.add(lista);
         }
     }
 
