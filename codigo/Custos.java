@@ -19,6 +19,10 @@ public class Custos {
         return almas;
     }
 
+    public double getAlmasDeOntem() {
+        return  almasPorDia.get(almasPorDia.size() - 1);
+    }
+
     public void coletarAlmas(double almas){
         almas += almas;
     }

@@ -146,13 +146,15 @@ private static void desenharCaronte(){
         System.out.println("---- Almas coletadas hoje: "+ jogador.getAlmasDeHoje() + "----");
         separador();
     }
-        private static void exibirCustoTotal(double custoDeCompra){
-        if(custoDeCompra > 0){
-        System.out.println("Almas consumidas com a transação: " + custoDeCompra);
+        private static void exibirCustoTotalHoje(){
+        System.out.println("Almas consumidas hoje: " + custos.getAlmasDeHoje());
         separador();
-        pausa();
         }
+        private static void exibirCustoTotalOntem(){
+        System.out.println("Almas consumidas ontem: " + custos.getAlmasDeOntem());
+        separador();
         }
+
         private static List<Rota> gerarRotas(){
         GeradorRotas rotaDisponivel = new GeradorRotas();
         List<Rota> rotas = rotaDisponivel.gerarRotas(frota);
@@ -386,25 +388,21 @@ private static void exibirExemploPassageiro() {
 
     public static void executarAcaoNaFrotaComAlmasEspecifica(List<Object> objetos, int funcao) {
         try {
-        if(funcao >= 1 && funcao <= 14){
+        desenharAlma();
         double custoTotal = custos.executarTransacaoEspecifica(objetos, funcao, frota, jogador);
         System.out.println("Gasto da frota do gerente " + jogador.getNomePersonagem() + " com a transação: " + custoTotal + " almas.");
         separador();
-        desenharAlma();
-        }
         } catch (Exception e) {
          System.out.println(e.getMessage());
         }
-        }
+    }
 
         public static void executarAcaoNaFrotaComAlmasGeral(int funcao) {
          try {
-        if(funcao >= 15 && funcao <= 18){
+        desenharAlma();
         double custoTotal = custos.executarTransacaoGeral(funcao, frota, jogador);
         System.out.println("Gasto da frota do gerente " + jogador.getNomePersonagem() + " com a transação: " + custoTotal + " almas.");
         separador();
-        desenharAlma();
-        }
     } catch (IllegalArgumentException e) {
         throw new RuntimeException("Erro: " + e.getMessage() );
     }
@@ -413,11 +411,11 @@ private static void exibirExemploPassageiro() {
     
         public static void executarAcaoNaFrotaDeControle(List<Object> objetos, int funcao) {
         try {
+        desenharCaronte();
         Executor executor = new Executor();
         List<String> mensagem = (List<String>) executor.executarAcaoNaFrotaDeControle(frota, funcao, objetos);   
         System.out.println(mensagem);
         separador();
-        desenharCaronte();
     } catch (IllegalArgumentException e) {
         throw new RuntimeException("Erro: " + e.getMessage() );
     }
@@ -465,6 +463,7 @@ private static void exibirExemploPassageiro() {
                 break;
         }
         List<String> mensagens = (List<String>) executor.executarAcaoNaFrotaDeListarEspecifico(frota, funcao, objetos);
+        desenharBarco();
         System.out.println("\n--- " + enunciado + " da frota do gerente " + jogador.getNomePersonagem() + " ---");
         separador();
         imprimirLista(mensagens);
@@ -508,6 +507,7 @@ private static void exibirExemploPassageiro() {
             default:
                 throw new IllegalArgumentException("Operação inválida");            
         }
+        desenharBarco();
         List<String> mensagens = (List<String>) executor.executarAcaoNaFrotaDeListarGeral(frota, funcao);
         System.out.println("\n--- " + enunciado + " da frota do gerente " + jogador.getNomePersonagem() + " ---");
         separador();
@@ -518,9 +518,7 @@ private static void exibirExemploPassageiro() {
             System.out.println(string);
             separador();
 
-        }
-        pausa();
-        }
+        }        }
 
     /**
      * Exibe o menu principal do sistema com as opções disponíveis para o usuário.
@@ -529,13 +527,13 @@ private static void exibirExemploPassageiro() {
      private static void mostrarMenuPrincipal() {
         int opcao;
         do {
-            exibirAlmas();
             try {
                 executarAcaoNaFrotaDeListarGeral(1);
             } catch (Exception e) {
                 System.out.println("O computador da Sala do Gerente travou de novo: " + e.getMessage());
             }
-    
+            exibirAlmas();
+            exibirCustoTotalHoje();
             System.out.println("--- Sala do Gerente " + jogador.getNomePersonagem() + " ---");
             System.out.println("1. Oficina do Tártaro");
             System.out.println("2. Sala de Descanso de Carontes");
@@ -2001,11 +1999,13 @@ private static Object receberString(String enunciado) {
 
             private static void dias12(){
                 while (chegouUltimoDia()) {
+                    iniciarDia();
                     try {
                         mostrarMenuPrincipal();
                         pausa();
                         limparTela();
                         executarAcaoNaFrotaDeListarGeral(2);
+                        exibirCustoTotalOntem();
                     } catch (Exception e) {
                         System.out.println("O computador da sua Sala do Gerente travou de novo: " + e.getMessage() );
                         teclado.nextLine();
@@ -2074,7 +2074,6 @@ private static Object receberString(String enunciado) {
         custos = new Custos();
         nomesCarontes = new GeradorNomesCarontes();
         nomesBarcos = new GeradorNomesBarcos();
-        iniciar();
         dias12();
         dia13();
         teclado.close();
