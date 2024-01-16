@@ -181,18 +181,16 @@ public int pagarSalarioMotorista(){
  */
 public int percorrerRota(Rota rota) {
     int totalAlmas =0;
-        boolean podePercorrer = true;
         try {
-            if (rotas.contains(rota)) {
-                podePercorrer = false;
-                throw new IllegalArgumentException("A rota já existe na lista de rotas.");
+                if(rota.getRotaPercorrida()){
+                    throw new IllegalStateException(
+                        "Essa rota já foi percorrida! As almas disponíveis já foram coletadas e esse contrato se encerrou.");    
                 }
     
                 if(rotas.size() >= MAX_ROTAS_DIA)
                 {
-                podePercorrer = false;
                    throw new IllegalStateException(
-                   "Manutenção do veículo em atraso. Realize manutenção antes de adicionar rota.");
+                    "O barco " + getNOME() + " já realizou seu limite de viagens do dia. Agora é necessário que ele fique na oficina até amanhã.");
                 }
                 
                 if(motorista.getViagensRestantes() <= 0)
@@ -202,21 +200,17 @@ public int percorrerRota(Rota rota) {
                 }
     
                 if (!manutencao.getManutencaoEmDia()) {
-                    podePercorrer = false;
                     throw new IllegalStateException(
                             "Manutenção do veículo em atraso. Realize manutenção antes de adicionar rota.");
                 }
     
                 if (!motorista.getCarteiraValida()) {
-                    podePercorrer = false;
                     throw new IllegalStateException(
                             "Carteira de motorista invalidada por multas.Pague as multas do Caronte antes de adicionar a rota.");
                 }
-            if(podePercorrer){
             totalAlmas = rota.percorrerRota(CAPACIDADEPASSAGEIROS);
             kmDesdeUltimaManutencao(rota);
             System.out.println("Rota percorrida com sucesso! Almas mortais coletadas.");
-            }
             return totalAlmas;
         }catch (IllegalArgumentException | IllegalStateException e) {
             System.err.println("Erro ao percorrer rota: " + e.getMessage());

@@ -540,10 +540,11 @@ private static void exibirExemploPassageiro() {
             System.out.println("3. Catálogo de Rotas de Coleta de Almas Penitentes");
             System.out.println("4. Setor de Aquisições do Submundo");
             System.out.println("5. Encerrar Dia");
+            System.out.println("6. Percorrer Rotas"); // New option
             separador();
             System.out.print("Selecione a opção desejada:");
     
-            opcao = menuEscolhaNumeros(1, 5);
+            opcao = menuEscolhaNumeros(1, 6);
             teclado.nextLine();
             try {
                 switch (opcao) {
@@ -552,8 +553,7 @@ private static void exibirExemploPassageiro() {
                             menuBarcos();
                         } catch (Exception e) {
                             System.out.println("Ocorreram problemas técnicos na Oficina do Tártaro: " + e.getMessage());
-                            System.out.println("Porfavor, tente novamente.");
-
+                            System.out.println("Por favor, tente novamente.");
                         }
                         break;
                     case 2:
@@ -562,7 +562,6 @@ private static void exibirExemploPassageiro() {
                         } catch (Exception e) {
                             System.out.println("Parece que ocorreu um problema Sala de Descanso de Carontes: " + e.getMessage());
                             System.out.println("Por favor, tente novamente.");
-
                         }
                         break;
                     case 3:
@@ -571,16 +570,14 @@ private static void exibirExemploPassageiro() {
                         } catch (Exception e) {
                             System.out.println("O pessoal do design errou no Catálogo de Rotas : " + e.getMessage());
                             System.out.println("Por favor, tente novamente.");
-
                         }
                         break;
                     case 4:
                         try {
                             menuAquisicoes();
                         } catch (Exception e) {
-                            System.out.println("A burocaria do Setor de Aquisições complicou o seu trabalho e não foi possível terminar sua solicitação: " + e.getMessage());
-                            System.out.println("Porfavor, tente novamente.");
-
+                            System.out.println("A burocracia do Setor de Aquisições complicou o seu trabalho e não foi possível terminar sua solicitação: " + e.getMessage());
+                            System.out.println("Por favor, tente novamente.");
                         }
                         break;
                     case 5:
@@ -588,6 +585,13 @@ private static void exibirExemploPassageiro() {
                             encerrarDia();
                         } catch (Exception e) {
                             System.out.println("Erro ao Encerrar o Dia: " + e.getMessage());
+                        }
+                        break;
+                    case 6:
+                        try {
+                            menuPercorrerRotas(); // Call the new menu method
+                        } catch (Exception e) {
+                            System.out.println("Erro ao Percorrer Rotas: " + e.getMessage());
                         }
                         break;
                     default:
@@ -598,6 +602,7 @@ private static void exibirExemploPassageiro() {
             }
         } while (opcao != 5);
     }
+    
     
 
     private static void menuBarcos() {

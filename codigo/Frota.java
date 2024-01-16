@@ -152,6 +152,110 @@ public class Frota implements Normalizador {
             throw new IllegalArgumentException("Ao menos um dos barcos selecionados não fazem parte da sua frota. Não foi possível trocar os Carontes de barco.");
         }
     }
+  
+    public int percorrerRotaPorIndex(int posicaoBarco, int posicaoRota) {
+        try {
+            DiarioDeBordo diarioRota = localizarDiarioPorIndex(posicaoBarco);
+    
+            if (diarioRota != null) {
+                Rota rota = diarioRota.localizarRota(posicaoRota);
+                Barco barco = diarioRota.getBarcoDoDiario();
+                if (rota != null) {
+                    int totalAlmas = rota.percorrerRota(barco.getCAPACIDADEPASSAGEIROS());
+                    return totalAlmas;
+                } else {
+                    throw new IllegalStateException("Não existe uma rota com essa posição atribuída ao barco " + barco.getNOME() + ".");
+                }
+            } else {
+                throw new IllegalArgumentException("Diário de bordo #" + posicaoBarco + " não pertence a um barco.");
+            }
+        } catch (IllegalArgumentException | IllegalStateException e) {
+            throw new IllegalArgumentException(e.getMessage());
+        }
+    } 
+    
+    public int percorrerRotaPorNome(String nomeBarco, int posicaoRota) {
+        try {
+            DiarioDeBordo diarioRota = localizarDiarioPorNome(nomeBarco);
+    
+            if (diarioRota != null) {
+                Rota rota = diarioRota.localizarRota(posicaoRota);
+                Barco barco = diarioRota.getBarcoDoDiario();
+                
+                if (rota != null) {
+                    int totalAlmas = rota.percorrerRota(barco.getCAPACIDADEPASSAGEIROS());
+                    return totalAlmas;
+                } else {
+                    throw new IllegalStateException("Não existe uma rota com essa posição atribuída ao barco " + barco.getNOME() + ".");
+                }
+            } else {
+                throw new IllegalArgumentException("Diário de bordo do barco " + nomeBarco + " não pertence a um barco.");
+            }
+        } catch (IllegalArgumentException | IllegalStateException e) {
+            throw new IllegalArgumentException(e.getMessage());
+        }
+    }
+    
+    public int percorrerTodasRotasPorIndex(int posicaoBarco) {
+        try {
+            DiarioDeBordo diarioRota = localizarDiarioPorIndex(posicaoBarco);
+            int totalAlmas = 0;
+            if (diarioRota != null) {
+                Barco barco = diarioRota.getBarcoDoDiario();
+                
+                for (Rota rota : barco.getRotas()) {
+                    if(!rota.getRotaPercorrida()){
+                        totalAlmas += percorrerRotaPorIndex(posicaoBarco, barco.getRotas().indexOf(rota));
+                    }
+                }
+                return totalAlmas;
+            } else {
+                throw new IllegalArgumentException("Diário de bordo #" + posicaoBarco + " não pertence a um barco.");
+            }
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException(e.getMessage());
+        }
+    }
+    
+    public int percorrerTodasRotasPorNome(String nomeBarco) {
+        try {
+            DiarioDeBordo diarioRota = localizarDiarioPorNome(nomeBarco);
+            int totalAlmas = 0;
+            if (diarioRota != null) {
+                Barco barco = diarioRota.getBarcoDoDiario();
+                
+                for (Rota rota : barco.getRotas()) {
+                    if(!rota.getRotaPercorrida()){
+                      totalAlmas += percorrerRotaPorNome(nomeBarco, barco.getRotas().indexOf(rota));
+                    }
+                }
+                return totalAlmas;
+            } else {
+                throw new IllegalArgumentException("Diário de bordo do barco " + nomeBarco + " não pertence a um barco.");
+            }
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException(e.getMessage());
+        }
+    }
+    
+    public int percorrerTodasRotasDeTodosBarcos() {
+        try {
+            int totalAlmas = 0;
+            for (DiarioDeBordo diarioRota : diariosDeBordo) {
+                if (diarioRota != null) {
+                    Barco barco = diarioRota.getBarcoDoDiario();
+                    for (Rota rota : barco.getRotas()) {
+                    if(!rota.getRotaPercorrida()){
+                    totalAlmas += barco.percorrerRota(rota);
+                    }
+                }
+            }
+            } return totalAlmas;
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException(e.getMessage());
+        }
+    }
+    
     
     public List<String> trocarCarontesPorNome(String nomeCaronte1, String nomeCaronte2) {
         Caronte caronte1 = localizarMotoristaPorNome(nomeCaronte1);
@@ -194,6 +298,51 @@ public class Frota implements Normalizador {
         }
     }
         
+    public int percorrerRotaPorIndex(Barco barco, int indexRota) {
+        Rota rota = barco.getRotaPorIndex(indexRota);
+        return percorrerRota(barco, rota);
+    }
+
+    public int percorrerRotaPorNome(Barco barco, String nomeRota) {
+        Rota rota = barco.getRotaPorNome(nomeRota);
+        return percorrerRota(barco, rota);
+    }
+
+    public int percorrerTodasRotasPorIndex(Barco barco) {
+        int totalAlmas = 0;
+        for (int i = 0; i < barco.getQuantidadeRotas(); i++) {
+            totalAlmas += percorrerRotaPorIndex(barco, i);
+        }
+        return totalAlmas;
+    }
+
+    public int percorrerTodasRotasPorNome(Barco barco) {
+        int totalAlmas = 0;
+        for (Rota rota : barco.getRotas()) {
+            totalAlmas += percorrerRota(barco, rota);
+        }
+        return totalAlmas;
+    }
+
+    public int percorrerTodasRotasTodosBarcos(List<Barco> barcos) {
+        int totalAlmas = 0;
+        for (Barco barco : barcos) {
+            totalAlmas += percorrerTodasRotasPorNome(barco);
+        }
+        return totalAlmas;
+    }
+
+    private int percorrerRota(Barco barco, Rota rota) {
+        int totalAlmas = 0;
+        try {
+            // As verificações e operações específicas da rota permanecem no método percorrerRota da classe Barco
+            totalAlmas = barco.percorrerRota(rota);
+            System.out.println("Rota percorrida com sucesso! Almas mortais coletadas.");
+        } catch (IllegalArgumentException | IllegalStateException e) {
+            System.err.println("Erro ao percorrer rota: " + e.getMessage());
+        }
+        return totalAlmas;
+    }
 
     private double abastecerBarcoDoDiario(DiarioDeBordo diario, double qtdCombustivel){
         
